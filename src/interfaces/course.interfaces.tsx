@@ -6,28 +6,37 @@ export interface IListCoursesResponse extends IApiResponse {
 
 export interface ICourses {
 	id: string;
-	shortName: string;
-	name: string;
-	longitude: number;
-	latitude: number;
-	status: string;
+	facilityId: string;
+	courseName: string;
+	facilityName: string;
 	address1: string;
-	address2: string;
 	city: string;
 	state: string;
 	countryRegion: string;
-	localRegion: string;
-	postalCode: string;
-	county: string;
-	phone: string;
-	email: string;
-	website: string;
-	instagram: string;
-	twitter: string;
-	usgaCourseId: string;
-	usgaUpdatedOn: Date;	
-	isActive: boolean;
-	dateCreated: Date;
-	dateUpdated: Date | null;
+	localRegion: string;	
 	rowNumber: number;
+}
+
+export interface ICourse {
+	id: string;
+	facilityId: string;
+	courseName: string;
+	facilityName: string;
+	address1: string;
+	city: string;
+	state: string;
+	countryRegion: string;
+	localRegion: string;	
+	rowNumber: number;
+}
+
+export interface ICourseSearch {
+	state: string | null;
+	text: string | null;
+	address: string | null;
+	city: string | null;
+	email: string | null;
+	phone: string | null;
+	website: string | null;
+	pageNumber: number;
 }

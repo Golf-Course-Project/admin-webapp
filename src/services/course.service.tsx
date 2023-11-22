@@ -1,7 +1,7 @@
 import { courseServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper'; 
 import { IStandardApiResponse } from 'interfaces/api-response.interface';
-import { IListCoursesResponse } from 'interfaces/course.interfaces';
+import { ICourseSearch, IListCoursesResponse } from 'interfaces/course.interfaces';
 
 export class CourseService {
   
@@ -10,7 +10,7 @@ export class CourseService {
     const jwt: string | null = fetchJwt();
 
     try {
-      const response = await fetch(courseServiceUrl + '/api/courses/' + id, {
+      const response = await fetch(courseServiceUrl + '/api/course/' + id, {
         method: 'get',
         headers: new Headers({
           'Content-Type': 'application/json',
@@ -26,18 +26,20 @@ export class CourseService {
     }
   } 
 
-  async Search(state : string): Promise<IListCoursesResponse> {
+  async Search(body: ICourseSearch): Promise<IListCoursesResponse> {
     
     const jwt: string | null = fetchJwt();
-
+    const page: number = 1;
+   
     try {
-      const response = await fetch(courseServiceUrl + '/api/list/states/' + state, {
-        method: 'get',
+      const response = await fetch(courseServiceUrl + '/api/course/list/states/' + body.state, {
+        method: 'post',
         headers: new Headers({
           'Content-Type': 'application/json',
           'X-Authorization': `Bearer ${jwt}`,
           Accept: 'application/json',
-        }),        
+        }), 
+        body: JSON.stringify(body),       
       });
 
       const results = await Promise.resolve(response);
