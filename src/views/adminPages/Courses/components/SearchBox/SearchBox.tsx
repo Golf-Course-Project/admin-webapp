@@ -129,7 +129,7 @@ class SearchBox extends React.Component<IProps, {}> {
                     variant="outlined"
                     color="primary"
                     name={'searchState'}
-                    fullWidth                    
+                    fullWidth                                     
                     value={this.state.searchState}
                     label="search state"
                     onChange={(e: any) => this.handleStateChanges(e)}
@@ -193,6 +193,7 @@ class SearchBox extends React.Component<IProps, {}> {
                     color="primary"
                     size="large"
                     height={54}
+                    maxWidth={500}                
                     fullWidth
                     onClick={(e: any) => this.handleSearchButtonClick(e)}
                     onKeyPress={(e: any) => this.handleEnterKey(e)}

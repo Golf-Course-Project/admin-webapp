@@ -29,8 +29,9 @@ export class CourseService {
   async Search(body: ICourseSearch): Promise<IListCoursesResponse> {
     
     const jwt: string | null = fetchJwt();
-    const page: number = 1;
-   
+
+    console.log(body);
+       
     try {
       const response = await fetch(courseServiceUrl + '/api/course/list/states/' + body.state, {
         method: 'post',
