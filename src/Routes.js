@@ -93,8 +93,6 @@ import {
   Courses as CoursesAdminView,
 } from './views/adminPages';
 
-// course pages
-import { Course as CourseView } from './views/coursePages';
 
 const Routes = () => {
   return (
@@ -642,19 +640,7 @@ const Routes = () => {
             layout={MainSecureLayout}
           />
         )}
-      />
-
-      <Route
-        exact
-        path="/course/:id"
-        render={(matchProps) => (
-          <WithLayout
-            {...matchProps}
-            component={CourseView}
-            layout={MainSecureLayout}
-          />
-        )}
-      />
+      />     
 
       <Route
         exact

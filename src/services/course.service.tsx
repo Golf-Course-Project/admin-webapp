@@ -5,7 +5,7 @@ import { ICourseSearch, IListCoursesResponse } from 'interfaces/course.interface
 
 export class CourseService {
   
-  async GetCourse(id : string): Promise<IStandardApiResponse> {
+  async Fetch(id : string): Promise<IStandardApiResponse> {
     
     const jwt: string | null = fetchJwt();
 
@@ -26,11 +26,8 @@ export class CourseService {
     }
   } 
 
-  async Search(body: ICourseSearch): Promise<IListCoursesResponse> {
-    
+  async Search(body: ICourseSearch): Promise<IListCoursesResponse> {    
     const jwt: string | null = fetchJwt();
-
-    console.log(body);
        
     try {
       const response = await fetch(courseServiceUrl + '/api/course/list/states/' + body.state, {

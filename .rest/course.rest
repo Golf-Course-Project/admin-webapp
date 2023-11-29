@@ -1,0 +1,66 @@
+@url = https://localhost:44399
+//@url = https://danhellem-courseservice.azurewebsites.net
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImY3ZmQ0YjQwLWNhZjQtNDU2Ny1iODg5LTE2MTlhYWQxNDM0MSIsImVtYWlsIjoiZGFuaGVsbGVtQG91dGxvb2suY29tIiwicm9sZSI6InNpdGUgYWRtaW4iLCJ0b2tlbiI6ImYwNmVkYWVkLWNmOGEtNDBiNy04Y2QyLTA2MzkwNGQ5YTU0NCIsIm5iZiI6MTcwMDg0NDY4NSwiZXhwIjoxNzAzNDM2Njg1LCJpYXQiOjE3MDA4NDQ2ODV9.h23XnuBK0mwwuCRf4nQIY4ilfEWMtCyperPW4L6nUNc
+
+### List courses by state
+GET {{url}}/api/course/list/states/mi/1 HTTP/1.1
+content-type: application/json
+X-Authorization: {{token}}
+
+### Courses by state
+POST {{url}}/api/course/list/states/mi HTTP/1.1
+content-type: application/json
+X-Authorization: {{token}}
+
+{
+    "state": "mi",
+    "text": null,
+    "address": "-1",
+    "city": null,
+    "email": null,
+    "phone": null,
+    "website": null,
+    "pageNumber": 1
+}
+
+### List courses for updatedon by state
+GET {{url}}/api/courses/list/states/mi/forupdatedon HTTP/1.1
+content-type: application/json
+X-Authorization: {{token}}
+
+### Create
+POST {{url}}/api/courses/create HTTP/1.1
+content-type: application/json
+X-Authorization: {{token}}
+
+{
+    "id":null,
+    "usgaCourseId":9561,
+    "facilityName":"Green Briar Golf Course",
+    "courseName":"Green Briar Golf Course",
+    "description":null,
+    "longitude":-83.9883851,
+    "latitude":44.3644012,
+    "address1":"3379 E Sage Lake Road",
+    "address2":"",
+    "city":"Lupton",
+    "state":"MI",
+    "postalCode":"",
+    "country":"USA",
+    "email":"",
+    "phone":"",
+    "website":null,
+    "instagram":null,
+    "twitter":null,
+    "usgaUpdatedOn":"2018-09-28"
+}
+
+### Update for FacilityId
+PATCH {{url}}/api/courses/update HTTP/1.1
+content-type: application/json
+X-Authorization: {{token}}
+
+{
+    "usgaCourseId":30486,
+    "usgaFacilityId":17315
+}

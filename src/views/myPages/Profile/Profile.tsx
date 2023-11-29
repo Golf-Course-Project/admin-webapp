@@ -8,14 +8,14 @@ import UserProfileService from 'services/user.profile.service';
 
 const Profile = () => {
   const theme: any = useTheme();
-  const [myProfileData, setMyPofileData] = useState({ name: '', email: '', avatar_Url: '', isLocked: false } as IMyProfile);
+  const [myProfileData, setMyProfileData] = useState({ name: '', email: '', avatar_Url: '', isLocked: false } as IMyProfile);
 
   useEffect(() => {
     const client: UserProfileService = new UserProfileService();
 
     client.GetMyProfile().then(async (response: IGetMyProfileResponse) => {
       if (response.success) {           
-        setMyPofileData((myProfileData) => response.value);                  
+        setMyProfileData((myProfileData) => response.value);                  
       }
     }).catch((error: Error) => {
       console.log(error);

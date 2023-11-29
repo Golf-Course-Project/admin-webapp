@@ -127,7 +127,7 @@ class CourseList extends React.Component<IProps, {}> {
         <Box>
           <SkeletonTable rows={10} columns={5} display={this.state.action === 'loading' ? true : false}></SkeletonTable>                 
         </Box>   
-        <EditCourse theme={this.props.theme} open={this.state.openSideBar} selectedCourse={this.state.selectedCourse} onClose={this.handleSidebarClose}></EditCourse>     
+        <EditCourse theme={this.props.theme} open={this.state.openSideBar} facilityId={this.state.selectedCourse?.facilityId} courseId={this.state.selectedCourse?.id} courseName={this.state.selectedCourse?.courseName} onClose={this.handleSidebarClose}></EditCourse>     
       </Box>
     );
   }

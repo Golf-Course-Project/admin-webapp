@@ -1,5 +1,5 @@
-@url = https://localhost:44399
-//@url = https://danhellem-identityservice.azurewebsites.net
+//@url = https://localhost:44399
+@url = https://danhellem-identityservice.azurewebsites.net
 @token = value
 
 ### Register
