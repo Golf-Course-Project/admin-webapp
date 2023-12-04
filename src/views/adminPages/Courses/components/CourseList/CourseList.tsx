@@ -60,7 +60,7 @@ class CourseList extends React.Component<IProps, {}> {
     //const defaultBody: IListUsersRequest = { name: null, email: null, role: null, status: -1, isDeleted: false }; 
     //let body: IListUsersRequest = this.props.searchCriteria != null ? this.props.searchCriteria : defaultBody;   
 
-    client.Search(body).then(async (response: IListCoursesResponse) => {       
+    client.search(body).then(async (response: IListCoursesResponse) => {       
       
       if (response.success) {      
         this.setState({

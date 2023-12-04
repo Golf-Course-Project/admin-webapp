@@ -5,7 +5,7 @@ import { ICourseSearch, IListCoursesResponse } from 'interfaces/course.interface
 
 export class CourseService {
   
-  async Fetch(id : string): Promise<IStandardApiResponse> {
+  async fetch(id : string): Promise<IStandardApiResponse> {
     
     const jwt: string | null = fetchJwt();
 
@@ -26,7 +26,7 @@ export class CourseService {
     }
   } 
 
-  async Search(body: ICourseSearch): Promise<IListCoursesResponse> {    
+  async search(body: ICourseSearch): Promise<IListCoursesResponse> {    
     const jwt: string | null = fetchJwt();
        
     try {
@@ -46,6 +46,27 @@ export class CourseService {
       return await Promise.reject(error);
     }
   } 
+
+  async delete(id : string): Promise<IStandardApiResponse> {
+    
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(courseServiceUrl + '/api/course/' + id, {
+        method: 'delete',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),        
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  }
 }
 
 export default CourseService;

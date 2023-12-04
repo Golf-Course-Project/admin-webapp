@@ -10,6 +10,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import { IFacility, IFetchFacilityResponse } from 'interfaces/facility.interfaces';
 import { FacilityService } from 'services/facility.service';
 import { ErrorMessage } from 'common/components';
+import ConfirmDelete from '../ConfirmDelete';
 
 class EditCourse extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -183,7 +184,13 @@ class EditCourse extends React.Component<IProps, {}> {
           <IconButton>
             <CloseIcon fontSize="small" />
           </IconButton>
-        </Box>        
+        </Box>  
+
+        <Box display={this.state.action === 'confirm-delete' ? 'block' : 'none'} sx={{ height: '100%', padding: 1 }} >
+          <Box marginTop={20} justifyContent={'center'}>
+            <ConfirmDelete id={this.state.editMode === 'course' ? this.state.courseId : this.state.facilityId} editMode={this.state.editMode} theme={this.props.theme} text={this.state.editMode === 'course' ? this.state.courseName : this.state.facilityName} onSuccess={this.handleOnCloseAfterDelete.bind(this)} onCancel={this.cancelDeleteCallback.bind(this)}></ConfirmDelete>
+          </Box>
+        </Box>      
 
         <Box display={this.state.action === 'confirm-delete' ? 'none' : 'block'} sx={{ height: '100%', padding: 1 }} >
           <Box marginBottom={1}>
@@ -456,7 +463,6 @@ class EditCourse extends React.Component<IProps, {}> {
 
   }
 }
-
 
 export default EditCourse;
 
