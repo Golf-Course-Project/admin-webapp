@@ -1,7 +1,7 @@
 import { courseServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper'; 
 import { IStandardApiResponse } from 'interfaces/api-response.interface';
-import { ICourseSearch, IListCoursesResponse } from 'interfaces/course.interfaces';
+import { ICoursePatch, ICourseSearch, IListCoursesApiResponse, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
 
 export class CourseService {
   
@@ -26,7 +26,7 @@ export class CourseService {
     }
   } 
 
-  async search(body: ICourseSearch): Promise<IListCoursesResponse> {    
+  async search(body: ICourseSearch): Promise<IListCoursesApiResponse> {    
     const jwt: string | null = fetchJwt();
        
     try {
@@ -59,6 +59,28 @@ export class CourseService {
           'X-Authorization': `Bearer ${jwt}`,
           Accept: 'application/json',
         }),        
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  }
+
+  async patch(data: ICoursePatch): Promise<IPatchCourseApiResponse> {
+    
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(courseServiceUrl + '/api/course/update', {
+        method: 'patch',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),
+        body: JSON.stringify(data)
       });
 
       const results = await Promise.resolve(response);

@@ -1,6 +1,6 @@
 import { IApiResponse } from './api-response.interface';
 
-export interface IListCoursesResponse extends IApiResponse {
+export interface IListCoursesApiResponse extends IApiResponse {
 	value: ICourses[];
 }
 
@@ -39,4 +39,13 @@ export interface ICourseSearch {
 	phone: string | null;
 	website: string | null;
 	pageNumber: number;
+}
+
+export interface ICoursePatch {
+	id: string;
+	name: string;
+}
+
+export interface IPatchCourseApiResponse extends IApiResponse {
+	value: ICourse | null;
 }

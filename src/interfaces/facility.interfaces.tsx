@@ -1,6 +1,6 @@
 import { IApiResponse } from "./api-response.interface";
 
-export interface IFetchFacilityResponse extends IApiResponse {
+export interface IFetchFacilityApiResponse extends IApiResponse {
 	value: IFacility;
 }
 
@@ -18,4 +18,8 @@ export interface IFacility {
 	email: string;
 	website: string;
 	instagram: string;	
+}
+
+export interface IPatchFacilityApiResponse extends IApiResponse {
+	value: IFacility | null;
 }

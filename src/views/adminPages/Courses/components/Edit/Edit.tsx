@@ -7,10 +7,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 
-import { IFacility, IFetchFacilityResponse } from 'interfaces/facility.interfaces';
+import { IFacility, IFetchFacilityApiResponse, IPatchFacilityApiResponse } from 'interfaces/facility.interfaces';
+import { ICoursePatch, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
 import { FacilityService } from 'services/facility.service';
 import { ErrorMessage } from 'common/components';
 import ConfirmDelete from '../ConfirmDelete';
+import CourseService from 'services/course.service';
 
 class EditCourse extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -59,11 +61,10 @@ class EditCourse extends React.Component<IProps, {}> {
     }
   }
 
-
   private fetch = (id: string) => {
     const client: FacilityService = new FacilityService();
 
-    client.fetch(id).then(async (response: IFetchFacilityResponse) => {    
+    client.fetch(id).then(async (response: IFetchFacilityApiResponse) => {    
 
       if (response.success) {
         this.setState({
@@ -105,6 +106,59 @@ class EditCourse extends React.Component<IProps, {}> {
     this.props.onClose();
   }
 
+  handleUpdateFacilityOnClick() {
+    let client: FacilityService | null = new FacilityService();
+    let facility: IFacility | null = { 
+      id: this.state.facilityId, 
+      name: this.state.facilityName,
+      address1: this.state.address1,
+      address2: this.state.address2,
+      city: this.state.city, 
+      postalCode: this.state.postalCode !== '' ? parseInt(this.state.postalCode) : null,  
+      longitude: this.state.longitude, 
+      latitude: this.state.latitude,
+      email: this.state.email,
+      website: this.state.website,
+      phone: this.state.phone,
+      instagram: this.state.instagram
+    } as IFacility;           
+
+    client.patch(facility).then(async (response: IPatchFacilityApiResponse) => {   
+      if (response.success) {       
+        this.setState({ action: 'updated', message: '' });
+        this.props.onUpdate(`${this.state.facilityName} updated`);
+      } else {
+        this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
+      }
+    }).catch((error: Error) => {
+      this.setState({ action: 'failed', message: error.message });
+    });
+
+    facility = null;
+    client = null;
+  }
+
+  handleUpdateCourseOnClick() {
+    this.setState({ action: 'update' });
+
+    let course: ICoursePatch | null = { id: this.state.courseId, name: this.state.courseName } as ICoursePatch;   
+    let client: CourseService | null = new CourseService();    
+
+    client.patch(course).then(async (response: IPatchCourseApiResponse) => {   
+      if (response.success) {       
+        this.setState({ action: 'updated', message: '' });
+        this.props.onUpdate(`${this.state.courseName} updated`);
+      } else {
+        this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
+      }
+    }).catch((error: Error) => {
+      this.setState({ action: 'failed', message: error.message });
+    });
+
+    course = null;
+    client = null;
+  }
+
   cancelDeleteCallback() {
     this.setState({ action: 'normal' });
   }
@@ -113,14 +167,7 @@ class EditCourse extends React.Component<IProps, {}> {
     e.preventDefault();
 
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as unknown as Pick<IForm, keyof IForm>);
-  };
-
-  private handleSelectChanges = (e: React.FormEvent<HTMLSelectElement>) => {
-    e.preventDefault();
-
-    const target = e.target as HTMLSelectElement;
-    this.setState({ [target.name]: target.value } as unknown as Pick<IForm, keyof IForm>);
-  };
+  }; 
 
   private handleInputBlur = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -174,7 +221,7 @@ class EditCourse extends React.Component<IProps, {}> {
         open={this.state.open}
         variant={'temporary'}
         sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: 900 } } }}
-      >
+      >       
         <Box
           display={'flex'}
           justifyContent={'flex-end'}
@@ -212,10 +259,17 @@ class EditCourse extends React.Component<IProps, {}> {
             </Typography>
           </Box>
           <Divider variant="middle" />
+
+          <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
+            <Box width={'100%'}>
+              <ErrorMessage message={this.state.messageText} />
+            </Box>
+          </Box>
+
           <Box component={CardContent} padding={4}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <Box marginBottom={4} textAlign={'center'} display={this.state.action === 'normal' ? 'block' : 'none'}>
+                <Box marginBottom={4} textAlign={'center'} display={this.state.action !== 'loading' ? 'block' : 'none'}>
                   <ToggleButtonGroup
                     color="primary"
                     exclusive
@@ -228,7 +282,7 @@ class EditCourse extends React.Component<IProps, {}> {
                   </ToggleButtonGroup>
                 </Box>
 
-                <Box marginBottom={4} textAlign={'center'} display={this.state.action === 'loading' ? 'block' : 'none'}>
+                <Box marginBottom={4} textAlign={'center'} display={this.state.action === 'loading' ? 'block' : 'none'} sx={{minHeight: 56}}>
                   <CircularProgress />
                 </Box>
               </Grid>
@@ -432,10 +486,14 @@ class EditCourse extends React.Component<IProps, {}> {
                           display={this.state.action === 'confirm-delete' ? 'none' : 'end'}
                           justifyContent={'end'}
                           sx={{ paddingBottom: '10px' }}
-                          onClick={(e: any) => this.setState({ action: 'update' })}
+                          onClick={this.state.editMode === 'facility' ? (e: any) => this.handleUpdateFacilityOnClick() : (e: any) => this.handleUpdateCourseOnClick() }
                         >
-                          <Button variant="contained" startIcon={<SaveIcon />} sx={{ width: '100%' }}>
+                          <Button variant="contained" startIcon={<SaveIcon />} sx={this.state.action !== 'update' ? { width: '100%', display: 'flex' } : { width: '100%', display: 'none' }}>
                             Update {this.state.editMode === 'facility' ? 'Facility' : 'Course'}
+                          </Button>                          
+
+                          <Button variant="contained" startIcon={<SaveIcon />} sx={this.state.action === 'update' ? { width: '100%', display: 'flex' } : { width: '100%', display: 'none' }} disabled={true}>
+                            Updating {this.state.editMode === 'facility' ? 'Facility' : 'Course'} ...
                           </Button>
                         </Box>
                       </Grid>
@@ -468,6 +526,7 @@ export default EditCourse;
 
 interface IProps {
   onClose: () => void;
+  onUpdate: (text: string) => void;
   theme: Theme;
   open: boolean;
   facilityId: string;
