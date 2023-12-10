@@ -2,33 +2,28 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Button, CardContent, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography, CircularProgress } from '@material-ui/core';
+import { Button, CardContent, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 
 import { IFacility, IFetchFacilityApiResponse, IPatchFacilityApiResponse } from 'interfaces/facility.interfaces';
-import { ICoursePatch, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
 import { FacilityService } from 'services/facility.service';
 import { ErrorMessage } from 'common/components';
 import ConfirmDelete from '../ConfirmDelete';
-import CourseService from 'services/course.service';
 
-class EditCourse extends React.Component<IProps, {}> {
+class EditFacility extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
 
   state: IForm = {
-    action: 'loading',
-    editMode: 'facility',
+    action: 'loading',    
     messageCode: 200,
     messageText: '',
     open: this.props.open,
     blurErrors: [],    
     data: null,    
-    facilityId:  this.props.facilityId,
-    courseId: this.props.courseId,
-    courseName: this.props.courseName,
-    facilityName: '',
+    id:  this.props.id,
+    name: '',
     address1: '',
     address2: '',
     city: '',
@@ -40,7 +35,9 @@ class EditCourse extends React.Component<IProps, {}> {
     email: '',
     website: '',
     instagram: '',
-    description: ''
+    facebook: '',
+    description: '',
+    type: -1
   }
 
   componentDidMount() {
@@ -50,26 +47,24 @@ class EditCourse extends React.Component<IProps, {}> {
   componentDidUpdate(prevProps: any) {
     if (prevProps.open !== this.props.open) {
       this.setState({
-        open: this.props.open,
-        courseName: this.props.courseName,
-        facilityId: this.props.facilityId,
-        courseId: this.props.courseId,
+        open: this.props.open,        
+        id: this.props.id,        
         action: 'loading'
       });
 
-      this.fetch(this.props.facilityId);
+      this.fetch(this.props.id);
     }
   }
 
   private fetch = (id: string) => {
     const client: FacilityService = new FacilityService();
 
-    client.fetch(id).then(async (response: IFetchFacilityApiResponse) => {    
+    client.fetch(id).then(async (response: IFetchFacilityApiResponse) => {      
 
       if (response.success) {
         this.setState({
           data: response.value,
-          facilityName: response.value.name ?? '',
+          name: response.value.name ?? '',
           address1: response.value.address1 ?? '',
           address2: response.value.address2 ?? '',
           city: response.value.city ?? '',
@@ -81,19 +76,16 @@ class EditCourse extends React.Component<IProps, {}> {
           email: response.value?.email ?? '',
           website: response.value?.website ?? '',
           instagram: response.value?.instagram ?? '',
-          action: 'normal'
+          facebook: response.value?.facebook ?? '',
+          description: response.value?.description ?? '',
+          action: 'normal',
+          type: response.value.type ?? -1
         });
       }
 
     }).catch((error: Error) => {
       console.log(error);
     });
-  }
-
-  private handleEditModeChange = (e: React.MouseEvent<HTMLElement>, x: string) => {
-    e.preventDefault();
-
-    this.setState({ editMode: x });
   }
 
   handleOnClose() {
@@ -108,9 +100,9 @@ class EditCourse extends React.Component<IProps, {}> {
 
   handleUpdateFacilityOnClick() {
     let client: FacilityService | null = new FacilityService();
-    let facility: IFacility | null = { 
-      id: this.state.facilityId, 
-      name: this.state.facilityName,
+    let body: IFacility | null = { 
+      id: this.state.id, 
+      name: this.state.name,
       address1: this.state.address1,
       address2: this.state.address2,
       city: this.state.city, 
@@ -120,47 +112,34 @@ class EditCourse extends React.Component<IProps, {}> {
       email: this.state.email,
       website: this.state.website,
       phone: this.state.phone,
-      instagram: this.state.instagram
-    } as IFacility;           
-
-    client.patch(facility).then(async (response: IPatchFacilityApiResponse) => {   
-      if (response.success) {       
+      instagram: this.state.instagram,
+      facebook: this.state.facebook,
+      description: this.state.description,
+      type: this.state.type
+    } as IFacility;     
+    
+    client.patch(body).then(async (response: IPatchFacilityApiResponse) => {   
+      if (response.success) {          
         this.setState({ action: 'updated', message: '' });
-        this.props.onUpdate(`${this.state.facilityName} updated`);
+        this.props.onFacilityUpdate(body);
       } else {
         this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
       }
     }).catch((error: Error) => {
       this.setState({ action: 'failed', message: error.message });
     });
-
-    facility = null;
-    client = null;
-  }
-
-  handleUpdateCourseOnClick() {
-    this.setState({ action: 'update' });
-
-    let course: ICoursePatch | null = { id: this.state.courseId, name: this.state.courseName } as ICoursePatch;   
-    let client: CourseService | null = new CourseService();    
-
-    client.patch(course).then(async (response: IPatchCourseApiResponse) => {   
-      if (response.success) {       
-        this.setState({ action: 'updated', message: '' });
-        this.props.onUpdate(`${this.state.courseName} updated`);
-      } else {
-        this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
-      }
-    }).catch((error: Error) => {
-      this.setState({ action: 'failed', message: error.message });
-    });
-
-    course = null;
+     
     client = null;
   }
 
   cancelDeleteCallback() {
     this.setState({ action: 'normal' });
+  }
+
+  private handleTypeChange = (e: React.MouseEvent<HTMLElement>, value: number) => {
+    e.preventDefault();
+
+    this.setState({ type: value });   
   }
 
   private handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
@@ -176,12 +155,9 @@ class EditCourse extends React.Component<IProps, {}> {
     if (blurErrors.includes(e.currentTarget.name)) blurErrors.splice(blurErrors.indexOf(e.currentTarget.name), 2);
 
     switch (e.currentTarget.name) {
-      case 'facilityName':
-        if (this.state.facilityName.length < 8 && !blurErrors.includes(e.currentTarget.name)) blurErrors.push('facilityName');
-        break;
-      case 'courseName':
-        if (this.state.courseName.length < 8 && !blurErrors.includes(e.currentTarget.name)) blurErrors.push('courseName');
-        break;
+      case 'Name':
+        if (this.state.name.length < 8 && !blurErrors.includes(e.currentTarget.name)) blurErrors.push('name');
+        break;     
       default:
         break;
     }
@@ -191,10 +167,8 @@ class EditCourse extends React.Component<IProps, {}> {
 
   private setHelperTextMessage = (field: string) => {
     switch (field) {
-      case 'facilityName':
-        return this.state.blurErrors.includes('facilityName') ? 'Facility Name is required' : ' ';
-      case 'courseName':
-        return this.state.blurErrors.includes('courseName') ? 'Course Name is required' : ' ';
+      case 'name':
+        return this.state.blurErrors.includes('name') ? 'Name is required' : ' ';     
       default:
         return ' ';
     }
@@ -235,29 +209,20 @@ class EditCourse extends React.Component<IProps, {}> {
 
         <Box display={this.state.action === 'confirm-delete' ? 'block' : 'none'} sx={{ height: '100%', padding: 1 }} >
           <Box marginTop={20} justifyContent={'center'}>
-            <ConfirmDelete id={this.state.editMode === 'course' ? this.state.courseId : this.state.facilityId} editMode={this.state.editMode} theme={this.props.theme} text={this.state.editMode === 'course' ? this.state.courseName : this.state.facilityName} onSuccess={this.handleOnCloseAfterDelete.bind(this)} onCancel={this.cancelDeleteCallback.bind(this)}></ConfirmDelete>
+            <ConfirmDelete id={this.state.id} editMode={'facility'} theme={this.props.theme} text={this.state.name} onSuccess={this.handleOnCloseAfterDelete.bind(this)} onCancel={this.cancelDeleteCallback.bind(this)}></ConfirmDelete>
           </Box>
         </Box>      
 
         <Box display={this.state.action === 'confirm-delete' ? 'none' : 'block'} sx={{ height: '100%', padding: 1 }} >
-          <Box marginBottom={1}>
+          <Box marginBottom={6}>
             <Typography
               variant="h3"
               align={'center'}
               sx={{ fontWeight: 500, }}
             >
-              {this.state.courseName}
+              {this.state.name}
             </Typography>
-          </Box>
-          <Box marginBottom={2}>
-            <Typography
-              variant="h5"
-              align={'center'}
-              sx={{ fontWeight: 100, }}
-            >
-              {this.state.facilityName}
-            </Typography>
-          </Box>
+          </Box>          
           <Divider variant="middle" />
 
           <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
@@ -267,46 +232,12 @@ class EditCourse extends React.Component<IProps, {}> {
           </Box>
 
           <Box component={CardContent} padding={4}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <Box marginBottom={4} textAlign={'center'} display={this.state.action !== 'loading' ? 'block' : 'none'}>
-                  <ToggleButtonGroup
-                    color="primary"
-                    exclusive
-                    size="large"
-                    value={this.state.editMode}
-                    sx={{ maxHeight: 56 }}
-                  >
-                    <ToggleButton value="facility" onClick={(e: any) => this.handleEditModeChange(e, 'facility')}>Facility</ToggleButton>
-                    <ToggleButton value="course" onClick={(e: any) => this.handleEditModeChange(e, 'course')}>Course</ToggleButton>
-                  </ToggleButtonGroup>
-                </Box>
-
-                <Box marginBottom={4} textAlign={'center'} display={this.state.action === 'loading' ? 'block' : 'none'} sx={{minHeight: 56}}>
-                  <CircularProgress />
-                </Box>
-              </Grid>
+            <Grid container spacing={1}>              
               <Grid item xs={12}>
                 <ErrorMessage message={this.setErrorMessage(this.state.messageCode, this.state.messageText)} />
                 <form noValidate autoComplete="off">
                   <Box display="flex" flexDirection={'column'}>
-                    <Grid container spacing={1}>
-                      <Grid item xs={12} md={12}>
-                        <TextField
-                          type="text"
-                          label="Facility Name *"
-                          variant="outlined"
-                          color="primary"
-                          fullWidth
-                          name={'facilityName'}
-                          value={this.state.facilityName}
-                          onChange={(e: any) => this.handleInputChanges(e)}
-                          onBlur={(e: any) => this.handleInputBlur(e)}
-                          error={this.state.blurErrors.includes('facilityName') ? true : false}
-                          helperText={this.setHelperTextMessage('facilityName')}
-                          disabled={this.state.editMode === 'facility' ? false : true}
-                        />
-                      </Grid>
+                    <Grid container spacing={1}>                     
                       <Grid item xs={12} md={12}>
                         <TextField
                           type="text"
@@ -314,13 +245,12 @@ class EditCourse extends React.Component<IProps, {}> {
                           variant="outlined"
                           color="primary"
                           fullWidth
-                          name={'courseName'}
-                          value={this.state.courseName}
+                          name={'name'}
+                          value={this.state.name}
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('courseName') ? true : false}
-                          helperText={this.setHelperTextMessage('courseName')}
-                          disabled={this.state.editMode === 'course' ? false : true}
+                          helperText={this.setHelperTextMessage('courseName')}                          
                         />
                       </Grid>
                       <Grid item xs={12} md={12}>
@@ -335,8 +265,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('address') ? true : false}
-                          helperText={this.setHelperTextMessage('address')}
-                          disabled={this.state.editMode === 'facility' ? false : true}
+                          helperText={this.setHelperTextMessage('address')}                         
                         />
                       </Grid>
                       <Grid item xs={12} md={12}>
@@ -352,7 +281,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('address2') ? true : false}
                           helperText={this.setHelperTextMessage('address2')}
-                          disabled={this.state.editMode === 'facility' ? false : true}
+                          disabled={this.state.address1 !== '' ? false : true}
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -367,8 +296,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('city') ? true : false}
-                          helperText={this.setHelperTextMessage('city')}
-                          disabled={this.state.editMode === 'facility' ? false : true}
+                          helperText={this.setHelperTextMessage('city')}                          
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -383,8 +311,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('postalCode') ? true : false}
-                          helperText={this.setHelperTextMessage('postalCode')}
-                          disabled={this.state.editMode === 'facility' ? false : true}
+                          helperText={this.setHelperTextMessage('postalCode')}                         
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -429,8 +356,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('phone') ? true : false}
-                          helperText={this.setHelperTextMessage('phone')}
-                          disabled={this.state.editMode === 'facility' ? false : true}
+                          helperText={this.setHelperTextMessage('phone')}                         
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -445,8 +371,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('email') ? true : false}
-                          helperText={this.setHelperTextMessage('email')}
-                          disabled={this.state.editMode === 'facility' ? false : true}
+                          helperText={this.setHelperTextMessage('email')}                          
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -461,8 +386,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('website') ? true : false}
-                          helperText={this.setHelperTextMessage('website')}
-                          disabled={this.state.editMode === 'facility' ? false : true}
+                          helperText={this.setHelperTextMessage('website')}                         
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -477,23 +401,35 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('instagram') ? true : false}
-                          helperText={this.setHelperTextMessage('instagram')}
-                          disabled={this.state.editMode === 'facility' ? false : true}
+                          helperText={this.setHelperTextMessage('instagram')}                          
                         />
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <ToggleButtonGroup
+                          color="primary"
+                          exclusive   
+                          size="large"                   
+                          value={this.state.type}  
+                          sx={{ maxHeight: 56, width: '100%', justifyContent: 'center' }}                      
+                        >
+                          <ToggleButton value={1} onClick={(e: any) => this.handleTypeChange(e, 1)} sx={{ minWidth: '33.3%' }}>Public</ToggleButton>
+                          <ToggleButton value={2} onClick={(e: any) => this.handleTypeChange(e, 2)} sx={{ minWidth: '33.3%' }}>Private</ToggleButton>
+                          <ToggleButton value={-1} onClick={(e: any) => this.handleTypeChange(e, -1)} sx={{ minWidth: '33.3%' }}>Unknown</ToggleButton>
+                        </ToggleButtonGroup>
                       </Grid>
                       <Grid item xs={12} md={8}>
                         <Box
                           display={this.state.action === 'confirm-delete' ? 'none' : 'end'}
                           justifyContent={'end'}
-                          sx={{ paddingBottom: '10px' }}
-                          onClick={this.state.editMode === 'facility' ? (e: any) => this.handleUpdateFacilityOnClick() : (e: any) => this.handleUpdateCourseOnClick() }
+                          sx={{ paddingBottom: '10px', paddingTop: '10px' }}
+                          onClick={(e: any) => this.handleUpdateFacilityOnClick() }
                         >
                           <Button variant="contained" startIcon={<SaveIcon />} sx={this.state.action !== 'update' ? { width: '100%', display: 'flex' } : { width: '100%', display: 'none' }}>
-                            Update {this.state.editMode === 'facility' ? 'Facility' : 'Course'}
+                            Update
                           </Button>                          
 
                           <Button variant="contained" startIcon={<SaveIcon />} sx={this.state.action === 'update' ? { width: '100%', display: 'flex' } : { width: '100%', display: 'none' }} disabled={true}>
-                            Updating {this.state.editMode === 'facility' ? 'Facility' : 'Course'} ...
+                            Updating ...
                           </Button>
                         </Box>
                       </Grid>
@@ -501,11 +437,11 @@ class EditCourse extends React.Component<IProps, {}> {
                         <Box
                           display={this.state.action === 'confirm-delete' ? 'none' : 'end'}
                           justifyContent={'end'}
-                          sx={{ paddingBottom: '10px' }}
+                          sx={{ paddingBottom: '10px', paddingTop: '10px' }}
                           onClick={(e: any) => this.setState({ action: 'confirm-delete' })}
                         >
                           <Button variant="contained" startIcon={<DeleteIcon />} sx={{ width: '100%', background: this.props.theme.palette.grey[600] }}>
-                            Delete {this.state.editMode === 'facility' ? 'Facility' : 'Course'}
+                            Delete
                           </Button>
                         </Box>
                       </Grid>
@@ -522,30 +458,25 @@ class EditCourse extends React.Component<IProps, {}> {
   }
 }
 
-export default EditCourse;
+export default EditFacility;
 
 interface IProps {
   onClose: () => void;
-  onUpdate: (text: string) => void;
+  onFacilityUpdate: (facility: IFacility | null) => void;  
   theme: Theme;
   open: boolean;
-  facilityId: string;
-  courseId: string ;
-  courseName: string;  
+  id: string;
 }
 
 interface IForm {
   action: string,
-  editMode: string,
   messageText: string;
   messageCode: number;
   open: boolean;
   blurErrors: string[],
   data: IFacility | null;
-  facilityId: string;
-  courseId: string;  
-  courseName: string;
-  facilityName: string;
+  id: string;    
+  name: string;
   address1: string;
   address2: string;
   city: string;
@@ -557,5 +488,7 @@ interface IForm {
   email: string;
   website: string;
   instagram: string;
+  facebook: string;
   description: string;
+  type: number;
 }

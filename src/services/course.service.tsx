@@ -1,11 +1,11 @@
 import { courseServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper'; 
 import { IStandardApiResponse } from 'interfaces/api-response.interface';
-import { ICoursePatch, ICourseSearch, IListCoursesApiResponse, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
+import { ICoursePatch, ICourseSearch, IFetchCourseApiResponse, IListCoursesApiResponse, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
 
 export class CourseService {
   
-  async fetch(id : string): Promise<IStandardApiResponse> {
+  async fetch(id : string): Promise<IFetchCourseApiResponse> {
     
     const jwt: string | null = fetchJwt();
 

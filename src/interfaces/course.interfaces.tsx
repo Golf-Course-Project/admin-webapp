@@ -20,14 +20,18 @@ export interface ICourses {
 export interface ICourse {
 	id: string;
 	facilityId: string;
-	courseName: string;
-	facilityName: string;
+	name: string;
+	description: string;
+	longitude: number;
+	latitude: number;
 	address1: string;
 	city: string;
 	state: string;
-	countryRegion: string;
-	localRegion: string;	
-	rowNumber: number;
+	postalCode: number;		
+	phone: string;
+	email: string;
+	website: string;
+	type: number;
 }
 
 export interface ICourseSearch {
@@ -44,8 +48,20 @@ export interface ICourseSearch {
 export interface ICoursePatch {
 	id: string;
 	name: string;
+	longitude: number;
+	latitude: number;
+	address1: string;
+	city: string;
+	postalCode: number;
+	phone: string;
+	email: string;
+	website: string;	
 }
 
 export interface IPatchCourseApiResponse extends IApiResponse {
+	value: ICourse | null;
+}
+
+export interface IFetchCourseApiResponse extends IApiResponse {
 	value: ICourse | null;
 }

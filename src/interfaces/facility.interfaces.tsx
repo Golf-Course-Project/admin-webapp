@@ -7,6 +7,7 @@ export interface IFetchFacilityApiResponse extends IApiResponse {
 export interface IFacility {
 	id: string;
 	name: string;
+	description: string;
 	address1: string;
 	address2: string;
 	city: string;
@@ -18,6 +19,8 @@ export interface IFacility {
 	email: string;
 	website: string;
 	instagram: string;	
+	facebook: string;
+	type: number;
 }
 
 export interface IPatchFacilityApiResponse extends IApiResponse {
