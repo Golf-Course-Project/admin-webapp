@@ -14,6 +14,7 @@ export interface ICourses {
 	state: string;
 	countryRegion: string;
 	localRegion: string;	
+	type: number | null;
 	rowNumber: number;
 }
 
@@ -42,6 +43,7 @@ export interface ICourseSearch {
 	email: string | null;
 	phone: string | null;
 	website: string | null;
+	type: string | null;
 	pageNumber: number;
 }
 

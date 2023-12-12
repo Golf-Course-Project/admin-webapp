@@ -25,7 +25,7 @@ const Courses = () => {
         <SearchBox theme={theme} callback={callbackSearch} />
       </Box>
       <Box bgcolor={theme.palette.alternate.main} marginTop={0} >
-        <Container maxWidth={'80%'}>
+        <Container maxWidth={'90%'}>
           {
             <CourseList callback={callbackList} theme={theme} searchCriteria={searchBody} />
           }         

@@ -75,11 +75,12 @@ class SearchBox extends React.Component<IProps, {}> {
       body.email = key.includes('email') ? this.setValue(val) : null;
       body.phone = key.includes('phone') ? this.setValue(val) : null;
       body.website = key.includes('website') ? this.setValue(val) : null;
+      body.type = key.includes('type') ? this.setValue(val) : null;
     });   
 
     body.text = searchText.trim().toLocaleLowerCase();
 
-    if (body.address !== null || body.city !== null || body.email !== null || body.phone !== null || body.website !== null) {
+    if (body.address !== null || body.city !== null || body.email !== null || body.phone !== null || body.website !== null || body.type !== null) {
       body.text = null;
     }
 
@@ -96,7 +97,7 @@ class SearchBox extends React.Component<IProps, {}> {
   render() {
     
     return (
-      <Container maxWidth={'75%'}>
+      <Container maxWidth={'85%'}>
         <Box
           component={Card}
           maxWidth={{ xs: '100%', md: '100%' }}

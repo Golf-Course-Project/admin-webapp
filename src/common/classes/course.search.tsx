@@ -9,6 +9,7 @@ export class CourseSearch implements ICourseSearch {
     this.email = null;
     this.phone = null;
     this.website = null;
+    this.type = null;
     this.pageNumber = 1;
   }
 
@@ -19,5 +20,6 @@ export class CourseSearch implements ICourseSearch {
   email: string | null;
   phone: string | null;
   website: string | null;
+  type: string | null;
   pageNumber: number;
 }

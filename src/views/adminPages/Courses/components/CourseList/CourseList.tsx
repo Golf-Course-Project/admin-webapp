@@ -5,6 +5,9 @@ import { Theme } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Snackbar, Alert } from '@material-ui/core';
 import EditRowIcon from '@material-ui/icons/ModeEditOutlineOutlined';
 import GolfCourseIcon from '@material-ui/icons/GolfCourse';
+import PublicIcon from '@material-ui/icons/RadioButtonChecked';
+import PrivateIcon from '@material-ui/icons/MotionPhotosOff';
+import UnknownIcon from '@material-ui/icons/RadioButtonUnchecked';
 
 import { IListCoursesApiResponse, ICourses, ICourseSearch, ICoursePatch } from 'interfaces/course.interfaces';
 import CourseService from 'services/course.service';
@@ -138,7 +141,8 @@ class CourseList extends React.Component<IProps, {}> {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ paddingLeft: '20px' }}>Facility</TableCell>                    
+                    <TableCell align="center">&nbsp;</TableCell>
+                    <TableCell align="left">Facility</TableCell>                    
                     <TableCell align="left">Course</TableCell>
                     <TableCell align="left">Address</TableCell>
                     <TableCell align="left">City</TableCell>     
@@ -155,7 +159,12 @@ class CourseList extends React.Component<IProps, {}> {
                       onMouseEnter={(e: any) => this.handleMouseEnter(e, row.id) }
                       onMouseLeave={(e: any) => this.handleMouseLeave(e, row.id) }
                       selected={this.state.selectedRowId === row.id ? true : false}                                      
-                    >                                                            
+                    > 
+                      <TableCell align="center">
+                        <UnknownIcon color="disabled" sx={row.type === -1 ? {display: 'flex'} : {display: 'none'}}/>
+                        <PublicIcon color="primary" sx={row.type === 1 ? {display: 'flex'} : {display: 'none'}}/>
+                        <PrivateIcon color="secondary" sx={row.type === 2 ? {display: 'flex'} : {display: 'none'}}/>
+                      </TableCell>                                                           
                       <TableCell align="left">{row.facilityName}</TableCell>
                       <TableCell align="left">{row.courseName}</TableCell>     
                       <TableCell align="left">{row.address1}</TableCell>    
@@ -182,7 +191,7 @@ class CourseList extends React.Component<IProps, {}> {
           </Box>          
         </Box>
         <Box>
-          <SkeletonTable rows={10} columns={5} display={this.state.action === 'loading' ? true : false}></SkeletonTable>                 
+          <SkeletonTable rows={10} columns={6} display={this.state.action === 'loading' ? true : false}></SkeletonTable>                 
         </Box>   
 
         <EditCourse
