@@ -1,4 +1,5 @@
 import { IApiResponse } from './api-response.interface';
+import { IFacility } from './facility.interfaces';
 
 export interface IListCoursesApiResponse extends IApiResponse {
 	value: ICourses[];
@@ -33,6 +34,7 @@ export interface ICourse {
 	email: string;
 	website: string;
 	type: number;
+	isSynced: boolean;
 }
 
 export interface ICourseSearch {
@@ -57,7 +59,9 @@ export interface ICoursePatch {
 	postalCode: number;
 	phone: string;
 	email: string;
-	website: string;	
+	website: string;
+	description: string;
+	isSynced: boolean;
 }
 
 export interface IPatchCourseApiResponse extends IApiResponse {
@@ -66,4 +70,8 @@ export interface IPatchCourseApiResponse extends IApiResponse {
 
 export interface IFetchCourseApiResponse extends IApiResponse {
 	value: ICourse | null;
+}
+
+export interface IFetchCourseAndFacilityApiResponse extends IApiResponse {
+	value: { course: ICourse | null, facility: IFacility | null };
 }

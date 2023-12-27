@@ -405,6 +405,21 @@ class EditFacility extends React.Component<IProps, {}> {
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
+                        <TextField
+                          type="text"
+                          label="Facebook"
+                          variant="outlined"
+                          color="primary"
+                          fullWidth
+                          name={'facebook'}
+                          value={this.state.facebook}
+                          onChange={(e: any) => this.handleInputChanges(e)}
+                          onBlur={(e: any) => this.handleInputBlur(e)}
+                          error={this.state.blurErrors.includes('facebook') ? true : false}
+                          helperText={this.setHelperTextMessage('facebook')}                          
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={6}>
                         <ToggleButtonGroup
                           color="primary"
                           exclusive   
@@ -417,6 +432,24 @@ class EditFacility extends React.Component<IProps, {}> {
                           <ToggleButton value={-1} onClick={(e: any) => this.handleTypeChange(e, -1)} sx={{ minWidth: '33.3%' }}>Unknown</ToggleButton>
                         </ToggleButtonGroup>
                       </Grid>
+                      <Grid item xs={12} md={12}>
+                        <TextField
+                          type="text"
+                          label="Description"
+                          variant="outlined"
+                          color="primary"
+                          multiline
+                          rows={6}
+                          fullWidth
+                          name={'description'}
+                          value={this.state.description}
+                          onChange={(e: any) => this.handleInputChanges(e)}
+                          onBlur={(e: any) => this.handleInputBlur(e)}
+                          error={this.state.blurErrors.includes('description') ? true : false}
+                          helperText={this.setHelperTextMessage('description')}                          
+                        />
+                      </Grid>
+                      
                       <Grid item xs={12} md={8}>
                         <Box
                           display={this.state.action === 'confirm-delete' ? 'none' : 'end'}

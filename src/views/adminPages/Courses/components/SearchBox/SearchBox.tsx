@@ -43,7 +43,7 @@ class SearchBox extends React.Component<IProps, {}> {
   private handleSearchButtonClick = (e: React.ChangeEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement>) => {
     e.preventDefault();
 
-    const body: ICourseSearch = this.buildSearchText(this.state.searchText, this.state.searchState);  
+    const body: ICourseSearch = this.buildSearchText(this.state.searchText.toLocaleLowerCase(), this.state.searchState.toLocaleLowerCase());  
     body.pageNumber = 1;
 
     this.props.callback(body);

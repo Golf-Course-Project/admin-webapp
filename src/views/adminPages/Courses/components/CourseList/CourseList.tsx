@@ -8,6 +8,8 @@ import GolfCourseIcon from '@material-ui/icons/GolfCourse';
 import PublicIcon from '@material-ui/icons/RadioButtonChecked';
 import PrivateIcon from '@material-ui/icons/MotionPhotosOff';
 import UnknownIcon from '@material-ui/icons/RadioButtonUnchecked';
+import CopyIcon from '@material-ui/icons/ContentCopy';
+import CheckIcon from '@material-ui/icons/Check';
 
 import { IListCoursesApiResponse, ICourses, ICourseSearch, ICoursePatch } from 'interfaces/course.interfaces';
 import CourseService from 'services/course.service';
@@ -16,6 +18,8 @@ import EditCourse from '../EditCourse';
 import { CourseSearch } from 'common/classes/course.search';
 import { IFacility } from 'interfaces/facility.interfaces';
 import EditFacility from '../EditFacility';
+import ErrorMessage from 'common/components/ErrorMessage';
+import { green } from '@material-ui/core/colors';
 
 class CourseList extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -29,6 +33,7 @@ class CourseList extends React.Component<IProps, {}> {
     data: [],      
     rowId: '',
     selectedRowId: '',
+    clip: false,
     openCourseSideBar: false,
     openFacilitySideBar: false,
     selectedCourse: null   
@@ -45,7 +50,7 @@ class CourseList extends React.Component<IProps, {}> {
   } 
 
   private handleMouseEnter = (e: any, id: string) => {
-    this.setState({ rowId: id });
+    this.setState({ rowId: id, clip: false });
 
     //if (id === this.state.selectedRowId) {
     //  this.setState({ selectedRowId: '' });
@@ -53,7 +58,7 @@ class CourseList extends React.Component<IProps, {}> {
   }
 
   private handleMouseLeave = (e: any, id: string) => {
-    this.setState({ rowId: '' });
+    this.setState({ rowId: '', clip: false });
   }    
 
   private handleOpenCourseSideBar = (row: ICourses) => {      
@@ -70,7 +75,12 @@ class CourseList extends React.Component<IProps, {}> {
 
   private handleSnackClose = () => {
     this.setState({ openSideBar: false, snackAction: false, snackMsg: '' });       
-  };
+  };  
+
+  private handleCopyFacilityToClipBoard = (e: ICourses) => {
+    navigator.clipboard.writeText(`${e.facilityName} in ${e.city} ${e.state}`);  
+    this.setState({ clip: true });
+  }
 
   private handleFacilityUpdate = (facility: IFacility | null) => {
     if (facility === null) return;
@@ -78,7 +88,7 @@ class CourseList extends React.Component<IProps, {}> {
             
     this.setState(data => {
       const newData = this.state.data.map(item => item.facilityId === facility.id
-        ? { ...item, facilityName: facility.name }
+        ? { ...item, facilityName: facility.name, type: facility.type }
         : item
       );
       return { data: newData };
@@ -106,8 +116,13 @@ class CourseList extends React.Component<IProps, {}> {
     //const defaultBody: IListUsersRequest = { name: null, email: null, role: null, status: -1, isDeleted: false }; 
     //let body: IListUsersRequest = this.props.searchCriteria != null ? this.props.searchCriteria : defaultBody;   
 
-    client.search(body).then(async (response: IListCoursesApiResponse) => {       
-      
+    client.search(body).then(async (response: IListCoursesApiResponse) => {        
+
+      if (response.messageCode !== 200) {
+        this.setState({ errorMsg: response.message });
+        return;
+      }
+
       if (response.success) {      
         this.setState({
           paging: {
@@ -117,6 +132,7 @@ class CourseList extends React.Component<IProps, {}> {
           },
           pageCount: Math.ceil(response.count / this._pageSize),
           data: response.value,
+          errorMsg: '',
           action: 'normal'
         });
       }
@@ -129,11 +145,14 @@ class CourseList extends React.Component<IProps, {}> {
   render() {
     return (
       <Box>   
+
+        <ErrorMessage message={this.state.errorMsg}></ErrorMessage>
+
         <Snackbar open={this.state.snackAction} autoHideDuration={3000} onClose={(e: any) => this.handleSnackClose()} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
           <Alert severity="success" variant='filled' sx={{ minWidth: '600px' }}>
             {this.state.snackMsg}
           </Alert>
-        </Snackbar> 
+        </Snackbar>         
 
         <Box sx={this.state.action === 'normal' ? { display: 'block' } : { display: 'none' }}>          
           <Box marginBottom={4} sx={{ display: 'flex' }}>            
@@ -160,16 +179,20 @@ class CourseList extends React.Component<IProps, {}> {
                       onMouseLeave={(e: any) => this.handleMouseLeave(e, row.id) }
                       selected={this.state.selectedRowId === row.id ? true : false}                                      
                     > 
-                      <TableCell align="center">
-                        <UnknownIcon color="disabled" sx={row.type === -1 ? {display: 'flex'} : {display: 'none'}}/>
+                      <TableCell align="center" sx={{ width: '40px'}}>
+                        <UnknownIcon color="disabled" sx={(row.type !== 1 && row.type !== 2) ? {display: 'flex'} : {display: 'none'}}/>
                         <PublicIcon color="primary" sx={row.type === 1 ? {display: 'flex'} : {display: 'none'}}/>
                         <PrivateIcon color="secondary" sx={row.type === 2 ? {display: 'flex'} : {display: 'none'}}/>
                       </TableCell>                                                           
-                      <TableCell align="left">{row.facilityName}</TableCell>
+                      <TableCell align="left">
+                        {row.facilityName} 
+                        <CopyIcon sx={{ fontSize: 15, display: (this.state.rowId === row.id && ! this.state.clip) ? 'inline' : 'none', marginLeft: '10px' }} color="disabled" onClick={(e: any) => this.handleCopyFacilityToClipBoard(row)} />
+                        <CheckIcon sx={{ fontSize: 15, display: (this.state.rowId === row.id && this.state.clip) ? 'inline' : 'none', marginLeft: '10px', color: green[700] }} />
+                      </TableCell>
                       <TableCell align="left">{row.courseName}</TableCell>     
                       <TableCell align="left">{row.address1}</TableCell>    
                       <TableCell align="left">{row.city}</TableCell>              
-                      <TableCell align="center" sx={{ width: '80px'}}>
+                      <TableCell align="center" sx={{ width: '80px' }}>
                         <div style={{ display: this.state.rowId === row.id ? 'flex' : 'none'}}>
                           <IconButton aria-label="edit facility" onClick={(e:any) => this.handleOpenFacilitySideBar(row)}>
                             <GolfCourseIcon />
@@ -233,7 +256,8 @@ interface ICourseListPage {
   snackAction: boolean;
   data: ICourses[];   
   rowId: string;
-  selectedRowId: string; 
+  selectedRowId: string;
+  clip: boolean; 
   openCourseSideBar: boolean;
   openFacilitySideBar: boolean;
   selectedCourse: ICourses | null;

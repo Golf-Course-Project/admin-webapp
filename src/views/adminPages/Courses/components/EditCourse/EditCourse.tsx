@@ -2,13 +2,13 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Button, CardContent, Divider, Drawer, Grid, IconButton, TextField, Typography } from '@material-ui/core';
+import { Button, CardContent, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 
 import { IFacility } from 'interfaces/facility.interfaces';
-import { ICoursePatch, IFetchCourseApiResponse, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
+import { ICourse, ICoursePatch, IFetchCourseAndFacilityApiResponse, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
 import { ErrorMessage } from 'common/components';
 import ConfirmDelete from '../ConfirmDelete';
 import CourseService from 'services/course.service';
@@ -36,7 +36,8 @@ class EditCourse extends React.Component<IProps, {}> {
     website: '',  
     longitude: -1,
     latitude: -1,   
-    description: ''
+    description: '',
+    isSynced: false
   }
 
   componentDidMount() {
@@ -44,7 +45,8 @@ class EditCourse extends React.Component<IProps, {}> {
   }
 
   componentDidUpdate(prevProps: any) {
-    if (prevProps.open !== this.props.open) {      
+      
+    if (prevProps.open !== this.props.open) {           
       this.setState({
         open: this.props.open,
         name: this.props.name,
@@ -53,30 +55,31 @@ class EditCourse extends React.Component<IProps, {}> {
         facilityName: this.props.facilityName,        
         action: 'loading'
       });
-
-      this.fetch(this.props.id);
+      
+      if (this.props.open === true) this.fetch(this.props.id);
     }
   }
 
   private fetch = (id: string) => {
     const client: CourseService = new CourseService();
 
-    client.fetch(id).then(async (response: IFetchCourseApiResponse) => {    
+    client.fetchIncFacility(id).then(async (response: IFetchCourseAndFacilityApiResponse) => {    
 
       if (response.success) {
         this.setState({
           data: response.value,  
-          facilityId: response.value?.facilityId ?? '',
-          description: response.value?.description ?? '',
-          longitude: response.value?.longitude ?? '',
-          latitude: response.value?.latitude?? '',         
-          address1: response.value?.address1 ?? '',         
-          city: response.value?.city ?? '',
-          state: response.value?.state ?? '',
-          postalCode: response.value?.postalCode ?? -1,    
-          phone: response.value?.phone ?? '',
-          email: response.value?.email ?? '',
-          website: response.value?.website ?? '',                   
+          facilityId: response.value?.course?.facilityId ?? '',
+          description: response.value?.course?.description ?? '',
+          longitude: response.value?.course?.longitude ?? '',
+          latitude: response.value?.course?.latitude?? '',         
+          address1: response.value?.course?.address1 ?? '',         
+          city: response.value?.course?.city ?? '',
+          state: response.value?.course?.state ?? '',
+          postalCode: response.value?.course?.postalCode ?? -1,    
+          phone: response.value?.course?.phone ?? '',
+          email: response.value?.course?.email ?? '',
+          website: response.value?.course?.website ?? '',           
+          isSynced: response.value?.course?.isSynced ?? false,                
         });
       }
 
@@ -108,7 +111,9 @@ class EditCourse extends React.Component<IProps, {}> {
       postalCode: this.state.postalCode !== '' ? parseInt(this.state.postalCode) : null, 
       phone: this.state.phone,
       email: this.state.email,
-      website: this.state.website   
+      website: this.state.website,    
+      isSynced: this.state.isSynced,   
+      description: this.state.description
     } as ICoursePatch;   
     let client: CourseService | null = new CourseService();    
 
@@ -151,6 +156,26 @@ class EditCourse extends React.Component<IProps, {}> {
     }
 
     this.setState({ blurErrors: blurErrors });
+  }
+
+  private handleSyncChange = (e: React.MouseEvent<HTMLElement>, value: boolean) => {
+    e.preventDefault();
+
+    if (value) {
+      this.setState({ 
+        address1: this.state.data?.facility?.address1 ?? '',
+        city: this.state.data?.facility?.city ?? '',
+        state: this.state.data?.facility?.state ?? '',
+        postalCode: this.state.data?.facility?.postalCode ?? '',
+        phone: this.state.data?.facility?.phone ?? '',
+        email: this.state.data?.facility?.email ?? '',
+        website: this.state.data?.facility?.website ?? '',
+        longitude: this.state.data?.facility?.longitude ?? -1,
+        latitude: this.state.data?.facility?.latitude ?? -1,                
+      });
+    }
+
+    this.setState({ isSynced: value });   
   }
 
   private setHelperTextMessage = (field: string) => {
@@ -230,6 +255,21 @@ class EditCourse extends React.Component<IProps, {}> {
             </Box>
           </Box>
 
+          <Box display={'flex'} alignItems={'center'} justifyContent={'center'} marginTop={4} marginBottom={2} textAlign={'center'}>
+            <Box width={'100%'}>
+              <ToggleButtonGroup
+                color="primary"
+                exclusive
+                size="large"
+                value={this.state.isSynced}
+                sx={{ maxHeight: 56, justifyContent: 'center' }}
+              >
+                <ToggleButton value={true} onClick={(e: any) => this.handleSyncChange(e, true)}>Sync with Facility</ToggleButton>
+                <ToggleButton value={false} onClick={(e: any) => this.handleSyncChange(e, false)}>Don't Sync</ToggleButton>                
+              </ToggleButtonGroup>
+            </Box>
+          </Box>          
+
           <Box component={CardContent} padding={4}>
             <Grid container spacing={1}>              
               <Grid item xs={12}>
@@ -264,7 +304,8 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('address1') ? true : false}
-                          helperText={this.setHelperTextMessage('address1')}                         
+                          helperText={this.setHelperTextMessage('address1')}      
+                          disabled={this.state.isSynced}                   
                         />
                       </Grid>                      
                       <Grid item xs={12} md={6}>
@@ -279,7 +320,8 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('city') ? true : false}
-                          helperText={this.setHelperTextMessage('city')}                          
+                          helperText={this.setHelperTextMessage('city')}     
+                          disabled={this.state.isSynced}                      
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -294,7 +336,8 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('postalCode') ? true : false}
-                          helperText={this.setHelperTextMessage('postalCode')}                         
+                          helperText={this.setHelperTextMessage('postalCode')}   
+                          disabled={this.state.isSynced}                       
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -310,6 +353,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('latitude') ? true : false}
                           helperText={this.setHelperTextMessage('latitude')}
+                          disabled={this.state.isSynced} 
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -325,6 +369,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('longitude') ? true : false}
                           helperText={this.setHelperTextMessage('longitude')}
+                          disabled={this.state.isSynced} 
                         />
                       </Grid>     
                       <Grid item xs={12} md={6}>
@@ -339,7 +384,8 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('phone') ? true : false}
-                          helperText={this.setHelperTextMessage('phone')}                         
+                          helperText={this.setHelperTextMessage('phone')}   
+                          disabled={this.state.isSynced}                       
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -354,7 +400,8 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('email') ? true : false}
-                          helperText={this.setHelperTextMessage('email')}                         
+                          helperText={this.setHelperTextMessage('email')}    
+                          disabled={this.state.isSynced}                      
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -369,9 +416,28 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('website') ? true : false}
-                          helperText={this.setHelperTextMessage('website')}                         
+                          helperText={this.setHelperTextMessage('website')}   
+                          disabled={this.state.isSynced}                      
                         />
-                      </Grid>                       
+                      </Grid>                     
+                      <Grid item xs={12} md={12}>
+                        <TextField
+                          type="text"
+                          label="Description"
+                          variant="outlined"
+                          color="primary"
+                          multiline
+                          rows={6}
+                          fullWidth
+                          name={'description'}
+                          value={this.state.description}
+                          onChange={(e: any) => this.handleInputChanges(e)}
+                          onBlur={(e: any) => this.handleInputBlur(e)}
+                          error={this.state.blurErrors.includes('description') ? true : false}
+                          helperText={this.setHelperTextMessage('description')}     
+                                            
+                        />
+                      </Grid>                    
 
                       <Grid item xs={12} md={8}>
                         <Box
@@ -433,7 +499,7 @@ interface IForm {
   messageCode: number;
   open: boolean;
   blurErrors: string[],
-  data: IFacility | null;
+  data: { facility: IFacility | null, course: ICourse | null } | null,
   facilityId: string;
   id: string;  
   name: string;
@@ -448,4 +514,5 @@ interface IForm {
   phone: string;
   email: string;
   website: string; 
+  isSynced: boolean;
 }
