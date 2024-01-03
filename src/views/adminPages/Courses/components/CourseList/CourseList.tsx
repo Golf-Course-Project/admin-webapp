@@ -2,7 +2,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Snackbar, Alert } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@material-ui/core';
 import EditRowIcon from '@material-ui/icons/ModeEditOutlineOutlined';
 import GolfCourseIcon from '@material-ui/icons/GolfCourse';
 import PublicIcon from '@material-ui/icons/RadioButtonChecked';
@@ -27,12 +27,10 @@ class CourseList extends React.Component<IProps, {}> {
 
   state: ICourseListPage = {
     action: 'loading',
-    errorMsg: '',
-    snackMsg: '',
-    snackAction: false,
-    data: [],      
+    errorMsg: '',     
+    data: [],       
     rowId: '',
-    selectedRowId: '',
+    selectedRowId: '',    
     clip: false,
     openCourseSideBar: false,
     openFacilitySideBar: false,
@@ -62,7 +60,13 @@ class CourseList extends React.Component<IProps, {}> {
   }    
 
   private handleOpenCourseSideBar = (row: ICourses) => {      
-    this.setState({ openCourseSideBar: true, openFacilitySideBar: false, selectedCourse: row, selectedRowId: row.id});      
+    const index = this.state.data.findIndex((item: ICourses) => item.id === row.id);
+    
+    this.setState({ openCourseSideBar: true, openFacilitySideBar: false, selectedCourse: row, selectedRowId: row.id, nextRowId: this.state.data[index + 1].id});      
+       
+    //console.log(`index id: ${this.state.data[index + 1].id}`);
+    //console.log(`row id: ${row.id}`);
+    //this.state.data[index].courseName = course.name;  
   };  
 
   private handleOpenFacilitySideBar = (row: ICourses) => {      
@@ -97,11 +101,20 @@ class CourseList extends React.Component<IProps, {}> {
 
   private handleCourseUpdate = (course: ICoursePatch | null) => {
     if (course === null) return;
-    this.setState({ openCourseSideBar: false, openFacilitySideBar: false, snackAction: true, snackMsg: `${course.name} has been updated` }); 
     
-    //const index = this.state.data.findIndex((item: ICourses) => item.id === course.id);
-    //this.state.data[index].courseName = course.name;
+    //this.setState({ 
+    //  openCourseSideBar: false, 
+    //  openFacilitySideBar: false, 
+    //  snackAction: true, 
+    //  snackMsg: `${course.name} has been updated`, 
+    //});         
 
+    // if save option is save and next, then move to the next row
+    //if (saveOption === 'next') {
+    //  const index = this.state.data.findIndex((item: ICourses) => item.id === course.id);
+    //   this.setState({ rowId: this.state.data[index + 1].id, selectedRowId: this.state.data[index + 1].id });
+    // }  
+   
     this.setState(data => {
       const newData = this.state.data.map(item => item.id === course.id
         ? { ...item, courseName: course.name, address1: course.address1, city: course.city }
@@ -123,7 +136,7 @@ class CourseList extends React.Component<IProps, {}> {
         return;
       }
 
-      if (response.success) {      
+      if (response.success) {           
         this.setState({
           paging: {
             currentPage: 1,
@@ -131,12 +144,18 @@ class CourseList extends React.Component<IProps, {}> {
             spanEnd: this._pageSize
           },
           pageCount: Math.ceil(response.count / this._pageSize),
-          data: response.value,
+          data: response.value,          
           errorMsg: '',
           action: 'normal'
-        });
-      }
+        }); 
+       
+        const newArray = response.value.map(item => ({
+          id: item.id,
+          facilityId: item.facilityId
+        }));
 
+        localStorage.setItem('course_search_results_array', JSON.stringify(newArray));        
+      }
     }).catch((error: Error) => {      
       console.log(error);
     });
@@ -146,13 +165,7 @@ class CourseList extends React.Component<IProps, {}> {
     return (
       <Box>   
 
-        <ErrorMessage message={this.state.errorMsg}></ErrorMessage>
-
-        <Snackbar open={this.state.snackAction} autoHideDuration={3000} onClose={(e: any) => this.handleSnackClose()} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-          <Alert severity="success" variant='filled' sx={{ minWidth: '600px' }}>
-            {this.state.snackMsg}
-          </Alert>
-        </Snackbar>         
+        <ErrorMessage message={this.state.errorMsg}></ErrorMessage>               
 
         <Box sx={this.state.action === 'normal' ? { display: 'block' } : { display: 'none' }}>          
           <Box marginBottom={4} sx={{ display: 'flex' }}>            
@@ -223,9 +236,9 @@ class CourseList extends React.Component<IProps, {}> {
           facilityId={this.state.selectedCourse?.facilityId}
           facilityName={this.state.selectedCourse?.facilityName}
           id={this.state.selectedCourse?.id}
-          name={this.state.selectedCourse?.courseName}
+          name={this.state.selectedCourse?.courseName}         
           onClose={this.handleSidebarClose}
-          onCourseUpdate={(e: any) => this.handleCourseUpdate(e)}
+          onCourseUpdate={(e: any) => this.handleCourseUpdate(e)}          
           //onFacilityUpdate={(e: any) => this.handleFacilityUpdate(e)}
         ></EditCourse>
 
@@ -251,12 +264,10 @@ interface IProps {
 
 interface ICourseListPage {
   action: string,
-  errorMsg: string;
-  snackMsg: string;
-  snackAction: boolean;
-  data: ICourses[];   
+  errorMsg: string;  
+  data: ICourses[]; 
   rowId: string;
-  selectedRowId: string;
+  selectedRowId: string;  
   clip: boolean; 
   openCourseSideBar: boolean;
   openFacilitySideBar: boolean;

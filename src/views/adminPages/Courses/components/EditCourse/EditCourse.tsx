@@ -2,10 +2,14 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Button, CardContent, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@material-ui/core';
+import { Button, ButtonGroup, CardContent, CircularProgress, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography, Snackbar, Alert } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import ArrowUpIcon from '@material-ui/icons/ArrowUpward';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
+import ArrowIcon from '@material-ui/icons/ArrowDropDown';
+import NextIcon from '@material-ui/icons/NextPlan';
 
 import { IFacility } from 'interfaces/facility.interfaces';
 import { ICourse, ICoursePatch, IFetchCourseAndFacilityApiResponse, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
@@ -37,11 +41,14 @@ class EditCourse extends React.Component<IProps, {}> {
     longitude: -1,
     latitude: -1,   
     description: '',
-    isSynced: false
+    synced: false,
+    snackOpen: false,
+    saveOption: localStorage.getItem('saveOption') ?? 'save',
+    courseList: localStorage.getItem('course_search_results_array') !== null ? JSON.parse(localStorage.getItem('course_search_results_array') as string) : []
   }
 
   componentDidMount() {
-
+    
   }
 
   componentDidUpdate(prevProps: any) {
@@ -52,12 +59,13 @@ class EditCourse extends React.Component<IProps, {}> {
         name: this.props.name,
         id: this.props.id,
         facilityId: this.props.facilityId,
-        facilityName: this.props.facilityName,        
+        facilityName: this.props.facilityName,              
         action: 'loading'
       });
       
       if (this.props.open === true) this.fetch(this.props.id);
-    }
+    } 
+
   }
 
   private fetch = (id: string) => {
@@ -69,6 +77,7 @@ class EditCourse extends React.Component<IProps, {}> {
         this.setState({
           data: response.value,  
           facilityId: response.value?.course?.facilityId ?? '',
+          name: response.value?.course?.name ?? '',
           description: response.value?.course?.description ?? '',
           longitude: response.value?.course?.longitude ?? '',
           latitude: response.value?.course?.latitude?? '',         
@@ -79,7 +88,8 @@ class EditCourse extends React.Component<IProps, {}> {
           phone: response.value?.course?.phone ?? '',
           email: response.value?.course?.email ?? '',
           website: response.value?.course?.website ?? '',           
-          isSynced: response.value?.course?.isSynced ?? false,                
+          isSynced: response.value?.course?.isSynced ?? false,  
+          action: 'normal'              
         });
       }
 
@@ -93,13 +103,31 @@ class EditCourse extends React.Component<IProps, {}> {
     this.props.onClose();
   }
 
+  handleOnUpClick() {
+    const index = this.state.courseList.findIndex((item: IListItem) => item.id === this.state.id);
+    const id = this.state.courseList[index - 1].id;
+
+    this.setState({ action: 'loading', snackOpen: false, id: id });      
+   
+    this.fetch(id);
+  }
+
+  handleOnDownClick() {
+    const index = this.state.courseList.findIndex((item: IListItem) => item.id === this.state.id);
+    const id = this.state.courseList[index + 1].id;
+    
+    this.setState({ action: 'loading', snackOpen: false, id: id });         
+     
+    this.fetch(id);
+  }
+
   handleOnCloseAfterDelete() {
     this.setState({ action: 'normal' });
     this.props.onClose();
   } 
 
   handleUpdateCourseOnClick() {
-    this.setState({ action: 'update' });
+    this.setState({ action: 'update' });   
 
     let body: ICoursePatch | null = { 
       id: this.state.id, 
@@ -112,15 +140,15 @@ class EditCourse extends React.Component<IProps, {}> {
       phone: this.state.phone,
       email: this.state.email,
       website: this.state.website,    
-      isSynced: this.state.isSynced,   
+      isSynced: this.state.synced,   
       description: this.state.description
     } as ICoursePatch;   
     let client: CourseService | null = new CourseService();    
 
     client.patch(body).then(async (response: IPatchCourseApiResponse) => {   
       if (response.success) {       
-        this.setState({ action: 'updated', message: '' });
-        this.props.onCourseUpdate(body);
+        this.setState({ action: 'updated', message: '', snackOpen: true });
+        this.props.onCourseUpdate(body);            
       } else {
         this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
       }
@@ -131,9 +159,27 @@ class EditCourse extends React.Component<IProps, {}> {
     client = null;
   }
 
+  handleChangeSaveOptionsOnClick() {
+    if (this.state.saveOption === 'save') {
+      localStorage.setItem('saveOption', 'next');
+      this.setState({ saveOption: 'next' });
+    }
+
+    if (this.state.saveOption === 'next') {
+      localStorage.setItem('saveOption', 'save');
+      this.setState({ saveOption: 'save' });
+    }
+
+    console.log(this.state.saveOption);
+  }
+
   cancelDeleteCallback() {
     this.setState({ action: 'normal' });
   }
+
+  private handleSnackClose = () => {
+    this.setState({ snackOpen: false });       
+  };  
 
   private handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -210,17 +256,51 @@ class EditCourse extends React.Component<IProps, {}> {
         open={this.state.open}
         variant={'temporary'}
         sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: 900 } } }}
-      >       
-        <Box
-          display={'flex'}
-          justifyContent={'flex-end'}
-          sx={{ paddingRight: '10px', paddingTop: '10px' }}
-          onClick={(e: any) => this.handleOnClose()}
-        >
-          <IconButton>
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        </Box>  
+      >  
+        <Snackbar open={this.state.snackOpen} autoHideDuration={3000} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
+          <Alert severity="success" sx={{ minWidth: '400px' }}>
+            Course successfully updated!
+          </Alert>
+        </Snackbar>
+
+        <Grid container spacing={1}>              
+          <Grid item xs={10}>
+            <Box
+              display={'flex'}
+              justifyContent={'flex-end'}
+              sx={{ paddingRight: '5px', paddingTop: '10px' }}
+              onClick={(e: any) => this.handleOnUpClick()}
+            >
+              <IconButton>
+                <ArrowUpIcon fontSize="small" />
+              </IconButton>         
+            </Box>  
+          </Grid>
+          <Grid item xs={1}>
+            <Box
+              display={'flex'}
+              justifyContent={'flex-end'}
+              sx={{ paddingRight: '10px', paddingTop: '10px' }}
+              onClick={(e: any) => this.handleOnDownClick()}
+            >
+              <IconButton>
+                <ArrowDownIcon fontSize="small" />
+              </IconButton>         
+            </Box>  
+          </Grid>
+          <Grid item xs={1}>
+            <Box
+              display={'flex'}
+              justifyContent={'flex-end'}
+              sx={{ paddingRight: '10px', paddingTop: '10px' }}
+              onClick={(e: any) => this.handleOnClose()}
+            >
+              <IconButton>
+                <CloseIcon fontSize="small" />
+              </IconButton>         
+            </Box>  
+          </Grid>
+        </Grid>          
 
         <Box display={this.state.action === 'confirm-delete' ? 'block' : 'none'} sx={{ height: '100%', padding: 1 }} >
           <Box marginTop={20} justifyContent={'center'}>
@@ -256,19 +336,23 @@ class EditCourse extends React.Component<IProps, {}> {
           </Box>
 
           <Box display={'flex'} alignItems={'center'} justifyContent={'center'} marginTop={4} marginBottom={2} textAlign={'center'}>
-            <Box width={'100%'}>
+            <Box display={this.state.action !== 'loading' ? 'block' : 'none'} width={'100%'}>
               <ToggleButtonGroup
                 color="primary"
                 exclusive
                 size="large"
-                value={this.state.isSynced}
+                value={this.state.synced}
                 sx={{ maxHeight: 56, justifyContent: 'center' }}
               >
                 <ToggleButton value={true} onClick={(e: any) => this.handleSyncChange(e, true)}>Sync with Facility</ToggleButton>
                 <ToggleButton value={false} onClick={(e: any) => this.handleSyncChange(e, false)}>Don't Sync</ToggleButton>                
               </ToggleButtonGroup>
             </Box>
-          </Box>          
+
+            <Box display={this.state.action === 'loading' ? 'flex' : 'none'}>
+              <CircularProgress color="primary" />
+            </Box>  
+          </Box>                  
 
           <Box component={CardContent} padding={4}>
             <Grid container spacing={1}>              
@@ -305,7 +389,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('address1') ? true : false}
                           helperText={this.setHelperTextMessage('address1')}      
-                          disabled={this.state.isSynced}                   
+                          disabled={this.state.synced}                   
                         />
                       </Grid>                      
                       <Grid item xs={12} md={6}>
@@ -321,7 +405,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('city') ? true : false}
                           helperText={this.setHelperTextMessage('city')}     
-                          disabled={this.state.isSynced}                      
+                          disabled={this.state.synced}                      
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -337,7 +421,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('postalCode') ? true : false}
                           helperText={this.setHelperTextMessage('postalCode')}   
-                          disabled={this.state.isSynced}                       
+                          disabled={this.state.synced}                       
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -353,7 +437,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('latitude') ? true : false}
                           helperText={this.setHelperTextMessage('latitude')}
-                          disabled={this.state.isSynced} 
+                          disabled={this.state.synced} 
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -369,7 +453,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('longitude') ? true : false}
                           helperText={this.setHelperTextMessage('longitude')}
-                          disabled={this.state.isSynced} 
+                          disabled={this.state.synced} 
                         />
                       </Grid>     
                       <Grid item xs={12} md={6}>
@@ -385,7 +469,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('phone') ? true : false}
                           helperText={this.setHelperTextMessage('phone')}   
-                          disabled={this.state.isSynced}                       
+                          disabled={this.state.synced}                       
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -401,7 +485,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('email') ? true : false}
                           helperText={this.setHelperTextMessage('email')}    
-                          disabled={this.state.isSynced}                      
+                          disabled={this.state.synced}                      
                         />
                       </Grid>
                       <Grid item xs={12} md={6}>
@@ -417,7 +501,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('website') ? true : false}
                           helperText={this.setHelperTextMessage('website')}   
-                          disabled={this.state.isSynced}                      
+                          disabled={this.state.synced}                      
                         />
                       </Grid>                     
                       <Grid item xs={12} md={12}>
@@ -439,20 +523,25 @@ class EditCourse extends React.Component<IProps, {}> {
                         />
                       </Grid>                    
 
-                      <Grid item xs={12} md={8}>
+                      <Grid item xs={12} md={8}>                        
                         <Box
                           display={this.state.action === 'confirm-delete' ? 'none' : 'end'}
                           justifyContent={'end'}
-                          sx={{ paddingBottom: '10px' }}
-                          onClick={(e: any) => this.handleUpdateCourseOnClick() }
+                          sx={{ paddingBottom: '10px' }}                          
                         >
-                          <Button variant="contained" startIcon={<SaveIcon />} sx={this.state.action !== 'update' ? { width: '100%', display: 'flex' } : { width: '100%', display: 'none' }}>
-                            Update
-                          </Button>                          
-
-                          <Button variant="contained" startIcon={<SaveIcon />} sx={this.state.action === 'update' ? { width: '100%', display: 'flex' } : { width: '100%', display: 'none' }} disabled={true}>
-                            Updating ...
-                          </Button>
+                          <ButtonGroup variant="contained" aria-label="split button" sx={{ width: '100%' }}>                        
+                            <Button variant="contained" startIcon={this.state.saveOption === 'save' ? <SaveIcon /> : <NextIcon/>} sx={{ width: '90%' }} onClick={(e: any) => this.handleUpdateCourseOnClick() }>
+                              {this.state.saveOption === 'save' ? 'Save' : 'Save & Next'}
+                            </Button>  
+                            <Button
+                              size="small"                             
+                              aria-label="change save option"
+                              aria-haspopup="menu"   
+                              onClick={(e: any) => this.handleChangeSaveOptionsOnClick() }                           
+                            >
+                              <ArrowIcon />
+                            </Button>                          
+                          </ButtonGroup>
                         </Box>
                       </Grid>
                       <Grid item xs={12} md={4}>
@@ -466,7 +555,7 @@ class EditCourse extends React.Component<IProps, {}> {
                             Delete
                           </Button>
                         </Box>
-                      </Grid>
+                      </Grid>                     
                     </Grid>
                   </Box>
                 </form>
@@ -490,7 +579,8 @@ interface IProps {
   facilityId: string;
   facilityName: string;
   id: string ;
-  name: string;  
+  name: string;   
+  list: [];
 }
 
 interface IForm {
@@ -514,5 +604,13 @@ interface IForm {
   phone: string;
   email: string;
   website: string; 
-  isSynced: boolean;
+  synced: boolean;
+  saveOption: string; 
+  snackOpen: boolean;
+  courseList: IListItem[] | [];
+}
+
+interface IListItem {
+  id: string;
+  factilityId: string;
 }
