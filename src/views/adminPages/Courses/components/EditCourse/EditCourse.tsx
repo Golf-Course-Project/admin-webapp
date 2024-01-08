@@ -76,7 +76,9 @@ class EditCourse extends React.Component<IProps, {}> {
       if (response.success) {
         this.setState({
           data: response.value,  
+          id: response.value?.course?.id ?? '',
           facilityId: response.value?.course?.facilityId ?? '',
+          facilityName: response.value?.facility?.name ?? '',
           name: response.value?.course?.name ?? '',
           description: response.value?.course?.description ?? '',
           longitude: response.value?.course?.longitude ?? '',
@@ -88,11 +90,10 @@ class EditCourse extends React.Component<IProps, {}> {
           phone: response.value?.course?.phone ?? '',
           email: response.value?.course?.email ?? '',
           website: response.value?.course?.website ?? '',           
-          isSynced: response.value?.course?.isSynced ?? false,  
+          synced: response.value?.course?.isSynced ?? false,  
           action: 'normal'              
         });
       }
-
     }).catch((error: Error) => {
       console.log(error);
     });
@@ -104,21 +105,25 @@ class EditCourse extends React.Component<IProps, {}> {
   }
 
   handleOnUpClick() {
-    const index = this.state.courseList.findIndex((item: IListItem) => item.id === this.state.id);
-    const id = this.state.courseList[index - 1].id;
+    const index = this.state.courseList.findIndex((item: IListItem) => item.courseId === this.state.id);
+    const id = this.state.courseList[index - 1].courseId;
 
-    this.setState({ action: 'loading', snackOpen: false, id: id });      
-   
+    this.setState({ action: 'loading', snackOpen: false, id: id });  
     this.fetch(id);
+    
+    const obj = { courseId: this.state.id, facilityId: this.state.facilityId };    
+    this.props.onCourseChange(obj);
   }
 
   handleOnDownClick() {
-    const index = this.state.courseList.findIndex((item: IListItem) => item.id === this.state.id);
-    const id = this.state.courseList[index + 1].id;
+    const index = this.state.courseList.findIndex((item: IListItem) => item.courseId === this.state.id);
+    const id = this.state.courseList[index + 1].courseId;
     
-    this.setState({ action: 'loading', snackOpen: false, id: id });         
-     
+    this.setState({ action: 'loading', snackOpen: false, id: id });        
     this.fetch(id);
+
+    const obj = { courseId: this.state.id, facilityId: this.state.facilityId };    
+    this.props.onCourseChange(obj);
   }
 
   handleOnCloseAfterDelete() {
@@ -148,7 +153,8 @@ class EditCourse extends React.Component<IProps, {}> {
     client.patch(body).then(async (response: IPatchCourseApiResponse) => {   
       if (response.success) {       
         this.setState({ action: 'updated', message: '', snackOpen: true });
-        this.props.onCourseUpdate(body);            
+        this.props.onCourseUpdate(response.value); 
+        if (this.state.saveOption === 'next') this.handleOnDownClick();           
       } else {
         this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
       }
@@ -221,7 +227,7 @@ class EditCourse extends React.Component<IProps, {}> {
       });
     }
 
-    this.setState({ isSynced: value });   
+    this.setState({ synced: value });   
   }
 
   private setHelperTextMessage = (field: string) => {
@@ -257,7 +263,7 @@ class EditCourse extends React.Component<IProps, {}> {
         variant={'temporary'}
         sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: 900 } } }}
       >  
-        <Snackbar open={this.state.snackOpen} autoHideDuration={3000} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
+        <Snackbar open={this.state.snackOpen} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
           <Alert severity="success" sx={{ minWidth: '400px' }}>
             Course successfully updated!
           </Alert>
@@ -574,6 +580,7 @@ export default EditCourse;
 interface IProps {
   onClose: () => void; 
   onCourseUpdate: (course: ICoursePatch | null) => void;
+  onCourseChange: (obj: any) => void;
   theme: Theme;
   open: boolean;
   facilityId: string;
@@ -611,6 +618,6 @@ interface IForm {
 }
 
 interface IListItem {
-  id: string;
-  factilityId: string;
+  courseId: string;
+  facilityId: string;
 }

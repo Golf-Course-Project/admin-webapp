@@ -22,6 +22,7 @@ export interface ICourses {
 export interface ICourse {
 	id: string;
 	facilityId: string;
+	facilityName: string;
 	name: string;
 	description: string;
 	longitude: number;

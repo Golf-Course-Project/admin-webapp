@@ -11,7 +11,7 @@ import UnknownIcon from '@material-ui/icons/RadioButtonUnchecked';
 import CopyIcon from '@material-ui/icons/ContentCopy';
 import CheckIcon from '@material-ui/icons/Check';
 
-import { IListCoursesApiResponse, ICourses, ICourseSearch, ICoursePatch } from 'interfaces/course.interfaces';
+import { IListCoursesApiResponse, ICourses, ICourseSearch, ICourse } from 'interfaces/course.interfaces';
 import CourseService from 'services/course.service';
 import { SkeletonTable } from 'common/components';
 import EditCourse from '../EditCourse';
@@ -75,11 +75,7 @@ class CourseList extends React.Component<IProps, {}> {
 
   private handleSidebarClose = () => {
     this.setState({ openCourseSideBar: false, openFacilitySideBar: false });       
-  };
-
-  private handleSnackClose = () => {
-    this.setState({ openSideBar: false, snackAction: false, snackMsg: '' });       
-  };  
+  }; 
 
   private handleCopyFacilityToClipBoard = (e: ICourses) => {
     navigator.clipboard.writeText(`${e.facilityName} in ${e.city} ${e.state}`);  
@@ -99,21 +95,8 @@ class CourseList extends React.Component<IProps, {}> {
     });     
   };
 
-  private handleCourseUpdate = (course: ICoursePatch | null) => {
-    if (course === null) return;
-    
-    //this.setState({ 
-    //  openCourseSideBar: false, 
-    //  openFacilitySideBar: false, 
-    //  snackAction: true, 
-    //  snackMsg: `${course.name} has been updated`, 
-    //});         
-
-    // if save option is save and next, then move to the next row
-    //if (saveOption === 'next') {
-    //  const index = this.state.data.findIndex((item: ICourses) => item.id === course.id);
-    //   this.setState({ rowId: this.state.data[index + 1].id, selectedRowId: this.state.data[index + 1].id });
-    // }  
+  private handleCourseUpdate = (course: ICourse | null) => {
+    if (course === null) return;   
    
     this.setState(data => {
       const newData = this.state.data.map(item => item.id === course.id
@@ -122,6 +105,16 @@ class CourseList extends React.Component<IProps, {}> {
       );
       return { data: newData };
     });    
+  };
+
+  private handleCourseChange = (obj: {courseId: string, faclityId: string}) => {
+    const index = this.state.data.findIndex((item: ICourses) => item.id === obj.courseId);
+    this.setState({ rowId: this.state.data[index + 1].id, selectedRowId: this.state.data[index + 1].id });
+  };
+
+  private handleFacilityChange = (obj: {courseId: string, faclityId: string}) => {
+    //const index = this.state.data.findIndex((item: ICourses) => item.id === obj.courseId);
+    this.setState({ rowId: obj.courseId, selectedRowId: obj.courseId });
   };
 
   private load_courses = (body: ICourseSearch) => {
@@ -150,7 +143,7 @@ class CourseList extends React.Component<IProps, {}> {
         }); 
        
         const newArray = response.value.map(item => ({
-          id: item.id,
+          courseId: item.id,
           facilityId: item.facilityId
         }));
 
@@ -238,16 +231,18 @@ class CourseList extends React.Component<IProps, {}> {
           id={this.state.selectedCourse?.id}
           name={this.state.selectedCourse?.courseName}         
           onClose={this.handleSidebarClose}
-          onCourseUpdate={(e: any) => this.handleCourseUpdate(e)}          
+          onCourseUpdate={(e: any) => this.handleCourseUpdate(e)}   
+          onCourseChange={(e: any) => this.handleCourseChange(e)}       
           //onFacilityUpdate={(e: any) => this.handleFacilityUpdate(e)}
         ></EditCourse>
 
         <EditFacility
           theme={this.props.theme}
           open={this.state.openFacilitySideBar}
-          id={this.state.selectedCourse?.facilityId}          
+          facilityId={this.state.selectedCourse?.facilityId}          
           onClose={this.handleSidebarClose}         
           onFacilityUpdate={(e: any) => this.handleFacilityUpdate(e)}
+          onFacilityChange={(e: any) => this.handleFacilityChange(e)}  
         ></EditFacility>        
       </Box>
     );

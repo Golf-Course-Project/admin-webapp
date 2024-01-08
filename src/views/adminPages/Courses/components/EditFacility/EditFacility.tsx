@@ -2,10 +2,12 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Button, CardContent, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@material-ui/core';
+import { Alert, Button, CardContent, Divider, Drawer, Grid, IconButton, Snackbar, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import ArrowUpIcon from '@material-ui/icons/ArrowUpward';
 
 import { IFacility, IFetchFacilityApiResponse, IPatchFacilityApiResponse } from 'interfaces/facility.interfaces';
 import { FacilityService } from 'services/facility.service';
@@ -22,7 +24,8 @@ class EditFacility extends React.Component<IProps, {}> {
     open: this.props.open,
     blurErrors: [],    
     data: null,    
-    id:  this.props.id,
+    facilityId:  this.props.facilityId,
+    courseId: this.props.courseId,
     name: '',
     address1: '',
     address2: '',
@@ -37,7 +40,9 @@ class EditFacility extends React.Component<IProps, {}> {
     instagram: '',
     facebook: '',
     description: '',
-    type: -1
+    type: -1,
+    snackOpen: false,
+    courseList: localStorage.getItem('course_search_results_array') !== null ? JSON.parse(localStorage.getItem('course_search_results_array') as string) : []
   }
 
   componentDidMount() {
@@ -48,18 +53,18 @@ class EditFacility extends React.Component<IProps, {}> {
     if (prevProps.open !== this.props.open) {
       this.setState({
         open: this.props.open,        
-        id: this.props.id,        
+        facilityId: this.props.facilityId,        
         action: 'loading'
       });
 
-      this.fetch(this.props.id);
+      this.fetch(this.props.facilityId);
     }
   }
 
-  private fetch = (id: string) => {
+  private fetch = (facilityId: string) => {
     const client: FacilityService = new FacilityService();
 
-    client.fetch(id).then(async (response: IFetchFacilityApiResponse) => {      
+    client.fetch(facilityId).then(async (response: IFetchFacilityApiResponse) => {      
 
       if (response.success) {
         this.setState({
@@ -93,6 +98,39 @@ class EditFacility extends React.Component<IProps, {}> {
     this.props.onClose();
   }
 
+  handleOnUpClick() {
+    const index = this.state.courseList.findIndex((item: IListItem) => item.facilityId === this.state.facilityId);
+    const facilityId = this.state.courseList[index - 1].facilityId;
+    const courseId = this.state.courseList[index - 1].courseId;
+
+    this.setState({ action: 'loading', snackOpen: false, facilityId: facilityId });  
+    this.fetch(facilityId);
+    
+    const obj = { courseId: courseId, facilityId: facilityId };    
+    this.props.onFacilityChange(obj);
+  }
+
+  handleOnDownClick() {    
+    const index = this.state.courseList.findIndex((item: IListItem) => item.facilityId === this.state.facilityId);
+    let facilityId = this.state.courseList[index].facilityId;
+    let courseId = this.state.courseList[index].courseId;
+    let i = 1;    
+
+    // get the last facility id in that matches and then we cal load the next new one
+    // this is to handle the case where there are multiple courses for the same facility
+    do {      
+      facilityId = this.state.courseList[index + i].facilityId;   
+      courseId = this.state.courseList[index + i].courseId; 
+      i++;
+    } while (facilityId === this.state.facilityId);   
+
+    this.setState({ action: 'loading', snackOpen: false, facilityId: facilityId });        
+    this.fetch(facilityId);
+
+    const obj = { courseId: courseId, facilityId: facilityId };    
+    this.props.onFacilityChange(obj);
+  }
+
   handleOnCloseAfterDelete() {
     this.setState({ action: 'normal' });
     this.props.onClose();
@@ -101,7 +139,7 @@ class EditFacility extends React.Component<IProps, {}> {
   handleUpdateFacilityOnClick() {
     let client: FacilityService | null = new FacilityService();
     let body: IFacility | null = { 
-      id: this.state.id, 
+      id: this.state.facilityId, 
       name: this.state.name,
       address1: this.state.address1,
       address2: this.state.address2,
@@ -120,8 +158,7 @@ class EditFacility extends React.Component<IProps, {}> {
     
     client.patch(body).then(async (response: IPatchFacilityApiResponse) => {   
       if (response.success) {          
-        this.setState({ action: 'updated', message: '' });
-        this.props.onFacilityUpdate(body);
+        this.setState({ action: 'updated', message: '', snackOpen: true });        
       } else {
         this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
       }
@@ -141,6 +178,10 @@ class EditFacility extends React.Component<IProps, {}> {
 
     this.setState({ type: value });   
   }
+
+  private handleSnackClose = () => {
+    this.setState({ snackOpen: false });       
+  };
 
   private handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -196,20 +237,54 @@ class EditFacility extends React.Component<IProps, {}> {
         variant={'temporary'}
         sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: 900 } } }}
       >       
-        <Box
-          display={'flex'}
-          justifyContent={'flex-end'}
-          sx={{ paddingRight: '10px', paddingTop: '10px' }}
-          onClick={(e: any) => this.handleOnClose()}
-        >
-          <IconButton>
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        </Box>  
+        <Snackbar open={this.state.snackOpen} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
+          <Alert severity="success" sx={{ minWidth: '400px' }}>
+            Facility successfully updated!
+          </Alert>
+        </Snackbar>
+
+        <Grid container spacing={1}>              
+          <Grid item xs={10}>
+            <Box
+              display={'flex'}
+              justifyContent={'flex-end'}
+              sx={{ paddingRight: '5px', paddingTop: '10px' }}
+              onClick={(e: any) => this.handleOnUpClick()}
+            >
+              <IconButton>
+                <ArrowUpIcon fontSize="small" />
+              </IconButton>         
+            </Box>  
+          </Grid>
+          <Grid item xs={1}>
+            <Box
+              display={'flex'}
+              justifyContent={'flex-end'}
+              sx={{ paddingRight: '10px', paddingTop: '10px' }}
+              onClick={(e: any) => this.handleOnDownClick()}
+            >
+              <IconButton>
+                <ArrowDownIcon fontSize="small" />
+              </IconButton>         
+            </Box>  
+          </Grid>
+          <Grid item xs={1}>
+            <Box
+              display={'flex'}
+              justifyContent={'flex-end'}
+              sx={{ paddingRight: '10px', paddingTop: '10px' }}
+              onClick={(e: any) => this.handleOnClose()}
+            >
+              <IconButton>
+                <CloseIcon fontSize="small" />
+              </IconButton>         
+            </Box>  
+          </Grid>
+        </Grid>     
 
         <Box display={this.state.action === 'confirm-delete' ? 'block' : 'none'} sx={{ height: '100%', padding: 1 }} >
           <Box marginTop={20} justifyContent={'center'}>
-            <ConfirmDelete id={this.state.id} editMode={'facility'} theme={this.props.theme} text={this.state.name} onSuccess={this.handleOnCloseAfterDelete.bind(this)} onCancel={this.cancelDeleteCallback.bind(this)}></ConfirmDelete>
+            <ConfirmDelete id={this.state.facilityId} editMode={'facility'} theme={this.props.theme} text={this.state.name} onSuccess={this.handleOnCloseAfterDelete.bind(this)} onCancel={this.cancelDeleteCallback.bind(this)}></ConfirmDelete>
           </Box>
         </Box>      
 
@@ -496,9 +571,11 @@ export default EditFacility;
 interface IProps {
   onClose: () => void;
   onFacilityUpdate: (facility: IFacility | null) => void;  
+  onFacilityChange: (obj: any) => void;
   theme: Theme;
   open: boolean;
-  id: string;
+  facilityId: string;
+  courseId: string;
 }
 
 interface IForm {
@@ -508,7 +585,8 @@ interface IForm {
   open: boolean;
   blurErrors: string[],
   data: IFacility | null;
-  id: string;    
+  facilityId: string;   
+  courseId: string; 
   name: string;
   address1: string;
   address2: string;
@@ -524,4 +602,11 @@ interface IForm {
   facebook: string;
   description: string;
   type: number;
+  snackOpen: boolean;
+  courseList: IListItem[] | [];
+}
+
+interface IListItem {
+  courseId: string;
+  facilityId: string;
 }
