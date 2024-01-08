@@ -8,11 +8,14 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpIcon from '@material-ui/icons/ArrowUpward';
+import CopyIcon from '@material-ui/icons/ContentCopy';
+import CheckIcon from '@material-ui/icons/Check';
 
 import { IFacility, IFetchFacilityApiResponse, IPatchFacilityApiResponse } from 'interfaces/facility.interfaces';
 import { FacilityService } from 'services/facility.service';
 import { ErrorMessage } from 'common/components';
 import ConfirmDelete from '../ConfirmDelete';
+import { green } from '@material-ui/core/colors';
 
 class EditFacility extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -42,6 +45,7 @@ class EditFacility extends React.Component<IProps, {}> {
     description: '',
     type: -1,
     snackOpen: false,
+    clip: false,
     courseList: localStorage.getItem('course_search_results_array') !== null ? JSON.parse(localStorage.getItem('course_search_results_array') as string) : []
   }
 
@@ -183,6 +187,12 @@ class EditFacility extends React.Component<IProps, {}> {
     this.setState({ snackOpen: false });       
   };
 
+  private handleCopyFacilityToClipBoard = () => {
+    navigator.clipboard.writeText(`${this.state.name} in ${this.state.city} ${this.state.state}`);  
+    this.setState({ clip: true });
+    setTimeout(() => {  this.setState({ clip: false }); }, 2000);
+  }
+
   private handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
 
@@ -244,7 +254,17 @@ class EditFacility extends React.Component<IProps, {}> {
         </Snackbar>
 
         <Grid container spacing={1}>              
-          <Grid item xs={10}>
+          <Grid item xs={9}>
+            <Box
+              display={'flex'}
+              justifyContent={'flex-end'}
+              sx={{ paddingRight: '5px', paddingTop: '25px' }}              
+            >              
+              <CopyIcon sx={{ fontSize: 15, display: (! this.state.clip) ? 'inline' : 'none', marginLeft: '10px' }} color="disabled" onClick={(e: any) => this.handleCopyFacilityToClipBoard()} />
+              <CheckIcon sx={{ fontSize: 15, display: (this.state.clip) ? 'inline' : 'none', marginLeft: '10px', color: green[700] }} />
+            </Box>
+          </Grid>
+          <Grid item xs={1}>
             <Box
               display={'flex'}
               justifyContent={'flex-end'}
@@ -603,6 +623,7 @@ interface IForm {
   description: string;
   type: number;
   snackOpen: boolean;
+  clip: boolean;
   courseList: IListItem[] | [];
 }
 
