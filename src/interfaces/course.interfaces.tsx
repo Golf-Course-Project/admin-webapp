@@ -40,13 +40,12 @@ export interface ICourse {
 
 export interface ICourseSearch {
 	state: string | null;
-	text: string | null;
-	address: string | null;
+	name: string | null;
+	text: string | null;	
 	city: string | null;
-	email: string | null;
-	phone: string | null;
-	website: string | null;
+	postalCode: string | null;	
 	type: string | null;
+	tag: string | null;
 	pageNumber: number;
 }
 

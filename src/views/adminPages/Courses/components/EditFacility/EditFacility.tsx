@@ -10,12 +10,14 @@ import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpIcon from '@material-ui/icons/ArrowUpward';
 import CopyIcon from '@material-ui/icons/ContentCopy';
 import CheckIcon from '@material-ui/icons/Check';
+import SwapIcon from '@material-ui/icons/ChangeCircle';
+import { green } from '@material-ui/core/colors';
 
 import { IFacility, IFetchFacilityApiResponse, IPatchFacilityApiResponse } from 'interfaces/facility.interfaces';
 import { FacilityService } from 'services/facility.service';
 import { ErrorMessage } from 'common/components';
 import ConfirmDelete from '../ConfirmDelete';
-import { green } from '@material-ui/core/colors';
+
 
 class EditFacility extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -162,7 +164,8 @@ class EditFacility extends React.Component<IProps, {}> {
     
     client.patch(body).then(async (response: IPatchFacilityApiResponse) => {   
       if (response.success) {          
-        this.setState({ action: 'updated', message: '', snackOpen: true });        
+        this.setState({ action: 'updated', message: '', snackOpen: true }); 
+        this.props.onFacilityUpdate(response.value);      
       } else {
         this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
       }
@@ -171,6 +174,11 @@ class EditFacility extends React.Component<IProps, {}> {
     });
      
     client = null;
+  }
+
+  handleOnSwapToCourse() {
+    const obj = { courseId: this.state.courseId, facilityId: this.state.facilityId };    
+    this.props.onSwapFacilityToCourse(obj);
   }
 
   cancelDeleteCallback() {
@@ -247,20 +255,29 @@ class EditFacility extends React.Component<IProps, {}> {
         variant={'temporary'}
         sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: 900 } } }}
       >       
-        <Snackbar open={this.state.snackOpen} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
+        <Snackbar open={this.state.snackOpen} autoHideDuration={1000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
           <Alert severity="success" sx={{ minWidth: '400px' }}>
             Facility successfully updated!
           </Alert>
         </Snackbar>
 
         <Grid container spacing={1}>              
-          <Grid item xs={9}>
+          <Grid item xs={8}>
+            <Box
+              display={'flex'}
+              justifyContent={'flex-end'}
+              sx={{ paddingRight: '5px', paddingTop: '15px' }}            
+            >              
+              <Button variant="contained" size="small" color="secondary" startIcon={<SwapIcon />} onClick={(e: any) => this.handleOnSwapToCourse()}>Open Course</Button>
+            </Box>
+          </Grid>
+          <Grid item xs={1}>
             <Box
               display={'flex'}
               justifyContent={'flex-end'}
               sx={{ paddingRight: '5px', paddingTop: '25px' }}              
             >              
-              <CopyIcon sx={{ fontSize: 15, display: (! this.state.clip) ? 'inline' : 'none', marginLeft: '10px' }} color="disabled" onClick={(e: any) => this.handleCopyFacilityToClipBoard()} />
+              <CopyIcon sx={{ fontSize: 15, display: (! this.state.clip) ? 'inline' : 'none', marginLeft: '10px' }} onClick={(e: any) => this.handleCopyFacilityToClipBoard()} />
               <CheckIcon sx={{ fontSize: 15, display: (this.state.clip) ? 'inline' : 'none', marginLeft: '10px', color: green[700] }} />
             </Box>
           </Grid>
@@ -592,6 +609,7 @@ interface IProps {
   onClose: () => void;
   onFacilityUpdate: (facility: IFacility | null) => void;  
   onFacilityChange: (obj: any) => void;
+  onSwapFacilityToCourse: (obj: any) => void;
   theme: Theme;
   open: boolean;
   facilityId: string;

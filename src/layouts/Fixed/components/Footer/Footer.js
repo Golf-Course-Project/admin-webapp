@@ -59,19 +59,8 @@ const Footer = () => (
         color="textSecondary"
         gutterBottom
       >
-        &copy; Webbee. 2021, Maccarian. All rights reserved
-      </Typography>
-      <Typography
-        align={'center'}
-        variant={'caption'}
-        color="textSecondary"
-        component={'p'}
-      >
-        When you visit or interact with our sites, services or tools, we or our
-        authorised service providers may use cookies for storing information to
-        help provide you with a better, faster and safer experience and for
-        marketing purposes.
-      </Typography>
+        &copy; The Golf Course Project. 2024, The Golf Course Project. All rights reserved
+      </Typography>      
     </Grid>
   </Grid>
 );

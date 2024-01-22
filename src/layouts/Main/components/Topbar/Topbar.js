@@ -6,7 +6,6 @@ import { useTheme } from '@material-ui/core/styles';
 import { colors } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import WebbeeLogo from '../../../../svg/logos/Webbee';
 import paletteTypes from '../../../../common/paletteTypes';
 
 const Topbar = ({
@@ -38,9 +37,9 @@ const Topbar = ({
           href="/"
           title="webbee"
           height={{ xs: 28, md: 32 }}
-          width={45}
+          width={25}
         >
-          <WebbeeLogo height={'100%'} width={'100%'} />
+          <img src="../assets/icononly_transparent_nobuffer.png" alt="logo" height={'100%'} width={'100%'} />
         </Box>
       </Box>
       <Box display="flex" alignItems={'center'}>

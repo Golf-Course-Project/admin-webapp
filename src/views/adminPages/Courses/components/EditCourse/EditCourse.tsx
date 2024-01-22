@@ -2,20 +2,21 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Button, ButtonGroup, CardContent, CircularProgress, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography, Snackbar, Alert } from '@material-ui/core';
+import { Button, CardContent, CircularProgress, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography, Snackbar, Alert } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpIcon from '@material-ui/icons/ArrowUpward';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
-import ArrowIcon from '@material-ui/icons/ArrowDropDown';
-import NextIcon from '@material-ui/icons/NextPlan';
+import SwapIcon from '@material-ui/icons/ChangeCircle';
 
 import { IFacility } from 'interfaces/facility.interfaces';
 import { ICourse, ICoursePatch, IFetchCourseAndFacilityApiResponse, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
 import { ErrorMessage } from 'common/components';
 import ConfirmDelete from '../ConfirmDelete';
 import CourseService from 'services/course.service';
+import Rankings from '../Rankings';
+import Ratings from '../Ratings';
 
 class EditCourse extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -30,7 +31,7 @@ class EditCourse extends React.Component<IProps, {}> {
     id: this.props.id,
     name: this.props.name,
     facilityId: this.props.facilityId,
-    facilityName: this.props.facilityName,
+    facilityName: '',
     address1: '',    
     city: '',
     state: '',
@@ -42,8 +43,7 @@ class EditCourse extends React.Component<IProps, {}> {
     latitude: -1,   
     description: '',
     synced: false,
-    snackOpen: false,
-    saveOption: localStorage.getItem('saveOption') ?? 'save',
+    snackOpen: false,    
     courseList: localStorage.getItem('course_search_results_array') !== null ? JSON.parse(localStorage.getItem('course_search_results_array') as string) : []
   }
 
@@ -58,8 +58,7 @@ class EditCourse extends React.Component<IProps, {}> {
         open: this.props.open,
         name: this.props.name,
         id: this.props.id,
-        facilityId: this.props.facilityId,
-        facilityName: this.props.facilityName,              
+        facilityId: this.props.facilityId,                      
         action: 'loading'
       });
       
@@ -153,8 +152,7 @@ class EditCourse extends React.Component<IProps, {}> {
     client.patch(body).then(async (response: IPatchCourseApiResponse) => {   
       if (response.success) {       
         this.setState({ action: 'updated', message: '', snackOpen: true });
-        this.props.onCourseUpdate(response.value); 
-        if (this.state.saveOption === 'next') this.handleOnDownClick();           
+        this.props.onCourseUpdate(response.value);                 
       } else {
         this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
       }
@@ -165,20 +163,6 @@ class EditCourse extends React.Component<IProps, {}> {
     client = null;
   }
 
-  handleChangeSaveOptionsOnClick() {
-    if (this.state.saveOption === 'save') {
-      localStorage.setItem('saveOption', 'next');
-      this.setState({ saveOption: 'next' });
-    }
-
-    if (this.state.saveOption === 'next') {
-      localStorage.setItem('saveOption', 'save');
-      this.setState({ saveOption: 'save' });
-    }
-
-    console.log(this.state.saveOption);
-  }
-
   cancelDeleteCallback() {
     this.setState({ action: 'normal' });
   }
@@ -186,6 +170,11 @@ class EditCourse extends React.Component<IProps, {}> {
   private handleSnackClose = () => {
     this.setState({ snackOpen: false });       
   };  
+
+  handleOnSwapToFacility() {
+    const obj = { courseId: this.state.id, facilityId: this.state.facilityId };    
+    this.props.onSwapCourseToFacility(obj);
+  }
 
   private handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -261,16 +250,25 @@ class EditCourse extends React.Component<IProps, {}> {
         anchor='right'
         open={this.state.open}
         variant={'temporary'}
-        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: 900 } } }}
+        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: '50%' } } }}
       >  
-        <Snackbar open={this.state.snackOpen} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
+        <Snackbar open={this.state.snackOpen} autoHideDuration={1000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
           <Alert severity="success" sx={{ minWidth: '400px' }}>
             Course successfully updated!
           </Alert>
-        </Snackbar>
+        </Snackbar>          
 
         <Grid container spacing={1}>              
-          <Grid item xs={10}>
+          <Grid item xs={9}>
+            <Box
+              display={'flex'}
+              justifyContent={'flex-end'}
+              sx={{ paddingRight: '5px', paddingTop: '15px' }}            
+            >              
+              <Button variant="contained" size="small" color="primary" startIcon={<SwapIcon />} onClick={(e: any) => this.handleOnSwapToFacility()}>Open Facility</Button>
+            </Box>
+          </Grid>
+          <Grid item xs={1}>
             <Box
               display={'flex'}
               justifyContent={'flex-end'}
@@ -315,6 +313,7 @@ class EditCourse extends React.Component<IProps, {}> {
         </Box>      
 
         <Box display={this.state.action === 'confirm-delete' ? 'none' : 'block'} sx={{ height: '100%', padding: 1 }} >
+        
           <Box marginBottom={1}>
             <Typography
               variant="h3"
@@ -324,6 +323,7 @@ class EditCourse extends React.Component<IProps, {}> {
               {this.state.name}
             </Typography>
           </Box>
+
           <Box marginBottom={2}>
             <Typography
               variant="h5"
@@ -333,6 +333,7 @@ class EditCourse extends React.Component<IProps, {}> {
               {this.state.facilityName}
             </Typography>
           </Box>
+
           <Divider variant="middle" />
 
           <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
@@ -362,7 +363,7 @@ class EditCourse extends React.Component<IProps, {}> {
 
           <Box component={CardContent} padding={4}>
             <Grid container spacing={1}>              
-              <Grid item xs={12}>
+              <Grid item lg={6} md={12} sm={12} xs={12}>
                 <ErrorMessage message={this.setErrorMessage(this.state.messageCode, this.state.messageText)} />
                 <form noValidate autoComplete="off">
                   <Box display="flex" flexDirection={'column'}>
@@ -535,19 +536,9 @@ class EditCourse extends React.Component<IProps, {}> {
                           justifyContent={'end'}
                           sx={{ paddingBottom: '10px' }}                          
                         >
-                          <ButtonGroup variant="contained" aria-label="split button" sx={{ width: '100%' }}>                        
-                            <Button variant="contained" startIcon={this.state.saveOption === 'save' ? <SaveIcon /> : <NextIcon/>} sx={{ width: '90%' }} onClick={(e: any) => this.handleUpdateCourseOnClick() }>
-                              {this.state.saveOption === 'save' ? 'Save' : 'Save & Next'}
-                            </Button>  
-                            <Button
-                              size="small"                             
-                              aria-label="change save option"
-                              aria-haspopup="menu"   
-                              onClick={(e: any) => this.handleChangeSaveOptionsOnClick() }                           
-                            >
-                              <ArrowIcon />
-                            </Button>                          
-                          </ButtonGroup>
+                          <Button variant="contained" startIcon={<SaveIcon />} sx={{ width: '100%' }} onClick={(e: any) => this.handleUpdateCourseOnClick() }>
+                            Save
+                          </Button>             
                         </Box>
                       </Grid>
                       <Grid item xs={12} md={4}>
@@ -565,6 +556,18 @@ class EditCourse extends React.Component<IProps, {}> {
                     </Grid>
                   </Box>
                 </form>
+              </Grid>  
+              <Grid item lg={1} md={12} sm={12} xs={12}></Grid>
+                       
+              <Grid item lg={5} md={12} sm={12} xs={12} sx={{width: '100%'}} >                         
+                <Rankings courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} />
+
+                <Box display="divider">
+                  &nbsp;
+                </Box>
+
+                <Ratings courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} />
+                                     
               </Grid>
             </Grid>
           </Box>
@@ -581,10 +584,10 @@ interface IProps {
   onClose: () => void; 
   onCourseUpdate: (course: ICoursePatch | null) => void;
   onCourseChange: (obj: any) => void;
+  onSwapCourseToFacility: (obj: any) => void;
   theme: Theme;
   open: boolean;
-  facilityId: string;
-  facilityName: string;
+  facilityId: string; 
   id: string ;
   name: string;   
   list: [];
@@ -611,9 +614,8 @@ interface IForm {
   phone: string;
   email: string;
   website: string; 
-  synced: boolean;
-  saveOption: string; 
-  snackOpen: boolean;
+  synced: boolean; 
+  snackOpen: boolean;  
   courseList: IListItem[] | [];
 }
 

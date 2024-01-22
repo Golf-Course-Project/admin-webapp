@@ -34,7 +34,7 @@ const Footer = () => (
         color="textSecondary"
         gutterBottom
       >
-        &copy; My-App. 2021, Apps. All rights reserved
+        &copy; The Golf Course Project. 2021, The Golf Course Project. All rights reserved
       </Typography>      
     </Grid>
   </Grid>

@@ -2,14 +2,11 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@material-ui/core';
-import EditRowIcon from '@material-ui/icons/ModeEditOutlineOutlined';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link } from '@material-ui/core';
 import GolfCourseIcon from '@material-ui/icons/GolfCourse';
 import PublicIcon from '@material-ui/icons/RadioButtonChecked';
 import PrivateIcon from '@material-ui/icons/MotionPhotosOff';
 import UnknownIcon from '@material-ui/icons/RadioButtonUnchecked';
-import CopyIcon from '@material-ui/icons/ContentCopy';
-import CheckIcon from '@material-ui/icons/Check';
 
 import { IListCoursesApiResponse, ICourses, ICourseSearch, ICourse } from 'interfaces/course.interfaces';
 import CourseService from 'services/course.service';
@@ -19,7 +16,6 @@ import { CourseSearch } from 'common/classes/course.search';
 import { IFacility } from 'interfaces/facility.interfaces';
 import EditFacility from '../EditFacility';
 import ErrorMessage from 'common/components/ErrorMessage';
-import { green } from '@material-ui/core/colors';
 
 class CourseList extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -63,10 +59,6 @@ class CourseList extends React.Component<IProps, {}> {
     const index = this.state.data.findIndex((item: ICourses) => item.id === row.id);
     
     this.setState({ openCourseSideBar: true, openFacilitySideBar: false, selectedCourse: row, selectedRowId: row.id, nextRowId: this.state.data[index + 1].id});      
-       
-    //console.log(`index id: ${this.state.data[index + 1].id}`);
-    //console.log(`row id: ${row.id}`);
-    //this.state.data[index].courseName = course.name;  
   };  
 
   private handleOpenFacilitySideBar = (row: ICourses) => {      
@@ -77,15 +69,9 @@ class CourseList extends React.Component<IProps, {}> {
     this.setState({ openCourseSideBar: false, openFacilitySideBar: false });       
   }; 
 
-  private handleCopyFacilityToClipBoard = (e: ICourses) => {
-    navigator.clipboard.writeText(`${e.facilityName} in ${e.city} ${e.state}`);  
-    this.setState({ clip: true });
-  }
-
   private handleFacilityUpdate = (facility: IFacility | null) => {
     if (facility === null) return;
-    this.setState({ openCourseSideBar: false, openFacilitySideBar: false, snackAction: true, snackMsg: `${facility.name} has been updated` });
-            
+                
     this.setState(data => {
       const newData = this.state.data.map(item => item.facilityId === facility.id
         ? { ...item, facilityName: facility.name, type: facility.type }
@@ -116,6 +102,15 @@ class CourseList extends React.Component<IProps, {}> {
     //const index = this.state.data.findIndex((item: ICourses) => item.id === obj.courseId);
     this.setState({ rowId: obj.courseId, selectedRowId: obj.courseId });
   };
+
+  private handleSwapFacilityToCourse = (obj: {courseId: string, facilityId: string}) => {   
+    this.setState({ rowId: obj.courseId, selectedRowId: obj.courseId, openCourseSideBar: true, openFacilitySideBar: false });
+  };
+
+  private handleSwapCourseToFacility = (obj: {courseId: string, faclityId: string}) => {   
+    this.setState({ openCourseSideBar: false, openFacilitySideBar: true, rowId: obj.courseId, selectedRowId: obj.courseId });
+  };
+
 
   private load_courses = (body: ICourseSearch) => {
     const client: CourseService = new CourseService();  
@@ -171,8 +166,7 @@ class CourseList extends React.Component<IProps, {}> {
                     <TableCell align="left">Course</TableCell>
                     <TableCell align="left">Address</TableCell>
                     <TableCell align="left">City</TableCell>     
-                    <TableCell align="left">&nbsp;</TableCell>  
-                    <TableCell align="left">&nbsp;</TableCell>                                                    
+                    <TableCell align="left">&nbsp;</TableCell>                                                                       
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -191,27 +185,18 @@ class CourseList extends React.Component<IProps, {}> {
                         <PrivateIcon color="secondary" sx={row.type === 2 ? {display: 'flex'} : {display: 'none'}}/>
                       </TableCell>                                                           
                       <TableCell align="left">
-                        {row.facilityName} 
-                        <CopyIcon sx={{ fontSize: 15, display: (this.state.rowId === row.id && ! this.state.clip) ? 'inline' : 'none', marginLeft: '10px' }} color="disabled" onClick={(e: any) => this.handleCopyFacilityToClipBoard(row)} />
-                        <CheckIcon sx={{ fontSize: 15, display: (this.state.rowId === row.id && this.state.clip) ? 'inline' : 'none', marginLeft: '10px', color: green[700] }} />
+                        <Link component="button" onClick={(e:any) => this.handleOpenFacilitySideBar(row)}>{row.facilityName}</Link>                        
                       </TableCell>
-                      <TableCell align="left">{row.courseName}</TableCell>     
+                      <TableCell align="left">
+                        <Link component="button" onClick={(e:any) => this.handleOpenCourseSideBar(row)}>{row.courseName}</Link>
+                      </TableCell>     
                       <TableCell align="left">{row.address1}</TableCell>    
                       <TableCell align="left">{row.city}</TableCell>              
                       <TableCell align="center" sx={{ width: '80px' }}>
-                        <div style={{ display: this.state.rowId === row.id ? 'flex' : 'none'}}>
-                          <IconButton aria-label="edit facility" onClick={(e:any) => this.handleOpenFacilitySideBar(row)}>
-                            <GolfCourseIcon />
-                          </IconButton>                             
+                        <div style={{ display: this.state.rowId === row.id ? 'flex' : 'none'}}>                          
+                          <GolfCourseIcon />                                                 
                         </div>
-                      </TableCell>  
-                      <TableCell align="center" sx={{ width: '80px'}}>
-                        <div style={{ display: this.state.rowId === row.id ? 'flex' : 'none'}}>
-                          <IconButton aria-label="edit course" onClick={(e:any) => this.handleOpenCourseSideBar(row)}>
-                            <EditRowIcon />
-                          </IconButton>                             
-                        </div>
-                      </TableCell>                                           
+                      </TableCell>                                                               
                     </TableRow>
                   ))}
                 </TableBody>
@@ -226,14 +211,13 @@ class CourseList extends React.Component<IProps, {}> {
         <EditCourse
           theme={this.props.theme}
           open={this.state.openCourseSideBar}
-          facilityId={this.state.selectedCourse?.facilityId}
-          facilityName={this.state.selectedCourse?.facilityName}
+          facilityId={this.state.selectedCourse?.facilityId}          
           id={this.state.selectedCourse?.id}
           name={this.state.selectedCourse?.courseName}         
           onClose={this.handleSidebarClose}
           onCourseUpdate={(e: any) => this.handleCourseUpdate(e)}   
-          onCourseChange={(e: any) => this.handleCourseChange(e)}       
-          //onFacilityUpdate={(e: any) => this.handleFacilityUpdate(e)}
+          onCourseChange={(e: any) => this.handleCourseChange(e)}  
+          onSwapCourseToFacility={(e: any) => this.handleSwapCourseToFacility(e)}             
         ></EditCourse>
 
         <EditFacility
@@ -243,6 +227,7 @@ class CourseList extends React.Component<IProps, {}> {
           onClose={this.handleSidebarClose}         
           onFacilityUpdate={(e: any) => this.handleFacilityUpdate(e)}
           onFacilityChange={(e: any) => this.handleFacilityChange(e)}  
+          onSwapFacilityToCourse={(e: any) => this.handleSwapFacilityToCourse(e)}
         ></EditFacility>        
       </Box>
     );

@@ -69,21 +69,21 @@ class SearchBox extends React.Component<IProps, {}> {
       ind = i.indexOf(':');
       key = i.slice(0, ind).trim();
       val = i.slice(ind + 1, len).trim();
-
-      body.address = key.includes('address') ? this.setValue(val) : null;
+    
+      body.name = key.includes('name') ? this.setValue(val) : null;
       body.city = key.includes('city') ? this.setValue(val) : null;
-      body.email = key.includes('email') ? this.setValue(val) : null;
-      body.phone = key.includes('phone') ? this.setValue(val) : null;
-      body.website = key.includes('website') ? this.setValue(val) : null;
+      body.postalCode = key.includes('postalCode') ? this.setValue(val) : null;     
       body.type = key.includes('type') ? this.setValue(val) : null;
+      body.tag = key.includes('tag') ? this.setValue(val) : null;
     });   
 
     body.text = searchText.trim().toLocaleLowerCase();
 
-    if (body.address !== null || body.city !== null || body.email !== null || body.phone !== null || body.website !== null || body.type !== null) {
+    if (body.name !== null || body.city !== null || body.postalCode !== null || body.type !== null || body.tag !== null) {
       body.text = null;
     }
 
+    console.log(body);
     return body;
   }
 
