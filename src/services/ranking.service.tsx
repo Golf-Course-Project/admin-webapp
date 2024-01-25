@@ -1,0 +1,95 @@
+import { courseServiceUrl } from '../helpers/urls.helper';
+import { fetchJwt } from '../helpers/jwt.helper'; 
+import { IStandardApiResponse } from 'interfaces/api-response.interface';
+import { IListRankingsApiResponse, IPostRankingApiResponse, IRankingPost} from 'interfaces/rankings.interfaces';
+
+export class RankingService {
+  
+  async listByCourse(courseId : string): Promise<IListRankingsApiResponse> {
+    
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(courseServiceUrl + '/api/rankings/list/course/' + courseId, {
+        method: 'get',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),        
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  }  
+
+  async listByFacility(facilityId : string): Promise<IListRankingsApiResponse> {
+    
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(courseServiceUrl + '/api/rankings/list/facility/' + facilityId, {
+        method: 'get',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),        
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  } 
+ 
+  async post(data: IRankingPost): Promise<IPostRankingApiResponse> {
+    
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(courseServiceUrl + '/api/rankings/create', {
+        method: 'post',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),
+        body: JSON.stringify(data)
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  }
+
+  async delete(id : string): Promise<IStandardApiResponse> {
+    
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(courseServiceUrl + '/api/course/' + id, {
+        method: 'delete',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),        
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  }
+  
+}
+
+export default RankingService;

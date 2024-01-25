@@ -23,8 +23,9 @@ class CourseList extends React.Component<IProps, {}> {
 
   state: ICourseListPage = {
     action: 'loading',
-    errorMsg: '',     
-    data: [],       
+    errorMsg: '',   
+    data: [],
+    count: 0,   
     rowId: '',
     selectedRowId: '',    
     clip: false,
@@ -55,10 +56,11 @@ class CourseList extends React.Component<IProps, {}> {
     this.setState({ rowId: '', clip: false });
   }    
 
-  private handleOpenCourseSideBar = (row: ICourses) => {      
-    const index = this.state.data.findIndex((item: ICourses) => item.id === row.id);
-    
-    this.setState({ openCourseSideBar: true, openFacilitySideBar: false, selectedCourse: row, selectedRowId: row.id, nextRowId: this.state.data[index + 1].id});      
+  private handleOpenCourseSideBar = (row: ICourses) => {           
+    const index = this.state.data.findIndex((item: ICourses) => item.id === row.id);    
+    const nextRowId = (index + 1) < this.state.count ? this.state.data[index + 1].id : this.state.data[index].id;  
+
+    this.setState({ openCourseSideBar: true, openFacilitySideBar: false, selectedCourse: row, selectedRowId: row.id, nextRowId: nextRowId});      
   };  
 
   private handleOpenFacilitySideBar = (row: ICourses) => {      
@@ -132,7 +134,8 @@ class CourseList extends React.Component<IProps, {}> {
             spanEnd: this._pageSize
           },
           pageCount: Math.ceil(response.count / this._pageSize),
-          data: response.value,          
+          data: response.value,
+          count: response.count,       
           errorMsg: '',
           action: 'normal'
         }); 
@@ -246,6 +249,7 @@ interface ICourseListPage {
   action: string,
   errorMsg: string;  
   data: ICourses[]; 
+  count: number;
   rowId: string;
   selectedRowId: string;  
   clip: boolean; 

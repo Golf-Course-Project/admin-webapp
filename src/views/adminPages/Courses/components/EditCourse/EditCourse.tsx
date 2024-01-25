@@ -26,6 +26,7 @@ class EditCourse extends React.Component<IProps, {}> {
     messageCode: 200,
     messageText: '',
     open: this.props.open,
+    ready: false,
     blurErrors: [],    
     data: null,    
     id: this.props.id,
@@ -43,7 +44,7 @@ class EditCourse extends React.Component<IProps, {}> {
     latitude: -1,   
     description: '',
     synced: false,
-    snackOpen: false,    
+    snackOpen: false,      
     courseList: localStorage.getItem('course_search_results_array') !== null ? JSON.parse(localStorage.getItem('course_search_results_array') as string) : []
   }
 
@@ -59,7 +60,8 @@ class EditCourse extends React.Component<IProps, {}> {
         name: this.props.name,
         id: this.props.id,
         facilityId: this.props.facilityId,                      
-        action: 'loading'
+        action: 'loading',
+        ready: false
       });
       
       if (this.props.open === true) this.fetch(this.props.id);
@@ -90,7 +92,8 @@ class EditCourse extends React.Component<IProps, {}> {
           email: response.value?.course?.email ?? '',
           website: response.value?.course?.website ?? '',           
           synced: response.value?.course?.isSynced ?? false,  
-          action: 'normal'              
+          action: 'normal',
+          ready: true       
         });
       }
     }).catch((error: Error) => {
@@ -107,7 +110,7 @@ class EditCourse extends React.Component<IProps, {}> {
     const index = this.state.courseList.findIndex((item: IListItem) => item.courseId === this.state.id);
     const id = this.state.courseList[index - 1].courseId;
 
-    this.setState({ action: 'loading', snackOpen: false, id: id });  
+    this.setState({ action: 'loading', ready: false, snackOpen: false, id: id });  
     this.fetch(id);
     
     const obj = { courseId: this.state.id, facilityId: this.state.facilityId };    
@@ -118,7 +121,7 @@ class EditCourse extends React.Component<IProps, {}> {
     const index = this.state.courseList.findIndex((item: IListItem) => item.courseId === this.state.id);
     const id = this.state.courseList[index + 1].courseId;
     
-    this.setState({ action: 'loading', snackOpen: false, id: id });        
+    this.setState({ action: 'loading', ready: false, snackOpen: false, id: id });        
     this.fetch(id);
 
     const obj = { courseId: this.state.id, facilityId: this.state.facilityId };    
@@ -147,6 +150,7 @@ class EditCourse extends React.Component<IProps, {}> {
       isSynced: this.state.synced,   
       description: this.state.description
     } as ICoursePatch;   
+    
     let client: CourseService | null = new CourseService();    
 
     client.patch(body).then(async (response: IPatchCourseApiResponse) => {   
@@ -250,7 +254,7 @@ class EditCourse extends React.Component<IProps, {}> {
         anchor='right'
         open={this.state.open}
         variant={'temporary'}
-        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: '50%' } } }}
+        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: '75%' } } }}
       >  
         <Snackbar open={this.state.snackOpen} autoHideDuration={1000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
           <Alert severity="success" sx={{ minWidth: '400px' }}>
@@ -525,8 +529,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('description') ? true : false}
-                          helperText={this.setHelperTextMessage('description')}     
-                                            
+                          helperText={this.setHelperTextMessage('description')}                                                 
                         />
                       </Grid>                    
 
@@ -560,7 +563,7 @@ class EditCourse extends React.Component<IProps, {}> {
               <Grid item lg={1} md={12} sm={12} xs={12}></Grid>
                        
               <Grid item lg={5} md={12} sm={12} xs={12} sx={{width: '100%'}} >                         
-                <Rankings courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} />
+                <Rankings courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} ready={this.state.ready} />
 
                 <Box display="divider">
                   &nbsp;
@@ -598,6 +601,7 @@ interface IForm {
   messageText: string;
   messageCode: number;
   open: boolean;
+  ready: boolean;
   blurErrors: string[],
   data: { facility: IFacility | null, course: ICourse | null } | null,
   facilityId: string;

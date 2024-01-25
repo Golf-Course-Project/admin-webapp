@@ -2,15 +2,14 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Button, CircularProgress, Divider, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography, Snackbar, Alert, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
+import { Divider, IconButton, Typography, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import AddIcon from '@material-ui/icons/AddCircle';
 
 import { IFacility } from 'interfaces/facility.interfaces';
-import { ICourse, ICoursePatch, IFetchCourseAndFacilityApiResponse, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
-import CourseService from 'services/course.service';
+import { ICourse } from 'interfaces/course.interfaces';
 import { green } from '@material-ui/core/colors';
 
 class Ratings extends React.Component<IProps, {}> {
@@ -22,6 +21,7 @@ class Ratings extends React.Component<IProps, {}> {
     messageText: '',   
     blurErrors: [],    
     data: null,   
+    count: 0,
     courseId: this.props.courseId,    
     facilityId: this.props.facilityId,
   }
@@ -144,4 +144,5 @@ interface IForm {
   data: { facility: IFacility | null, course: ICourse | null } | null,
   facilityId: string;
   courseId: string;   
+  count: number;
 }
