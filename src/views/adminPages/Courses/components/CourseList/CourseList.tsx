@@ -12,7 +12,6 @@ import { IListCoursesApiResponse, ICourses, ICourseSearch, ICourse } from 'inter
 import CourseService from 'services/course.service';
 import { SkeletonTable } from 'common/components';
 import EditCourse from '../EditCourse';
-import { CourseSearch } from 'common/classes/course.search';
 import { IFacility } from 'interfaces/facility.interfaces';
 import EditFacility from '../EditFacility';
 import ErrorMessage from 'common/components/ErrorMessage';
@@ -21,8 +20,8 @@ class CourseList extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
   readonly _pageSize: number = 25;
 
-  state: ICourseListPage = {
-    action: 'loading',
+  state: IForm = {
+    action: 'empty',
     errorMsg: '',   
     data: [],
     count: 0,   
@@ -31,17 +30,21 @@ class CourseList extends React.Component<IProps, {}> {
     clip: false,
     openCourseSideBar: false,
     openFacilitySideBar: false,
-    selectedCourse: null   
+    selectedCourse: null,
+    courseArray: []
   }
 
-  componentDidMount() {    
-    this.load_courses(new CourseSearch('mi'));    
+  componentDidMount() {
+       
   }
 
   componentDidUpdate(prevProps: any) {
+    
     if (prevProps.searchCriteria !== this.props.searchCriteria && this.props.searchCriteria !== null) {        
-      this.load_courses(this.props.searchCriteria);          
+      this.setState({ action: 'loading' });
+      this.search(this.props.searchCriteria);                
     }
+
   } 
 
   private handleMouseEnter = (e: any, id: string) => {
@@ -97,11 +100,12 @@ class CourseList extends React.Component<IProps, {}> {
 
   private handleCourseChange = (obj: {courseId: string, faclityId: string}) => {
     const index = this.state.data.findIndex((item: ICourses) => item.id === obj.courseId);
-    this.setState({ rowId: this.state.data[index + 1].id, selectedRowId: this.state.data[index + 1].id });
+    const nextRowId = (index + 1) < this.state.count ? this.state.data[index + 1].id : this.state.data[index].id;  
+
+    this.setState({ rowId: nextRowId, selectedRowId: nextRowId });
   };
 
-  private handleFacilityChange = (obj: {courseId: string, faclityId: string}) => {
-    //const index = this.state.data.findIndex((item: ICourses) => item.id === obj.courseId);
+  private handleFacilityChange = (obj: {courseId: string, faclityId: string}) => {    
     this.setState({ rowId: obj.courseId, selectedRowId: obj.courseId });
   };
 
@@ -113,20 +117,24 @@ class CourseList extends React.Component<IProps, {}> {
     this.setState({ openCourseSideBar: false, openFacilitySideBar: true, rowId: obj.courseId, selectedRowId: obj.courseId });
   };
 
-
-  private load_courses = (body: ICourseSearch) => {
+  private search = (body: ICourseSearch) => {
     const client: CourseService = new CourseService();  
-    //const defaultBody: IListUsersRequest = { name: null, email: null, role: null, status: -1, isDeleted: false }; 
-    //let body: IListUsersRequest = this.props.searchCriteria != null ? this.props.searchCriteria : defaultBody;   
-
+    
     client.search(body).then(async (response: IListCoursesApiResponse) => {        
 
       if (response.messageCode !== 200) {
-        this.setState({ errorMsg: response.message });
+        this.setState({ errorMsg: response.message, action: 'error', courseArray: [], selectedRowId: ''});
+        localStorage.removeItem('course_search_results_array'); 
         return;
       }
 
-      if (response.success) {           
+      if (response.success) {  
+
+        const newArray = response.value.map(item => ({
+          courseId: item.id,
+          facilityId: item.facilityId
+        }));
+        
         this.setState({
           paging: {
             currentPage: 1,
@@ -135,20 +143,18 @@ class CourseList extends React.Component<IProps, {}> {
           },
           pageCount: Math.ceil(response.count / this._pageSize),
           data: response.value,
-          count: response.count,       
+          count: response.count,
+          selectedRowId: '',     
           errorMsg: '',
-          action: 'normal'
-        }); 
-       
-        const newArray = response.value.map(item => ({
-          courseId: item.id,
-          facilityId: item.facilityId
-        }));
+          action: 'normal',
+          courseArray: newArray
+        });       
 
         localStorage.setItem('course_search_results_array', JSON.stringify(newArray));        
       }
     }).catch((error: Error) => {      
-      console.log(error);
+      this.setState({ errorMsg: error.message, action: 'error', courseArray: []});   
+      localStorage.removeItem('course_search_results_array');   
     });
   }  
 
@@ -207,6 +213,7 @@ class CourseList extends React.Component<IProps, {}> {
             </TableContainer>
           </Box>          
         </Box>
+
         <Box>
           <SkeletonTable rows={10} columns={6} display={this.state.action === 'loading' ? true : false}></SkeletonTable>                 
         </Box>   
@@ -220,7 +227,8 @@ class CourseList extends React.Component<IProps, {}> {
           onClose={this.handleSidebarClose}
           onCourseUpdate={(e: any) => this.handleCourseUpdate(e)}   
           onCourseChange={(e: any) => this.handleCourseChange(e)}  
-          onSwapCourseToFacility={(e: any) => this.handleSwapCourseToFacility(e)}             
+          onSwapCourseToFacility={(e: any) => this.handleSwapCourseToFacility(e)}   
+          courses={this.state.courseArray}         
         ></EditCourse>
 
         <EditFacility
@@ -245,7 +253,7 @@ interface IProps {
   searchCriteria: ICourseSearch | null;
 }
 
-interface ICourseListPage {
+interface IForm {
   action: string,
   errorMsg: string;  
   data: ICourses[]; 
@@ -256,4 +264,5 @@ interface ICourseListPage {
   openCourseSideBar: boolean;
   openFacilitySideBar: boolean;
   selectedCourse: ICourses | null;
+  courseArray: {courseId: string, facilityId: string}[];
 }

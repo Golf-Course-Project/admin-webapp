@@ -19,8 +19,8 @@ class SearchBox extends React.Component<IProps, {}> {
   state: ISearchBox = {
     action: 'normal',
     errorMsg: '',
-    searchText: '',
-    searchState: 'MI',
+    searchText: localStorage.getItem('searchText') ?? '',
+    searchState: localStorage.getItem('searchState') ?? 'MI',
   }
 
   componentDidMount() {
@@ -43,7 +43,13 @@ class SearchBox extends React.Component<IProps, {}> {
   private handleSearchButtonClick = (e: React.ChangeEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement>) => {
     e.preventDefault();
 
-    const body: ICourseSearch = this.buildSearchText(this.state.searchText.toLocaleLowerCase(), this.state.searchState.toLocaleLowerCase());  
+    const searchText = this.state.searchText;
+    const searchState = this.state.searchState;
+
+    localStorage.setItem('searchText', searchText); 
+    localStorage.setItem('searchState', searchState); 
+
+    const body: ICourseSearch = this.buildSearchText(searchText.toLocaleLowerCase(), searchState.toLocaleLowerCase());  
     body.pageNumber = 1;
 
     this.props.callback(body);
@@ -82,8 +88,7 @@ class SearchBox extends React.Component<IProps, {}> {
     if (body.name !== null || body.city !== null || body.postalCode !== null || body.type !== null || body.tag !== null) {
       body.text = null;
     }
-
-    console.log(body);
+  
     return body;
   }
 

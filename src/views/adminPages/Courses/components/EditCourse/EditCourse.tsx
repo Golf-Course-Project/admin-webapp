@@ -45,28 +45,61 @@ class EditCourse extends React.Component<IProps, {}> {
     description: '',
     synced: false,
     snackOpen: false,      
-    courseList: localStorage.getItem('course_search_results_array') !== null ? JSON.parse(localStorage.getItem('course_search_results_array') as string) : []
+    courses: this.props.courses
   }
 
-  componentDidMount() {
+  private resetForm = () => {
+
+    this.setState({
+      action: 'loading',
+      messageCode: 200,
+      messageText: '',
+      open: false,
+      ready: false,
+      blurErrors: [],
+      data: null,
+      id: '',
+      name: '',
+      facilityId: '',
+      facilityName: '',
+      address1: '',
+      city: '',
+      state: '',
+      postalCode: '',
+      phone: '',
+      email: '',
+      website: '',
+      longitude: -1,
+      latitude: -1,
+      description: '',
+      synced: false,
+      snackOpen: false,      
+    });
     
   }
 
-  componentDidUpdate(prevProps: any) {
-      
-    if (prevProps.open !== this.props.open) {           
+  componentDidMount() {
+
+  }
+
+  componentDidUpdate(prevProps: any) {       
+
+    if (prevProps.open !== this.props.open) {
       this.setState({
         open: this.props.open,
         name: this.props.name,
         id: this.props.id,
-        facilityId: this.props.facilityId,                      
+        facilityId: this.props.facilityId,
         action: 'loading',
         ready: false
       });
-      
-      if (this.props.open === true) this.fetch(this.props.id);
-    } 
 
+      if (this.props.open === true) this.fetch(this.props.id);      
+    }
+
+    if (prevProps.courses !== this.props.courses) {
+      this.setState({ courses: this.props.courses });     
+    }    
   }
 
   private fetch = (id: string) => {
@@ -102,24 +135,24 @@ class EditCourse extends React.Component<IProps, {}> {
   }
   
   handleOnClose() {
-    this.setState({ action: 'normal' });
+    this.resetForm();
     this.props.onClose();
   }
 
   handleOnUpClick() {
-    const index = this.state.courseList.findIndex((item: IListItem) => item.courseId === this.state.id);
-    const id = this.state.courseList[index - 1].courseId;
+    const index = this.state.courses.findIndex((item: IListItem) => item.courseId === this.state.id);
+    const id = this.state.courses[index - 1].courseId;
 
     this.setState({ action: 'loading', ready: false, snackOpen: false, id: id });  
     this.fetch(id);
     
-    const obj = { courseId: this.state.id, facilityId: this.state.facilityId };    
+    const obj = { courseId: id, facilityId: this.state.facilityId };    
     this.props.onCourseChange(obj);
   }
 
   handleOnDownClick() {
-    const index = this.state.courseList.findIndex((item: IListItem) => item.courseId === this.state.id);
-    const id = this.state.courseList[index + 1].courseId;
+    const index = this.state.courses.findIndex((item: IListItem) => item.courseId === this.state.id);
+    const id = this.state.courses[index + 1].courseId;
     
     this.setState({ action: 'loading', ready: false, snackOpen: false, id: id });        
     this.fetch(id);
@@ -276,10 +309,9 @@ class EditCourse extends React.Component<IProps, {}> {
             <Box
               display={'flex'}
               justifyContent={'flex-end'}
-              sx={{ paddingRight: '5px', paddingTop: '10px' }}
-              onClick={(e: any) => this.handleOnUpClick()}
+              sx={{ paddingRight: '5px', paddingTop: '10px' }}              
             >
-              <IconButton>
+              <IconButton disabled={(this.state.courses[0] && this.state.courses[0].courseId === this.state.id) ? true : false} onClick={(e: any) => this.handleOnUpClick()}>
                 <ArrowUpIcon fontSize="small" />
               </IconButton>         
             </Box>  
@@ -288,10 +320,9 @@ class EditCourse extends React.Component<IProps, {}> {
             <Box
               display={'flex'}
               justifyContent={'flex-end'}
-              sx={{ paddingRight: '10px', paddingTop: '10px' }}
-              onClick={(e: any) => this.handleOnDownClick()}
+              sx={{ paddingRight: '10px', paddingTop: '10px' }}              
             >
-              <IconButton>
+              <IconButton disabled={this.state.courses[this.state.courses.length - 1] && this.state.courses[this.state.courses.length - 1].courseId === this.state.id ? true : false} onClick={(e: any) => this.handleOnDownClick()}>
                 <ArrowDownIcon fontSize="small" />
               </IconButton>         
             </Box>  
@@ -592,8 +623,8 @@ interface IProps {
   open: boolean;
   facilityId: string; 
   id: string ;
-  name: string;   
-  list: [];
+  name: string;
+  courses: IListItem[] | [];
 }
 
 interface IForm {
@@ -620,7 +651,7 @@ interface IForm {
   website: string; 
   synced: boolean; 
   snackOpen: boolean;  
-  courseList: IListItem[] | [];
+  courses: IListItem[] | [];
 }
 
 interface IListItem {

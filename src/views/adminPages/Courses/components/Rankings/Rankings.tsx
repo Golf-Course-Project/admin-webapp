@@ -95,17 +95,15 @@ class Rankings extends React.Component<IProps, {}> {
     let client: RankingService | null = new RankingService();
 
     client.post(body).then(async (response: IPostRankingApiResponse) => {
-      if (response.success) {
-        this.setState({ action: 'normal', message: '', snackOpen: true });
-        
+      if (response.success) {        
         let data: IRanking[] | null = this.state.data;
         let count: number = this.state.count;        
+        
         if (response.value) data?.push(response.value);
 
-        this.setState({ data: data, count: count + 1 }); 
-        console.log(this.state.data);
-
-      } else {
+        this.setState({ data: data, count: count + 1, action: 'normal', message: '', snackOpen: true }); 
+      } 
+      else {
         this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
       }
     }).catch((error: Error) => {
