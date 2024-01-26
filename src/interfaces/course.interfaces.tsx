@@ -35,6 +35,7 @@ export interface ICourse {
 	email: string;
 	website: string;
 	type: number;
+	designer: string;
 	isSynced: boolean;
 }
 

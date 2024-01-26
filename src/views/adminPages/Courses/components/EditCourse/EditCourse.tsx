@@ -16,7 +16,7 @@ import { ErrorMessage } from 'common/components';
 import ConfirmDelete from '../ConfirmDelete';
 import CourseService from 'services/course.service';
 import Rankings from '../Rankings';
-import Ratings from '../Ratings';
+//import Ratings from '../Ratings';
 
 class EditCourse extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -44,6 +44,7 @@ class EditCourse extends React.Component<IProps, {}> {
     latitude: -1,   
     description: '',
     synced: false,
+    designer: '',
     snackOpen: false,      
     courses: this.props.courses
   }
@@ -72,6 +73,7 @@ class EditCourse extends React.Component<IProps, {}> {
       longitude: -1,
       latitude: -1,
       description: '',
+      designer: '', 
       synced: false,
       snackOpen: false,      
     });
@@ -123,7 +125,8 @@ class EditCourse extends React.Component<IProps, {}> {
           postalCode: response.value?.course?.postalCode ?? -1,    
           phone: response.value?.course?.phone ?? '',
           email: response.value?.course?.email ?? '',
-          website: response.value?.course?.website ?? '',           
+          website: response.value?.course?.website ?? '',
+          designer: response.value?.course?.designer ?? '',           
           synced: response.value?.course?.isSynced ?? false,  
           action: 'normal',
           ready: true       
@@ -166,7 +169,7 @@ class EditCourse extends React.Component<IProps, {}> {
     this.props.onClose();
   } 
 
-  handleUpdateCourseOnClick() {
+  handleUpdateOnClick() {
     this.setState({ action: 'update' });   
 
     let body: ICoursePatch | null = { 
@@ -181,18 +184,23 @@ class EditCourse extends React.Component<IProps, {}> {
       email: this.state.email,
       website: this.state.website,    
       isSynced: this.state.synced,   
-      description: this.state.description
+      description: this.state.description,
+      designer: this.state.designer
     } as ICoursePatch;   
+
+    console.log(body);
     
     let client: CourseService | null = new CourseService();    
 
-    client.patch(body).then(async (response: IPatchCourseApiResponse) => {   
+    client.patch(body).then(async (response: IPatchCourseApiResponse) => { 
+
       if (response.success) {       
         this.setState({ action: 'updated', message: '', snackOpen: true });
         this.props.onCourseUpdate(response.value);                 
       } else {
         this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
       }
+
     }).catch((error: Error) => {
       this.setState({ action: 'failed', message: error.message });
     });
@@ -545,7 +553,22 @@ class EditCourse extends React.Component<IProps, {}> {
                           helperText={this.setHelperTextMessage('website')}   
                           disabled={this.state.synced}                      
                         />
-                      </Grid>                     
+                      </Grid>        
+                      <Grid item xs={12} md={6}>
+                        <TextField
+                          type="text"
+                          label="Designer"
+                          variant="outlined"
+                          color="primary"
+                          fullWidth
+                          name={'designer'}
+                          value={this.state.designer}
+                          onChange={(e: any) => this.handleInputChanges(e)}
+                          onBlur={(e: any) => this.handleInputBlur(e)}
+                          error={this.state.blurErrors.includes('designer') ? true : false}
+                          helperText={this.setHelperTextMessage('designer')}                                                  
+                        />
+                      </Grid>                  
                       <Grid item xs={12} md={12}>
                         <TextField
                           type="text"
@@ -570,7 +593,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           justifyContent={'end'}
                           sx={{ paddingBottom: '10px' }}                          
                         >
-                          <Button variant="contained" startIcon={<SaveIcon />} sx={{ width: '100%' }} onClick={(e: any) => this.handleUpdateCourseOnClick() }>
+                          <Button variant="contained" startIcon={<SaveIcon />} sx={{ width: '100%' }} onClick={(e: any) => this.handleUpdateOnClick() }>
                             Save
                           </Button>             
                         </Box>
@@ -600,7 +623,8 @@ class EditCourse extends React.Component<IProps, {}> {
                   &nbsp;
                 </Box>
 
-                <Ratings courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} />
+                { /* <Ratings courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} /> */ }
+                
                                      
               </Grid>
             </Grid>
@@ -649,6 +673,7 @@ interface IForm {
   phone: string;
   email: string;
   website: string; 
+  designer: string;
   synced: boolean; 
   snackOpen: boolean;  
   courses: IListItem[] | [];

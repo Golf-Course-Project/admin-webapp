@@ -11,6 +11,7 @@ import RankingService from 'services/ranking.service';
 import { IListRankingsApiResponse, IPostRankingApiResponse, IRanking, IRankingPost } from 'interfaces/rankings.interfaces';
 import { RefValueData } from 'data/refvalue.data';
 import ErrorMessage from 'common/components/ErrorMessage';
+import { IStandardApiResponse } from 'interfaces/api-response.interface';
 
 class Rankings extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {}; 
@@ -88,24 +89,26 @@ class Rankings extends React.Component<IProps, {}> {
       name: RefValueData.names.find((name) => name.id === this.state.nameRefValueId)?.text ?? '',
       year: this.state.year,
       value: this.state.value,
-    } as IRankingPost;
-
-    console.log(body);
+    } as IRankingPost;    
 
     let client: RankingService | null = new RankingService();
 
     client.post(body).then(async (response: IPostRankingApiResponse) => {
+      
       if (response.success) {        
         let data: IRanking[] | null = this.state.data;
         let count: number = this.state.count;        
         
-        if (response.value) data?.push(response.value);
+        // if count is 0, then we need to fetch the data
+        // if count is > 0, then we can just add the new ranking to the existing data without having to fetch it again
+        if (count === 0) { this.fetch(this.props.courseId); } else { if (response.value) data?.push(response.value); }
 
         this.setState({ data: data, count: count + 1, action: 'normal', message: '', snackOpen: true }); 
       } 
       else {
         this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
       }
+
     }).catch((error: Error) => {
       this.setState({ action: 'failed', message: error.message });
     });
@@ -114,7 +117,24 @@ class Rankings extends React.Component<IProps, {}> {
   }
 
   private handleDeleteOnClick = (id: string) => {
-    console.log(id);
+    
+    let client: RankingService | null = new RankingService();
+
+    client.delete(id).then(async (response: IStandardApiResponse) => {      
+      if (response.success) {                  
+        const updatedData = this.state.data?.filter(item => item.id !== id);
+               
+        this.setState({ action: 'normal', message: '', data: updatedData }); 
+      } 
+      else {
+        this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
+      }
+
+    }).catch((error: Error) => {
+      this.setState({ action: 'failed', message: error.message });
+    });
+
+    client = null;
   }
 
   private handleCancelRankingOnClick = (e: React.FormEvent<HTMLInputElement>) => {
