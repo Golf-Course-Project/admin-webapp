@@ -74,7 +74,7 @@ export class RankingService {
     const jwt: string | null = fetchJwt();
 
     try {
-      const response = await fetch(courseServiceUrl + '/api/course/' + id, {
+      const response = await fetch(courseServiceUrl + '/api/rankings/' + id, {
         method: 'delete',
         headers: new Headers({
           'Content-Type': 'application/json',

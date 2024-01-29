@@ -17,6 +17,7 @@ export interface ICourses {
 	localRegion: string;	
 	type: number | null;
 	rowNumber: number;
+	rankingCount: number;
 }
 
 export interface ICourse {
@@ -48,6 +49,7 @@ export interface ICourseSearch {
 	type: string | null;
 	tag: string | null;
 	pageNumber: number;
+	ranked: string | null;
 }
 
 export interface ICoursePatch {

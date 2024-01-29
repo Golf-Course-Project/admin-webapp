@@ -48,7 +48,7 @@ class EditFacility extends React.Component<IProps, {}> {
     type: -1,
     snackOpen: false,
     clip: false,
-    courseList: localStorage.getItem('course_search_results_array') !== null ? JSON.parse(localStorage.getItem('course_search_results_array') as string) : []
+    courses: this.props.courses
   }
 
   componentDidMount() {
@@ -65,6 +65,42 @@ class EditFacility extends React.Component<IProps, {}> {
 
       this.fetch(this.props.facilityId);
     }
+
+    if (prevProps.courses !== this.props.courses) {
+      this.setState({ courses: this.props.courses });     
+    }    
+  }
+
+  private resetForm = () => {
+
+    this.setState({
+      action: 'loading',    
+      messageCode: 200,
+      messageText: '',
+      open: this.props.open,
+      blurErrors: [],    
+      data: null,    
+      facilityId:  this.props.facilityId,
+      courseId: this.props.courseId,
+      name: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state: '',
+      postalCode: '',
+      longitude: -1,
+      latitude: -1,
+      phone: '',
+      email: '',
+      website: '',
+      instagram: '',
+      facebook: '',
+      description: '',
+      type: -1,
+      snackOpen: false,
+      clip: false,         
+    });
+    
   }
 
   private fetch = (facilityId: string) => {
@@ -99,15 +135,17 @@ class EditFacility extends React.Component<IProps, {}> {
     });
   }
 
+
+
   handleOnClose() {
-    this.setState({ action: 'normal' });
+    this.resetForm();
     this.props.onClose();
   }
 
   handleOnUpClick() {
-    const index = this.state.courseList.findIndex((item: IListItem) => item.facilityId === this.state.facilityId);
-    const facilityId = this.state.courseList[index - 1].facilityId;
-    const courseId = this.state.courseList[index - 1].courseId;
+    const index = this.state.courses.findIndex((item: IListItem) => item.facilityId === this.state.facilityId);
+    const facilityId = this.state.courses[index - 1].facilityId;
+    const courseId = this.state.courses[index - 1].courseId;
 
     this.setState({ action: 'loading', snackOpen: false, facilityId: facilityId });  
     this.fetch(facilityId);
@@ -117,16 +155,16 @@ class EditFacility extends React.Component<IProps, {}> {
   }
 
   handleOnDownClick() {    
-    const index = this.state.courseList.findIndex((item: IListItem) => item.facilityId === this.state.facilityId);
-    let facilityId = this.state.courseList[index].facilityId;
-    let courseId = this.state.courseList[index].courseId;
+    const index = this.state.courses.findIndex((item: IListItem) => item.facilityId === this.state.facilityId);
+    let facilityId = this.state.courses[index].facilityId;
+    let courseId = this.state.courses[index].courseId;
     let i = 1;    
 
     // get the last facility id in that matches and then we cal load the next new one
     // this is to handle the case where there are multiple courses for the same facility
     do {      
-      facilityId = this.state.courseList[index + i].facilityId;   
-      courseId = this.state.courseList[index + i].courseId; 
+      facilityId = this.state.courses[index + i].facilityId;   
+      courseId = this.state.courses[index + i].courseId; 
       i++;
     } while (facilityId === this.state.facilityId);   
 
@@ -614,6 +652,7 @@ interface IProps {
   open: boolean;
   facilityId: string;
   courseId: string;
+  courses: IListItem[] | [];
 }
 
 interface IForm {
@@ -642,7 +681,7 @@ interface IForm {
   type: number;
   snackOpen: boolean;
   clip: boolean;
-  courseList: IListItem[] | [];
+  courses: IListItem[] | [];
 }
 
 interface IListItem {

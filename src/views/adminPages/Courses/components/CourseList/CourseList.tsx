@@ -3,17 +3,17 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link } from '@material-ui/core';
-import GolfCourseIcon from '@material-ui/icons/GolfCourse';
+import { SkeletonTable } from 'common/components';
 import PublicIcon from '@material-ui/icons/RadioButtonChecked';
 import PrivateIcon from '@material-ui/icons/MotionPhotosOff';
 import UnknownIcon from '@material-ui/icons/RadioButtonUnchecked';
+import RankingIcon from '@material-ui/icons/Bookmark';
 
 import { IListCoursesApiResponse, ICourses, ICourseSearch, ICourse } from 'interfaces/course.interfaces';
-import CourseService from 'services/course.service';
-import { SkeletonTable } from 'common/components';
-import EditCourse from '../EditCourse';
 import { IFacility } from 'interfaces/facility.interfaces';
+import CourseService from 'services/course.service';
 import EditFacility from '../EditFacility';
+import EditCourse from '../EditCourse';
 import ErrorMessage from 'common/components/ErrorMessage';
 
 class CourseList extends React.Component<IProps, {}> {
@@ -123,8 +123,7 @@ class CourseList extends React.Component<IProps, {}> {
     client.search(body).then(async (response: IListCoursesApiResponse) => {        
 
       if (response.messageCode !== 200) {
-        this.setState({ errorMsg: response.message, action: 'error', courseArray: [], selectedRowId: ''});
-        localStorage.removeItem('course_search_results_array'); 
+        this.setState({ errorMsg: response.message, action: 'error', courseArray: [], selectedRowId: ''});        
         return;
       }
 
@@ -150,11 +149,11 @@ class CourseList extends React.Component<IProps, {}> {
           courseArray: newArray
         });       
 
-        localStorage.setItem('course_search_results_array', JSON.stringify(newArray));        
+        //localStorage.setItem('course_search_results_array', JSON.stringify(newArray));        
       }
     }).catch((error: Error) => {      
       this.setState({ errorMsg: error.message, action: 'error', courseArray: []});   
-      localStorage.removeItem('course_search_results_array');   
+      //localStorage.removeItem('course_search_results_array');   
     });
   }  
 
@@ -197,14 +196,12 @@ class CourseList extends React.Component<IProps, {}> {
                         <Link component="button" onClick={(e:any) => this.handleOpenFacilitySideBar(row)}>{row.facilityName}</Link>                        
                       </TableCell>
                       <TableCell align="left">
-                        <Link component="button" onClick={(e:any) => this.handleOpenCourseSideBar(row)}>{row.courseName}</Link>
+                        <Link component="button" onClick={(e:any) => this.handleOpenCourseSideBar(row)}>{row.courseName}</Link>                        
                       </TableCell>     
                       <TableCell align="left">{row.address1}</TableCell>    
                       <TableCell align="left">{row.city}</TableCell>              
-                      <TableCell align="center" sx={{ width: '80px' }}>
-                        <div style={{ display: this.state.rowId === row.id ? 'flex' : 'none'}}>                          
-                          <GolfCourseIcon />                                                 
-                        </div>
+                      <TableCell align="center" sx={{ width: '80px' }}>                                                 
+                        { row.rankingCount > 0 ? <RankingIcon color="secondary" sx={{ marginLeft: '5px' }} /> : null }         
                       </TableCell>                                                               
                     </TableRow>
                   ))}
@@ -239,6 +236,7 @@ class CourseList extends React.Component<IProps, {}> {
           onFacilityUpdate={(e: any) => this.handleFacilityUpdate(e)}
           onFacilityChange={(e: any) => this.handleFacilityChange(e)}  
           onSwapFacilityToCourse={(e: any) => this.handleSwapFacilityToCourse(e)}
+          courses={this.state.courseArray}  
         ></EditFacility>        
       </Box>
     );

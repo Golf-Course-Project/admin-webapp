@@ -10,6 +10,7 @@ export class CourseSearch implements ICourseSearch {
     this.tag = null;   
     this.type = null;
     this.pageNumber = 1;
+    this.ranked = null;
   }
 
   state: string | null;
@@ -19,5 +20,6 @@ export class CourseSearch implements ICourseSearch {
   postalCode: string | null;  
   type: string | null;
   tag: string | null;
+  ranked: string | null;
   pageNumber: number;
 }

@@ -186,9 +186,7 @@ class EditCourse extends React.Component<IProps, {}> {
       isSynced: this.state.synced,   
       description: this.state.description,
       designer: this.state.designer
-    } as ICoursePatch;   
-
-    console.log(body);
+    } as ICoursePatch;     
     
     let client: CourseService | null = new CourseService();    
 

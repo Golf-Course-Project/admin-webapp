@@ -81,11 +81,12 @@ class SearchBox extends React.Component<IProps, {}> {
       body.postalCode = key.includes('postalCode') ? this.setValue(val) : null;     
       body.type = key.includes('type') ? this.setValue(val) : null;
       body.tag = key.includes('tag') ? this.setValue(val) : null;
+      body.ranked = key.includes('ranked') ? this.setValue(val) : null;
     });   
 
     body.text = searchText.trim().toLocaleLowerCase();
 
-    if (body.name !== null || body.city !== null || body.postalCode !== null || body.type !== null || body.tag !== null) {
+    if (body.name !== null || body.city !== null || body.postalCode !== null || body.type !== null || body.tag !== null || body.ranked !== null) {
       body.text = null;
     }
   
