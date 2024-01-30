@@ -1,8 +1,8 @@
-# Admin App
+# 🧑‍💻 Admin App
 
 This is a react project and is used to manage all of the admin tasks for The Golf Course Project. There are lot of things not completed yet, doing the minimum to get the application to go live. 
 
-# Basic architecture
+# 🏗️ Basic architecture
 
 This app connects to several micro services:
 
@@ -11,7 +11,7 @@ This app connects to several micro services:
 - User Service
 - Course Service
 
-### Details
+### 🪴 Details
 
 This is built using the [Webbee - Multipurpose Template + UI Kit](https://webbee.maccarianagency.com/). The template is built in React and is based on Material-UI design. It is mix of JavaScript and TypeScript files. It is the front end of the service and communicates via REST endpoints back to the microservices.
 
@@ -19,7 +19,7 @@ This is built using the [Webbee - Multipurpose Template + UI Kit](https://webbee
 
 ###
 
-# Getting started
+# 🏃‍♂️ Getting started
 
 - Install Node v14 (newer versions will not work)
 - Install dependencies: `yarn install`
@@ -35,13 +35,13 @@ If you run into any problems in the workflow, please post an issue and we will r
 
 If you are interested in contributing, please crete a new issue and we will get back to you.
 
-## Quick start
+## 👟 Quick start
 
 - Install dependencies: `yarn install`
 - Start the server: `yarn start`
 - Build on production: `yarn build`
 
-## MUI Documentation
+## ⭕ MUI Documentation
 
 The full documentation for the React Material Kit can be found [here](https://next.material-ui.com?ref=maccarian-agency)
 
