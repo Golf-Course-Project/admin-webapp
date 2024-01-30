@@ -26,30 +26,15 @@ The Admin Service is also a set of REST API's that sit on top of the Identity Se
 
 [Link to admin service repository](https://github.com/danhellem/myapp-adminservice)
 
-# Functionality and features
+### User Service
 
-Tracking the progress of the basic functionality of the application.
+For basic user management tasks
 
-### Functionality
+### Course Service
 
-| Feature             | Description                                                                  | Progress    | Status |
-| ------------------- | ---------------------------------------------------------------------------- | ----------- | :----: |
-| Basic Structure     | design templates, folder structure, react components, routing, etc.          | complete    |   ✅   |
-| Sign up             | create an account, condirm account, forget password, reset password          | complete    |   ✅   |
-| Security (Basic)    | jwt tokens, login, logout, validate token, lock out users, login attempts    | complete    |   ✅   |
-| Security (Advanced) | security roles, role checks admin pages                                      | not started |        |
-| User Management     | user search, change roles, lock out user, delete user, restore, manage codes | complete    |   ✅   |
-| Sessions            | view current logged in users, kill session, view users current page          | in progress |   🚧   |
-| Telemetry (Basic)   | track page accessed, structure to track more details like button clicks      | not started |        |
-| My Profile          | update my profile info, update my preferences, my avatar                     | in progress |   🚧   |
+For all course management admin tasks
 
-### Other
-
-| Feature              | Description                                                                                               | Progress    | Status |
-| -------------------- | --------------------------------------------------------------------------------------------------------- | ----------- | :----: |
-| Clean up             | remove all the branded information from the Webbee, cherry pick MUI files, remove extra pages and content | in progress |   🚧   |
-| Logo & illustrations | design work for a logo and more illustrations                                                             | help wanted |        |
-| CI/CD                | proper CI/CD using GitHub actions                                                                         | help wanted |   🆘   |
+###
 
 # Getting started
 
