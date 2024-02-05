@@ -103,7 +103,7 @@ class Rankings extends React.Component<IProps, {}> {
         // if count is > 0, then we can just add the new ranking to the existing data without having to fetch it again
         if (count === 0) { this.fetch(this.props.courseId); } else { if (response.value) data?.push(response.value); }
 
-        this.setState({ data: data, count: count + 1, action: 'normal', message: '', snackOpen: true }); 
+        this.setState({ data: data, count: count + 1, action: 'normal', message: '', snackOpen: true, value: 1 }); 
       } 
       else {
         this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
@@ -150,7 +150,11 @@ class Rankings extends React.Component<IProps, {}> {
     e.preventDefault();
     
     const target = e.target as HTMLSelectElement;    
-    this.setState({ [target.name]: target.value } as unknown as Pick<IForm, keyof IForm>);    
+    this.setState({ [target.name]: target.value } as unknown as Pick<IForm, keyof IForm>);   
+    
+    if (target.name === 'nameRefValueId' && target.value !== '202') {
+      this.setState({ value: 1 });
+    }
   };
 
   private handleSnackClose = () => {

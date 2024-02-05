@@ -11,7 +11,12 @@ export class RefValueData {
     {
       'id': 102,
       'text': 'Links Magazine'
+    },
+    {
+      'id': 103,
+      'text': 'Golfweek'
     }
+
   ];
 
   static names = [

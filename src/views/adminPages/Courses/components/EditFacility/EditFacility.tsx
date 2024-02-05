@@ -391,7 +391,7 @@ class EditFacility extends React.Component<IProps, {}> {
                       <Grid item xs={12} md={12}>
                         <TextField
                           type="text"
-                          label="Course Name *"
+                          label="Facility Name *"
                           variant="outlined"
                           color="primary"
                           fullWidth
