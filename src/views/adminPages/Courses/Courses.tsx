@@ -9,7 +9,7 @@ import { CourseSearch } from 'common/classes/course.search';
 
 const Courses = () => {
   const theme: any = useTheme();
-  const [searchBody, setSearchBody] = useState<ICourseSearch>(new CourseSearch('mi'));
+  const [searchBody, setSearchBody] = useState<ICourseSearch>(new CourseSearch());
 
   const callbackList = () => {
 

@@ -61,15 +61,19 @@ class SearchBox extends React.Component<IProps, {}> {
     }
   }
 
-  private buildSearchText = (searchText: string, state: string): ICourseSearch => {   
+  private buildSearchText = (searchText: string, state: string | null): ICourseSearch => {   
     let len: number = searchText.length;
     let ind: number;
     let key: string, val: string;
 
     let split = searchText.split(',');
     if (split.length < 1) split.push(searchText);
+    
+    if (state === 'all') state = null;
 
-    let body: ICourseSearch = new CourseSearch(state);
+    let body: ICourseSearch = new CourseSearch();
+
+    body.state = state;
 
     split.forEach((i) => {
       ind = i.indexOf(':');
@@ -78,17 +82,17 @@ class SearchBox extends React.Component<IProps, {}> {
     
       body.name = key.includes('name') ? this.setValue(val) : null;
       body.city = key.includes('city') ? this.setValue(val) : null;
-      body.postalCode = key.includes('postalCode') ? this.setValue(val) : null;     
+      body.postalCode = key.includes('postalcode') ? this.setValue(val) : null;     
       body.type = key.includes('type') ? this.setValue(val) : null;
       body.tag = key.includes('tag') ? this.setValue(val) : null;
-      body.ranked = key.includes('ranked') ? this.setValue(val) : null;
+      body.isRanked = key.includes('isranked') ? this.setValue(val) : null;
     });   
 
     body.text = searchText.trim().toLocaleLowerCase();
 
-    if (body.name !== null || body.city !== null || body.postalCode !== null || body.type !== null || body.tag !== null || body.ranked !== null) {
+    if (body.name !== null || body.city !== null || body.postalCode !== null || body.type !== null || body.tag !== null || body.isRanked !== null) {
       body.text = null;
-    }
+    }    
   
     return body;
   }
@@ -116,8 +120,8 @@ class SearchBox extends React.Component<IProps, {}> {
               autoComplete="off"
               sx={{ '& .MuiInputBase-input.MuiOutlinedInput-input': { bgcolor: 'background.paper', }, }}
             >
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={9}>
+              <Grid container spacing={2} paddingRight={2} paddingLeft={2}>
+                <Grid item xs={12} md={8}>
                   <Box
                     component={TextField}
                     label="search text"
@@ -131,16 +135,16 @@ class SearchBox extends React.Component<IProps, {}> {
                     onKeyPress={(e: any) => this.handleEnterKey(e)}
                   />                  
                 </Grid>
-                <Grid item xs={12} md={2}>
+                <Grid item xs={12} md={3}>
                   <Select                     
                     variant="outlined"
                     color="primary"
                     name={'searchState'}
                     fullWidth                                     
-                    value={this.state.searchState}
-                    label="search state"
+                    value={this.state.searchState}                    
                     onChange={(e: any) => this.handleStateChanges(e)}
                   >
+                    <MenuItem value={'ALL'}>All States</MenuItem>
                     <MenuItem value={'AL'}>Alabama</MenuItem>
                     <MenuItem value={'AK'}>Alaska</MenuItem>
                     <MenuItem value={'AZ'}>Arizona</MenuItem>
@@ -200,7 +204,7 @@ class SearchBox extends React.Component<IProps, {}> {
                     color="primary"
                     size="large"
                     height={54}
-                    maxWidth={500}                
+                    maxWidth={'100%'}                
                     fullWidth
                     onClick={(e: any) => this.handleSearchButtonClick(e)}
                     onKeyPress={(e: any) => this.handleEnterKey(e)}

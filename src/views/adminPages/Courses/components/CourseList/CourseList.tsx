@@ -4,8 +4,9 @@ import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link } from '@material-ui/core';
 import { SkeletonTable } from 'common/components';
-import PublicIcon from '@material-ui/icons/RadioButtonChecked';
-import PrivateIcon from '@material-ui/icons/MotionPhotosOff';
+import PublicIcon from '@material-ui/icons/Mood';
+import PrivateIcon from '@material-ui/icons/MoodBad';
+import SemiPrivateIcon from '@material-ui/icons/SentimentNeutral';
 import UnknownIcon from '@material-ui/icons/RadioButtonUnchecked';
 import RankingIcon from '@material-ui/icons/Bookmark';
 
@@ -42,6 +43,9 @@ class CourseList extends React.Component<IProps, {}> {
     
     if (prevProps.searchCriteria !== this.props.searchCriteria && this.props.searchCriteria !== null) {        
       this.setState({ action: 'loading' });
+
+      console.log(this.props.searchCriteria);
+
       this.search(this.props.searchCriteria);                
     }
 
@@ -148,12 +152,10 @@ class CourseList extends React.Component<IProps, {}> {
           action: 'normal',
           courseArray: newArray
         });       
-
-        //localStorage.setItem('course_search_results_array', JSON.stringify(newArray));        
+             
       }
     }).catch((error: Error) => {      
-      this.setState({ errorMsg: error.message, action: 'error', courseArray: []});   
-      //localStorage.removeItem('course_search_results_array');   
+      this.setState({ errorMsg: error.message, action: 'error', courseArray: []});           
     });
   }  
 
@@ -188,9 +190,10 @@ class CourseList extends React.Component<IProps, {}> {
                       selected={this.state.selectedRowId === row.id ? true : false}                                      
                     > 
                       <TableCell align="center" sx={{ width: '40px'}}>
-                        <UnknownIcon color="disabled" sx={(row.type !== 1 && row.type !== 2) ? {display: 'flex'} : {display: 'none'}}/>
+                        <UnknownIcon color="disabled" sx={(row.type === -1) ? {display: 'flex'} : {display: 'none'}}/>
                         <PublicIcon color="primary" sx={row.type === 1 ? {display: 'flex'} : {display: 'none'}}/>
                         <PrivateIcon color="secondary" sx={row.type === 2 ? {display: 'flex'} : {display: 'none'}}/>
+                        <SemiPrivateIcon color="action" sx={row.type === 3 ? {display: 'flex'} : {display: 'none'}}/>
                       </TableCell>                                                           
                       <TableCell align="left">
                         <Link component="button" onClick={(e:any) => this.handleOpenFacilitySideBar(row)}>{row.facilityName}</Link>                        

@@ -51,7 +51,7 @@ export class CourseService {
     const jwt: string | null = fetchJwt();
        
     try {
-      const response = await fetch(courseServiceUrl + '/api/course/list/states/' + body.state, {
+      const response = await fetch(courseServiceUrl + '/api/course/list', {
         method: 'post',
         headers: new Headers({
           'Content-Type': 'application/json',

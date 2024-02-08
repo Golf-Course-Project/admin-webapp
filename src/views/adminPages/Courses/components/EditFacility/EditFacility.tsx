@@ -577,9 +577,10 @@ class EditFacility extends React.Component<IProps, {}> {
                           value={this.state.type}  
                           sx={{ maxHeight: 56, width: '100%', justifyContent: 'center' }}                      
                         >
-                          <ToggleButton value={1} onClick={(e: any) => this.handleTypeChange(e, 1)} sx={{ minWidth: '33.3%' }}>Public</ToggleButton>
-                          <ToggleButton value={2} onClick={(e: any) => this.handleTypeChange(e, 2)} sx={{ minWidth: '33.3%' }}>Private</ToggleButton>
-                          <ToggleButton value={-1} onClick={(e: any) => this.handleTypeChange(e, -1)} sx={{ minWidth: '33.3%' }}>Unknown</ToggleButton>
+                          <ToggleButton value={1} onClick={(e: any) => this.handleTypeChange(e, 1)} sx={{ minWidth: '20%' }}>Public</ToggleButton>
+                          <ToggleButton value={3} onClick={(e: any) => this.handleTypeChange(e, 3)} sx={{ minWidth: '35%' }}>Semi-Private</ToggleButton>
+                          <ToggleButton value={2} onClick={(e: any) => this.handleTypeChange(e, 2)} sx={{ minWidth: '20%' }}>Private</ToggleButton>
+                          <ToggleButton value={-1} onClick={(e: any) => this.handleTypeChange(e, -1)} sx={{ minWidth: '25%' }}>Unknown</ToggleButton>
                         </ToggleButtonGroup>
                       </Grid>
                       <Grid item xs={12} md={12}>

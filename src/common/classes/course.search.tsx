@@ -1,8 +1,8 @@
 import { ICourseSearch } from 'interfaces/course.interfaces';
 
 export class CourseSearch implements ICourseSearch {
-  constructor(state: string) {
-    this.state = state;
+  constructor() {
+    this.state = null;
     this.name = null;
     this.text = null;   
     this.city = null;
@@ -10,7 +10,7 @@ export class CourseSearch implements ICourseSearch {
     this.tag = null;   
     this.type = null;
     this.pageNumber = 1;
-    this.ranked = null;
+    this.isRanked = null;
   }
 
   state: string | null;
@@ -20,6 +20,6 @@ export class CourseSearch implements ICourseSearch {
   postalCode: string | null;  
   type: string | null;
   tag: string | null;
-  ranked: string | null;
+  isRanked: string | null;
   pageNumber: number;
 }

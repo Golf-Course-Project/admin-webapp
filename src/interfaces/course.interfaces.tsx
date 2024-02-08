@@ -49,7 +49,7 @@ export interface ICourseSearch {
 	type: string | null;
 	tag: string | null;
 	pageNumber: number;
-	ranked: string | null;
+	isRanked: string | null;
 }
 
 export interface ICoursePatch {
