@@ -304,7 +304,7 @@ class EditCourse extends React.Component<IProps, {}> {
         <Grid container spacing={1}>              
           <Grid item xs={9}>
             <Box
-              display={'flex'}
+              display={this.props.onSwapCourseToFacility === undefined ? 'none' : 'flex'}
               justifyContent={'flex-end'}
               sx={{ paddingRight: '5px', paddingTop: '15px' }}            
             >              
@@ -313,7 +313,7 @@ class EditCourse extends React.Component<IProps, {}> {
           </Grid>
           <Grid item xs={1}>
             <Box
-              display={'flex'}
+              display={this.props.courses.length === 0 ? 'none' : 'flex'}
               justifyContent={'flex-end'}
               sx={{ paddingRight: '5px', paddingTop: '10px' }}              
             >
@@ -324,7 +324,7 @@ class EditCourse extends React.Component<IProps, {}> {
           </Grid>
           <Grid item xs={1}>
             <Box
-              display={'flex'}
+              display={this.props.courses.length === 0 ? 'none' : 'flex'}
               justifyContent={'flex-end'}
               sx={{ paddingRight: '10px', paddingTop: '10px' }}              
             >
@@ -640,7 +640,7 @@ interface IProps {
   onClose: () => void; 
   onCourseUpdate: (course: ICoursePatch | null) => void;
   onCourseChange: (obj: any) => void;
-  onSwapCourseToFacility: (obj: any) => void;
+  onSwapCourseToFacility: (obj: any | null) => void | undefined;
   theme: Theme;
   open: boolean;
   facilityId: string; 
