@@ -8,7 +8,7 @@ import PrivateIcon from '@material-ui/icons/Lock';
 import SemiPrivateIcon from '@material-ui/icons/LockOpen';
 import RankingIcon from '@material-ui/icons/Bookmark';
 
-import { IListCoursesApiResponse, ICourses, ICourseSearch, ICourse } from 'interfaces/course.interfaces';
+import { ICourseListApiResponse, ICourseList, ICourseSearch, ICourse } from 'interfaces/course.interfaces';
 import { IFacility } from 'interfaces/facility.interfaces';
 import CourseService from 'services/course.service';
 import EditFacility from '../EditFacility';
@@ -61,14 +61,14 @@ class CourseList extends React.Component<IProps, {}> {
     this.setState({ rowId: '', clip: false });
   }    
 
-  private handleOpenCourseSideBar = (row: ICourses) => {           
-    const index = this.state.data.findIndex((item: ICourses) => item.id === row.id);    
+  private handleOpenCourseSideBar = (row: ICourseList) => {           
+    const index = this.state.data.findIndex((item: ICourseList) => item.id === row.id);    
     const nextRowId = (index + 1) < this.state.count ? this.state.data[index + 1].id : this.state.data[index].id;  
 
     this.setState({ openCourseSideBar: true, openFacilitySideBar: false, selectedCourse: row, selectedRowId: row.id, nextRowId: nextRowId});      
   };  
 
-  private handleOpenFacilitySideBar = (row: ICourses) => {      
+  private handleOpenFacilitySideBar = (row: ICourseList) => {      
     this.setState({ openCourseSideBar: false, openFacilitySideBar: true, selectedCourse: row, selectedRowId: row.id});      
   };  
 
@@ -101,7 +101,7 @@ class CourseList extends React.Component<IProps, {}> {
   };
 
   private handleCourseChange = (obj: {courseId: string, faclityId: string}) => {
-    const index = this.state.data.findIndex((item: ICourses) => item.id === obj.courseId);
+    const index = this.state.data.findIndex((item: ICourseList) => item.id === obj.courseId);
     const nextRowId = (index + 1) < this.state.count ? this.state.data[index + 1].id : this.state.data[index].id;  
 
     this.setState({ rowId: nextRowId, selectedRowId: nextRowId });
@@ -122,7 +122,7 @@ class CourseList extends React.Component<IProps, {}> {
   private search = (body: ICourseSearch) => {
     const client: CourseService = new CourseService();  
     
-    client.search(body).then(async (response: IListCoursesApiResponse) => {        
+    client.search(body).then(async (response: ICourseListApiResponse) => {        
 
       if (response.messageCode !== 200) {
         this.setState({ errorMsg: response.message, action: 'error', courseArray: [], selectedRowId: ''});        
@@ -253,13 +253,13 @@ interface IProps {
 interface IForm {
   action: string,
   errorMsg: string;  
-  data: ICourses[]; 
+  data: ICourseList[]; 
   count: number;
   rowId: string;
   selectedRowId: string;  
   clip: boolean; 
   openCourseSideBar: boolean;
   openFacilitySideBar: boolean;
-  selectedCourse: ICourses | null;
+  selectedCourse: ICourseList | null;
   courseArray: {courseId: string, facilityId: string}[];
 }

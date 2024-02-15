@@ -1,11 +1,15 @@
 import { IApiResponse } from './api-response.interface';
 import { IFacility } from './facility.interfaces';
 
-export interface IListCoursesApiResponse extends IApiResponse {
-	value: ICourses[];
+export interface ICourseListApiResponse extends IApiResponse {
+	value: ICourseList[];
 }
 
-export interface ICourses {
+export interface ICourseListWithRankingApiResponse extends IApiResponse {
+	value: ICourseListWithRanking[];
+}
+
+export interface ICourseList {
 	id: string;
 	facilityId: string;
 	courseName: string;
@@ -18,6 +22,20 @@ export interface ICourses {
 	type: number | null;
 	rowNumber: number;
 	rankingCount: number;
+}
+
+export interface ICourseListWithRanking {
+	courseId: string;
+	facilityId: string;
+	courseName: string;
+	facilityName: string;
+	city: string;
+	state: string;	
+	type: number | null;
+	rankingSource: string;
+	rankingName: string;
+	rankingYear: number;
+	rankingValue: number;
 }
 
 export interface ICourse {
@@ -50,6 +68,17 @@ export interface ICourseSearch {
 	tag: string | null;
 	pageNumber: number;
 	isRanked: string | null;
+}
+
+export interface ICourseSearchWithRanking {
+	state: string | null;
+	name: string | null;
+	text: string | null;	
+	city: string | null;	
+	isRanked: string | null;
+	year: number | null;
+	sourceId: number | null;
+	nameId: number | null;
 }
 
 export interface ICoursePatch {
