@@ -15,7 +15,7 @@ import { ICourse, ICoursePatch, IFetchCourseAndFacilityApiResponse, IPatchCourse
 import { ErrorMessage } from 'common/components';
 import ConfirmDelete from '../ConfirmDelete';
 import CourseService from 'services/course.service';
-import Rankings from '../Rankings';
+import Rankings from '../RankCourse';
 //import Ratings from '../Ratings';
 
 class EditCourse extends React.Component<IProps, {}> {

@@ -88,11 +88,6 @@ export const pages = [
         authHide: false,
       },  
       {
-        title: 'Course Rankings',
-        href: '/admin-course-rankings',
-        authHide: false,
-      },  
-      {
         title: 'Misc',
         href: '/admin-docs',
         authHide: false,

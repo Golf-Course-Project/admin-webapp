@@ -2,18 +2,27 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container, TextField } from '@material-ui/core';
-import { SkeletonTable } from 'common/components';
-import EditCourse from '../EditCourse';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container, TextField, Breadcrumbs, Typography, Skeleton } from '@material-ui/core';
 import RankingIcon from '@material-ui/icons/Bookmark';
 import LockIcon from '@material-ui/icons/Lock';
-import Illustration from 'svg/illustrations/Globe';
+import UnknownIcon from '@material-ui/icons/NotListedLocation';
 
+import Illustration from 'svg/illustrations/Globe';
+import { SkeletonTable } from 'common/components';
+import EditCourse from '../EditCourse';
+import EditFacility from '../EditFacility';
 import { ICourseSearch, ICourse, ICourseSearchWithRanking, ICourseListWithRankingApiResponse, ICourseListWithRanking } from 'interfaces/course.interfaces';
+import { IOptions, IRankingPost2 } from 'interfaces/rankings.interfaces';
+import { IApiResponse } from 'interfaces/api-response.interface';
+import RankingService from 'services/ranking.service';
 import CourseService from 'services/course.service';
 import ErrorMessage from 'common/components/ErrorMessage';
+import { RefValueData } from 'data/refvalue.data';
+import { IFacility } from 'interfaces/facility.interfaces';
 
-class CourseListForRanking extends React.Component<IProps, {}> {
+
+
+class ListCourses extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
   readonly _pageSize: number = 25;
 
@@ -25,11 +34,16 @@ class CourseListForRanking extends React.Component<IProps, {}> {
     rowId: '',
     selectedRowId: '',      
     openCourseSideBar: false,   
+    openFacilitySideBar: false,
     selectedCourse: null,
     textboxValue: '', 
-    year: 2023,
-    sourceId: 100,
-    nameId: 201
+    isTextboxInEditMode: false,
+    isTextboxDirty: false,
+    year: 2024,
+    sourceRefValueId: -1,
+    source: '',
+    nameRefValueId: -1,
+    name: ''
   }
 
   componentDidMount() {
@@ -37,32 +51,56 @@ class CourseListForRanking extends React.Component<IProps, {}> {
   }
 
   componentDidUpdate(prevProps: any) {    
-    if (prevProps.searchCriteria !== this.props.searchCriteria && this.props.searchCriteria !== null) {        
-      this.setState({ action: 'loading' });     
-      
-      const body: ICourseSearchWithRanking = { 
-        state: this.props.searchCriteria.state, 
+    
+    if (prevProps.options !== this.props.options && this.props.options !== null) {
+      this.setState({
+        year: this.props.options.year,
+        sourceRefValueId: this.props.options.sourceRefValueId,
+        nameRefValueId: this.props.options.nameRefValueId,
+        source: RefValueData.sources.find((item: any) => item.id === this.props.options?.sourceRefValueId)?.text,
+        name: RefValueData.names.find((item: any) => item.id === this.props.options?.nameRefValueId)?.text,
+      });
+    }
+    
+    if (prevProps.searchCriteria !== this.props.searchCriteria && this.props.searchCriteria !== null) {
+      this.setState({ action: 'loading' });
+
+      const body: ICourseSearchWithRanking = {
+        state: this.props.searchCriteria.state,
         text: this.props.searchCriteria.text,
-        name: this.props.searchCriteria.name, 
-        city: this.props.searchCriteria.city, 
-        isRanked: this.props.searchCriteria.isRanked, 
-        year: this.state.year, 
-        sourceId: this.state.sourceId, 
-        nameId: this.state.nameId
+        name: this.props.searchCriteria.name,
+        city: this.props.searchCriteria.city,
+        isRanked: this.props.searchCriteria.isRanked,
+        year: this.props.options !== null ? this.props.options.year : 2024,
+        sourceRefValueId: this.props.options !== null ? this.props.options.sourceRefValueId : 100,
+        nameRefValueId: this.props.options !== null ? this.props.options.nameRefValueId : 201,
       };
 
-      this.search(body);                
-    }
+      this.search(body);
+    }    
   } 
 
   handleInputChange = (e: any) => {
-    this.setState({ textboxValue: e.target.value });
-    console.log(e.target.value);
+    const _textboxvalue: string = this.state.textboxValue;
+    this.setState({ isTextboxDirty: e.target.value !== this.state.textboxValue, textboxValue: e.target.value !== this.state.textboxValue ? e.target.value : _textboxvalue});
   }
 
   private handleCellClick = (id: string, value: string) => {
-    this.setState({ selectedRowId: id, textboxValue: value});
+    this.setState({ selectedRowId: id, textboxValue: value, isTextboxInEditMode: true, isTextboxDirty: false});
+  }
 
+  private handleRankingValueOnBlur = () => {   
+    if (this.state.isTextboxDirty) {
+      const data: IRankingPost2 = {
+        courseId: this.state.selectedRowId,
+        sourceRefValueId: this.state.sourceRefValueId,
+        nameRefValueId: this.state.nameRefValueId,
+        year: this.state.year,
+        value: parseInt(this.state.textboxValue)
+      };     
+
+      this.createUpdate(data);    
+    }
   }
   
   private handleMouseEnter = (e: any, id: string) => {
@@ -81,8 +119,17 @@ class CourseListForRanking extends React.Component<IProps, {}> {
     const index = this.state.data.findIndex((item: ICourseListWithRanking) => item.courseId === row.courseId);    
     const nextRowId = (index + 1) < this.state.count ? this.state.data[index + 1].courseId : this.state.data[index].courseId;  
 
-    this.setState({ openCourseSideBar: true, openFacilitySideBar: false, selectedCourse: row, selectedRowId: row.courseId, nextRowId: nextRowId});      
-  };    
+    this.setState({ openCourseSideBar: true, 
+      openFacilitySideBar: false, 
+      selectedCourse: row, selectedRowId: 
+      row.courseId, 
+      nextRowId: nextRowId, 
+      isEditingTextbox: false });      
+  };  
+  
+  private handleOpenFacilitySideBar = (row: ICourseListWithRanking) => {      
+    this.setState({ openCourseSideBar: false, openFacilitySideBar: true, selectedCourse: row, selectedRowId: row.courseId, isEditingTextbox: false});      
+  };  
 
   private handleSidebarClose = () => {
     this.setState({ openCourseSideBar: false, openFacilitySideBar: false });       
@@ -93,11 +140,31 @@ class CourseListForRanking extends React.Component<IProps, {}> {
    
     this.setState(data => {
       const newData = this.state.data.map(item => item.courseId === course.id
-        ? { ...item, courseName: course.name, address1: course.address1, city: course.city }
+        ? { ...item, courseName: course.name, city: course.city }
         : item
       );
       return { data: newData };
     });    
+  };
+
+  private handleFacilityUpdate = (facility: IFacility | null) => {
+    if (facility === null) return;
+                
+    this.setState(data => {
+      const newData = this.state.data.map(item => item.facilityId === facility.id
+        ? { ...item, facilityName: facility.name, type: facility.type }
+        : item
+      );
+      return { data: newData };
+    });     
+  };
+
+  private handleSwapFacilityToCourse = (obj: {courseId: string, facilityId: string}) => {   
+    this.setState({ rowId: obj.courseId, selectedRowId: obj.courseId, openCourseSideBar: true, openFacilitySideBar: false });
+  };
+
+  private handleSwapCourseToFacility = (obj: {courseId: string, faclityId: string}) => {   
+    this.setState({ openCourseSideBar: false, openFacilitySideBar: true, rowId: obj.courseId, selectedRowId: obj.courseId });
   };
 
   private search = (body: ICourseSearchWithRanking) => {
@@ -106,7 +173,7 @@ class CourseListForRanking extends React.Component<IProps, {}> {
     client.searchWithRanking(body).then(async (response: ICourseListWithRankingApiResponse) => {        
 
       if (response.messageCode !== 200) {
-        this.setState({ errorMsg: response.message, action: 'error', courseArray: [], selectedRowId: ''});        
+        this.setState({ errorMsg: response.message, action: 'error', selectedRowId: ''});        
         return;
       }
 
@@ -132,6 +199,36 @@ class CourseListForRanking extends React.Component<IProps, {}> {
     });
   }  
 
+  private createUpdate = (body: IRankingPost2) => {
+    const client: RankingService = new RankingService(); 
+
+    client.createUpdate(body).then(async (response: IApiResponse) => {        
+
+      if (response.messageCode !== 200) {
+        this.setState({ errorMsg: response.message, action: 'error', selectedRowId: ''});        
+        return;
+      }
+
+      if (response.success) {  
+        this.setState({ isTextboxInEditMode: false, isTextboxDirty: false });
+
+        this.setState(data => {
+          const newData = this.state.data.map(item => item.courseId === body.courseId
+            ? { ...item, rankingValue: body.value }
+            : item
+          )
+            .filter(item => item.rankingValue !== 0)
+            .sort((a, b) => a.rankingValue - b.rankingValue);
+
+          return { data: newData };
+        });         
+      }
+
+    }).catch((error: Error) => {      
+      this.setState({ errorMsg: error.message, action: 'error', courseArray: []});           
+    });
+  }
+
   render() {
     return (
       <Box>   
@@ -147,6 +244,14 @@ class CourseListForRanking extends React.Component<IProps, {}> {
         </Box>
 
         <Box sx={this.state.action === 'normal' ? { display: 'block' } : { display: 'none' }}>          
+          <Box marginBottom={2} paddingLeft={1}>
+            <Breadcrumbs aria-label="breadcrumb">
+              <Typography color="disabled">{this.state.source}</Typography>
+              <Typography color="disabled">{this.state.name}</Typography>
+              <Typography color="disabled">{this.state.year}</Typography>
+            </Breadcrumbs>
+          </Box>
+          
           <Box marginBottom={4} sx={{ display: 'flex' }}>            
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -173,7 +278,8 @@ class CourseListForRanking extends React.Component<IProps, {}> {
                       selected={this.state.selectedRowId === row.courseId ? true : false}                                      
                     > 
                       <TableCell align="center">                                                 
-                        { row.type === 2  ? <LockIcon color="disabled" /> : null }         
+                        { row.type === 2  ? <LockIcon color="disabled" /> : null } 
+                        { row.type === -1  ? <UnknownIcon color="disabled" /> : null }        
                       </TableCell> 
                       <TableCell align="center">                                                 
                         { row.rankingValue > 0 ? <RankingIcon color="secondary" /> : null }         
@@ -182,19 +288,20 @@ class CourseListForRanking extends React.Component<IProps, {}> {
                         <Link component="button" onClick={(e:any) => this.handleOpenCourseSideBar(row)}>{row.courseName}</Link>                        
                       </TableCell>   
                       <TableCell align="left">
-                        {row.facilityName}                       
+                        <Link component="button" onClick={(e:any) => this.handleOpenFacilitySideBar(row)}>{row.facilityName}</Link>                     
                       </TableCell>                           
                       <TableCell align="left">{row.city}</TableCell>   
                       <TableCell align="left">{row.state}</TableCell>  
-                      <TableCell align="center" onClick={(e:any) => this.handleCellClick(row.courseId, '')}>
-                        {this.state.selectedRowId === row.courseId ? (
+                      <TableCell align="center" onClick={(e:any) => this.handleCellClick(row.courseId, row.rankingValue > 0 ? row.rankingValue.toString() : '')}>
+                        {this.state.selectedRowId === row.courseId && this.state.isTextboxInEditMode ? (
                           <TextField
                             autoFocus
                             size="small"
                             value={this.state.textboxValue}
                             id={row.courseId}
                             name={row.courseId}
-                            onChange={(e:any) => this.handleInputChange(e)}                            
+                            onChange={(e:any) => this.handleInputChange(e)}   
+                            onBlur={(e:any) => this.handleRankingValueOnBlur()}                         
                           />
                         ) : (
                           row.rankingValue
@@ -209,7 +316,11 @@ class CourseListForRanking extends React.Component<IProps, {}> {
           </Box>          
         </Box>
 
-        <Box>
+        <Box display={this.state.action === 'loading' ? 'block' : 'none'}>  
+          <Box marginBottom={2} paddingLeft={1}>
+            <Skeleton variant='text' width={300} height={30}></Skeleton>
+          </Box>
+
           <SkeletonTable rows={10} columns={6} display={this.state.action === 'loading' ? true : false}></SkeletonTable>                 
         </Box>    
 
@@ -220,21 +331,33 @@ class CourseListForRanking extends React.Component<IProps, {}> {
           id={this.state.selectedCourse?.courseId}
           name={this.state.selectedCourse?.courseName}         
           onClose={this.handleSidebarClose}
-          onCourseUpdate={(e: any) => this.handleCourseUpdate(e)}                                
+          onCourseUpdate={(e: any) => this.handleCourseUpdate(e)}    
+          onSwapCourseToFacility={(e: any) => this.handleSwapCourseToFacility(e)}                              
           courses={[]}         
         >
-        </EditCourse>       
+        </EditCourse>   
+
+        <EditFacility
+          theme={this.props.theme}
+          open={this.state.openFacilitySideBar}
+          facilityId={this.state.selectedCourse?.facilityId}          
+          onClose={this.handleSidebarClose}         
+          onFacilityUpdate={(e: any) => this.handleFacilityUpdate(e)} 
+          onSwapFacilityToCourse={(e: any) => this.handleSwapFacilityToCourse(e)}                
+          courses={[]}  
+        ></EditFacility>         
       </Box>
     );
   }
 }
 
-export default CourseListForRanking;
+export default ListCourses;
 
 interface IProps {
   callback: () => void;
   theme: Theme;
   searchCriteria: ICourseSearch | null;
+  options: IOptions | null;
 }
 
 interface IForm {
@@ -244,10 +367,15 @@ interface IForm {
   count: number;
   rowId: string;
   selectedRowId: string;     
-  openCourseSideBar: boolean;  
+  openCourseSideBar: boolean; 
+  openFacilitySideBar: boolean; 
   selectedCourse: ICourseListWithRanking | null; 
   textboxValue: any;
+  isTextboxInEditMode: boolean;
+  isTextboxDirty: boolean
   year: number;
-  sourceId: number;
-  nameId: number;
+  sourceRefValueId: number;
+  source: string;
+  nameRefValueId: number;
+  name: string;
 }

@@ -15,7 +15,7 @@ import EditFacility from '../EditFacility';
 import EditCourse from '../EditCourse';
 import ErrorMessage from 'common/components/ErrorMessage';
 
-class CourseList extends React.Component<IProps, {}> {
+class OldCourseList extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
   readonly _pageSize: number = 25;
 
@@ -41,9 +41,6 @@ class CourseList extends React.Component<IProps, {}> {
     
     if (prevProps.searchCriteria !== this.props.searchCriteria && this.props.searchCriteria !== null) {        
       this.setState({ action: 'loading' });
-
-      console.log(this.props.searchCriteria);
-
       this.search(this.props.searchCriteria);                
     }
 
@@ -242,7 +239,7 @@ class CourseList extends React.Component<IProps, {}> {
   }
 }
 
-export default CourseList;
+export default OldCourseList;
 
 interface IProps {
   callback: () => void;

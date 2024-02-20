@@ -13,7 +13,7 @@ import { RefValueData } from 'data/refvalue.data';
 import ErrorMessage from 'common/components/ErrorMessage';
 import { IStandardApiResponse } from 'interfaces/api-response.interface';
 
-class Rankings extends React.Component<IProps, {}> {
+class RankCourse extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {}; 
 
   state: IForm = {
@@ -326,7 +326,7 @@ class Rankings extends React.Component<IProps, {}> {
   }
 }
 
-export default Rankings;
+export default RankCourse;
 
 interface IProps {     
   theme: Theme;  

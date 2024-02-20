@@ -23,6 +23,20 @@ export interface IRankingPost {
 	value: number;
 }
 
+export interface IRankingPost2 {
+	courseId: string;
+	sourceRefValueId: number;	
+	nameRefValueId: number;	
+	year: number;
+	value: number;
+}
+
+export interface IOptions{
+	sourceRefValueId: number; 
+	nameRefValueId: number; 
+	year: number;
+  }
+
 export interface IListRankingsApiResponse extends IApiResponse {
 	value: IRanking[] | null;
 }

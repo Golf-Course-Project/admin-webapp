@@ -77,8 +77,8 @@ export interface ICourseSearchWithRanking {
 	city: string | null;	
 	isRanked: string | null;
 	year: number | null;
-	sourceId: number | null;
-	nameId: number | null;
+	sourceRefValueId: number | null;
+	nameRefValueId: number | null;
 }
 
 export interface ICoursePatch {

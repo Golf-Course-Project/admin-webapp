@@ -1,8 +1,9 @@
-export { default as CourseList } from './CourseList';
-export { default as CourseListForRanking } from './CourseListForRanking';
-export { default as SearchBox } from './SearchBox';
+export { default as OldCourseList } from './OldCourseList';
+export { default as ListCourses } from './ListCourses';
+export { default as SearchBoxForCourses } from './SearchBoxForCourses';
+export { default as SearchBoxForRanking } from './SearchBoxForRanking';
 export { default as EditCourse } from './EditCourse';
 export { default as EditFacility } from './EditFacility';
 export { default as ConfirmDelete } from './ConfirmDelete';
-export { default as Rankings } from './Rankings';
+export { default as RankCourse } from './RankCourse';
 export { default as Ratings } from './Ratings';

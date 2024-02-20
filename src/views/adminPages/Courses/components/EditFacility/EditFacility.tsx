@@ -300,15 +300,6 @@ class EditFacility extends React.Component<IProps, {}> {
         </Snackbar>
 
         <Grid container spacing={1}>              
-          <Grid item xs={8}>
-            <Box
-              display={'flex'}
-              justifyContent={'flex-end'}
-              sx={{ paddingRight: '5px', paddingTop: '15px' }}            
-            >              
-              <Button variant="contained" size="small" color="secondary" startIcon={<SwapIcon />} onClick={(e: any) => this.handleOnSwapToCourse()}>Open Course</Button>
-            </Box>
-          </Grid>
           <Grid item xs={1}>
             <Box
               display={'flex'}
@@ -319,9 +310,18 @@ class EditFacility extends React.Component<IProps, {}> {
               <CheckIcon sx={{ fontSize: 15, display: (this.state.clip) ? 'inline' : 'none', marginLeft: '10px', color: green[700] }} />
             </Box>
           </Grid>
+          <Grid item xs={8}>
+            <Box
+              display={this.props.onSwapFacilityToCourse === undefined ? 'none' : 'flex'}
+              justifyContent={'flex-end'}
+              sx={{ paddingRight: '5px', paddingTop: '15px' }}            
+            >              
+              <Button variant="contained" size="small" color="secondary" startIcon={<SwapIcon />} onClick={(e: any) => this.handleOnSwapToCourse()}>Open Course</Button>
+            </Box>
+          </Grid>          
           <Grid item xs={1}>
             <Box
-              display={'flex'}
+              display={this.props.courses.length === 0 ? 'none' : 'flex'}
               justifyContent={'flex-end'}
               sx={{ paddingRight: '5px', paddingTop: '10px' }}
               onClick={(e: any) => this.handleOnUpClick()}
@@ -333,7 +333,7 @@ class EditFacility extends React.Component<IProps, {}> {
           </Grid>
           <Grid item xs={1}>
             <Box
-              display={'flex'}
+              display={this.props.courses.length === 0 ? 'none' : 'flex'}
               justifyContent={'flex-end'}
               sx={{ paddingRight: '10px', paddingTop: '10px' }}
               onClick={(e: any) => this.handleOnDownClick()}
@@ -646,9 +646,9 @@ export default EditFacility;
 
 interface IProps {
   onClose: () => void;
-  onFacilityUpdate: (facility: IFacility | null) => void;  
-  onFacilityChange: (obj: any) => void;
-  onSwapFacilityToCourse: (obj: any) => void;
+  onFacilityUpdate: (facility: IFacility | null) => void | undefined;  
+  onFacilityChange: (obj: any) => void | undefined;
+  onSwapFacilityToCourse: (obj: any) => void | undefined;
   theme: Theme;
   open: boolean;
   facilityId: string;
