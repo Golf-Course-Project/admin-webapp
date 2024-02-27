@@ -15,7 +15,8 @@ import { ICourse, ICoursePatch, IFetchCourseAndFacilityApiResponse, IPatchCourse
 import { ErrorMessage } from 'common/components';
 import ConfirmDelete from '../ConfirmDelete';
 import CourseService from 'services/course.service';
-import Rankings from '../RankCourse';
+import RankCourse from '../RankCourse';
+import UploadImages from '../UploadImages';
 //import Ratings from '../Ratings';
 
 class EditCourse extends React.Component<IProps, {}> {
@@ -615,19 +616,24 @@ class EditCourse extends React.Component<IProps, {}> {
               <Grid item lg={1} md={12} sm={12} xs={12}></Grid>
                        
               <Grid item lg={5} md={12} sm={12} xs={12} sx={{width: '100%'}} >                         
-                <Rankings courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} ready={this.state.ready} />
-
-                <Box display="divider">
-                  &nbsp;
+                <Box>
+                  <RankCourse courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} ready={this.state.ready} />
                 </Box>
 
-                { /* <Ratings courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} /> */ }
                 
-                                     
+
+                <Box>
+                  <UploadImages courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} ready={this.state.ready} />
+                </Box>
+
+                { /* <Ratings courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} /> */ }                                     
               </Grid>
+
+              
             </Grid>
           </Box>
         </Box>
+
       </Drawer>
     );
 
