@@ -1,7 +1,7 @@
 import { courseServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper'; 
 import { IStandardApiResponse } from 'interfaces/api-response.interface';
-import { ICoursePatch, ICourseSearch, ICourseSearchWithRanking, IFetchCourseAndFacilityApiResponse, IFetchCourseApiResponse, ICourseListApiResponse, IPatchCourseApiResponse, ICourseListWithRankingApiResponse } from 'interfaces/course.interfaces';
+import { ICoursePatch, ICourseSearch, ICourseSearchWithRanking, IFetchCourseAndFacilityApiResponse, IFetchCourseApiResponse, ICourseListApiResponse, IPatchCourseApiResponse, ICourseListWithRankingApiResponse, IFetchCoursePhotosApiResponse, ICoursePatchForDefaultPhoto } from 'interfaces/course.interfaces';
 
 export class CourseService {
   
@@ -46,6 +46,46 @@ export class CourseService {
       return await Promise.reject(error);
     }
   } 
+
+  async fetchPhotos(id : string): Promise<IFetchCoursePhotosApiResponse> {
+    
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(`${courseServiceUrl}/api/course/${id}/photos`, {
+        method: 'get',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),        
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  } 
+
+  async PostPhoto(body: FormData, id: string): Promise<IStandardApiResponse> {
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(`https://localhost:44399/api/course/${id}/postphoto`, {
+        method: 'POST',
+        headers: new Headers({   
+          'X-Authorization': `Bearer ${jwt}`,        
+        }),   
+        body: body,     
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  }
 
   async search(body: ICourseSearch): Promise<ICourseListApiResponse> {    
     const jwt: string | null = fetchJwt();
@@ -110,7 +150,28 @@ export class CourseService {
     }
   }
 
-  async patch(data: ICoursePatch): Promise<IPatchCourseApiResponse> {
+  async deletePhoto(courseId: string, name : string): Promise<IStandardApiResponse> {
+    
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(`${courseServiceUrl}/api/course/${courseId}/${name}`, {
+        method: 'delete',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),        
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  }
+
+  async patch(data: ICoursePatch | ICoursePatchForDefaultPhoto): Promise<IPatchCourseApiResponse> {
     
     const jwt: string | null = fetchJwt();
 
@@ -130,7 +191,7 @@ export class CourseService {
     } catch (error) {
       return await Promise.reject(error);
     }
-  }
+  }  
 }
 
 export default CourseService;

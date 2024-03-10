@@ -7,4 +7,4 @@ export { default as EditFacility } from './EditFacility';
 export { default as ConfirmDelete } from './ConfirmDelete';
 export { default as RankCourse } from './RankCourse';
 export { default as Ratings } from './Ratings';
-export { default as UploadImages } from './UploadImages';
+export { default as CoursePhotos } from './CoursePhotos';

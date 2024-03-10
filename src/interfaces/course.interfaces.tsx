@@ -55,6 +55,7 @@ export interface ICourse {
 	website: string;
 	type: number;
 	designer: string;
+	defaultPhoto: string;
 	isSynced: boolean;
 }
 
@@ -96,6 +97,16 @@ export interface ICoursePatch {
 	isSynced: boolean;
 }
 
+export interface ICoursePatchForDefaultPhoto {
+	id: string;
+	defaultPhoto: string;
+}
+
+export interface ICoursePhoto {	
+	name: string;
+	url: string;
+}
+
 export interface IPatchCourseApiResponse extends IApiResponse {
 	value: ICourse | null;
 }
@@ -106,4 +117,8 @@ export interface IFetchCourseApiResponse extends IApiResponse {
 
 export interface IFetchCourseAndFacilityApiResponse extends IApiResponse {
 	value: { course: ICourse | null, facility: IFacility | null };
+}
+
+export interface IFetchCoursePhotosApiResponse extends IApiResponse {
+	value: ICoursePhoto[] | null;
 }

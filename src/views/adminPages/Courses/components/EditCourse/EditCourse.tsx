@@ -16,7 +16,7 @@ import { ErrorMessage } from 'common/components';
 import ConfirmDelete from '../ConfirmDelete';
 import CourseService from 'services/course.service';
 import RankCourse from '../RankCourse';
-import UploadImages from '../UploadImages';
+import CoursePhotos from '../CoursePhotos';
 //import Ratings from '../Ratings';
 
 class EditCourse extends React.Component<IProps, {}> {
@@ -46,6 +46,7 @@ class EditCourse extends React.Component<IProps, {}> {
     description: '',
     synced: false,
     designer: '',
+    defaultPhoto: '',
     snackOpen: false,      
     courses: this.props.courses
   }
@@ -75,6 +76,7 @@ class EditCourse extends React.Component<IProps, {}> {
       latitude: -1,
       description: '',
       designer: '', 
+      defaultPhoto: '',
       synced: false,
       snackOpen: false,      
     });
@@ -127,7 +129,8 @@ class EditCourse extends React.Component<IProps, {}> {
           phone: response.value?.course?.phone ?? '',
           email: response.value?.course?.email ?? '',
           website: response.value?.course?.website ?? '',
-          designer: response.value?.course?.designer ?? '',           
+          designer: response.value?.course?.designer ?? '',  
+          defaultPhoto: response.value?.course?.defaultPhoto ?? '',         
           synced: response.value?.course?.isSynced ?? false,  
           action: 'normal',
           ready: true       
@@ -618,12 +621,10 @@ class EditCourse extends React.Component<IProps, {}> {
               <Grid item lg={5} md={12} sm={12} xs={12} sx={{width: '100%'}} >                         
                 <Box>
                   <RankCourse courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} ready={this.state.ready} />
-                </Box>
-
-                
+                </Box>                
 
                 <Box>
-                  <UploadImages courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} ready={this.state.ready} />
+                  <CoursePhotos courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} ready={this.state.ready} default={this.state.defaultPhoto} />
                 </Box>
 
                 { /* <Ratings courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} /> */ }                                     
@@ -678,6 +679,7 @@ interface IForm {
   email: string;
   website: string; 
   designer: string;
+  defaultPhoto: string;
   synced: boolean; 
   snackOpen: boolean;  
   courses: IListItem[] | [];

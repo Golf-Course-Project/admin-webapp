@@ -44,7 +44,7 @@ class Avatar extends React.Component<IProps, {}> {
   handleUploadClick(e: React.FormEvent<HTMLButtonElement>) {
     this.setState({ action: 'uploading', buttonText: 'Uploading, please wait...' });
     
-    var extensions: string[] = ['png', 'gif', 'jpeg'];
+    var extensions: string[] = ['png', 'gif', 'jpeg', 'jpg'];
     var index: number | undefined = -1;
 
     // validate the file extension
@@ -64,7 +64,7 @@ class Avatar extends React.Component<IProps, {}> {
       if (this.state.file !== undefined) {
         var formData = new FormData();
         formData.append('file', this.state.file);
-        formData.append('fileName', this.state.file.name);
+        formData.append('fileName', this.state.file.name);    
         
         const client: UserProfileService = new UserProfileService();
 
