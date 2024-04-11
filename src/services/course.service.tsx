@@ -1,7 +1,7 @@
 import { courseServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper'; 
 import { IStandardApiResponse } from 'interfaces/api-response.interface';
-import { ICoursePatch, ICourseSearch, ICourseSearchWithRanking, IFetchCourseAndFacilityApiResponse, IFetchCourseApiResponse, ICourseListApiResponse, IPatchCourseApiResponse, ICourseListWithRankingApiResponse, IFetchCoursePhotosApiResponse, ICoursePatchForDefaultPhoto } from 'interfaces/course.interfaces';
+import { ICoursePatch, ICourseSearch, ICourseSearchWithRanking, IFetchCourseAndFacilityApiResponse, IFetchCourseApiResponse, ICourseListApiResponse, IPatchCourseApiResponse, ICourseListWithRankingApiResponse, IFetchPhotosApiResponse, ICoursePatchForDefaultPhoto } from 'interfaces/course.interfaces';
 
 export class CourseService {
   
@@ -47,7 +47,7 @@ export class CourseService {
     }
   } 
 
-  async fetchPhotos(id : string): Promise<IFetchCoursePhotosApiResponse> {
+  async fetchPhotos(id : string): Promise<IFetchPhotosApiResponse> {
     
     const jwt: string | null = fetchJwt();
 
@@ -68,11 +68,11 @@ export class CourseService {
     }
   } 
 
-  async PostPhoto(body: FormData, id: string): Promise<IStandardApiResponse> {
+  async postPhotos(body: FormData, id: string): Promise<IFetchPhotosApiResponse> {
     const jwt: string | null = fetchJwt();
 
     try {
-      const response = await fetch(`https://localhost:44399/api/course/${id}/postphoto`, {
+      const response = await fetch(`${courseServiceUrl}/api/course/${id}/postphotos`, {
         method: 'POST',
         headers: new Headers({   
           'X-Authorization': `Bearer ${jwt}`,        

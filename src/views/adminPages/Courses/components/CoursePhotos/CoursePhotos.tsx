@@ -5,14 +5,13 @@ import { Theme } from '@material-ui/core/styles';
 import { Alert, Button, CircularProgress, Divider, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, Link, List, ListItem, ListItemIcon, ListItemText, Skeleton, Snackbar, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UploadIcon from '@material-ui/icons/Upload';
-import CheckIcon from '@material-ui/icons/CheckCircle';
 import AddIcon from '@material-ui/icons/AddCircle';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import CheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import UnCheckedIcon from '@material-ui/icons/RadioButtonUncheckedOutlined';
 import { green, grey } from '@material-ui/core/colors';
 
-import { ICoursePatchForDefaultPhoto, ICoursePhoto, IFetchCoursePhotosApiResponse, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
+import { ICoursePatchForDefaultPhoto, ICoursePhoto, IFetchPhotosApiResponse, IPatchCourseApiResponse, IPostPhotosApiResponse } from 'interfaces/course.interfaces';
 import CourseService from 'services/course.service';
 import { IStandardApiResponse } from 'interfaces/api-response.interface';
 
@@ -31,10 +30,7 @@ class CoursePhotos extends React.Component<IProps, {}> {
     count: 0,
     courseId: this.props.courseId,
     facilityId: this.props.facilityId,
-    filesSelectedToBeUploaded: [],
-    filesThatAreUploading: [],
-    filesThatAreUploaded: [],
-    fileUploadIndex: -1,
+    filesSelectedToBeUploaded: [],   
     reachedFileLimit: false,
     default: this.props.default,
   }
@@ -51,7 +47,7 @@ class CoursePhotos extends React.Component<IProps, {}> {
   }
 
   private handleAddIconOnClick = (e: React.FormEvent<HTMLInputElement>) => {
-    this.setState({ action: 'upload-select', filesSelectedToBeUploaded: [], filesThatAreUploading: [], fileUploadIndex: -1 });
+    this.setState({ action: 'upload-select', filesSelectedToBeUploaded: [] });
   }
 
   private handleRefreshIconOnClick = (e: React.FormEvent<HTMLInputElement>) => {
@@ -63,7 +59,7 @@ class CoursePhotos extends React.Component<IProps, {}> {
     const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
     if (fileUpload) { fileUpload.value = ''; }
 
-    this.setState({ action: 'normal', filesSelectedToBeUploaded: [], filesThatAreUploading: [], fileUploadIndex: -1 });
+    this.setState({ action: 'normal', filesSelectedToBeUploaded: [] });
   }
 
   private handleDeleteIconBeforeFileUploadOnClick = (index: number) => {
@@ -96,8 +92,6 @@ class CoursePhotos extends React.Component<IProps, {}> {
     });
 
     client = null;
-
-
   }
 
   private handleCheckIconForDefaultPhotoOnClick = (url: string, isDefault: boolean) => {
@@ -122,13 +116,17 @@ class CoursePhotos extends React.Component<IProps, {}> {
   private fetch = (courseId: string) => {
     const client: CourseService = new CourseService();
 
-    client.fetchPhotos(courseId).then(async (response: IFetchCoursePhotosApiResponse) => {
+    client.fetchPhotos(courseId).then(async (response: IFetchPhotosApiResponse) => {      
       if (response.success) {
         this.setState({
           data: response.value,
           count: response.count,
           action: 'normal',
         });
+      }
+
+      if (response.messageCode === 400) {
+        this.setState({ action: 'normal', count: 0, data: [] });
       }
     }).catch((error: Error) => {
       console.log(error);
@@ -137,68 +135,29 @@ class CoursePhotos extends React.Component<IProps, {}> {
 
   private handleUploadFileButtonOnClick = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    
-    const _filesToUpload: File[] = [...this.state.filesSelectedToBeUploaded];
-    let _filesUploaded: File[] = [];
-    let _filesThatStillNeedToBeUploaded = [..._filesToUpload];
-    const _extensions: string[] = ['png', 'gif', 'jpeg'];
+  
+    this.setState({ action: 'upload-active' });   
 
-    const delay = (ms: number | undefined) => new Promise(res => setTimeout(res, ms));
-    this.setState({ action: 'upload-active' });
+    const _filesToUpload: File[] = [...this.state.filesSelectedToBeUploaded];   
+    const _extensions: string[] = ['png', 'gif', 'jpeg', 'jpg'];
+
+    var formData = new FormData();
+
+    _filesToUpload.forEach((file, i) => {
+      formData.append('files', file);
+    });    
    
-    const uploadFile = async (file: File, i: number) => {
-      var formData = new FormData();
-      formData.append('file', file);
-      formData.append('fileName', file.name);
+    const client: CourseService = new CourseService();
 
-      const client: CourseService = new CourseService();
-
-      await client.PostPhoto(formData, this.props.courseId).then((response: IStandardApiResponse) => {
-        if (response.success) {
-          _filesUploaded.push(file);
-          _filesThatStillNeedToBeUploaded = _filesThatStillNeedToBeUploaded.filter(x => x !== file);
-
-          if (i === _filesToUpload.length - 1) { this.setState({ action: 'upload-complete' }); }
-          this.setState({ filesThatAreUploaded: _filesUploaded, filesThatAreUploading: _filesThatStillNeedToBeUploaded, fileUploadIndex: i });
-        }
-      }).catch((error: Error) => {
-        console.log(error);
-      });
-
-      await delay(1000);
-    };
-
-    for (let i = 0; i < _filesToUpload.length; i++) {
-      await uploadFile(_filesToUpload[i], i);
-    }
-
-    //    for (let i = 0; i < _filesToUpload.length; i++) {
-    //      var formData = new FormData();
-    //      formData.append('file', _filesToUpload[i]);
-    //      formData.append('fileName', _filesToUpload[i].name);
-    //
-    //      const client: CourseService = new CourseService();
-
-    //      client.PostPhoto(this.props.courseId, formData).then(async (response: IStandardApiResponse) => {
-    //        if (response.success) {
-    //          _filesUploaded.push(_filesToUpload[i]);
-    //          _filesThatStillNeedToBeUploaded = _filesThatStillNeedToBeUploaded.filter((x: any) => x !== _filesToUpload[i]);
-
-    //          if (i === _filesToUpload.length - 1) { this.setState({ action: 'upload-complete' }); }
-    //          this.setState({ filesThatAreUploaded: _filesUploaded, filesThatAreUploading: _filesThatStillNeedToBeUploaded, fileUploadIndex: i });
-    //        }
-    //      }).catch((error: Error) => {
-    //        console.log(error);
-    //      });
-    //
-    //      await delay(1000);
-    //    }
-    //
-    this.setState({ action: 'normal', filesSelectedToBeUploaded: [], filesThatAreUploading: [], fileUploadIndex: -1 });
-  }
-
-  private handleDeleteOnClick = (id: string) => {
-
+    await client.postPhotos(formData, this.props.courseId).then((response: IPostPhotosApiResponse) => {
+            
+      if (response.success) {
+        const newData: ICoursePhoto[] = response.value || []; // Ensure response value is always an array
+        this.setState({ action: 'normal', filesSelectedToBeUploaded: [], data: newData });
+      }
+    }).catch((error: Error) => {
+      console.log(error);
+    });
   }
 
   private handleSelectFilesEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -210,15 +169,13 @@ class CoursePhotos extends React.Component<IProps, {}> {
       return;
     }
 
-    this.setState({ action: 'upload-ready', filesSelectedToBeUploaded: _filesToUpload, filesThatAreUploading: _filesToUpload, filesThatAreUploaded: [], fileUploadIndex: -1 });
+    this.setState({ action: 'upload-ready', filesSelectedToBeUploaded: _filesToUpload });
   }
-
 
   private handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as unknown as Pick<IForm, keyof IForm>);
   };
-
 
   private handleSnackClose = () => {
     this.setState({ snackOpen: false, messageText: '' });
@@ -227,7 +184,7 @@ class CoursePhotos extends React.Component<IProps, {}> {
   render() {
 
     return (
-      <div style={{ width: '100%' }}>
+      <div style={{ width: '100%', marginTop: '10px' }}>
 
         <Snackbar open={this.state.snackOpen} autoHideDuration={5000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
           <Alert severity="error" sx={{ minWidth: '400px' }}>
@@ -288,9 +245,8 @@ class CoursePhotos extends React.Component<IProps, {}> {
                   </IconButton>
                 }>
                   <ListItemIcon>
-                    <CircularProgress size={20} sx={this.state.action === 'upload-active' && this.state.fileUploadIndex === i ? { display: 'flex' } : { display: 'none' }} />
-                    {this.state.fileUploadIndex !== i || this.state.action === 'upload-complete' ? <CheckIcon color={'primary'} sx={this.state.filesThatAreUploaded.find((x: any) => x.name === file.name) ? { display: 'flex' } : { display: 'none' }} /> : ''}
-                    {this.state.fileUploadIndex !== i ? <UploadIcon color={'disabled'} sx={this.state.filesThatAreUploading.find((x: any) => x.name === file.name) ? { display: 'flex' } : { display: 'none' }} /> : ''}
+                    <CircularProgress size={20} sx={this.state.action === 'upload-active' ? { display: 'flex' } : { display: 'none' }} />
+                    {this.state.action !== 'upload-active' ? <UploadIcon color={'disabled'} /> : ''}
                   </ListItemIcon>
                   <ListItemText
                     primary={file.name.length > (0.8 * listItemLength) ? `${file.name.substring(0, Math.floor(0.8 * listItemLength))}...` : file.name}
@@ -402,18 +358,15 @@ interface IProps {
 
 interface IForm {
   action: string,
-  messageText: string;
-  messageCode: number;
-  snackOpen: boolean;
+  messageText: string,
+  messageCode: number,
+  snackOpen: boolean,
   data: ICoursePhoto[],
-  count: number;
-  facilityId: string;
-  courseId: string;
-  filesSelectedToBeUploaded: [],
-  filesThatAreUploaded: [],
-  filesThatAreUploading: [],
-  fileUploadIndex: number,
-  reachedFileLimit: boolean;
-  default: string | undefined
+  count: number,
+  facilityId: string,
+  courseId: string,
+  filesSelectedToBeUploaded: [], 
+  reachedFileLimit: boolean,
+  default: string | undefined,
 }
 
