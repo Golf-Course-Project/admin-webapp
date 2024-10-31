@@ -20,6 +20,7 @@ export interface ICourseList {
 	countryRegion: string;
 	localRegion: string;	
 	type: number | null;
+	tier: string;
 	rowNumber: number;
 	rankingCount: number;
 }
@@ -32,6 +33,7 @@ export interface ICourseListWithRanking {
 	city: string;
 	state: string;	
 	type: number | null;
+	tier: string;
 	rankingSource: string;
 	rankingName: string;
 	rankingYear: number;
@@ -55,6 +57,8 @@ export interface ICourse {
 	website: string;
 	type: number;
 	designer: string;
+	tier:string;
+	tags: string;
 	defaultPhoto: string;
 	isSynced: boolean;
 }
@@ -67,6 +71,7 @@ export interface ICourseSearch {
 	postalCode: string | null;	
 	type: string | null;
 	tag: string | null;
+	tier: string | null;
 	pageNumber: number;
 	isRanked: string | null;
 }
@@ -78,6 +83,7 @@ export interface ICourseSearchWithRanking {
 	city: string | null;	
 	isRanked: string | null;
 	year: number | null;
+	tier: string | null;
 	sourceRefValueId: number | null;
 	nameRefValueId: number | null;
 }
@@ -94,6 +100,8 @@ export interface ICoursePatch {
 	email: string;
 	website: string;
 	description: string;
+	tier: string;
+	tags: string;
 	isSynced: boolean;
 }
 

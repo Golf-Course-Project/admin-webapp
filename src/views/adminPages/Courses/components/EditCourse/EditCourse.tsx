@@ -2,7 +2,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Button, CardContent, CircularProgress, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography, Snackbar, Alert } from '@material-ui/core';
+import { Button, CardContent, CircularProgress, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography, Snackbar, Alert, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpIcon from '@material-ui/icons/ArrowUpward';
@@ -46,6 +46,8 @@ class EditCourse extends React.Component<IProps, {}> {
     description: '',
     synced: false,
     designer: '',
+    tier: '',
+    tags: '',
     defaultPhoto: '',
     snackOpen: false,      
     courses: this.props.courses
@@ -76,6 +78,8 @@ class EditCourse extends React.Component<IProps, {}> {
       latitude: -1,
       description: '',
       designer: '', 
+      tier: '',
+      tags: '',
       defaultPhoto: '',
       synced: false,
       snackOpen: false,      
@@ -129,7 +133,9 @@ class EditCourse extends React.Component<IProps, {}> {
           phone: response.value?.course?.phone ?? '',
           email: response.value?.course?.email ?? '',
           website: response.value?.course?.website ?? '',
-          designer: response.value?.course?.designer ?? '',  
+          designer: response.value?.course?.designer ?? '', 
+          tier: response.value?.course?.tier ?? '', 
+          tags: response.value?.course?.tags ?? '', 
           defaultPhoto: response.value?.course?.defaultPhoto ?? '',         
           synced: response.value?.course?.isSynced ?? false,  
           action: 'normal',
@@ -189,7 +195,9 @@ class EditCourse extends React.Component<IProps, {}> {
       website: this.state.website,    
       isSynced: this.state.synced,   
       description: this.state.description,
-      designer: this.state.designer
+      designer: this.state.designer,
+      tier: this.state.tier,
+      tags: this.state.tags,
     } as ICoursePatch;     
     
     let client: CourseService | null = new CourseService();    
@@ -229,6 +237,13 @@ class EditCourse extends React.Component<IProps, {}> {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as unknown as Pick<IForm, keyof IForm>);
   }; 
 
+  private handleSelectChanges = (e: React.FormEvent<HTMLSelectElement>) => {
+    e.preventDefault();
+
+    const target = e.target as HTMLSelectElement;
+    this.setState({ [target.name]: target.value } as unknown as Pick<IForm, keyof IForm>); 
+  };
+
   private handleInputBlur = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
     let blurErrors: string[] = this.state.blurErrors;
@@ -265,6 +280,11 @@ class EditCourse extends React.Component<IProps, {}> {
 
     this.setState({ synced: value });   
   }
+
+  private handleTagDelete = (value: string) => { 
+    alert(value);
+  }
+
 
   private setHelperTextMessage = (field: string) => {
     switch (field) {
@@ -570,7 +590,28 @@ class EditCourse extends React.Component<IProps, {}> {
                           error={this.state.blurErrors.includes('designer') ? true : false}
                           helperText={this.setHelperTextMessage('designer')}                                                  
                         />
-                      </Grid>                  
+                      </Grid>    
+                      <Grid item xs={12} md={6} sx={{ paddingBottom: '15px' }}>
+                        <FormControl fullWidth variant="outlined" color="primary">
+                          <InputLabel id="tier-label">Tier</InputLabel>
+                          <Select                           
+                            id='tier'
+                            name={'tier'}
+                            label={'Tier'}
+                            labelId='tier-label'
+                            defaultValue=''
+                            fullWidth                                     
+                            value={this.state.tier}                    
+                            onChange={(e: any) => this.handleSelectChanges(e)}                         
+                          >
+                            <MenuItem value={''}></MenuItem>
+                            <MenuItem value={'I'}>I</MenuItem>
+                            <MenuItem value={'II'}>II</MenuItem>
+                            <MenuItem value={'III'}>III</MenuItem>
+                            <MenuItem value={'IV'}>IV</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>                               
                       <Grid item xs={12} md={12}>
                         <TextField
                           type="text"
@@ -587,7 +628,14 @@ class EditCourse extends React.Component<IProps, {}> {
                           error={this.state.blurErrors.includes('description') ? true : false}
                           helperText={this.setHelperTextMessage('description')}                                                 
                         />
-                      </Grid>                    
+                      </Grid>  
+
+                      {/* <Grid item xs={12} md={12} sx={{ paddingBottom: '20px' }}>
+                        <Stack direction="row" spacing={1}>
+                          <Chip label="primary" size="small" onDelete={(e: any) => this.handleTagDelete('temp')}/>
+                          <Chip label="success" size="small" />
+                        </Stack>
+                      </Grid> */}
 
                       <Grid item xs={12} md={8}>                        
                         <Box
@@ -679,6 +727,8 @@ interface IForm {
   email: string;
   website: string; 
   designer: string;
+  tier: string;
+  tags: string;
   defaultPhoto: string;
   synced: boolean; 
   snackOpen: boolean;  

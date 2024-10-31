@@ -9,6 +9,7 @@ export class CourseSearch implements ICourseSearch {
     this.postalCode = null;
     this.tag = null;   
     this.type = null;
+    this.tier = null;
     this.pageNumber = 1;
     this.isRanked = null;
   }
@@ -20,6 +21,7 @@ export class CourseSearch implements ICourseSearch {
   postalCode: string | null;  
   type: string | null;
   tag: string | null;
+  tier: string | null;
   isRanked: string | null;
   pageNumber: number;
 }

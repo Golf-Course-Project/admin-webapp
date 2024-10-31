@@ -1,6 +1,5 @@
-export { default as OldCourseList } from './OldCourseList';
+export { default as OldCourseList } from './zz_OldCourseList';
 export { default as ListCourses } from './ListCourses';
-export { default as SearchBoxForCourses } from './SearchBoxForCourses';
 export { default as SearchBoxForRanking } from './SearchBoxForRanking';
 export { default as EditCourse } from './EditCourse';
 export { default as EditFacility } from './EditFacility';

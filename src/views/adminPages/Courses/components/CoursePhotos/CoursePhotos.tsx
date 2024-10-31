@@ -139,7 +139,7 @@ class CoursePhotos extends React.Component<IProps, {}> {
     this.setState({ action: 'upload-active' });   
 
     const _filesToUpload: File[] = [...this.state.filesSelectedToBeUploaded];   
-    const _extensions: string[] = ['png', 'gif', 'jpeg', 'jpg'];
+    //const _extensions: string[] = ['png', 'gif', 'jpeg', 'jpg'];
 
     var formData = new FormData();
 

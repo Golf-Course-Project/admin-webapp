@@ -71,6 +71,7 @@ class ListCourses extends React.Component<IProps, {}> {
         name: this.props.searchCriteria.name,
         city: this.props.searchCriteria.city,
         isRanked: this.props.searchCriteria.isRanked,
+        tier: this.props.searchCriteria.tier,
         year: this.props.options !== null ? this.props.options.year : 2024,
         sourceRefValueId: this.props.options !== null ? this.props.options.sourceRefValueId : 100,
         nameRefValueId: this.props.options !== null ? this.props.options.nameRefValueId : 201,
@@ -140,7 +141,7 @@ class ListCourses extends React.Component<IProps, {}> {
    
     this.setState(data => {
       const newData = this.state.data.map(item => item.courseId === course.id
-        ? { ...item, courseName: course.name, city: course.city }
+        ? { ...item, courseName: course.name, city: course.city, tier: course.tier }
         : item
       );
       return { data: newData };
@@ -264,6 +265,7 @@ class ListCourses extends React.Component<IProps, {}> {
                     <TableCell align="left">City</TableCell>  
                     <TableCell align="left">State</TableCell>   
                     <TableCell align="center" sx={{ width: '100px' }}>Ranking</TableCell>  
+                    <TableCell align="center" sx={{ width: '100px' }}>Tier</TableCell>
                     <TableCell align="left">&nbsp;</TableCell>                                                                                         
                   </TableRow>
                 </TableHead>
@@ -306,6 +308,9 @@ class ListCourses extends React.Component<IProps, {}> {
                         ) : (
                           row.rankingValue
                         )}
+                      </TableCell>
+                      <TableCell align='center'>
+                        {row.tier}  
                       </TableCell>
                       <TableCell align="left">&nbsp;</TableCell>                                                                               
                     </TableRow>

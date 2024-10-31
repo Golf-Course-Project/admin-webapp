@@ -228,38 +228,44 @@ class RankCourse extends React.Component<IProps, {}> {
               <form noValidate autoComplete="off">
                 <Grid container spacing={2} style={{ width: '100%' }}>
                   <Grid item xs={12} md={12}>
-                    <Select
-                      labelId="source-label"
-                      id="sourceRefValueId"
-                      value={this.state.sourceRefValueId}
-                      onChange={(e: any) => this.handleSelectChanges(e)}
-                      label="source *"
-                      name="sourceRefValueId"
-                      fullWidth={true}
-                    >                     
-                      {RefValueData.sources.map((source) => (
-                        <MenuItem key={source.id} value={source.id}>
-                          {source.text}
-                        </MenuItem>
-                      ))}                    
-                    </Select>
+                    <FormControl fullWidth variant="outlined" size="small" color="primary">
+                      <InputLabel id="year-label">Source</InputLabel>
+                      <Select
+                        labelId="source-label"
+                        id="sourceRefValueId"
+                        value={this.state.sourceRefValueId}
+                        onChange={(e: any) => this.handleSelectChanges(e)}
+                        label="source *"
+                        name="sourceRefValueId"
+                        fullWidth={true}
+                      >                     
+                        {RefValueData.sources.map((source) => (
+                          <MenuItem key={source.id} value={source.id}>
+                            {source.text}
+                          </MenuItem>
+                        ))}                    
+                      </Select>
+                    </FormControl>
                   </Grid>
                   <Grid item xs={12} md={12}>
-                    <Select
-                      labelId="name-label"
-                      id="name"
-                      value={this.state.nameRefValueId}
-                      onChange={(e: any) => this.handleSelectChanges(e)}
-                      label="Name *"
-                      name="nameRefValueId"
-                      fullWidth={true}
-                    >
-                      {RefValueData.names.map((name) => (
-                        <MenuItem key={name.id} value={name.id}>
-                          {name.text}
-                        </MenuItem>
-                      ))}      
-                    </Select>
+                    <FormControl fullWidth variant="outlined" size="small" color="primary">
+                      <InputLabel id="year-label">Value</InputLabel>
+                      <Select
+                        labelId="name-label"
+                        id="name"
+                        value={this.state.nameRefValueId}
+                        onChange={(e: any) => this.handleSelectChanges(e)}
+                        label="Name *"
+                        name="nameRefValueId"
+                        fullWidth={true}
+                      >
+                        {RefValueData.names.map((name) => (
+                          <MenuItem key={name.id} value={name.id}>
+                            {name.text}
+                          </MenuItem>
+                        ))}      
+                      </Select>
+                    </FormControl>
                   </Grid>
                   <Grid item xs={6} md={6}>
                     <FormControl fullWidth variant="outlined" size="small" color="primary">
