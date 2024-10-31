@@ -8,64 +8,47 @@ import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Container from 'common/Container';
-import { Drawer, FormControl, IconButton, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
+import { Drawer, IconButton, MenuItem, Select} from '@material-ui/core';
 import OptionsIcon from '@material-ui/icons/Settings';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { RefValueData } from 'data/refvalue.data';
 import { ICourseSearch } from 'interfaces/course.interfaces';
-import { IOptions } from 'interfaces/rankings.interfaces';
 import { CourseSearch } from 'common/classes/course.search';
 
-class SearchBoxForRanking extends React.Component<IProps, {}> {
+class SearchBoxForCourses extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
-  
+
   state: IForm = {
     action: 'normal',
     errorMsg: '',
     searchText: localStorage.getItem('searchText') ?? '',
     searchState: localStorage.getItem('searchState') ?? 'MI',
-    sourceRefValueId: -1,
-    nameRefValueId: -1,
-    year: new Date().getFullYear(),
     openOptions: false
   }
 
   componentDidMount() {
-    const rankingOptions: IOptions = JSON.parse(localStorage.getItem('rankingOptions') ?? '{}');
-    this.setState({ sourceRefValueId: rankingOptions.sourceRefValueId, nameRefValueId: rankingOptions.nameRefValueId, year: rankingOptions.year });
+
+  } 
+
+  private handleOnClose = ()  => {
+    this.setState({ openOptions: false });
   }
 
-
-  private handleOnSettingsClose = () => {
-    const options: IOptions = { sourceRefValueId: this.state.sourceRefValueId, nameRefValueId: this.state.nameRefValueId, year: this.state.year };
-    localStorage.setItem('rankingOptions', JSON.stringify(options));
-    this.setState({ openOptions: false });   
+  private handleOnOpen = ()  => {
+    this.setState({ openOptions: true });
   }
 
-  private handleOnSettingsOpen = () => {
-    const rankingOptions: IOptions = JSON.parse(localStorage.getItem('rankingOptions') ?? '{}');
-    this.setState({ openOptions: true, sourceRefValueId: rankingOptions.sourceRefValueId, nameRefValueId: rankingOptions.nameRefValueId, year: rankingOptions.year });
-  }
-
-  private handleSettingsSelectChanges = (e: React.FormEvent<HTMLSelectElement>) => {
-    e.preventDefault();
-    
-    const target = e.target as HTMLSelectElement;    
-    this.setState({ [target.name]: target.value } as unknown as Pick<IForm, keyof IForm>);     
-  };
-
-  private handleSearchBoxInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
+  private handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
 
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as unknown as Pick<IForm, keyof IForm>);
   };
 
-  private handleSelectStateChanges = (e: React.FormEvent<HTMLSelectElement>) => {
+  private handleStateChanges = (e: React.FormEvent<HTMLSelectElement>) => {
     e.preventDefault();
 
     const target = e.target as HTMLSelectElement;
-    this.setState({ [target.name]: target.value } as unknown as Pick<IForm, keyof IForm>);
+    this.setState({ [target.name]: target.value } as unknown as Pick<IForm, keyof IForm>); 
   };
 
   private handleSearchButtonClick = (e: React.ChangeEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement>) => {
@@ -74,30 +57,29 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
     const searchText = this.state.searchText;
     const searchState = this.state.searchState;
 
-    localStorage.setItem('searchText', searchText);
-    localStorage.setItem('searchState', searchState);    
-    
-    const body: ICourseSearch = this.buildSearchText(searchText.toLocaleLowerCase(), searchState.toLocaleLowerCase());
-    const options: IOptions = { sourceRefValueId: this.state.sourceRefValueId, nameRefValueId: this.state.nameRefValueId, year: this.state.year };
-   
+    localStorage.setItem('searchText', searchText); 
+    localStorage.setItem('searchState', searchState); 
+
+    const body: ICourseSearch = this.buildSearchText(searchText.toLocaleLowerCase(), searchState.toLocaleLowerCase());  
     body.pageNumber = 1;
-    this.props.callback(body, options);
+
+    this.props.callback(body);
   }
 
-  private handleEnterKeyForSearch = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  private handleEnterKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
       this.handleSearchButtonClick(e);
     }
   }
 
-  private buildSearchText = (searchText: string, state: string | null): ICourseSearch => {
+  private buildSearchText = (searchText: string, state: string | null): ICourseSearch => {   
     let len: number = searchText.length;
     let ind: number;
     let key: string, val: string;
 
     let split = searchText.split(',');
     if (split.length < 1) split.push(searchText);
-
+    
     if (state === 'all') state = null;
 
     let body: ICourseSearch = new CourseSearch();
@@ -108,34 +90,36 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
       ind = i.indexOf(':');
       key = i.slice(0, ind).trim();
       val = i.slice(ind + 1, len).trim();
-
+    
       body.name = key.includes('name') ? this.setValue(val) : null;
       body.city = key.includes('city') ? this.setValue(val) : null;
-      body.postalCode = key.includes('postalcode') ? this.setValue(val) : null;
+      body.postalCode = key.includes('postalcode') ? this.setValue(val) : null;     
       body.type = key.includes('type') ? this.setValue(val) : null;
       body.tag = key.includes('tag') ? this.setValue(val) : null;
-      body.tier = key.includes('tier') ? (this.setValue(val) ?? '').toLocaleUpperCase() : null;
-      body.isRanked = key.includes('isranked') ? this.setValue(val) : null;
-    });
+      body.tier = key.includes('tier') ? (this.setValue(val) ?? '').toUpperCase() : null;
+      body.isRanked = key.includes('isranked') ? this.setValue(val) : null;      
+    });   
 
     body.text = searchText.trim().toLocaleLowerCase();
 
-    if (body.name !== null || body.city !== null || body.postalCode !== null || body.type !== null || body.tier !== null || body.tag !== null || body.isRanked !== null) {
+    if (body.name !== null || body.city !== null || body.postalCode !== null || body.type !== null || body.tag !== null || body.tier !== null || body.isRanked !== null) {
       body.text = null;
-    }
+    }    
+  
+    console.log(body);
 
     return body;
   }
 
   private setValue = (val: string): string | null => {
-    val = val.trim().toLocaleLowerCase();
+    val = val.trim().toLocaleLowerCase();    
     if (val === 'null' || val === 'empty') return '-1';
     if (val === '') return null;
     return val;
   }
 
   render() {
-
+    
     return (
       <div>
         <Container maxWidth={'85%'}>
@@ -152,7 +136,7 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
                 sx={{ '& .MuiInputBase-input.MuiOutlinedInput-input': { bgcolor: 'background.paper', }, }}
               >
                 <Grid container spacing={2} paddingRight={2} paddingLeft={2}>
-                  <Grid item xs={12} md={7}>
+                  <Grid item xs={12} md={this.props.showOptions ? 7 : 8}>
                     <Box
                       component={TextField}
                       label="search text"
@@ -162,18 +146,18 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
                       fullWidth
                       height={54}
                       value={this.state.searchText}
-                      onChange={(e: any) => this.handleSearchBoxInputChanges(e)}
-                      onKeyPress={(e: any) => this.handleEnterKeyForSearch(e)}
-                    />
+                      onChange={(e: any) => this.handleInputChanges(e)}
+                      onKeyPress={(e: any) => this.handleEnterKey(e)}
+                    />                  
                   </Grid>
                   <Grid item xs={12} md={3}>
-                    <Select
+                    <Select                     
                       variant="outlined"
                       color="primary"
                       name={'searchState'}
-                      fullWidth
-                      value={this.state.searchState}
-                      onChange={(e: any) => this.handleSelectStateChanges(e)}
+                      fullWidth                                     
+                      value={this.state.searchState}                    
+                      onChange={(e: any) => this.handleStateChanges(e)}
                     >
                       <MenuItem value={'ALL'}>All States</MenuItem>
                       <MenuItem value={'AL'}>Alabama</MenuItem>
@@ -225,7 +209,7 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
                       <MenuItem value={'WA'}>Washington</MenuItem>
                       <MenuItem value={'WV'}>West Virginia</MenuItem>
                       <MenuItem value={'WI'}>Wisconsin</MenuItem>
-                      <MenuItem value={'WY'}>Wyoming</MenuItem>
+                      <MenuItem value={'WY'}>Wyoming</MenuItem>           
                     </Select>
                   </Grid>
                   <Grid item xs={12} md={1}>
@@ -235,19 +219,23 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
                       color="primary"
                       size="large"
                       height={54}
-                      maxWidth={'100%'}
+                      maxWidth={'100%'}                
                       fullWidth
                       onClick={(e: any) => this.handleSearchButtonClick(e)}
-                      onKeyPress={(e: any) => this.handleEnterKeyForSearch(e)}
+                      onKeyPress={(e: any) => this.handleEnterKey(e)}
                     >
                       Search
-                    </Box>
+                    </Box>                 
                   </Grid>
-                  <Grid item xs={12} md={1} textAlign={'center'}>
-                    <IconButton aria-label="settings" onClick={(e: any) => this.handleOnSettingsOpen()}>
-                      <OptionsIcon />
-                    </IconButton>
-                  </Grid>
+                
+                  {this.props.showOptions && (
+                    <Grid item xs={12} md={1} textAlign={'center'}>
+                      <IconButton aria-label="settings" onClick={(e: any) => this.handleOnOpen()}>
+                        <OptionsIcon />
+                      </IconButton>
+                    </Grid>
+                  )}                
+
                 </Grid>
               </Box>
             </CardContent>
@@ -266,7 +254,7 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
                 display={'flex'}
                 justifyContent={'flex-end'}
                 sx={{ paddingRight: '10px', paddingTop: '10px' }}
-                onClick={(e: any) => this.handleOnSettingsClose()}
+                onClick={(e: any) => this.handleOnClose()}
               >
                 <IconButton>
                   <CloseIcon fontSize="small" />
@@ -274,91 +262,18 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
               </Box>
             </Grid>
           </Grid>
-
-          <Box marginBottom={1} marginLeft={5}>
-            <Typography
-              variant="h4"
-              align={'left'}
-              sx={{ fontWeight: 500, }}
-            >
-              Settings
-            </Typography>
-          </Box>
-
-          <Box component={CardContent} padding={4}>
-            <Grid container spacing={2} paddingTop={3} paddingBottom={3}>
-              <Grid item xs={12} md={12}>
-                <FormControl fullWidth variant="outlined" color="primary">
-                  <InputLabel id="name-label">Source </InputLabel>
-                  <Select
-                    labelId="source-label"
-                    id="sourceRefValueId"
-                    value={this.state.sourceRefValueId}
-                    onChange={(e: any) => this.handleSettingsSelectChanges(e)}
-                    label="Source "
-                    name="sourceRefValueId"
-                    fullWidth={true}
-                  >
-                    {RefValueData.sources.map((source) => (
-                      <MenuItem key={source.id} value={source.id}>
-                        {source.text}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} md={12}>
-                <FormControl fullWidth variant="outlined" color="primary">
-                  <InputLabel id="name-label">Name </InputLabel>
-                  <Select
-                    labelId="nameRefValueId"
-                    id="nameRefValueId"
-                    label="Name "
-                    value={this.state.nameRefValueId}
-                    onChange={(e: any) => this.handleSettingsSelectChanges(e)}                   
-                    name="nameRefValueId"
-                    fullWidth={true}
-                  >
-                    {RefValueData.names.map((name) => (
-                      <MenuItem key={name.id} value={name.id}>
-                        {name.text}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} md={12}>
-                <FormControl fullWidth variant="outlined" color="primary">
-                  <InputLabel id="year-label">Year </InputLabel>
-                  <Select
-                    labelId="year-label"
-                    id="year"
-                    value={this.state.year}
-                    onChange={(e: any) => this.handleSettingsSelectChanges(e)}
-                    label="Year "
-                    name="year"
-                  >
-                    {RefValueData.years.map((year) => (
-                      <MenuItem key={year} value={year}>
-                        {year}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
-          </Box>
         </Drawer>
       </div>
     );
   }
 }
 
-export default SearchBoxForRanking;
+export default SearchBoxForCourses;
 
 interface IProps {
-  callback: (body: ICourseSearch, options: IOptions) => void;
+  callback: (body: ICourseSearch) => void;
   theme: Theme;
+  showOptions: boolean | null | undefined;
 }
 
 interface IForm {
@@ -367,7 +282,4 @@ interface IForm {
   searchText: string;
   searchState: string;
   openOptions: boolean;
-  sourceRefValueId: number; 
-  nameRefValueId: number; 
-  year: number;
 }
