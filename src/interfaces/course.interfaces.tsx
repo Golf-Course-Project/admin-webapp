@@ -59,6 +59,8 @@ export interface ICourse {
 	designer: string;
 	tier:string;
 	tags: string;
+	priceLow: number;
+	priceHigh: number;
 	defaultPhoto: string;
 	isSynced: boolean;
 }

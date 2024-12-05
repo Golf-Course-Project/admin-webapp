@@ -55,6 +55,7 @@
     "react-visibility-sensor": "^5.1.1",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^1.0.1",
+    "yarn": "^1.22.22",
     "yup": "^0.32.9"
   },
   "devDependencies": {

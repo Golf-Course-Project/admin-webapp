@@ -48,6 +48,8 @@ class EditCourse extends React.Component<IProps, {}> {
     designer: '',
     tier: '',
     tags: '',
+    priceLow: -1,
+    priceHigh: -1,
     defaultPhoto: '',
     snackOpen: false,      
     courses: this.props.courses
@@ -80,6 +82,8 @@ class EditCourse extends React.Component<IProps, {}> {
       designer: '', 
       tier: '',
       tags: '',
+      priceLow: -1,
+      priceHigh: -1,
       defaultPhoto: '',
       synced: false,
       snackOpen: false,      
@@ -136,6 +140,8 @@ class EditCourse extends React.Component<IProps, {}> {
           designer: response.value?.course?.designer ?? '', 
           tier: response.value?.course?.tier ?? '', 
           tags: response.value?.course?.tags ?? '', 
+          priceLow: response.value?.course?.priceLow ?? null,
+          priceHigh: response.value?.course?.priceHigh ?? null,
           defaultPhoto: response.value?.course?.defaultPhoto ?? '',         
           synced: response.value?.course?.isSynced ?? false,  
           action: 'normal',
@@ -198,6 +204,8 @@ class EditCourse extends React.Component<IProps, {}> {
       designer: this.state.designer,
       tier: this.state.tier,
       tags: this.state.tags,
+      priceLow: this.state.priceLow,
+      priceHigh: this.state.priceHigh,
     } as ICoursePatch;     
     
     let client: CourseService | null = new CourseService();    
@@ -591,6 +599,36 @@ class EditCourse extends React.Component<IProps, {}> {
                           helperText={this.setHelperTextMessage('designer')}                                                  
                         />
                       </Grid>    
+                      <Grid item xs={12} md={6}>
+                        <TextField
+                          type="text"
+                          label="Price - Low"
+                          variant="outlined"
+                          color="primary"
+                          fullWidth
+                          name={'priceLow'}
+                          value={this.state.priceLow}
+                          onChange={(e: any) => this.handleInputChanges(e)}
+                          onBlur={(e: any) => this.handleInputBlur(e)}
+                          error={this.state.blurErrors.includes('priceLow') ? true : false}
+                          helperText={this.setHelperTextMessage('priceLow')}                                                  
+                        />
+                      </Grid>    
+                      <Grid item xs={12} md={6}>
+                        <TextField
+                          type="text"
+                          label="Price - High"
+                          variant="outlined"
+                          color="primary"
+                          fullWidth
+                          name={'priceHigh'}
+                          value={this.state.priceHigh}
+                          onChange={(e: any) => this.handleInputChanges(e)}
+                          onBlur={(e: any) => this.handleInputBlur(e)}
+                          error={this.state.blurErrors.includes('priceHigh') ? true : false}
+                          helperText={this.setHelperTextMessage('priceHigh')}                                                  
+                        />
+                      </Grid>    
                       <Grid item xs={12} md={6} sx={{ paddingBottom: '15px' }}>
                         <FormControl fullWidth variant="outlined" color="primary">
                           <InputLabel id="tier-label">Tier</InputLabel>
@@ -729,6 +767,8 @@ interface IForm {
   designer: string;
   tier: string;
   tags: string;
+  priceHigh: number;
+  priceLow: number;
   defaultPhoto: string;
   synced: boolean; 
   snackOpen: boolean;  
