@@ -2,10 +2,13 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container, TextField, Breadcrumbs, Typography, Skeleton } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container, TextField, Breadcrumbs, Typography, Skeleton, IconButton, Menu, MenuItem, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import RankingIcon from '@material-ui/icons/Bookmark';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LockIcon from '@material-ui/icons/Lock';
 import UnknownIcon from '@material-ui/icons/NotListedLocation';
+import EditIcon from '@material-ui/icons/Edit';
+import ReviewIcon from '@material-ui/icons/Comment';
 
 import Illustration from 'svg/illustrations/Globe';
 import { SkeletonTable } from 'common/components';
@@ -19,6 +22,7 @@ import CourseService from 'services/course.service';
 import ErrorMessage from 'common/components/ErrorMessage';
 import { RefValueData } from 'data/refvalue.data';
 import { IFacility } from 'interfaces/facility.interfaces';
+import EditReview from '../EditReview';
 
 
 
@@ -32,9 +36,12 @@ class ListCourses extends React.Component<IProps, {}> {
     data: [],
     count: 0,   
     rowId: '',
-    selectedRowId: '',      
+    selectedRowId: '', 
+    anchorEl: null,  
+    menuOpen: false,   
     openCourseSideBar: false,   
     openFacilitySideBar: false,
+    openReviewSideBar: false,
     selectedCourse: null,
     textboxValue: '', 
     isTextboxInEditMode: false,
@@ -70,7 +77,8 @@ class ListCourses extends React.Component<IProps, {}> {
         text: this.props.searchCriteria.text,
         name: this.props.searchCriteria.name,
         city: this.props.searchCriteria.city,
-        isRanked: this.props.searchCriteria.isRanked,
+        isRanked: this.props.searchCriteria.isRanked,    
+        isFeatured: null,  
         tier: this.props.searchCriteria.tier,
         year: this.props.options !== null ? this.props.options.year : 2024,
         sourceRefValueId: this.props.options !== null ? this.props.options.sourceRefValueId : 100,
@@ -132,8 +140,13 @@ class ListCourses extends React.Component<IProps, {}> {
     this.setState({ openCourseSideBar: false, openFacilitySideBar: true, selectedCourse: row, selectedRowId: row.courseId, isEditingTextbox: false});      
   };  
 
+  private handleOpenReviewSideBar = (row: ICourseListWithRanking) => {
+    this.setState({ openCourseSideBar: false, openFacilitySideBar: false, openReviewSideBar: true, selectedCourse: row, selectedRowId: row.courseId, isEditingTextbox: false});
+  }
+
+
   private handleSidebarClose = () => {
-    this.setState({ openCourseSideBar: false, openFacilitySideBar: false });       
+    this.setState({ openCourseSideBar: false, openFacilitySideBar: false, openReviewSideBar: false});       
   }; 
   
   private handleCourseUpdate = (course: ICourse | null) => {
@@ -159,6 +172,14 @@ class ListCourses extends React.Component<IProps, {}> {
       return { data: newData };
     });     
   };
+
+  private handleMenuOpenClick = (courseId: string, e: any) => { 
+    this.setState({ anchorEl: e.currentTarget, menuOpen: true, selectedRowId: courseId });
+  }
+
+  private handleMenuCloseClick = (courseId: string, e: any) => { 
+    this.setState({ anchorEl: null, menuOpen: false, selectedRowId: null });
+  }
 
   private handleSwapFacilityToCourse = (obj: {courseId: string, facilityId: string}) => {   
     this.setState({ rowId: obj.courseId, selectedRowId: obj.courseId, openCourseSideBar: true, openFacilitySideBar: false });
@@ -259,9 +280,9 @@ class ListCourses extends React.Component<IProps, {}> {
                 <TableHead>
                   <TableRow>   
                     <TableCell align="center" sx={{ width: '60px' }}>&nbsp;</TableCell>                
-                    <TableCell align="center" sx={{ width: '60px' }}>&nbsp;</TableCell> 
+                    <TableCell align="center" sx={{ width: '60px' }}>&nbsp;</TableCell>                    
                     <TableCell align="left">Course</TableCell>
-                    <TableCell align="left">Facility</TableCell>            
+                    <TableCell align="center" sx={{ width: '60px'}}>&nbsp;</TableCell>
                     <TableCell align="left">City</TableCell>  
                     <TableCell align="left">State</TableCell>   
                     <TableCell align="center" sx={{ width: '100px' }}>Ranking</TableCell>  
@@ -285,13 +306,42 @@ class ListCourses extends React.Component<IProps, {}> {
                       </TableCell> 
                       <TableCell align="center">                                                 
                         { row.rankingValue > 0 ? <RankingIcon color="secondary" /> : null }         
-                      </TableCell>                                       
+                      </TableCell>                                                         
                       <TableCell align="left">
                         <Link component="button" onClick={(e:any) => this.handleOpenCourseSideBar(row)}>{row.courseName}</Link>                        
-                      </TableCell>   
-                      <TableCell align="left">
-                        <Link component="button" onClick={(e:any) => this.handleOpenFacilitySideBar(row)}>{row.facilityName}</Link>                     
-                      </TableCell>                           
+                      </TableCell>                        
+                      <TableCell align="center">
+                        <IconButton
+                          aria-label="more"
+                          id="long-button"
+                          aria-controls={this.state.menuOpen && this.state.selectedRowId === row.courseId ? 'basic-menu' : undefined}
+                          aria-expanded={this.state.menuOpen && this.state.selectedRowId === row.courseId ? 'true' : undefined}
+                          aria-haspopup="true"
+                          onClick={(e:any) => this.handleMenuOpenClick(row.courseId, e)}
+                        >
+                          <MoreVertIcon />
+                        </IconButton>
+                        <Menu
+                          id="basic-menu"
+                          anchorEl={this.state.anchorEl}
+                          open={this.state.menuOpen && this.state.selectedRowId === row.courseId }
+                          onClose={(e:any) => this.handleMenuCloseClick(row.courseId, e)}
+                          MenuListProps={{ 'aria-labelledby': 'basic-button', }}
+                        >
+                          <MenuItem onClick={(e:any) => this.handleOpenReviewSideBar(row)}>
+                            <ListItemIcon>
+                              <ReviewIcon fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary="Review" />                          
+                          </MenuItem>
+                          <MenuItem onClick={(e:any) => this.handleOpenFacilitySideBar(row)}>
+                            <ListItemIcon>
+                              <EditIcon fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary={row.facilityName} />                                
+                          </MenuItem>                         
+                        </Menu>                        
+                      </TableCell>                                                
                       <TableCell align="left">{row.city}</TableCell>   
                       <TableCell align="left">{row.state}</TableCell>  
                       <TableCell align="center" onClick={(e:any) => this.handleCellClick(row.courseId, row.rankingValue > 0 ? row.rankingValue.toString() : '')}>
@@ -350,7 +400,14 @@ class ListCourses extends React.Component<IProps, {}> {
           onFacilityUpdate={(e: any) => this.handleFacilityUpdate(e)} 
           onSwapFacilityToCourse={(e: any) => this.handleSwapFacilityToCourse(e)}                
           courses={[]}  
-        ></EditFacility>         
+        ></EditFacility>    
+
+        <EditReview
+          theme={this.props.theme}
+          open={this.state.openReviewSideBar}
+          courseId={this.state.selectedCourse?.courseId}   
+          onClose={this.handleSidebarClose}   
+        ></EditReview>     
       </Box>
     );
   }
@@ -371,9 +428,12 @@ interface IForm {
   data: ICourseListWithRanking[]; 
   count: number;
   rowId: string;
-  selectedRowId: string;     
+  selectedRowId: string;  
+  anchorEl: any;   
+  menuOpen: boolean;
   openCourseSideBar: boolean; 
   openFacilitySideBar: boolean; 
+  openReviewSideBar: boolean;
   selectedCourse: ICourseListWithRanking | null; 
   textboxValue: any;
   isTextboxInEditMode: boolean;

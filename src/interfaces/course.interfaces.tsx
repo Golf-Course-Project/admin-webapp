@@ -84,6 +84,7 @@ export interface ICourseSearchWithRanking {
 	text: string | null;	
 	city: string | null;	
 	isRanked: string | null;
+	isFeatured: string | null;
 	year: number | null;
 	tier: string | null;
 	sourceRefValueId: number | null;
