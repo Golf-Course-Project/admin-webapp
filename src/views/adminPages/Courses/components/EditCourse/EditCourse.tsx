@@ -115,6 +115,13 @@ class EditCourse extends React.Component<IProps, {}> {
     }    
   }
 
+  private getDefaultPhotoName = (url: string | undefined) => {  
+    if (url === undefined || url === null || url === '' || url === 'undefined') return '';
+        
+    const parts = url.split('/');
+    return parts[parts.length - 1]; 
+  }
+
   private fetch = (id: string) => {
     const client: CourseService = new CourseService();
 
@@ -142,7 +149,7 @@ class EditCourse extends React.Component<IProps, {}> {
           tags: response.value?.course?.tags ?? '', 
           priceLow: response.value?.course?.priceLow ?? null,
           priceHigh: response.value?.course?.priceHigh ?? null,
-          defaultPhoto: response.value?.course?.defaultPhoto ?? '',         
+          defaultPhoto: this.getDefaultPhotoName(response.value?.course?.defaultPhoto ?? ''),                   
           synced: response.value?.course?.isSynced ?? false,  
           action: 'normal',
           ready: true       
@@ -709,7 +716,7 @@ class EditCourse extends React.Component<IProps, {}> {
                   <RankCourse courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} ready={this.state.ready} />
                 </Box>                
 
-                <Box>
+                <Box>                  
                   <CoursePhotos courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} ready={this.state.ready} default={this.state.defaultPhoto} />
                 </Box>
 

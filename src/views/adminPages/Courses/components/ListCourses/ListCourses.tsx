@@ -2,13 +2,14 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container, TextField, Breadcrumbs, Typography, Skeleton, IconButton, Menu, MenuItem, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container, TextField, Breadcrumbs, Typography, Skeleton, IconButton, Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import RankingIcon from '@material-ui/icons/Bookmark';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LockIcon from '@material-ui/icons/Lock';
 import UnknownIcon from '@material-ui/icons/NotListedLocation';
 import EditIcon from '@material-ui/icons/Edit';
 import ReviewIcon from '@material-ui/icons/Comment';
+import FeaturedIcon from '@material-ui/icons/Star';
 
 import Illustration from 'svg/illustrations/Globe';
 import { SkeletonTable } from 'common/components';
@@ -23,8 +24,6 @@ import ErrorMessage from 'common/components/ErrorMessage';
 import { RefValueData } from 'data/refvalue.data';
 import { IFacility } from 'interfaces/facility.interfaces';
 import EditReview from '../EditReview';
-
-
 
 class ListCourses extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -143,7 +142,6 @@ class ListCourses extends React.Component<IProps, {}> {
   private handleOpenReviewSideBar = (row: ICourseListWithRanking) => {
     this.setState({ openCourseSideBar: false, openFacilitySideBar: false, openReviewSideBar: true, selectedCourse: row, selectedRowId: row.courseId, isEditingTextbox: false});
   }
-
 
   private handleSidebarClose = () => {
     this.setState({ openCourseSideBar: false, openFacilitySideBar: false, openReviewSideBar: false});       
@@ -279,8 +277,7 @@ class ListCourses extends React.Component<IProps, {}> {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>   
-                    <TableCell align="center" sx={{ width: '60px' }}>&nbsp;</TableCell>                
-                    <TableCell align="center" sx={{ width: '60px' }}>&nbsp;</TableCell>                    
+                    <TableCell align="center" sx={{ width: '100px' }}>&nbsp;</TableCell>                                     
                     <TableCell align="left">Course</TableCell>
                     <TableCell align="center" sx={{ width: '60px'}}>&nbsp;</TableCell>
                     <TableCell align="left">City</TableCell>  
@@ -301,14 +298,14 @@ class ListCourses extends React.Component<IProps, {}> {
                       selected={this.state.selectedRowId === row.courseId ? true : false}                                      
                     > 
                       <TableCell align="center">                                                 
-                        { row.type === 2  ? <LockIcon color="disabled" /> : null } 
-                        { row.type === -1  ? <UnknownIcon color="disabled" /> : null }        
-                      </TableCell> 
-                      <TableCell align="center">                                                 
-                        { row.rankingValue > 0 ? <RankingIcon color="secondary" /> : null }         
-                      </TableCell>                                                         
+                        { row.type === 2  ? <LockIcon color="disabled" fontSize="small" /> : null } 
+                        { row.type === -1  ? <UnknownIcon color="disabled" fontSize="small" /> : null }  
+                        { row.rankingValue > 0 ? <RankingIcon color="disabled" fontSize="small" /> : null }  
+                        { row.isReviewed ? <ReviewIcon color="disabled" fontSize="small" /> : null }     
+                        { row.isFeatured ? <FeaturedIcon color="disabled" fontSize="small" /> : null }                         
+                      </TableCell>                                                                               
                       <TableCell align="left">
-                        <Link component="button" onClick={(e:any) => this.handleOpenCourseSideBar(row)}>{row.courseName}</Link>                        
+                        <Link component="button" onClick={(e:any) => this.handleOpenCourseSideBar(row)} sx={{ textAlign: 'left' }}>{row.courseName}</Link>                        
                       </TableCell>                        
                       <TableCell align="center">
                         <IconButton
@@ -332,13 +329,13 @@ class ListCourses extends React.Component<IProps, {}> {
                             <ListItemIcon>
                               <ReviewIcon fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText primary="Review" />                          
+                            <ListItemText primary={row.isReviewed ? 'Edit Review' : 'Create Review'} />                         
                           </MenuItem>
                           <MenuItem onClick={(e:any) => this.handleOpenFacilitySideBar(row)}>
                             <ListItemIcon>
                               <EditIcon fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText primary={row.facilityName} />                                
+                            <ListItemText primary={`Edit ${row.facilityName}`} />                                
                           </MenuItem>                         
                         </Menu>                        
                       </TableCell>                                                

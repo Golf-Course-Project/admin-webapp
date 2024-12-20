@@ -21,6 +21,9 @@ export interface ICourseList {
 	localRegion: string;	
 	type: number | null;
 	tier: string;
+	isReviewed: boolean;
+	isRanked: boolean;
+	isFeatured: boolean;
 	rowNumber: number;
 	rankingCount: number;
 }
@@ -34,6 +37,9 @@ export interface ICourseListWithRanking {
 	state: string;	
 	type: number | null;
 	tier: string;
+	isRanked: boolean;
+	isFeatured: boolean;
+	isReviewed: boolean;
 	rankingSource: string;
 	rankingName: string;
 	rankingYear: number;

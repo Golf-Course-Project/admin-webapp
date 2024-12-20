@@ -31,19 +31,31 @@ class CoursePhotos extends React.Component<IProps, {}> {
     courseId: this.props.courseId,
     facilityId: this.props.facilityId,
     filesSelectedToBeUploaded: [],   
-    reachedFileLimit: false,
-    default: this.props.default,
-  }
+    reachedFileLimit: false,   
+    defaultPhotoName: this.props.default,
+  } 
 
   componentDidMount() {
-    if (this.props.ready === true) this.fetch(this.props.courseId);
+    if (this.props.ready === true) {
+      this.fetch(this.props.courseId);
+    }
   }
 
-  componentDidUpdate(prevProps: any) {
+  componentDidUpdate(prevProps: any) {    
     if (prevProps.ready !== this.props.ready) {
-      this.setState({ action: 'loading' });
-      if (this.props.ready === true) this.fetch(this.props.courseId);
+      this.setState({ action: 'loading' });      
+      
+      if (this.props.ready === true) {     
+        this.fetch(this.props.courseId);        
+      }
     }
+  }
+
+  private getDefaultPhotoName = (url: string | undefined) => {  
+    if (url === undefined || url === null || url === '' || url === 'undefined') return '';
+        
+    const parts = url.split('/');
+    return parts[parts.length - 1]; 
   }
 
   private handleAddIconOnClick = (e: React.FormEvent<HTMLInputElement>) => {
@@ -100,7 +112,7 @@ class CoursePhotos extends React.Component<IProps, {}> {
 
     client.patch(body).then(async (response: IPatchCourseApiResponse) => {
       if (response.success) {
-        this.setState({ default: url });
+        this.setState({ defaultPhotoName: this.getDefaultPhotoName(url) });
       }
       else {
         this.setState({ messageText: response.message, snackOpen: true });
@@ -116,12 +128,14 @@ class CoursePhotos extends React.Component<IProps, {}> {
   private fetch = (courseId: string) => {
     const client: CourseService = new CourseService();
 
-    client.fetchPhotos(courseId).then(async (response: IFetchPhotosApiResponse) => {      
+    client.fetchPhotos(courseId).then(async (response: IFetchPhotosApiResponse) => {        
+          
       if (response.success) {
         this.setState({
           data: response.value,
           count: response.count,
           action: 'normal',
+          defaultPhotoName: this.props.default
         });
       }
 
@@ -270,7 +284,7 @@ class CoursePhotos extends React.Component<IProps, {}> {
           </Box>
 
           <Box display="flex" width={'100%'} sx={this.state.action === 'normal' && this.state.count > 0 ? { display: 'flex', width: '100%' } : { display: 'none' }}>
-            <ImageList sx={{ width: '100%' }} cols={2}>
+            <ImageList sx={{ width: '100%' }} cols={2}>             
               {this.state.data.map((photo, index) => (
                 <ImageListItem key={index}>
                   <img
@@ -283,21 +297,24 @@ class CoursePhotos extends React.Component<IProps, {}> {
                     title={photo.name.length > 14 ? `${photo.name.substring(0, 11)}...` : photo.name}
                     actionIcon={
                       <div>
-                        <IconButton
-                          color="primary"
-                          sx={this.state.default?.includes(photo.name) ? {} : { display: 'none' }}
-                          aria-label={`info about ${photo.name}`}
-                        >
-                          <CheckedIcon />
-                        </IconButton>
-
-                        <IconButton
-                          sx={!this.state.default?.includes(photo.name) ? { color: 'rgba(255, 255, 255, 0.54)' } : { display: 'none' }}
-                          aria-label={`info about ${photo.name}`}
-                          onClick={(e: any) => this.handleCheckIconForDefaultPhotoOnClick(photo.url, this.state.default?.includes(photo.name) ? true : false)}
-                        >
-                          <UnCheckedIcon />
-                        </IconButton>
+                        {photo.name.toLowerCase() == this.state.defaultPhotoName ? (                        
+                          <>                                                     
+                            <IconButton
+                              color="primary"
+                              aria-label={`info about ${photo.name}`}
+                            >
+                              <CheckedIcon />
+                            </IconButton>
+                          </>
+                        ) : (
+                          <IconButton
+                            sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                            aria-label={`info about ${photo.name}`}
+                            onClick={(e: any) => this.handleCheckIconForDefaultPhotoOnClick(photo.url, false)}
+                          >
+                            <UnCheckedIcon />
+                          </IconButton>
+                        )}
 
                         <IconButton
                           sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
@@ -366,7 +383,7 @@ interface IForm {
   facilityId: string,
   courseId: string,
   filesSelectedToBeUploaded: [], 
-  reachedFileLimit: boolean,
-  default: string | undefined,
+  reachedFileLimit: boolean,  
+  defaultPhotoName?: string,
 }
 
