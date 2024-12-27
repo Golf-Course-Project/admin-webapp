@@ -1,10 +1,11 @@
 import { courseServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper'; 
 import { IStandardApiResponse } from 'interfaces/api-response.interface';
-import { ICoursePatch, ICourseSearch, ICourseSearchWithRanking, IFetchCourseAndFacilityApiResponse, IFetchCourseApiResponse, ICourseListApiResponse, IPatchCourseApiResponse, ICourseListWithRankingApiResponse, IFetchPhotosApiResponse, ICoursePatchForDefaultPhoto } from 'interfaces/course.interfaces';
+import { ICoursePatch, ICourseSearch, ICourseSearchWithRanking, IFetchCourseAndFacilityApiResponse, ICourseListApiResponse, IPatchCourseApiResponse, ICourseListWithRankingApiResponse, IFetchPhotosApiResponse, ICoursePatchForDefaultPhoto } from 'interfaces/course.interfaces';
 
 export class CourseService {
   
+  /*
   async fetch(id : string): Promise<IFetchCourseApiResponse> {
     
     const jwt: string | null = fetchJwt();
@@ -25,6 +26,7 @@ export class CourseService {
       return await Promise.reject(error);
     }
   } 
+  */
 
   async fetchIncFacility(id : string): Promise<IFetchCourseAndFacilityApiResponse> {
     

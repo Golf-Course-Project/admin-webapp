@@ -50,6 +50,7 @@ class EditCourse extends React.Component<IProps, {}> {
     tags: '',
     priceLow: -1,
     priceHigh: -1,
+    isFeatured: false,
     defaultPhoto: '',
     snackOpen: false,      
     courses: this.props.courses
@@ -84,6 +85,7 @@ class EditCourse extends React.Component<IProps, {}> {
       tags: '',
       priceLow: -1,
       priceHigh: -1,
+      isFeatured: false,
       defaultPhoto: '',
       synced: false,
       snackOpen: false,      
@@ -149,6 +151,7 @@ class EditCourse extends React.Component<IProps, {}> {
           tags: response.value?.course?.tags ?? '', 
           priceLow: response.value?.course?.priceLow ?? null,
           priceHigh: response.value?.course?.priceHigh ?? null,
+          isFeatured: response.value?.course?.isFeatured ?? false,
           defaultPhoto: this.getDefaultPhotoName(response.value?.course?.defaultPhoto ?? ''),                   
           synced: response.value?.course?.isSynced ?? false,  
           action: 'normal',
@@ -213,6 +216,7 @@ class EditCourse extends React.Component<IProps, {}> {
       tags: this.state.tags,
       priceLow: this.state.priceLow,
       priceHigh: this.state.priceHigh,
+      isFeatured: this.state.isFeatured,
     } as ICoursePatch;     
     
     let client: CourseService | null = new CourseService();    
@@ -257,6 +261,13 @@ class EditCourse extends React.Component<IProps, {}> {
 
     const target = e.target as HTMLSelectElement;
     this.setState({ [target.name]: target.value } as unknown as Pick<IForm, keyof IForm>); 
+  };
+
+  private handleTrueFalseSelectChanges = (e: React.FormEvent<HTMLSelectElement>) => {
+    e.preventDefault();   
+
+    const target = e.target as HTMLSelectElement;
+    this.setState({ [target.name]: target.value === 'true' ? true : false } as unknown as Pick<IForm, keyof IForm>);
   };
 
   private handleInputBlur = (e: React.FormEvent<HTMLInputElement>) => {
@@ -656,7 +667,28 @@ class EditCourse extends React.Component<IProps, {}> {
                             <MenuItem value={'IV'}>IV</MenuItem>
                           </Select>
                         </FormControl>
-                      </Grid>                               
+                      </Grid>       
+                      <Grid item xs={12} md={6}>
+                        <FormControl fullWidth variant="outlined" color="primary">
+                          <InputLabel id="year-label">Is Featured?</InputLabel>
+                          <Select
+                            labelId="isFeatured-label"
+                            id="isFeatured"
+                            value={this.state.isFeatured.toString()}
+                            onChange={(e: any) => this.handleTrueFalseSelectChanges(e)}
+                            label="Is Featured?"
+                            name="isFeatured"
+                            fullWidth={true}
+                          >   
+                            <MenuItem value={'false'}>
+                              No
+                            </MenuItem>              
+                            <MenuItem value={'true'}>
+                               Yes
+                            </MenuItem>                           
+                          </Select>
+                        </FormControl>
+                      </Grid>                            
                       <Grid item xs={12} md={12}>
                         <TextField
                           type="text"
@@ -709,8 +741,7 @@ class EditCourse extends React.Component<IProps, {}> {
                   </Box>
                 </form>
               </Grid>  
-              <Grid item lg={1} md={12} sm={12} xs={12}></Grid>
-                       
+              <Grid item lg={1} md={12} sm={12} xs={12}></Grid>                       
               <Grid item lg={5} md={12} sm={12} xs={12} sx={{width: '100%'}} >                         
                 <Box>
                   <RankCourse courseId={this.state.id} facilityId={this.state.facilityId} theme={this.props.theme} ready={this.state.ready} />
@@ -776,6 +807,7 @@ interface IForm {
   tags: string;
   priceHigh: number;
   priceLow: number;
+  isFeatured: boolean;
   defaultPhoto: string;
   synced: boolean; 
   snackOpen: boolean;  

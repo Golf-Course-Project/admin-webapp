@@ -7,7 +7,6 @@ export interface IFetchReviewApiResponse extends IApiResponse {
 export interface IReview {
 	id: string;
 	courseId: string;
-	experience: number;
-	value: number;
+	rating: number;	
 	content: string;	
 }

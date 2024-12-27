@@ -297,7 +297,7 @@ class CoursePhotos extends React.Component<IProps, {}> {
                     title={photo.name.length > 14 ? `${photo.name.substring(0, 11)}...` : photo.name}
                     actionIcon={
                       <div>
-                        {photo.name.toLowerCase() == this.state.defaultPhotoName ? (                        
+                        {photo.name.toLowerCase() === this.state.defaultPhotoName ? (                        
                           <>                                                     
                             <IconButton
                               color="primary"

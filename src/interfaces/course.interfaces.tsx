@@ -67,6 +67,7 @@ export interface ICourse {
 	tags: string;
 	priceLow: number;
 	priceHigh: number;
+	isFeatured: boolean;
 	defaultPhoto: string;
 	isSynced: boolean;
 }
@@ -111,6 +112,7 @@ export interface ICoursePatch {
 	description: string;
 	tier: string;
 	tags: string;
+	isFeatured: boolean;
 	isSynced: boolean;
 }
 
