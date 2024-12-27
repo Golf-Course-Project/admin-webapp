@@ -402,7 +402,9 @@ class ListCourses extends React.Component<IProps, {}> {
         <EditReview
           theme={this.props.theme}
           open={this.state.openReviewSideBar}
-          courseId={this.state.selectedCourse?.courseId}   
+          courseId={this.state.selectedCourse?.courseId} 
+          courseName={this.state.selectedCourse?.courseName}  
+          facilityName={this.state.selectedCourse?.facilityName}
           onClose={this.handleSidebarClose}   
         ></EditReview>     
       </Box>

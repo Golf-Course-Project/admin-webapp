@@ -2,22 +2,15 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Alert, Button, CardContent, Divider, Drawer, Grid, IconButton, Snackbar, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@material-ui/core';
+import { Alert, Button, CardContent, Divider, Drawer, Grid, IconButton, Rating, Snackbar, Stack, TextField, Typography } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
-import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
-import ArrowUpIcon from '@material-ui/icons/ArrowUpward';
-import CopyIcon from '@material-ui/icons/ContentCopy';
-import CheckIcon from '@material-ui/icons/Check';
-import SwapIcon from '@material-ui/icons/ChangeCircle';
-import { green } from '@material-ui/core/colors';
 
-import { IFacility, IFetchFacilityApiResponse, IPatchFacilityApiResponse } from 'interfaces/facility.interfaces';
-import { FacilityService } from 'services/facility.service';
 import { ErrorMessage } from 'common/components';
-import ConfirmDelete from '../ConfirmDelete';
-import { IReview } from 'interfaces/review.interface';
+import { IFetchReviewApiResponse, IReview } from 'interfaces/review.interface';
+import ReviewService from 'services/review.service';
+import { IReviewPost } from 'interfaces/review.interfaces';
 
 
 class EditReview extends React.Component<IProps, {}> {
@@ -30,8 +23,10 @@ class EditReview extends React.Component<IProps, {}> {
     open: this.props.open,
     blurErrors: [],    
     data: null,       
-    courseId: this.props.courseId,    
     snackOpen: false,     
+    courseId: this.props.courseId,    
+    content: '',
+    rating: 0,
   }
 
   componentDidMount() {
@@ -46,7 +41,7 @@ class EditReview extends React.Component<IProps, {}> {
         action: 'loading'
       });
 
-      //this.fetch(this.props.courseId);
+      this.fetch(this.props.courseId);
     }
      
   }
@@ -61,21 +56,29 @@ class EditReview extends React.Component<IProps, {}> {
       blurErrors: [],    
       data: null,       
       courseId: this.props.courseId,    
-      snackOpen: false,         
+      snackOpen: false,        
+      content: '',
+      rating: 0, 
     });
     
   }
 
-  private fetch = (facilityId: string) => {
-    const client: FacilityService = new FacilityService();
+  private fetch = (courseId: string) => {
+    const client: ReviewService = new ReviewService();
 
-    client.fetch(facilityId).then(async (response: IFetchFacilityApiResponse) => {      
-
+    client.fetch(courseId).then(async (response: IFetchReviewApiResponse) => {      
+      
       if (response.success) {
         this.setState({
           data: response.value,          
-          action: 'normal',         
+          action: 'normal',   
+          content: response.value?.content || '',
+          rating: response.value?.rating || 0,      
         });
+      }
+
+      if (response.messageCode === 400) {
+        this.setState({ action: 'normal' });
       }
 
     }).catch((error: Error) => {
@@ -88,40 +91,50 @@ class EditReview extends React.Component<IProps, {}> {
     this.props.onClose();
   }
 
-  handleOnCloseAfterDelete() {
-    this.setState({ action: 'normal' });
-    this.props.onClose();
-  }
-
-  handleUpdateReviewOnClick() {
-    let client: FacilityService | null = new FacilityService();
-    let body: IFacility | null = { 
-      id: this.state.courseId,      
-    } as IFacility;     
+  handleSaveOnClick() {
+    let client: ReviewService | null = new ReviewService();
+    let body: IReviewPost = {       
+      content: this.state.content,
+      rating: this.state.rating
+    } as IReview;
+ 
+    this.setState({ action: 'update' });
     
-    client.patch(body).then(async (response: IPatchFacilityApiResponse) => {   
-      if (response.success) {          
-        this.setState({ action: 'updated', message: '', snackOpen: true }); 
-        //this.props.onReviewUpdate(response.value);      
+    client?.post(body, this.state.courseId).then(async (response: any) => {
+      if (response.success) {
+        setTimeout(() => {
+          this.setState({ action: 'normal', messageText: '', snackOpen: true });
+        }, 1500);
       } else {
-        this.setState({ action: 'failed', message: this.setErrorMessage(response.messageCode, response.message) });
+        this.setState({ action: 'failed', messageText: this.setErrorMessage(response.messageCode, response.message) });
       }
     }).catch((error: Error) => {
-      this.setState({ action: 'failed', message: error.message });
-    });
-     
+      this.setState({ action: 'failed', messageText: error.message });
+    });   
+
     client = null;
   }  
 
-  cancelDeleteCallback() {
-    this.setState({ action: 'normal' });
+  handleDeleteOnClick() { 
+    let client: ReviewService | null = new ReviewService();
+    this.setState({ action: 'delete' });
+
+    client?.delete(this.state.courseId).then(async (response: any) => {
+      if (response.success) {
+        setTimeout(() => {
+          this.resetForm();
+          this.props.onClose();
+        }, 1500);
+      } else {
+        this.setState({ action: 'failed', messageText: this.setErrorMessage(response.messageCode, response.message) });
+      }
+    }).catch((error: Error) => {
+      this.setState({ action: 'failed', messageText: error.message });
+    });   
+
+    client = null;
   }
 
-  private handleTypeChange = (e: React.MouseEvent<HTMLElement>, value: number) => {
-    e.preventDefault();
-
-    this.setState({ type: value });   
-  }
 
   private handleSnackClose = () => {
     this.setState({ snackOpen: false });       
@@ -131,7 +144,7 @@ class EditReview extends React.Component<IProps, {}> {
     e.preventDefault();
 
     this.setState({ [e.currentTarget.name]: e.currentTarget.value } as unknown as Pick<IForm, keyof IForm>);
-  }; 
+  };   
 
   private handleInputBlur = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -152,8 +165,10 @@ class EditReview extends React.Component<IProps, {}> {
 
   private setHelperTextMessage = (field: string) => {
     switch (field) {
-      case 'name':
-        return this.state.blurErrors.includes('name') ? 'Name is required' : ' ';     
+      case 'content':
+        return this.state.blurErrors.includes('content') ? 'Content is required' : ' ';     
+      case 'rating':
+        return this.state.blurErrors.includes('rating') ? 'Rating is required' : ' ';   
       default:
         return ' ';
     }
@@ -200,24 +215,19 @@ class EditReview extends React.Component<IProps, {}> {
               </IconButton>         
             </Box>  
           </Grid>
-        </Grid>     
+        </Grid>             
 
-        <Box display={this.state.action === 'confirm-delete' ? 'block' : 'none'} sx={{ height: '100%', padding: 1 }} >
-          <Box marginTop={20} justifyContent={'center'}>
-            Deleted
-          </Box>
-        </Box>      
-
-        <Box display={this.state.action === 'confirm-delete' ? 'none' : 'block'} sx={{ height: '100%', padding: 1 }} >
+        <Box display={'block'} sx={{ height: '100%', padding: 1 }} >
           <Box marginBottom={6}>
-            <Typography
-              variant="h3"
-              align={'center'}
-              sx={{ fontWeight: 500, }}
-            >
-              Course Name
+            <Typography variant="h3" align={'center'} sx={{ fontWeight: 500, }}>
+              {this.props.courseName}
             </Typography>
-          </Box>          
+
+            <Typography variant="h5" align={'center'}>
+              {this.props.facilityName}
+            </Typography>
+          </Box>   
+
           <Divider variant="middle" />
 
           <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
@@ -231,52 +241,70 @@ class EditReview extends React.Component<IProps, {}> {
               <Grid item xs={12}>
                 <ErrorMessage message={this.setErrorMessage(this.state.messageCode, this.state.messageText)} />
                 <form noValidate autoComplete="off">
-                  <Box display="flex" flexDirection={'column'}>
+                  <Box display="flex" flexDirection={'column'} paddingBottom="20px">
                     <Grid container spacing={1}>                       
                       <Grid item xs={12} md={12}>
                         <TextField
                           type="text"
-                          label="Description"
+                          label="Content"
                           variant="outlined"
                           color="primary"
                           multiline
                           rows={6}
                           fullWidth
-                          name={'description'}
-                          value={''}
+                          name={'content'}
+                          value={this.state.content}
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
-                          error={this.state.blurErrors.includes('description') ? true : false}
-                          helperText={this.setHelperTextMessage('description')}                          
+                          error={this.state.blurErrors.includes('content') ? true : false}
+                          helperText={this.setHelperTextMessage('content')}   
+                          disabled={this.state.action !== 'normal' ? true : false}                       
                         />
                       </Grid>
-                      
-                      <Grid item xs={12} md={8}>
+                      <Grid item xs={6} md={6}>
+                        <Stack spacing={1}>
+                          <Typography component="legend">Rating</Typography>
+                          <Rating name="rating" defaultValue={0} precision={0.5} value={this.state.rating} onChange={(e: any) => this.handleInputChanges(e)} disabled={this.state.action !== 'normal' ? true : false} />                      
+                        </Stack>
+                      </Grid>                                         
+                    </Grid>
+                  </Box>
+
+                  <Divider />
+
+                  <Box display="flex" flexDirection={'column'} paddingTop="20px">
+                    <Grid container spacing={1}>   
+                      <Grid item xs={8} md={8}>
                         <Box
-                          display={this.state.action === 'confirm-delete' ? 'none' : 'end'}
+                          display={'end'}
                           justifyContent={'end'}
                           sx={{ paddingBottom: '10px', paddingTop: '10px' }}
-                          onClick={(e: any) => this.handleUpdateReviewOnClick() }
+                          onClick={(e: any) => this.handleSaveOnClick() }
                         >
-                          <Button variant="contained" startIcon={<SaveIcon />} sx={this.state.action !== 'update' ? { width: '100%', display: 'flex' } : { width: '100%', display: 'none' }}>
-                            Update
+                          <Button variant="contained" startIcon={<SaveIcon />} sx={this.state.action !== 'update' ? { width: '100%', display: 'flex' } : { width: '100%', display: 'none' }} disabled={this.state.action !== 'normal' ? true : false}>
+                            Save
                           </Button>                          
 
                           <Button variant="contained" startIcon={<SaveIcon />} sx={this.state.action === 'update' ? { width: '100%', display: 'flex' } : { width: '100%', display: 'none' }} disabled={true}>
-                            Updating ...
+                            Saving ...
                           </Button>
                         </Box>
                       </Grid>
-                      <Grid item xs={12} md={4}>
+                      <Grid item xs={8} md={4}>
                         <Box
-                          display={this.state.action === 'confirm-delete' ? 'none' : 'end'}
+                          display={'end'}
                           justifyContent={'end'}
                           sx={{ paddingBottom: '10px', paddingTop: '10px' }}
                           onClick={(e: any) => this.setState({ action: 'confirm-delete' })}
                         >
-                          <Button variant="contained" startIcon={<DeleteIcon />} sx={{ width: '100%', background: this.props.theme.palette.grey[600] }}>
+                          <Button variant="contained" startIcon={<DeleteIcon />} sx={{ width: '100%', background: this.props.theme.palette.grey[600] }} disabled={this.state.action !== 'normal' ? true : false} onClick={(e: any) => this.handleDeleteOnClick()}>
                             Delete
                           </Button>
+
+                          <Button variant="contained" startIcon={<DeleteIcon />} sx={{ width: '100%', display: this.state.action === 'deleting' ? 'flex' : 'none' }} disabled={true}>
+                            Deleting ...
+                          </Button>
+                          
                         </Box>
                       </Grid>
                     </Grid>
@@ -299,6 +327,8 @@ interface IProps {
   theme: Theme;
   open: boolean;  
   courseId: string; 
+  courseName: string;
+  facilityName: string;
 }
 
 interface IForm {
@@ -308,6 +338,8 @@ interface IForm {
   blurErrors: string[];
   open: boolean; 
   data: IReview | null;   
-  courseId: string;   
   snackOpen: boolean;  
+  courseId: string;   
+  content: string;
+  rating: number;
 }
