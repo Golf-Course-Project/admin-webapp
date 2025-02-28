@@ -40,6 +40,7 @@ export interface ICourseListWithRanking {
 	isRanked: boolean;
 	isFeatured: boolean;
 	isReviewed: boolean;
+	isFlagged: boolean;
 	rankingSource: string;
 	rankingName: string;
 	rankingYear: number;
@@ -51,6 +52,7 @@ export interface ICourse {
 	facilityId: string;
 	facilityName: string;
 	name: string;
+	title: string;
 	description: string;
 	longitude: number;
 	latitude: number;
@@ -68,6 +70,7 @@ export interface ICourse {
 	priceLow: number;
 	priceHigh: number;
 	isFeatured: boolean;
+	isFlagged: boolean;
 	defaultPhoto: string;
 	isSynced: boolean;
 }
@@ -83,6 +86,8 @@ export interface ICourseSearch {
 	tier: string | null;
 	pageNumber: number;
 	isRanked: string | null;
+	isFeatured: string | null;
+	isFlagged: string | null;
 }
 
 export interface ICourseSearchWithRanking {
@@ -92,6 +97,7 @@ export interface ICourseSearchWithRanking {
 	city: string | null;	
 	isRanked: string | null;
 	isFeatured: string | null;
+	isFlagged: string | null;
 	year: number | null;
 	tier: string | null;
 	sourceRefValueId: number | null;

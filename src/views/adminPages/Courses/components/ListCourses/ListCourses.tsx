@@ -2,7 +2,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container, TextField, Breadcrumbs, Typography, Skeleton, IconButton, Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container, TextField, Breadcrumbs, Typography, Skeleton, IconButton, Menu, MenuItem, ListItemIcon, ListItemText, Tooltip } from '@material-ui/core';
 import RankingIcon from '@material-ui/icons/Bookmark';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LockIcon from '@material-ui/icons/Lock';
@@ -10,12 +10,13 @@ import UnknownIcon from '@material-ui/icons/NotListedLocation';
 import EditIcon from '@material-ui/icons/Edit';
 import ReviewIcon from '@material-ui/icons/Comment';
 import FeaturedIcon from '@material-ui/icons/Star';
+import FlaggedIcon from '@material-ui/icons/Flag';
 
 import Illustration from 'svg/illustrations/Globe';
 import { SkeletonTable } from 'common/components';
 import EditCourse from '../EditCourse';
 import EditFacility from '../EditFacility';
-import { ICourseSearch, ICourse, ICourseSearchWithRanking, ICourseListWithRankingApiResponse, ICourseListWithRanking } from 'interfaces/course.interfaces';
+import { ICourseSearch, ICourse, ICourseSearchWithRanking, ICourseListWithRanking, ICourseListWithRankingApiResponse } from 'interfaces/course.interfaces';
 import { IOptions, IRankingPost2 } from 'interfaces/rankings.interfaces';
 import { IApiResponse } from 'interfaces/api-response.interface';
 import RankingService from 'services/ranking.service';
@@ -76,8 +77,9 @@ class ListCourses extends React.Component<IProps, {}> {
         text: this.props.searchCriteria.text,
         name: this.props.searchCriteria.name,
         city: this.props.searchCriteria.city,
-        isRanked: this.props.searchCriteria.isRanked,    
-        isFeatured: null,  
+        isRanked: this.props.searchCriteria.isRanked,   
+        isFlagged: this.props.searchCriteria.isFlagged, 
+        isFeatured: this.props.searchCriteria.isFeatured,  
         tier: this.props.searchCriteria.tier,
         year: this.props.options !== null ? this.props.options.year : 2024,
         sourceRefValueId: this.props.options !== null ? this.props.options.sourceRefValueId : 100,
@@ -277,11 +279,16 @@ class ListCourses extends React.Component<IProps, {}> {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>   
-                    <TableCell align="center" sx={{ width: '100px' }}>&nbsp;</TableCell>                                     
-                    <TableCell align="left">Course</TableCell>
                     <TableCell align="center" sx={{ width: '60px'}}>&nbsp;</TableCell>
+                    <TableCell align="left">Course</TableCell>        
+                    <TableCell align="center" sx={{ width: '15px'}}>&nbsp;</TableCell>   
+                    <TableCell align="center" sx={{ width: '15px'}}>&nbsp;</TableCell>
+                    <TableCell align="center" sx={{ width: '15px'}}>&nbsp;</TableCell> 
+                    <TableCell align="center" sx={{ width: '15px'}}>&nbsp;</TableCell> 
+                    <TableCell align="center" sx={{ width: '15px'}}>&nbsp;</TableCell> 
+                    <TableCell align="center" sx={{ width: '50px'}}>&nbsp;</TableCell> 
                     <TableCell align="left">City</TableCell>  
-                    <TableCell align="left">State</TableCell>   
+                    <TableCell align="center">State</TableCell>   
                     <TableCell align="center" sx={{ width: '100px' }}>Ranking</TableCell>  
                     <TableCell align="center" sx={{ width: '100px' }}>Tier</TableCell>
                     <TableCell align="left">&nbsp;</TableCell>                                                                                         
@@ -296,17 +303,7 @@ class ListCourses extends React.Component<IProps, {}> {
                       onMouseEnter={(e: any) => this.handleMouseEnter(e, row.courseId) }
                       onMouseLeave={(e: any) => this.handleMouseLeave(e, row.courseId) }
                       selected={this.state.selectedRowId === row.courseId ? true : false}                                      
-                    > 
-                      <TableCell align="center">                                                 
-                        { row.type === 2  ? <LockIcon color="disabled" fontSize="small" /> : null } 
-                        { row.type === -1  ? <UnknownIcon color="disabled" fontSize="small" /> : null }  
-                        { row.rankingValue > 0 ? <RankingIcon color="disabled" fontSize="small" /> : null }  
-                        { row.isReviewed ? <ReviewIcon color="disabled" fontSize="small" /> : null }     
-                        { row.isFeatured ? <FeaturedIcon color="disabled" fontSize="small" /> : null }                         
-                      </TableCell>                                                                               
-                      <TableCell align="left">
-                        <Link component="button" onClick={(e:any) => this.handleOpenCourseSideBar(row)} sx={{ textAlign: 'left' }}>{row.courseName}</Link>                        
-                      </TableCell>                        
+                    >                         
                       <TableCell align="center">
                         <IconButton
                           aria-label="more"
@@ -338,9 +335,47 @@ class ListCourses extends React.Component<IProps, {}> {
                             <ListItemText primary={`Edit ${row.facilityName}`} />                                
                           </MenuItem>                         
                         </Menu>                        
-                      </TableCell>                                                
+                      </TableCell>  
+
+                      <TableCell align="left">
+                        <Link component="button" onClick={(e:any) => this.handleOpenCourseSideBar(row)} sx={{ textAlign: 'left' }}>{row.courseName}</Link>                        
+                      </TableCell>                        
+                        
+                      <TableCell align="center">                                                 
+                        { row.type === 2  ? <LockIcon color="disabled" fontSize="small" /> : null } 
+                        { row.type === -1  ? <UnknownIcon color="disabled" fontSize="small" /> : null }  
+                      </TableCell>  
+
+                      <TableCell align="center">  
+                        <Tooltip title={'Flagged (' + row.isFlagged + ')'}>
+                          <FlaggedIcon color={row.isFlagged ? 'error' : 'disabled'} fontSize="small" />  
+                        </Tooltip>
+                      </TableCell>
+
+                      <TableCell align="center">  
+                        <Tooltip title={'Ranking (' + row.rankingValue + ')'}>
+                          <RankingIcon color={row.rankingValue > 0 ? 'primary' : 'disabled'} fontSize="small" />  
+                        </Tooltip>
+                      </TableCell>
+
+                      <TableCell align="center">    
+                        <Tooltip title={'Reviewed'}>                        
+                          <ReviewIcon color={row.isReviewed ? 'primary' : 'disabled'} fontSize="small" />
+                        </Tooltip>
+                      </TableCell>
+
+                      <TableCell align="center">  
+                        <Tooltip title={'Featured'}>
+                          <FeaturedIcon color={row.isFeatured ? 'secondary' : 'disabled'} fontSize="small" />                       
+                        </Tooltip>
+                      </TableCell>  
+
+                      <TableCell align="left">&nbsp;</TableCell>  
+
                       <TableCell align="left">{row.city}</TableCell>   
-                      <TableCell align="left">{row.state}</TableCell>  
+
+                      <TableCell align="center">{row.state}</TableCell>  
+
                       <TableCell align="center" onClick={(e:any) => this.handleCellClick(row.courseId, row.rankingValue > 0 ? row.rankingValue.toString() : '')}>
                         {this.state.selectedRowId === row.courseId && this.state.isTextboxInEditMode ? (
                           <TextField

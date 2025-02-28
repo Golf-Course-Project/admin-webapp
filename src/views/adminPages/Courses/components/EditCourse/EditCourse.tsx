@@ -34,6 +34,7 @@ class EditCourse extends React.Component<IProps, {}> {
     name: this.props.name,
     facilityId: this.props.facilityId,
     facilityName: '',
+    title: '',
     address1: '',    
     city: '',
     state: '',
@@ -51,6 +52,7 @@ class EditCourse extends React.Component<IProps, {}> {
     priceLow: -1,
     priceHigh: -1,
     isFeatured: false,
+    isFlagged: false,
     defaultPhoto: '',
     snackOpen: false,      
     courses: this.props.courses
@@ -136,6 +138,7 @@ class EditCourse extends React.Component<IProps, {}> {
           facilityId: response.value?.course?.facilityId ?? '',
           facilityName: response.value?.facility?.name ?? '',
           name: response.value?.course?.name ?? '',
+          title: response.value?.course?.title ?? '',
           description: response.value?.course?.description ?? '',
           longitude: response.value?.course?.longitude ?? '',
           latitude: response.value?.course?.latitude?? '',         
@@ -152,6 +155,7 @@ class EditCourse extends React.Component<IProps, {}> {
           priceLow: response.value?.course?.priceLow ?? null,
           priceHigh: response.value?.course?.priceHigh ?? null,
           isFeatured: response.value?.course?.isFeatured ?? false,
+          isFlagged: response.value?.course?.isFlagged ?? false,
           defaultPhoto: this.getDefaultPhotoName(response.value?.course?.defaultPhoto ?? ''),                   
           synced: response.value?.course?.isSynced ?? false,  
           action: 'normal',
@@ -217,6 +221,7 @@ class EditCourse extends React.Component<IProps, {}> {
       priceLow: this.state.priceLow,
       priceHigh: this.state.priceHigh,
       isFeatured: this.state.isFeatured,
+      isFlagged: this.state.isFlagged
     } as ICoursePatch;     
     
     let client: CourseService | null = new CourseService();    
@@ -647,6 +652,21 @@ class EditCourse extends React.Component<IProps, {}> {
                           helperText={this.setHelperTextMessage('priceHigh')}                                                  
                         />
                       </Grid>    
+                      <Grid item xs={12} md={12}>
+                        <TextField
+                          type="text"
+                          label="Tags"
+                          variant="outlined"
+                          color="primary"
+                          fullWidth
+                          name={'tags'}
+                          value={this.state.tags}
+                          onChange={(e: any) => this.handleInputChanges(e)}
+                          onBlur={(e: any) => this.handleInputBlur(e)}
+                          error={this.state.blurErrors.includes('tags') ? true : false}
+                          helperText={this.setHelperTextMessage('tags')}                                                  
+                        />
+                      </Grid>    
                       <Grid item xs={12} md={6} sx={{ paddingBottom: '15px' }}>
                         <FormControl fullWidth variant="outlined" color="primary">
                           <InputLabel id="tier-label">Tier</InputLabel>
@@ -668,7 +688,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           </Select>
                         </FormControl>
                       </Grid>       
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={12} md={6} sx={{ paddingBottom: '15px' }}>
                         <FormControl fullWidth variant="outlined" color="primary">
                           <InputLabel id="year-label">Is Featured?</InputLabel>
                           <Select
@@ -688,8 +708,29 @@ class EditCourse extends React.Component<IProps, {}> {
                             </MenuItem>                           
                           </Select>
                         </FormControl>
-                      </Grid>                            
-                      <Grid item xs={12} md={12}>
+                      </Grid>     
+                      <Grid item xs={12} md={6}>
+                        <FormControl fullWidth variant="outlined" color="primary">
+                          <InputLabel id="year-label">Is Flagged?</InputLabel>
+                          <Select
+                            labelId="isFlagged-label"
+                            id="isFlagged"
+                            value={this.state.isFlagged.toString()}
+                            onChange={(e: any) => this.handleTrueFalseSelectChanges(e)}
+                            label="Is Flagged?"
+                            name="isFlagged"
+                            fullWidth={true}
+                          >   
+                            <MenuItem value={'false'}>
+                              No
+                            </MenuItem>              
+                            <MenuItem value={'true'}>
+                               Yes
+                            </MenuItem>                           
+                          </Select>
+                        </FormControl>
+                      </Grid>                                 
+                      <Grid item xs={12} md={12} sx={{ marginTop: '15px' }}>
                         <TextField
                           type="text"
                           label="Description"
@@ -792,6 +833,7 @@ interface IForm {
   id: string;  
   name: string;
   facilityName: string;
+  title: string;
   description: string;
   longitude: number | null;
   latitude: number | null; 
@@ -808,6 +850,7 @@ interface IForm {
   priceHigh: number;
   priceLow: number;
   isFeatured: boolean;
+  isFlagged: boolean;
   defaultPhoto: string;
   synced: boolean; 
   snackOpen: boolean;  

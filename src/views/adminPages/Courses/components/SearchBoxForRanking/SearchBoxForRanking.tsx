@@ -116,13 +116,24 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
       body.tag = key.includes('tag') ? this.setValue(val) : null;
       body.tier = key.includes('tier') ? (this.setValue(val) ?? '').toLocaleUpperCase() : null;
       body.isRanked = key.includes('isranked') ? this.setValue(val) : null;
+      body.isFlagged = key.includes('isflagged') ? this.setValue(val) : null;
+      body.isFeatured = key.includes('isfeatured') ? this.setValue(val) : null;
     });
 
     body.text = searchText.trim().toLocaleLowerCase();
 
-    if (body.name !== null || body.city !== null || body.postalCode !== null || body.type !== null || body.tier !== null || body.tag !== null || body.isRanked !== null) {
+    if (body.name !== null 
+      || body.city !== null 
+      || body.postalCode !== null 
+      || body.type !== null 
+      || body.tier !== null 
+      || body.tag !== null 
+      || body.isRanked !== null 
+      || body.isFeatured !== null
+      || body.isFlagged !== null) 
+    {
       body.text = null;
-    }
+    }   
 
     return body;
   }

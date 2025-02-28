@@ -89,7 +89,9 @@ export class CourseService {
     }
   }
 
-  async search(body: ICourseSearch): Promise<ICourseListApiResponse> {    
+  // This is for the search without ranking (deprecated)
+  /*
+  async zz_search(body: ICourseSearch): Promise<ICourseListApiResponse> {    
     const jwt: string | null = fetchJwt();
        
     try {
@@ -109,12 +111,13 @@ export class CourseService {
       return await Promise.reject(error);
     }
   } 
+  */
 
   async searchWithRanking(body: ICourseSearchWithRanking): Promise<ICourseListWithRankingApiResponse> {    
     const jwt: string | null = fetchJwt();
        
     try {
-      const response = await fetch(courseServiceUrl + '/api/course/search/ranking', {
+      const response = await fetch(courseServiceUrl + '/api/course/search', {
         method: 'post',
         headers: new Headers({
           'Content-Type': 'application/json',

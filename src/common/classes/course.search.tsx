@@ -12,6 +12,8 @@ export class CourseSearch implements ICourseSearch {
     this.tier = null;
     this.pageNumber = 1;
     this.isRanked = null;
+    this.isFeatured = null;
+    this.isFlagged = null;
   }
 
   state: string | null;
@@ -23,5 +25,7 @@ export class CourseSearch implements ICourseSearch {
   tag: string | null;
   tier: string | null;
   isRanked: string | null;
+  isFeatured: string | null;
+  isFlagged: string | null;
   pageNumber: number;
 }

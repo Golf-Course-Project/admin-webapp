@@ -15,6 +15,10 @@ export class RefValueData {
     {
       'id': 103,
       'text': 'Golfweek'
+    },
+    {
+      'id': 104,
+      'text': 'Other'
     }
 
   ];
@@ -34,7 +38,7 @@ export class RefValueData {
     }
   ];
 
-  static years: number[] = [2019, 2020, 2021, 2022, 2023, 2024];
+  static years: number[] = [2019, 2020, 2021, 2022, 2023, 2024, 2025];
 }
 
 export default RefValueData;

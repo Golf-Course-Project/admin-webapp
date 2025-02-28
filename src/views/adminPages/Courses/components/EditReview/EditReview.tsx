@@ -33,8 +33,10 @@ class EditReview extends React.Component<IProps, {}> {
 
   }
 
-  componentDidUpdate(prevProps: any) {
-    if (prevProps.open !== this.props.open) {
+  componentDidUpdate(prevProps: any) {   
+    
+    if (prevProps.open !== this.props.open) {    
+      
       this.setState({
         open: this.props.open,        
         courseId: this.props.courseId,        
@@ -52,10 +54,10 @@ class EditReview extends React.Component<IProps, {}> {
       action: 'loading',    
       messageCode: 200,
       messageText: '',
-      open: this.props.open,
+      open: false,
       blurErrors: [],    
       data: null,       
-      courseId: this.props.courseId,    
+      courseId: null,    
       snackOpen: false,        
       content: '',
       rating: 0, 
@@ -78,7 +80,7 @@ class EditReview extends React.Component<IProps, {}> {
       }
 
       if (response.messageCode === 400) {
-        this.setState({ action: 'normal' });
+        this.setState({ action: 'normal', content: '', rating: 0 });
       }
 
     }).catch((error: Error) => {
@@ -134,7 +136,6 @@ class EditReview extends React.Component<IProps, {}> {
 
     client = null;
   }
-
 
   private handleSnackClose = () => {
     this.setState({ snackOpen: false });       
@@ -258,7 +259,8 @@ class EditReview extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('content') ? true : false}
                           helperText={this.setHelperTextMessage('content')}   
-                          disabled={this.state.action !== 'normal' ? true : false}                       
+                          disabled={this.state.action !== 'normal' ? true : false}   
+                          autoFocus={true}                    
                         />
                       </Grid>
                       <Grid item xs={6} md={6}>
