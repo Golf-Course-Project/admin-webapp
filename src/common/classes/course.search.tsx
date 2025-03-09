@@ -1,6 +1,6 @@
-import { ICourseSearch } from 'interfaces/course.interfaces';
+import { ICourseSearchCriteriaProps } from 'interfaces/course.interfaces';
 
-export class CourseSearch implements ICourseSearch {
+export class CourseSearch implements ICourseSearchCriteriaProps {
   constructor() {
     this.state = null;
     this.name = null;

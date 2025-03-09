@@ -4,13 +4,13 @@ import Box from '@material-ui/core/Box';
 import Container from 'common/Container';
 
 import { ListCourses, SearchBoxForRanking } from './components';
-import { ICourseSearch } from 'interfaces/course.interfaces';
+import { ICourseSearchCriteriaProps } from 'interfaces/course.interfaces';
 import { CourseSearch } from 'common/classes/course.search';
 import { IOptions } from 'interfaces/rankings.interfaces';
 
 const Courses = () => {
   const theme: any = useTheme();
-  const [searchBody, setSearchBody] = useState<ICourseSearch>(new CourseSearch());
+  const [searchBody, setSearchBody] = useState<ICourseSearchCriteriaProps>(new CourseSearch());
   const [searchOptions, setSearchOptions] = useState<IOptions>(new SearchOptions());
 
   const callbackList = () => {

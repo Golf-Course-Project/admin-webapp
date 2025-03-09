@@ -75,7 +75,7 @@ export interface ICourse {
 	isSynced: boolean;
 }
 
-export interface ICourseSearch {
+export interface ICourseSearchCriteriaProps {
 	state: string | null;
 	name: string | null;
 	text: string | null;	
@@ -90,7 +90,7 @@ export interface ICourseSearch {
 	isFlagged: string | null;
 }
 
-export interface ICourseSearchWithRanking {
+export interface ICourseSearchCriteriaBody {
 	state: string | null;
 	name: string | null;
 	text: string | null;	
@@ -107,6 +107,7 @@ export interface ICourseSearchWithRanking {
 export interface ICoursePatch {
 	id: string;
 	name: string;
+	title: string;
 	longitude: number;
 	latitude: number;
 	address1: string;
@@ -120,6 +121,7 @@ export interface ICoursePatch {
 	tags: string;
 	isFeatured: boolean;
 	isSynced: boolean;
+	isFlagged: boolean;
 }
 
 export interface ICoursePatchForDefaultPhoto {

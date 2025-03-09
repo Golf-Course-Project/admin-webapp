@@ -72,6 +72,7 @@ class EditCourse extends React.Component<IProps, {}> {
       name: '',
       facilityId: '',
       facilityName: '',
+      title: '',
       address1: '',
       city: '',
       state: '',
@@ -88,6 +89,7 @@ class EditCourse extends React.Component<IProps, {}> {
       priceLow: -1,
       priceHigh: -1,
       isFeatured: false,
+      isFlagged: false,
       defaultPhoto: '',
       synced: false,
       snackOpen: false,      
@@ -173,7 +175,7 @@ class EditCourse extends React.Component<IProps, {}> {
   }
 
   handleOnUpClick() {
-    const index = this.state.courses.findIndex((item: IListItem) => item.courseId === this.state.id);
+    const index = this.state.courses.findIndex((item: ICourseItem) => item.courseId === this.state.id);
     const id = this.state.courses[index - 1].courseId;
 
     this.setState({ action: 'loading', ready: false, snackOpen: false, id: id });  
@@ -184,7 +186,7 @@ class EditCourse extends React.Component<IProps, {}> {
   }
 
   handleOnDownClick() {
-    const index = this.state.courses.findIndex((item: IListItem) => item.courseId === this.state.id);
+    const index = this.state.courses.findIndex((item: ICourseItem) => item.courseId === this.state.id);
     const id = this.state.courses[index + 1].courseId;
     
     this.setState({ action: 'loading', ready: false, snackOpen: false, id: id });        
@@ -205,6 +207,7 @@ class EditCourse extends React.Component<IProps, {}> {
     let body: ICoursePatch | null = { 
       id: this.state.id, 
       name: this.state.name, 
+      title: this.state.title,
       longitude: this.state.longitude,
       latitude: this.state.latitude,
       address1: this.state.address1, 
@@ -482,6 +485,21 @@ class EditCourse extends React.Component<IProps, {}> {
                       <Grid item xs={12} md={12}>
                         <TextField
                           type="text"
+                          label="Title for URL *"
+                          variant="outlined"
+                          color="primary"
+                          fullWidth
+                          name={'title'}
+                          value={this.state.title}
+                          onChange={(e: any) => this.handleInputChanges(e)}
+                          onBlur={(e: any) => this.handleInputBlur(e)}
+                          error={this.state.blurErrors.includes('title') ? true : false}
+                          helperText={this.setHelperTextMessage('title')}                          
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={12}>
+                        <TextField
+                          type="text"
                           label="Address"
                           variant="outlined"
                           color="primary"
@@ -688,7 +706,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           </Select>
                         </FormControl>
                       </Grid>       
-                      <Grid item xs={12} md={6} sx={{ paddingBottom: '15px' }}>
+                      <Grid item xs={12} md={6} sx={{ paddingBottom: '20px' }}>
                         <FormControl fullWidth variant="outlined" color="primary">
                           <InputLabel id="year-label">Is Featured?</InputLabel>
                           <Select
@@ -709,7 +727,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           </Select>
                         </FormControl>
                       </Grid>     
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={12} md={6} sx={{ paddingBottom: '20px' }}>
                         <FormControl fullWidth variant="outlined" color="primary">
                           <InputLabel id="year-label">Is Flagged?</InputLabel>
                           <Select
@@ -737,7 +755,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           variant="outlined"
                           color="primary"
                           multiline
-                          rows={6}
+                          rows={10}
                           fullWidth
                           name={'description'}
                           value={this.state.description}
@@ -818,7 +836,7 @@ interface IProps {
   facilityId: string; 
   id: string ;
   name: string;
-  courses: IListItem[] | [];
+  courses: ICourseItem[] | [];
 }
 
 interface IForm {
@@ -854,10 +872,10 @@ interface IForm {
   defaultPhoto: string;
   synced: boolean; 
   snackOpen: boolean;  
-  courses: IListItem[] | [];
+  courses: ICourseItem[] | [];
 }
 
-interface IListItem {
+interface ICourseItem {
   courseId: string;
   facilityId: string;
 }

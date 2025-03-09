@@ -1,7 +1,7 @@
 import { courseServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper'; 
 import { IStandardApiResponse } from 'interfaces/api-response.interface';
-import { ICoursePatch, ICourseSearch, ICourseSearchWithRanking, IFetchCourseAndFacilityApiResponse, ICourseListApiResponse, IPatchCourseApiResponse, ICourseListWithRankingApiResponse, IFetchPhotosApiResponse, ICoursePatchForDefaultPhoto } from 'interfaces/course.interfaces';
+import { ICoursePatch, ICourseSearchCriteriaProps, ICourseSearchCriteriaBody, IFetchCourseAndFacilityApiResponse, ICourseListApiResponse, IPatchCourseApiResponse, ICourseListWithRankingApiResponse, IFetchPhotosApiResponse, ICoursePatchForDefaultPhoto } from 'interfaces/course.interfaces';
 
 export class CourseService {
   
@@ -113,7 +113,7 @@ export class CourseService {
   } 
   */
 
-  async searchWithRanking(body: ICourseSearchWithRanking): Promise<ICourseListWithRankingApiResponse> {    
+  async searchWithRanking(body: ICourseSearchCriteriaBody): Promise<ICourseListWithRankingApiResponse> {    
     const jwt: string | null = fetchJwt();
        
     try {
