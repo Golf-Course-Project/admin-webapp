@@ -13,7 +13,7 @@ import OptionsIcon from '@material-ui/icons/Settings';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { RefValueData } from 'data/refvalue.data';
-import { ICourseSearch } from 'interfaces/course.interfaces';
+import { ICourseSearchCriteriaProps } from 'interfaces/course.interfaces';
 import { IOptions } from 'interfaces/rankings.interfaces';
 import { CourseSearch } from 'common/classes/course.search';
 
@@ -77,7 +77,7 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
     localStorage.setItem('searchText', searchText);
     localStorage.setItem('searchState', searchState);    
     
-    const body: ICourseSearch = this.buildSearchText(searchText.toLocaleLowerCase(), searchState.toLocaleLowerCase());
+    const body: ICourseSearchCriteriaProps = this.buildSearchText(searchText.toLocaleLowerCase(), searchState.toLocaleLowerCase());
     const options: IOptions = { sourceRefValueId: this.state.sourceRefValueId, nameRefValueId: this.state.nameRefValueId, year: this.state.year };
    
     body.pageNumber = 1;
@@ -90,7 +90,7 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
     }
   }
 
-  private buildSearchText = (searchText: string, state: string | null): ICourseSearch => {
+  private buildSearchText = (searchText: string, state: string | null): ICourseSearchCriteriaProps => {
     let len: number = searchText.length;
     let ind: number;
     let key: string, val: string;
@@ -100,7 +100,7 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
 
     if (state === 'all') state = null;
 
-    let body: ICourseSearch = new CourseSearch();
+    let body: ICourseSearchCriteriaProps = new CourseSearch();
 
     body.state = state;
 
@@ -368,7 +368,7 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
 export default SearchBoxForRanking;
 
 interface IProps {
-  callback: (body: ICourseSearch, options: IOptions) => void;
+  callback: (body: ICourseSearchCriteriaProps, options: IOptions) => void;
   theme: Theme;
 }
 

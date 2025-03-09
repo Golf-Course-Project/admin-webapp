@@ -1,6 +1,7 @@
-@url = https://localhost:44399
-//@url = https://danhellem-courseservice.azurewebsites.net
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImY3ZmQ0YjQwLWNhZjQtNDU2Ny1iODg5LTE2MTlhYWQxNDM0MSIsImVtYWlsIjoiZGFuaGVsbGVtQG91dGxvb2suY29tIiwicm9sZSI6InNpdGUgYWRtaW4iLCJ0b2tlbiI6ImYwNmVkYWVkLWNmOGEtNDBiNy04Y2QyLTA2MzkwNGQ5YTU0NCIsIm5iZiI6MTcwMDg0NDY4NSwiZXhwIjoxNzAzNDM2Njg1LCJpYXQiOjE3MDA4NDQ2ODV9.h23XnuBK0mwwuCRf4nQIY4ilfEWMtCyperPW4L6nUNc
+//@url = https://localhost:44345
+@url = https://golfcourseproject-courseservice.azurewebsites.net
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImY3ZmQ0YjQwLWNhZjQtNDU2Ny1iODg5LTE2MTlhYWQxNDM0MSIsImVtYWlsIjoiZGFuaGVsbGVtQG91dGxvb2suY29tIiwicm9sZSI6InNpdGUgYWRtaW4iLCJ0b2tlbiI6IjIxMTZlOGM0LTJiZmItNGQ0OC1iZjE5LWUxYzc4ZWQ3NzVkZiIsIm5iZiI6MTczNTA2NTIxOCwiZXhwIjoxNzM3NjU3MjE4LCJpYXQiOjE3MzUwNjUyMTh9.cqAfw9cu51kRRuO-kFeGLl3EvAe5O0vX2slb7rSIfXM
+
 
 ### List courses by state
 GET {{url}}/api/course/list/states/mi/1 HTTP/1.1
@@ -23,10 +24,24 @@ X-Authorization: {{token}}
     "pageNumber": 1
 }
 
-### List courses for updatedon by state
-GET {{url}}/api/courses/list/states/mi/forupdatedon HTTP/1.1
+### Courses with Ranking
+POST {{url}}/api/course/search/ranking HTTP/1.1
 content-type: application/json
 X-Authorization: {{token}}
+
+{
+    "state":"mi",
+    "text":null,
+    "name":null,
+    "city":null,
+    "isRanked":null,
+    "isFeatured":null,
+    "tier":"I",
+    "year":2024,
+    "sourceRefValueId":100,
+    "nameRefValueId":201
+}
+
 
 ### Create
 POST {{url}}/api/courses/create HTTP/1.1
@@ -64,3 +79,8 @@ X-Authorization: {{token}}
     "usgaCourseId":30486,
     "usgaFacilityId":17315
 }
+
+### Fetch
+GET {{url}}/api/course/5a21a972-e65d-48a3-b84b-4d48b7bc5707/includefacility HTTP/1.1
+content-type: application/json
+X-Authorization: {{token}}

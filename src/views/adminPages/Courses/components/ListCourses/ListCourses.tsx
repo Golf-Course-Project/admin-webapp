@@ -13,10 +13,13 @@ import FeaturedIcon from '@material-ui/icons/Star';
 import FlaggedIcon from '@material-ui/icons/Flag';
 
 import Illustration from 'svg/illustrations/Globe';
-import { SkeletonTable } from 'common/components';
 import EditCourse from '../EditCourse';
 import EditFacility from '../EditFacility';
-import { ICourseSearch, ICourse, ICourseSearchWithRanking, ICourseListWithRanking, ICourseListWithRankingApiResponse } from 'interfaces/course.interfaces';
+import EditReview from '../EditReview';
+
+import { SkeletonTable } from 'common/components';
+
+import { ICourse, ICourseSearchCriteriaBody, ICourseListWithRanking, ICourseListWithRankingApiResponse, ICourseSearchCriteriaProps } from 'interfaces/course.interfaces';
 import { IOptions, IRankingPost2 } from 'interfaces/rankings.interfaces';
 import { IApiResponse } from 'interfaces/api-response.interface';
 import RankingService from 'services/ranking.service';
@@ -24,7 +27,7 @@ import CourseService from 'services/course.service';
 import ErrorMessage from 'common/components/ErrorMessage';
 import { RefValueData } from 'data/refvalue.data';
 import { IFacility } from 'interfaces/facility.interfaces';
-import EditReview from '../EditReview';
+
 
 class ListCourses extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -72,7 +75,7 @@ class ListCourses extends React.Component<IProps, {}> {
     if (prevProps.searchCriteria !== this.props.searchCriteria && this.props.searchCriteria !== null) {
       this.setState({ action: 'loading' });
 
-      const body: ICourseSearchWithRanking = {
+      const body: ICourseSearchCriteriaBody = {
         state: this.props.searchCriteria.state,
         text: this.props.searchCriteria.text,
         name: this.props.searchCriteria.name,
@@ -189,7 +192,7 @@ class ListCourses extends React.Component<IProps, {}> {
     this.setState({ openCourseSideBar: false, openFacilitySideBar: true, rowId: obj.courseId, selectedRowId: obj.courseId });
   };
 
-  private search = (body: ICourseSearchWithRanking) => {
+  private search = (body: ICourseSearchCriteriaBody) => {
     const client: CourseService = new CourseService();  
     
     client.searchWithRanking(body).then(async (response: ICourseListWithRankingApiResponse) => {        
@@ -338,7 +341,9 @@ class ListCourses extends React.Component<IProps, {}> {
                       </TableCell>  
 
                       <TableCell align="left">
-                        <Link component="button" onClick={(e:any) => this.handleOpenCourseSideBar(row)} sx={{ textAlign: 'left' }}>{row.courseName}</Link>                        
+                        <Link component="button" onClick={(e:any) => this.handleOpenCourseSideBar(row)} sx={{ textAlign: 'left' }}>
+                          {row.courseName === row.facilityName ? row.courseName : `${row.courseName} @ ${row.facilityName}`}
+                        </Link>                        
                       </TableCell>                        
                         
                       <TableCell align="center">                                                 
@@ -452,7 +457,7 @@ export default ListCourses;
 interface IProps {
   callback: () => void;
   theme: Theme;
-  searchCriteria: ICourseSearch | null;
+  searchCriteria: ICourseSearchCriteriaProps | null;
   options: IOptions | null;
 }
 
