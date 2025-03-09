@@ -17,7 +17,6 @@ import ConfirmDelete from '../ConfirmDelete';
 import CourseService from 'services/course.service';
 import RankCourse from '../RankCourse';
 import CoursePhotos from '../CoursePhotos';
-import { isFloat32Array } from 'util/types';
 //import Ratings from '../Ratings';
 
 class EditCourse extends React.Component<IProps, {}> {
