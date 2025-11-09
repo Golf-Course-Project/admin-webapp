@@ -112,13 +112,17 @@ export interface ICoursePatch {
 	latitude: number;
 	address1: string;
 	city: string;
+	state: string;
 	postalCode: number;
 	phone: string;
 	email: string;
 	website: string;
 	description: string;
+	designer: string;
 	tier: string;
 	tags: string;
+	priceLow: number;
+	priceHigh: number;
 	isFeatured: boolean;
 	isSynced: boolean;
 	isFlagged: boolean;

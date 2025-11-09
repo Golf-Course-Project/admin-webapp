@@ -212,6 +212,7 @@ class EditCourse extends React.Component<IProps, {}> {
       latitude: this.state.latitude,
       address1: this.state.address1, 
       city: this.state.city,
+      state: this.state.state,
       postalCode: this.state.postalCode !== '' ? parseInt(this.state.postalCode) : null, 
       phone: this.state.phone,
       email: this.state.email,
