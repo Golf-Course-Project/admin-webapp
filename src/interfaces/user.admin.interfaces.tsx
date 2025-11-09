@@ -1,4 +1,4 @@
-import { IApiResponse } from "./api-response.interface";
+import { IApiResponse } from './api-response.interface';
 
 export interface IListUsersResponse extends IApiResponse {
 	value: IUsers[];
