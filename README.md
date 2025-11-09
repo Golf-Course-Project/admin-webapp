@@ -19,7 +19,7 @@ This is built using the [Webbee - Multipurpose Template + UI Kit](https://webbee
 
 # 🏃‍♂️ Getting started
 
-- Install Node v14 (newer versions will not work)
+- Install Node v22.11.0 or later
 - Install dependencies: `yarn install`
 - Start the server: `yarn start`
 
