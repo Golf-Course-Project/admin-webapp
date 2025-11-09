@@ -5,8 +5,8 @@
   "version": "1.1.2-preview",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider GENERATE_SOURCEMAP=false react-scripts build",
     "prettier:fix": "prettier './src/**/*.js' --write",
     "eslint:fix": "eslint ./src --fix",
     "clear-all": "rimraf ./build ./node_modules"
@@ -40,7 +40,6 @@
     "formik": "^2.2.6",
     "history": "^5.0.0",
     "jwt-decode": "3.1.2",
-    "node-sass": "^5.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-countup": "^4.3.3",
@@ -53,6 +52,7 @@
     "react-syntax-highlighter": "^15.4.3",
     "react-typed": "^1.2.0",
     "react-visibility-sensor": "^5.1.1",
+    "sass": "^1.80.0",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^1.0.1",
     "yarn": "^1.22.22",
@@ -61,7 +61,8 @@
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "@types/jwt-decode": "^3.1.0",
-    "@types/node": "^16.3.2",
+    "@types/minimatch": "^6.0.0",
+    "@types/node": "^22.9.0",
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
