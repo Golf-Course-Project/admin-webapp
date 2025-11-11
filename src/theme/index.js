@@ -31,6 +31,16 @@ const getTheme = (mode, paletteType) =>
             containedSecondary: mode === 'light' ? { color: 'white' } : {},
           },
         },
+        MuiLink: {
+          styleOverrides: {
+            root: {
+              textDecoration: 'none',
+              '&:hover': {
+                textDecoration: 'underline',
+              },
+            },
+          },
+        },
       },
     }),
   );
