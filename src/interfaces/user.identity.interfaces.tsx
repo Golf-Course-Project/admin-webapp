@@ -1,5 +1,5 @@
-import { UserStatus } from "helpers/enums";
-import { IApiResponse } from "./api-response.interface";
+import { UserStatus } from 'helpers/enums';
+import { IApiResponse } from './api-response.interface';
 
 export interface IGetCodeResponse extends IApiResponse {
 	value: ICode;

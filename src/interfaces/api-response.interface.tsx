@@ -1,4 +1,4 @@
-import { MessageCode, AuthMessageCode } from "helpers/enums";
+import { MessageCode, AuthMessageCode } from 'helpers/enums';
 
 export interface IStandardApiResponse extends IApiResponse {
 	value: string;

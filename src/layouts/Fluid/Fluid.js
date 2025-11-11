@@ -29,6 +29,9 @@ const Fluid = ({
         position={'fixed'}
         sx={{
           backgroundColor: 'transparent',
+          width: '100%',
+          left: 0,
+          right: 0,
         }}
         elevation={0}
       >

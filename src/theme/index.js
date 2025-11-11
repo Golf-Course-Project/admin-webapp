@@ -19,8 +19,8 @@ const getTheme = (mode, paletteType) =>
         },
       },
       zIndex: {
-        appBar: 1200,
-        drawer: 1100,
+        appBar: 1100,
+        drawer: 1200,
       },
       components: {
         MuiButton: {
@@ -29,6 +29,16 @@ const getTheme = (mode, paletteType) =>
               fontWeight: 600,
             },
             containedSecondary: mode === 'light' ? { color: 'white' } : {},
+          },
+        },
+        MuiLink: {
+          styleOverrides: {
+            root: {
+              textDecoration: 'none',
+              '&:hover': {
+                textDecoration: 'underline',
+              },
+            },
           },
         },
       },
