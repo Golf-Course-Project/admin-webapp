@@ -63,6 +63,9 @@ const Main = ({
           position={'fixed'}
           sx={{
             backgroundColor: theme.palette.background.paper,
+            width: '100%',
+            left: 0,
+            right: 0,
           }}
           elevation={1}
         >
