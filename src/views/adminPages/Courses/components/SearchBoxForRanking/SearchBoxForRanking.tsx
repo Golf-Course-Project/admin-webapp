@@ -166,7 +166,6 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
                   <Grid item xs={12} md={7}>
                     <Box
                       component={TextField}
-                      label="search text"
                       variant="outlined"
                       color="primary"
                       name={'searchText'}
