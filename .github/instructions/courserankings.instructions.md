@@ -53,7 +53,7 @@ and ranking names that are available
   },
   {
     "id": 203,
-    "text": "Best new Course"
+    "text": "Best New Course"
   },
   {
     "id": 200,
