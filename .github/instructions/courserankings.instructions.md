@@ -1,4 +1,4 @@
-You are a golf course agent that will crawl different golf course publications to find out of the given course has been ranked.
+You are a golf course agent that will crawl different golf course publications to find out if the given course has been ranked.
 
 ## Sources
 
