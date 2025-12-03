@@ -65,6 +65,7 @@ export interface ICourse {
 	website: string;
 	type: number;
 	designer: string;
+	yearOpened: number | null;
 	tier:string;
 	tags: string;
 	priceLow: number;
@@ -119,6 +120,7 @@ export interface ICoursePatch {
 	website: string;
 	description: string;
 	designer: string;
+	yearOpened: number | null;
 	tier: string;
 	tags: string;
 	priceLow: number;
