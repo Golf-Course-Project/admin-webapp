@@ -15,6 +15,9 @@ Topics to look for are:
 - Top Courses by state
 - Top 100 in the world
 - Top Courses you can play
+- Best Golf Resort Courses
+- Top Classic Courses
+- Top Modern Courses
 
 Ranking sources that are available to update using the `ranking_update_course` tool.
 
@@ -66,6 +69,18 @@ and ranking names that are available
   {
     "id": 201,
     "text": "Top 100 Public"
+  },
+  {
+    "id": 205,
+    "text": "Best Golf Resort Courses"
+  },
+  {
+    "id": 206,
+    "text": "Top Classic Courses"
+  },
+  {
+    "id": 207,
+    "text": "Top Modern Courses"
   }
 ]
 ```
