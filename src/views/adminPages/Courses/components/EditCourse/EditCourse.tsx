@@ -47,6 +47,7 @@ class EditCourse extends React.Component<IProps, {}> {
     description: '',
     synced: false,
     designer: '',
+    yearOpened: null,
     tier: '',
     tags: '',
     priceLow: -1,
@@ -84,6 +85,7 @@ class EditCourse extends React.Component<IProps, {}> {
       latitude: -1,
       description: '',
       designer: '', 
+      yearOpened: null,
       tier: '',
       tags: '',
       priceLow: -1,
@@ -152,6 +154,7 @@ class EditCourse extends React.Component<IProps, {}> {
           email: response.value?.course?.email ?? '',
           website: response.value?.course?.website ?? '',
           designer: response.value?.course?.designer ?? '', 
+          yearOpened: response.value?.course?.yearOpened ?? null,
           tier: response.value?.course?.tier ?? '', 
           tags: response.value?.course?.tags ?? '', 
           priceLow: response.value?.course?.priceLow ?? null,
@@ -220,6 +223,7 @@ class EditCourse extends React.Component<IProps, {}> {
       isSynced: this.state.synced,   
       description: this.state.description,
       designer: this.state.designer,
+      yearOpened: this.parseOptionalInt(this.state.yearOpened),
       tier: this.state.tier,
       tags: this.state.tags,
       priceLow: this.state.priceLow,
@@ -318,6 +322,11 @@ class EditCourse extends React.Component<IProps, {}> {
 
   private handleTagDelete = (value: string) => { 
     alert(value);
+  }
+
+  private parseOptionalInt = (value: number | string | null): number | null => {
+    if (value === null || value === '') return null;
+    return parseInt(String(value));
   }
 
 
@@ -644,6 +653,21 @@ class EditCourse extends React.Component<IProps, {}> {
                       <Grid item xs={12} md={6}>
                         <TextField
                           type="text"
+                          label="Year Opened"
+                          variant="outlined"
+                          color="primary"
+                          fullWidth
+                          name={'yearOpened'}
+                          value={this.state.yearOpened ?? ''}
+                          onChange={(e: any) => this.handleInputChanges(e)}
+                          onBlur={(e: any) => this.handleInputBlur(e)}
+                          error={this.state.blurErrors.includes('yearOpened') ? true : false}
+                          helperText={this.setHelperTextMessage('yearOpened')}                                                  
+                        />
+                      </Grid>    
+                      <Grid item xs={12} md={6}>
+                        <TextField
+                          type="text"
                           label="Price - Low"
                           variant="outlined"
                           color="primary"
@@ -864,6 +888,7 @@ interface IForm {
   email: string;
   website: string; 
   designer: string;
+  yearOpened: number | null | string;
   tier: string;
   tags: string;
   priceHigh: number;
