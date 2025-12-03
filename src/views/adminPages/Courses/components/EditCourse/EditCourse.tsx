@@ -673,7 +673,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           color="primary"
                           fullWidth
                           name={'priceLow'}
-                          value={this.state.priceLow}
+                          value={this.state.priceLow === -1 ? '' : this.state.priceLow}
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('priceLow') ? true : false}
@@ -688,7 +688,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           color="primary"
                           fullWidth
                           name={'priceHigh'}
-                          value={this.state.priceHigh}
+                          value={this.state.priceHigh === -1 ? '' : this.state.priceHigh}
                           onChange={(e: any) => this.handleInputChanges(e)}
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('priceHigh') ? true : false}
