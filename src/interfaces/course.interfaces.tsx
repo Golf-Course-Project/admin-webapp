@@ -120,7 +120,7 @@ export interface ICoursePatch {
 	website: string;
 	description: string;
 	designer: string;
-	yearOpened: number | null;
+	yearOpened: number | null | string;
 	tier: string;
 	tags: string;
 	priceLow: number;
