@@ -324,8 +324,8 @@ class EditCourse extends React.Component<IProps, {}> {
     alert(value);
   }
 
-  private parseOptionalInt = (value: number | string | null): number | string | null => {
-    if (value === null || value === '') return '';
+  private parseOptionalInt = (value: number | string | null): number | null => {
+    if (value === null || value === '') return null;
     return parseInt(String(value));
   }
 
