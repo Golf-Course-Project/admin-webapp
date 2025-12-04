@@ -2,13 +2,16 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Button, CardContent, CircularProgress, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography, Snackbar, Alert, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
+import { Button, CardContent, CircularProgress, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography, Snackbar, Alert, Select, MenuItem, InputLabel, FormControl, InputAdornment } from '@material-ui/core';
+import { green } from '@material-ui/core/colors';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpIcon from '@material-ui/icons/ArrowUpward';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import SwapIcon from '@material-ui/icons/ChangeCircle';
+import CopyIcon from '@material-ui/icons/ContentCopy';
+import CheckIcon from '@material-ui/icons/Check';
 
 import { IFacility } from 'interfaces/facility.interfaces';
 import { ICourse, ICoursePatch, IFetchCourseAndFacilityApiResponse, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
@@ -55,7 +58,8 @@ class EditCourse extends React.Component<IProps, {}> {
     isFeatured: false,
     isFlagged: false,
     defaultPhoto: '',
-    snackOpen: false,      
+    snackOpen: false,
+    clip: false,
     courses: this.props.courses
   }
 
@@ -94,7 +98,8 @@ class EditCourse extends React.Component<IProps, {}> {
       isFlagged: false,
       defaultPhoto: '',
       synced: false,
-      snackOpen: false,      
+      snackOpen: false,
+      clip: false,
     });
     
   }
@@ -256,7 +261,13 @@ class EditCourse extends React.Component<IProps, {}> {
 
   private handleSnackClose = () => {
     this.setState({ snackOpen: false });       
-  };  
+  };
+
+  private handleCopyCourseIdToClipboard = () => {
+    navigator.clipboard.writeText(this.state.id);
+    this.setState({ clip: true });
+    setTimeout(() => { this.setState({ clip: false }); }, 2000);
+  };
 
   handleOnSwapToFacility() {
     const obj = { courseId: this.state.id, facilityId: this.state.facilityId };    
@@ -477,6 +488,35 @@ class EditCourse extends React.Component<IProps, {}> {
                 <form noValidate autoComplete="off">
                   <Box display="flex" flexDirection={'column'}>
                     <Grid container spacing={1}>                     
+                      <Grid item xs={12} md={12}>
+                        <TextField
+                          type="text"
+                          label="Course ID"
+                          variant="outlined"
+                          color="primary"
+                          fullWidth
+                          name={'id'}
+                          value={this.state.id}
+                          InputProps={{
+                            readOnly: true,
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  onClick={(e: any) => this.handleCopyCourseIdToClipboard()}
+                                  edge="end"
+                                  size="small"
+                                >
+                                  {this.state.clip ? (
+                                    <CheckIcon sx={{ color: green[700] }} />
+                                  ) : (
+                                    <CopyIcon />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Grid>
                       <Grid item xs={12} md={12}>
                         <TextField
                           type="text"
@@ -897,7 +937,8 @@ interface IForm {
   isFlagged: boolean;
   defaultPhoto: string;
   synced: boolean; 
-  snackOpen: boolean;  
+  snackOpen: boolean;
+  clip: boolean;
   courses: ICourseItem[] | [];
 }
 
