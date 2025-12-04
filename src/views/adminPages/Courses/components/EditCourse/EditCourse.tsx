@@ -264,9 +264,14 @@ class EditCourse extends React.Component<IProps, {}> {
   };
 
   private handleCopyCourseIdToClipboard = () => {
-    navigator.clipboard.writeText(this.state.id);
-    this.setState({ clip: true });
-    setTimeout(() => { this.setState({ clip: false }); }, 2000);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(this.state.id).then(() => {
+        this.setState({ clip: true });
+        setTimeout(() => { this.setState({ clip: false }); }, 2000);
+      }).catch(() => {
+        // Clipboard write failed, silently ignore
+      });
+    }
   };
 
   handleOnSwapToFacility() {
@@ -502,7 +507,7 @@ class EditCourse extends React.Component<IProps, {}> {
                             endAdornment: (
                               <InputAdornment position="end">
                                 <IconButton
-                                  onClick={(e: any) => this.handleCopyCourseIdToClipboard()}
+                                  onClick={() => this.handleCopyCourseIdToClipboard()}
                                   edge="end"
                                   size="small"
                                 >
