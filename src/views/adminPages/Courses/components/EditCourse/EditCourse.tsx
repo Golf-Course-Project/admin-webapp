@@ -502,6 +502,8 @@ class EditCourse extends React.Component<IProps, {}> {
                           fullWidth
                           name={'id'}
                           value={this.state.id}
+                          disabled
+                          helperText={' '}
                           InputProps={{
                             readOnly: true,
                             endAdornment: (

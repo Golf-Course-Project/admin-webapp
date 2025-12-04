@@ -47,7 +47,6 @@ class EditFacility extends React.Component<IProps, {}> {
     description: '',
     type: -1,
     snackOpen: false,
-    clip: false,
     clipFacilityId: false,
     courses: this.props.courses
   }
@@ -99,7 +98,6 @@ class EditFacility extends React.Component<IProps, {}> {
       description: '',
       type: -1,
       snackOpen: false,
-      clip: false,
       clipFacilityId: false,
     });
     
@@ -235,12 +233,6 @@ class EditFacility extends React.Component<IProps, {}> {
     this.setState({ snackOpen: false });       
   };
 
-  private handleCopyFacilityToClipBoard = () => {
-    navigator.clipboard.writeText(`${this.state.name} in ${this.state.city} ${this.state.state}`);  
-    this.setState({ clip: true });
-    setTimeout(() => {  this.setState({ clip: false }); }, 2000);
-  }
-
   private handleCopyFacilityIdToClipBoard = () => {
     navigator.clipboard.writeText(this.state.facilityId);
     this.setState({ clipFacilityId: true });
@@ -308,17 +300,7 @@ class EditFacility extends React.Component<IProps, {}> {
         </Snackbar>
 
         <Grid container spacing={1}>              
-          <Grid item xs={1}>
-            <Box
-              display={'flex'}
-              justifyContent={'flex-end'}
-              sx={{ paddingRight: '5px', paddingTop: '25px' }}              
-            >              
-              <CopyIcon sx={{ fontSize: 15, display: (! this.state.clip) ? 'inline' : 'none', marginLeft: '10px' }} onClick={(e: any) => this.handleCopyFacilityToClipBoard()} />
-              <CheckIcon sx={{ fontSize: 15, display: (this.state.clip) ? 'inline' : 'none', marginLeft: '10px', color: green[700] }} />
-            </Box>
-          </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={9}>
             <Box
               display={this.props.onSwapFacilityToCourse === undefined ? 'none' : 'flex'}
               justifyContent={'flex-end'}
@@ -405,6 +387,8 @@ class EditFacility extends React.Component<IProps, {}> {
                           fullWidth
                           name={'facilityId'}
                           value={this.state.facilityId}
+                          disabled
+                          helperText={' '}
                           InputProps={{
                             readOnly: true,
                             endAdornment: (
@@ -710,7 +694,6 @@ interface IForm {
   description: string;
   type: number;
   snackOpen: boolean;
-  clip: boolean;
   clipFacilityId: boolean;
   courses: IListItem[] | [];
 }
