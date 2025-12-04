@@ -2,7 +2,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Alert, Button, CardContent, Divider, Drawer, Grid, IconButton, Snackbar, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@material-ui/core';
+import { Alert, Button, CardContent, Divider, Drawer, Grid, IconButton, InputAdornment, Snackbar, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
@@ -48,6 +48,7 @@ class EditFacility extends React.Component<IProps, {}> {
     type: -1,
     snackOpen: false,
     clip: false,
+    clipFacilityId: false,
     courses: this.props.courses
   }
 
@@ -98,7 +99,8 @@ class EditFacility extends React.Component<IProps, {}> {
       description: '',
       type: -1,
       snackOpen: false,
-      clip: false,         
+      clip: false,
+      clipFacilityId: false,
     });
     
   }
@@ -239,6 +241,12 @@ class EditFacility extends React.Component<IProps, {}> {
     setTimeout(() => {  this.setState({ clip: false }); }, 2000);
   }
 
+  private handleCopyFacilityIdToClipBoard = () => {
+    navigator.clipboard.writeText(this.state.facilityId);
+    this.setState({ clipFacilityId: true });
+    setTimeout(() => {  this.setState({ clipFacilityId: false }); }, 2000);
+  }
+
   private handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
 
@@ -291,7 +299,7 @@ class EditFacility extends React.Component<IProps, {}> {
         anchor='right'
         open={this.state.open}
         variant={'temporary'}
-        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: 900 } } }}
+        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: 1170 } } }}
       >       
         <Snackbar open={this.state.snackOpen} autoHideDuration={1000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
           <Alert severity="success" sx={{ minWidth: '400px' }}>
@@ -387,7 +395,28 @@ class EditFacility extends React.Component<IProps, {}> {
                 <ErrorMessage message={this.setErrorMessage(this.state.messageCode, this.state.messageText)} />
                 <form noValidate autoComplete="off">
                   <Box display="flex" flexDirection={'column'}>
-                    <Grid container spacing={1}>                     
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} md={12}>
+                        <TextField
+                          type="text"
+                          label="Facility Id"
+                          variant="outlined"
+                          color="primary"
+                          fullWidth
+                          name={'facilityId'}
+                          value={this.state.facilityId}
+                          InputProps={{
+                            readOnly: true,
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton onClick={() => this.handleCopyFacilityIdToClipBoard()} edge="end">
+                                  {this.state.clipFacilityId ? <CheckIcon sx={{ color: green[700] }} /> : <CopyIcon />}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Grid>
                       <Grid item xs={12} md={12}>
                         <TextField
                           type="text"
@@ -682,6 +711,7 @@ interface IForm {
   type: number;
   snackOpen: boolean;
   clip: boolean;
+  clipFacilityId: boolean;
   courses: IListItem[] | [];
 }
 
