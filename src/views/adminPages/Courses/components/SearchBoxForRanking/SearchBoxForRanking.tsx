@@ -253,7 +253,7 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
                       Search
                     </Box>
                   </Grid>
-                  <Grid item xs={12} md={1} textAlign={'center'}>
+                  <Grid item xs={12} md={1} display={'flex'} alignItems={'center'} justifyContent={'center'}>
                     <IconButton aria-label="settings" onClick={(e: any) => this.handleOnSettingsOpen()}>
                       <OptionsIcon />
                     </IconButton>
