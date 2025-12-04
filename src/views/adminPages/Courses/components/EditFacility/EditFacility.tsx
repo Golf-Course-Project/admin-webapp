@@ -242,7 +242,7 @@ class EditFacility extends React.Component<IProps, {}> {
   }
 
   private handleCopyFacilityIdToClipBoard = () => {
-    navigator.clipboard.writeText(this.state.facilityId);  
+    navigator.clipboard.writeText(this.state.facilityId);
     this.setState({ clipFacilityId: true });
     setTimeout(() => {  this.setState({ clipFacilityId: false }); }, 2000);
   }
@@ -409,7 +409,7 @@ class EditFacility extends React.Component<IProps, {}> {
                             readOnly: true,
                             endAdornment: (
                               <InputAdornment position="end">
-                                <IconButton onClick={(e: any) => this.handleCopyFacilityIdToClipBoard()} edge="end">
+                                <IconButton onClick={() => this.handleCopyFacilityIdToClipBoard()} edge="end">
                                   {this.state.clipFacilityId ? <CheckIcon sx={{ color: green[700] }} /> : <CopyIcon />}
                                 </IconButton>
                               </InputAdornment>
