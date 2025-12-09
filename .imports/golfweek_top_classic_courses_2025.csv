@@ -1,0 +1,201 @@
+CourseId,Course Name,Ranking,Designers,Location,Type Course,Year Opened
+,Cypress Point Club,1,Alister MacKenzie,"Pebble Beach, CA",private,1928
+,Pine Valley,2,George Crump,"Pine Valley, NJ",private,1914
+,Augusta National,3,"Alister MacKenzie, Bobby Jones","Augusta, GA",private,1932
+,Shinnecock Hills,4,"William S. Flynn, Howard C. Toomey","Southampton, NY",private,1931
+,National Golf Links of America,5,Charles Blair Macdonald,"Southampton, NY",private,1911
+,Oakmont Country Club,6,Henry Fownes,"Oakmont, PA",private,1903
+,Merion (East),7,Hugh Wilson,"Ardmore, PA",private,1912
+,Chicago Golf Club,8,"Charles Blair Macdonald, Seth Raynor","Wheaton, IL",private,1894
+,Fishers Island Club,9,Seth Raynor,"Fishers Island, NY",private,1926
+,Pebble Beach Resorts (Pebble Beach Golf Links),10,"Douglas Grant, Jack Neville","Pebble Beach, CA","resort, daily fee",1919
+,Los Angeles Country Club (North),11,"William P. Bell, Herbert Fowler, George C. Thomas, Jr., Gil Hanse, Jim Wagner, Geoff Shackelford","Los Angeles, CA",private,1927
+,Seminole,12,Donald Ross,"Juno Beach, FL",private,1929
+,Prairie Dunes,13,"Perry Maxwell, Press Maxwell","Hutchinson, KS",private,1937
+,Crystal Downs,14,"Alister MacKenzie, Perry Maxwell","Frankfort, MI",private,1931
+,Old Town Club,15,"Perry Maxwell, Bill Coore, Ben Crenshaw","Winston-Salem, NC",private,1939
+,Winged Foot (West),16,A.W. Tillinghast,"Mamaroneck, NY",private,1923
+,Riviera,17,"George C. Thomas Jr., William P. Bell","Pacific Palisades, CA",private,1927
+,San Francisco Golf Club,18,A.W. Tillinghast,"San Francisco, CA",private,1915
+,Peachtree,18,"Robert Trent Jones Sr., Bobby Jones","Atlanta, GA",private,1948
+,Pinehurst Resort (No. 2),20,Donald Ross,"Pinehurst, NC","resort, daily fee",1907
+,Somerset Hills,21,A.W. Tillinghast,"Bernardsville, NJ",private,1918
+,Shoreacres,22,Seth Raynor,"Lake Bluff, IL",private,1921
+,Oakland Hills (South),23,Donald Ross,"Bloomfield Hills, MI",private,1918
+,Maidstone Club,24,"William H. Tucker, Willie Park Jr.","East Hampton, NY",private,1899
+,The Country Club (Composite),24,"Willie Campbell, William S. Flynn, Howard C. Toomey","Brookline, MA",private,1895
+,Bethpage State Park (Black),26,A.W. Tillinghast,"Farmingdale, NY","daily fee, municipal",1935
+,Garden City Golf Club,27,"Devereux Emmet, Walter J. Travis","Garden City, NY",private,1901
+,Camargo Club,28,Seth Raynor,"Indian Hill, OH",private,1925
+,California Golf Club,29,"A. Vernon Macan, Alister MacKenzie, Kyle Phillips","South San Francisco, CA",private,1926
+,Sleepy Hollow,30,"Charles Blair Macdonald, Seth Raynor","Scarborough, NY",private,1913
+,Myopia Hunt Club,30,Herbert Leeds,"Hamilton, MA",private,1896
+,Plainfield,32,Donald Ross,"Edison, NJ",private,1916
+,Southern Hills,32,"Perry Maxwell, Gil Hanse, Jim Wagner","Tulsa, OK",private,1936
+,Winged Foot (East),32,A.W. Tillinghast,"Mamaroneck, NY",private,1923
+,Oak Hill (East),35,"Donald Ross, Andrew Green","Rochester, NY",private,1926
+,Baltusrol (Lower),36,A.W. Tillinghast,"Springfield, NJ",private,1922
+,Valley Club of Montecito,36,"Alister MacKenzie, Robert Hunter","Santa Barbara, CA",private,1928
+,Piping Rock,38,"Charles Blair Macdonald, Seth Raynor","Locust Valley, NY",private,1913
+,Pasatiempo,39,Alister MacKenzie,"Santa Cruz, CA",daily fee,1929
+,Quaker Ridge,40,A.W. Tillinghast,"Scarsdale, NY",private,1926
+,Essex,41,Donald Ross,"Manchester-by-the-Sea, MA",private,1917
+,Eastward Ho!,41,Herbert Fowler,"Chatham, MA",private,1922
+,Olympic Club (Lake),43,"William Watson, Sam Whiting, Gil Hanse, Jim Wagner","San Francisco, CA",private,1927
+,Yeaman's Hall,44,Seth Raynor,"Charleston, SC",private,1925
+,Philadelphia Cricket Club (Wissahickon),45,"A.W. Tillinghast, Keith Foster","Flourtown, PA",private,1922
+,Baltimore Country Club (East),46,"A.W. Tillinghast, Keith Foster","Timonium, MD",private,1926
+,Congressional (Blue),46,"Devereux Emmet, Andrew Green","Bethesda, MD",private,1924
+,Inverness Club,48,"Donald Ross, Andrew Green","Toledo, OH",private,1919
+,Old Elm,49,"Harry S. Colt, Donald Ross","Highland Park, IL",private,1913
+,Monterey Peninsula (Dunes),49,"Seth Raynor, Charles Banks, Robert Hunter, Tom Fazio, Timothy Jackson, David Kahn","Pebble Beach, CA",private,1926
+,Kittansett,51,"William S. Flynn, Fred Hood","Marion, MA",private,1922
+,Hollywood Golf Club,52,Walter J. Travis,"Deal, NJ",private,1913
+,St. Louis Country Club,52,"Charles Blair Macdonald, Seth Raynor","St. Louis, MO",private,1914
+,Scioto,54,Donald Ross,"Columbus, OH",private,1916
+,Milwaukee Country Club,54,Charles H. Alison,"Milwaukee, WI",private,1929
+,Cherry Hills,56,"William S. Flynn, Tom Doak, Eric Iverson","Cherry Hills Village, CO",private,1923
+,Beverly Country Club,56,"George O'Neil, Donald Ross","Chicago, IL",private,1908
+,Newport Country Club,58,"Donald Ross, A.W. Tillinghast","Newport, RI",private,1915
+,Creek Club,59,"Charles Blair Macdonald, Seth Raynor","Locust Valley, NY",private,1925
+,Bel-Air,59,"William P. Bell, George C. Thomas Jr.","Los Angeles, CA",private,1926
+,Baltusrol (Upper),61,A.W. Tillinghast,"Springfield, NJ",private,1922
+,Ridgewood (Championship),62,A.W. Tillinghast,"Paramus, NJ",private,1929
+,Wannamoisett,62,Donald Ross,"Rumford, RI",private,1916
+,Fox Chapel,64,"Charles Banks, Seth Raynor","Pittsburgh, PA",private,1925
+,Aronimink,65,Donald Ross,"Newtown Square, PA",private,1928
+,Interlachen,66,"Donald Ross, William Watson","Edina, MN",private,1919
+,Moraine,67,"Alex Campbell, Dick Wilson, Keith Foster","Dayton, OH",private,1930
+,Meadow Club,67,"Alister MacKenzie, Robert Hunter","Fairfax, CA",private,1927
+,Yale Golf Course,67,"Charles Blair Macdonald, Seth Raynor","New Haven, CT",private,1926
+,St. George's,67,Devereux Emmet,"Setauket, NY",private,1917
+,Davenport,67,"Charles H. Alison, Harry S. Colt","Pleasant Valley, IA",private,1924
+,Mountain Lake,72,Seth Raynor,"Lake Wales, FL",private,1917
+,Glens Falls,72,Donald Ross,"Queensbury, NY",private,1912
+,Lawsonia (Links),74,"William B. Langford, Theodore J. Moreau","Green Lake, WI",daily fee,1929
+,Country Club of Buffalo,74,Donald Ross,"Williamsville, NY",private,1926
+,Lancaster Country Club,76,William S. Flynn,"Lancaster, PA",private,1920
+,Fenway,77,A.W. Tillinghast,"Scarsdale, NY",private,1924
+,Olympia Fields (North),78,Willie Park Jr.,"Olympia Fields, IL",private,1923
+,Minikahda Club,78,"William Watson, Donald Ross","Minneapolis, MN",private,1898
+,Belleair Country Club (West),80,"Donald Ross, Dana Fry, Jason Straka","Belleair, FL",private,1915
+,Roaring Gap Club,80,Donald Ross,"Roaring Gap, NC",private,1926
+,Laurel Valley,80,Dick Wilson,"Ligonier, PA",private,1959
+,Franklin Hills,80,Donald Ross,"Franklin, MI",private,1927
+,Brookside,84,Donald Ross,"Canton, OH",private,1922
+,Augusta Country Club,85,Donald Ross,"Augusta, GA",private,1927
+,East Lake,85,"Tom Bendelow, Donald Ross, George Cobb, Rees Jones, Andrew Green","Atlanta, GA",private,1908
+,Canterbury,87,Herbert Strong,"Beachwood, OH",private,1922
+,Misquamicut,88,Donald Ross,"Westerly, RI",private,1923
+,White Bear Yacht Club,88,Donald Ross,"White Bear Lake, MN",private,1916
+,Sankaty Head,90,H. Emerson Armstrong,"Siasconset, MA",private,1921
+,Skokie Country Club,91,"Tom Bendelow, Donald Ross, William B. Langford, Theodore J. Moreau","Glencoe, IL",private,1938
+,Salem Country Club,91,Donald Ross,"Peabody, MA",private,1925
+,Ekwanok,91,Walter J. Travis,"Manchester, VT",private,1900
+,Cedar Rapids Country Club,94,Donald Ross,"Cedar Rapids, IA",private,1915
+,Whitinsville Golf Club,95,Donald Ross,"Whitinsville, MA",private,1923
+,Country Club of Scranton,96,Walter J. Travis,"Clarks Summit, PA",private,1927
+,The Country Club,96,"William S. Flynn, Howard C. Toomey","Pepper Pike, OH",private,1930
+,Culver Academies,98,"William B. Langford, Theodore J. Moreau","Culver, IN",private,1924
+,NCR (South),99,Dick Wilson,"Kettering, OH",private,1954
+,Charlotte Country Club,99,Donald Ross,"Charlotte, NC",private,1923
+,Mountain Ridge,101,Donald Ross,"West Caldwell, NJ",private,1931
+,Omni Homestead Resort (Cascades),102,William S. Flynn,"Hot Springs, VA","resort, daily fee",1923
+,Wykagyl,102,"Donald Ross, A.W. Tillinghast","New Rochelle, NY",private,1919
+,Palmetto,104,"Herbert Leeds, Alister MacKenzie","Aiken, SC",private,1892
+,Kirtland Country Club,104,Charles H. Alison,"Willoughby, OH",private,1922
+,Essex County Country Club,106,"Seth Raynor, Charles Banks","West Orange, NJ",private,1928
+,Gulph Mills,106,Donald Ross,"King of Prussia, PA",private,1919
+,Blue Mound,108,Seth Raynor,"Wauwatosa, WI",private,1926
+,Lake Merced,108,"William Locke, Alister MacKenzie, Robert Hunter, Robert Muir Graves, Rees Jones, Gil Hanse, Jim Wagner","Daly City, CA",private,1923
+,Tamarack,108,Charles Banks,"Greenwich, CT",private,1929
+,Whippoorwill,108,"Donald Ross, Charles Banks, Tripp Davis","Armonk, NY",private,1928
+,Holston Hills,112,Donald Ross,"Knoxville, TN",private,1927
+,Burning Tree,113,"Charles H. Alison, Harry S. Colt","Bethesda, MD",private,1923
+,Westchester (West),114,"Walter J. Travis, Rees Jones, Ken Dye, Tom Fazio","Rye, NY",private,1922
+,Country Club of Birmingham (West),114,"Donald Ross, Robert Trent Jones Sr., Pete Dye","Birmingham, AL",private,1925
+,Biltmore Forest,116,Donald Ross,"Asheville, NC",private,1922
+,Country Club of Fairfield,117,"Seth Raynor, A.W. Tillinghast","Fairfield, CT",private,1914
+,Worcester Country Club,117,Donald Ross,"Worcester, MA",private,1914
+,Cherokee Town & Country Club (North),117,"David Gill, Willard Byrd, Joe Lee, Tom Fazio","Dunwoody, GA",private,1957
+,Wilshire,120,Norman Macbeth,"Los Angeles, CA",private,1919
+,Meadow Brook,120,Dick Wilson,"Jericho, NY",private,1955
+,Taconic,122,"Wayne Stiles, John van Kleek, Gil Hanse, Jim Wagner","Williamstown, MA",private,1927
+,Deepdale,123,Dick Wilson,"Manhasset, NY",private,1955
+,Torrey Pines (South),124,"William F. Bell, Rees Jones","San Diego, CA","daily fee, municipal",1957
+,Rolling Green,125,"William S. Flynn, Howard C. Toomey","Springfield, PA",private,1926
+,Lookout Mountain Club,126,"Seth Raynor, Charles Banks, Tyler Rae, Kyle Franz","Lookout Mountain, GA",private,1927
+,Omaha Country Club,126,"William B. Langford, Theodore J. Moreau, Perry Maxwell, Keith Foster","Omaha, NE",private,1927
+,Westhampton Country Club,126,Seth Raynor,"Westhampton Beach, NY",private,1916
+,Colonial,126,"John Bredemus, Perry Maxwell, Keith Foster","Fort Worth, TX",private,1936
+,Waverley,130,"Jack Moffat, H. Chandler Egan, Gil Hanse, Jim Wagner","Portland, OR",private,1898
+,Winchester Country Club,131,"Alexander Findlay, Donald Ross","Winchester, MA",private,1903
+,Meadowbrook,132,"Willie Park Jr., Jack Daray, Harry Collis, Donald Ross, Andy Staples","Northville, MI",private,1916
+,Southampton Golf Club,132,Seth Raynor,"Southampton, NY",private,1926
+,Huntingdon Valley Country Club,132,"William S. Flynn, Howard C. Toomey","Huntingdon Valley, PA",private,1928
+,Saucon Valley (Old),135,"Herbert Strong, William Gordon, Perry Maxwell, Tom Marzolf","Bethlehem, PA",private,1921
+,Orchard Lake Country Club,135,"Charles H. Alison, Harry S. Colt, Keith Foster","Orchard Lake, MI",private,1926
+,Mid Pines,137,"Donald Ross, Kyle Franz","Southern Pines, NC","resort, daily fee",1921
+,Pittsburgh Field Club,137,"Alex Findlay, Keith Foster","Pittsburgh, PA",private,1913
+,Century,137,"Charles H. Alison, Harry S. Colt, Keith Foster","Purchase, NY",private,1926
+,Manufacturers,140,"William S. Flynn, Howard C. Toomey","Fort Washington, PA",private,1925
+,Monroe,140,Donald Ross,"Pittsford, NY",private,1923
+,Oak Hill (West),140,Donald Ross,"Rochester, NY",private,1926
+,Indianwood (Old),140,"Wilfred Reid, William Connellan, Arthur Hills, Bob Cupp, Jerry Pate","Lake Orion, MI",private,1925
+,Sunnehanna,144,A.W. Tillinghast,"Johnstown, PA",private,1923
+,Longue Vue,145,"Robert White, A.W. Tillinghast, Geoffrey Cornish, Ron Forse","Verona, PA",private,1923
+,Pine Needles,146,"Donald Ross, John Fought, Kyle Franz","Southern Pines, NC","resort, daily fee",1927
+,Barton Hills,146,Donald Ross,"Ann Arbor, MI",private,1922
+,Hyannisport Club,146,"Alex Findlay, Donald Ross","Hyannis Port, MA",private,1903
+,The Greenbrier (Old White),149,"Charles Blair Macdonald, Seth Raynor, Lester George","White Sulphur Springs, WV","resort, daily fee, casino",1914
+,Country Club of Charleston,150,"Seth Raynor, Kyle Franz","Charleston, SC",private,1923
+,Philadelphia Country Club (Spring Mill),150,"William S. Flynn, Howard C. Toomey","Gladwyne, PA",private,1927
+,Charles River,152,Donald Ross,"Newton Centre, MA",private,1921
+,Cape Fear,152,"Donald Ross, Andrew Green","Wilmington, NC",private,1926
+,Allegheny,152,"Tom Bendelow, Donald Ross","Sewickly, PA",private,1902
+,The Dunes Golf & Beach Club,155,"Robert Trent Jones Sr., Rees Jones","Myrtle Beach, SC","resort, daily fee",1949
+,Firestone (South),156,Bert Way,"Akron, OH",private,1929
+,Brae Burn,156,"Donald Ross, Geoffrey Cornish","West Newton, MA",private,1897
+,Brooklawn,158,Devereux Emmet,"Fairfield, CT",private,1895
+,Coral Ridge,158,Robert Trent Jones Sr.,"Fort Lauderdale, FL",private,1957
+,Wianno,158,Donald Ross,"Osterville, MA",private,1922
+,Annandale Golf Club,161,"Tom Bendelow, Donald Ross","Pasadena, CA",private,1917
+,Bucks County Golf Club,161,William S. Flynn,"Furlong, PA",private,1928
+,Blind Brook,161,"Emmet Devereux, Dick Wilson, Thomas Winton","Purchase, NY",private,1915
+,University Club of Boca Raton,161,Robert Trent Jones Sr.,"Boca Raton, FL",private,1956
+,Wykagyl (West),165,"Donald Ross, A.W. Tillinghast","New Rochelle, NY",private,1920
+,Atlantic City Country Club (Shore),165,Harry S. Colt,"Northfield, NJ",private,1921
+,Northwood Club,165,William S. Flynn,"Dallas, TX",private,1946
+,Mayacama Golf Club,168,Jack Nicklaus,"Santa Rosa, CA",private,2001
+,Stanwich Club,168,Wilfred Reid,"Greenwich, CT",private,1964
+,Scioto (Hale),170,William S. Flynn,"Dublin, OH",private,1924
+,Mesa Verde,170,William F. Bell,"Costa Mesa, CA",private,1960
+,Wee Burn,172,"Devereux Emmet, Walter Travis","Darien, CT",private,1896
+,Rockaway Hunting Club,172,"Seth Raynor, Devereux Emmet","Lawrence, NY",private,1878
+,Pacific Grove Municipal Golf Links,174,Jack Neville,"Pacific Grove, CA",municipal,1932
+,Onwentsia Club,174,"John Duncan Dunn, Tom Bendelow, Willie Park Jr., Robert Trent Jones Sr.","Lake Forest, IL",private,1897
+,Course at Yale,176,"Robert Trent Jones Sr., Tom Doak","New Haven, CT",private,1926
+,Sedgefield Country Club,176,Donald Ross,"Greensboro, NC",private,1925
+,Tacoma Country & Golf Club,178,"Francis James, H. Chandler Egan, John Fought","Tacoma, WA",private,1894
+,Butler National,178,George Fazio,"Oak Brook, IL",private,1972
+,Plainfield West,180,Donald Ross,"Edison, NJ",private,1921
+,Olympia Fields (South),180,Willie Park Jr.,"Olympia Fields, IL",private,1926
+,Whitemarsh Valley Country Club,182,William Gordon,"Lafayette Hill, PA",private,1925
+,Woodway,183,"Devereux Emmet, William Gordon, Ken Killian, Dick Nugent","Darien, CT",private,1916
+,Bob O'Link,184,"Donald Ross, George Cobb","Highland Park, IL",private,1916
+,Muirfield Village Golf Club,185,Jack Nicklaus,"Dublin, OH",private,1974
+,Mink Meadows,186,"Wayne Stiles, John Van Kleek","Vineyard Haven, MA",private,1937
+,Shenandoah,187,Donald Ross,"West Bloomfield, MI",private,1916
+,Canterbury (Edina),187,Geoffrey Cornish,"Edina, MN",private,1959
+,Huntsville Country Club,189,Seth Raynor,"Huntsville, AL",private,1925
+,The Honors Course,190,Pete Dye,"Ooltewah, TN",private,1983
+,Old Marsh,191,Pete Dye,"Palm Beach Gardens, FL",private,1989
+,Brook Hollow Golf Club,191,Perry Maxwell,"Dallas, TX",private,1920
+,Canterbury Golf Club (Beachwood),193,Jack Kidwell,"Beachwood, OH",private,1921
+,Glen Oak,194,"A.W. Tillinghast, Ronald Forse","Glen Ellyn, IL",private,1922
+,Bull at Pinehurst Farms,195,"Tom Doak, Tim Liddy","Sheboygan, WI",private,2005
+,Rockrimmon Country Club,195,"Dick Wilson, Keith Foster","Stamford, CT",private,1958
+,Sunnybrook Golf Club,197,"Donald Ross, Willard Wilkinson","Plymouth Meeting, PA",private,1929
+,TPC Sawgrass (Players Stadium),198,Pete Dye,"Ponte Vedra Beach, FL","resort, daily fee",1980
+,Knollwood,199,Donald Ross,"Elmsford, NY",private,1895
+,Hazeltine National Golf Club,200,"Robert Trent Jones Sr., Rees Jones","Chaska, MN",private,1962
