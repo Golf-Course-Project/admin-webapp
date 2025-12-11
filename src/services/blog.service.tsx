@@ -17,43 +17,15 @@ export class BlogService {
         }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({
-          success: false,
-          message: `HTTP error! status: ${response.status}`,
-          messageCode: 501,
-          count: 0,
-          value: []
-        }));
-        return errorData;
-      }
-
-      const results = await response.json();
-      return results;
+      const results = await Promise.resolve(response);
+      return await results.json();
     } catch (error) {
-      console.error('Blog list fetch error:', error);
-      return {
-        success: false,
-        message: error instanceof Error ? error.message : 'An unknown error occurred',
-        messageCode: 501,
-        count: 0,
-        value: []
-      };
+      return await Promise.reject(error);
     }
   }
 
   async fetch(id: string): Promise<IFetchBlogApiResponse> {
     const jwt: string | null = fetchJwt();
-
-    if (!id) {
-      return {
-        success: false,
-        message: 'Blog ID is required',
-        messageCode: 403,
-        count: 0,
-        value: null
-      };
-    }
 
     try {
       const response = await fetch(`${blogServiceUrl}/api/blog/${id}`, {
@@ -65,28 +37,10 @@ export class BlogService {
         }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({
-          success: false,
-          message: `HTTP error! status: ${response.status}`,
-          messageCode: 501,
-          count: 0,
-          value: null
-        }));
-        return errorData;
-      }
-
-      const results = await response.json();
-      return results;
+      const results = await Promise.resolve(response);
+      return await results.json();
     } catch (error) {
-      console.error('Blog fetch error:', error);
-      return {
-        success: false,
-        message: error instanceof Error ? error.message : 'An unknown error occurred',
-        messageCode: 501,
-        count: 0,
-        value: null
-      };
+      return await Promise.reject(error);
     }
   }
 }
