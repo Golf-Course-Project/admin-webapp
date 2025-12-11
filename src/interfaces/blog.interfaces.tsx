@@ -3,15 +3,13 @@ import { IApiResponse } from './api-response.interface';
 export interface IBlog {
 	id: string;
 	title: string;
-	slug: string;
-	excerpt: string;
-	content: string;
-	author: string;
-	datePublished: Date | null;
-	isPublished: boolean;
-	tags: string;
+	pageName: string;
+	description: string;
+	shortDescription: string;
+	defaultImagePath: string;
+	isActive: boolean;
+	isDraft: boolean;
 	dateCreated: Date;
-	dateUpdated: Date | null;
 }
 
 export interface IBlogListApiResponse extends IApiResponse {
