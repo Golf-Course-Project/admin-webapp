@@ -7,11 +7,11 @@ export interface IBlog {
 	excerpt: string;
 	content: string;
 	author: string;
-	publishedDate: string;
+	datePublished: Date | null;
 	isPublished: boolean;
 	tags: string;
-	createdDate: string;
-	modifiedDate: string;
+	dateCreated: Date;
+	dateUpdated: Date | null;
 }
 
 export interface IBlogListApiResponse extends IApiResponse {
