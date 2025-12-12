@@ -7,6 +7,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import SaveIcon from '@material-ui/icons/Save';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 
 import { ErrorMessage } from 'common/components';
 
@@ -122,29 +124,13 @@ class EditBlog extends React.Component<IProps, {}> {
     this.setState({ markdownTab: newValue });
   }
 
-  private renderMarkdown = (text: string) => {
-    // Simple markdown to HTML converter for preview
-    let html = text
-      // Headers
-      .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-      .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-      .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-      // Bold
-      .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-      // Italic
-      .replace(/\*(.*)\*/gim, '<em>$1</em>')
-      // Code blocks
-      .replace(/```([a-z]*)\n([\s\S]*?)```/gim, '<pre><code>$2</code></pre>')
-      // Inline code
-      .replace(/`([^`]+)`/gim, '<code>$1</code>')
-      // Links
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2">$1</a>')
-      // Blockquotes
-      .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
-      // Line breaks
-      .replace(/\n/gim, '<br />');
-    
-    return html;
+  private renderMarkdown = (text: string): string => {
+    // Use marked library to convert markdown to HTML
+    // marked.parse is synchronous in this version
+    const rawHtml = marked.parse(text) as string;
+    // Sanitize the HTML to prevent XSS attacks
+    const cleanHtml = DOMPurify.sanitize(rawHtml);
+    return cleanHtml;
   }
 
   private setHelperTextMessage = (field: string) => {

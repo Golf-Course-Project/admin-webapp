@@ -37,10 +37,12 @@
     "aos": "^2.3.4",
     "clsx": "^1.0.4",
     "date-fns": "^2.19.0",
+    "dompurify": "^3.3.1",
     "easymde": "^2.20.0",
     "formik": "^2.2.6",
     "history": "^5.0.0",
     "jwt-decode": "3.1.2",
+    "marked": "^17.0.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-countup": "^4.3.3",
@@ -61,6 +63,7 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
+    "@types/dompurify": "^3.0.5",
     "@types/jest": "^26.0.24",
     "@types/jwt-decode": "^3.1.0",
     "@types/minimatch": "^6.0.0",
