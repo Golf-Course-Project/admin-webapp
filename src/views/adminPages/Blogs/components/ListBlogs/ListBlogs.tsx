@@ -107,7 +107,7 @@ class ListBlogs extends React.Component<IProps, {}> {
                     color="textSecondary"
                     align={'left'}
                   >
-                    Looks like there are no blogs posts to edit.
+                    Looks like there are no blog posts to edit.
                   </Typography>
                   <Box
                     marginTop={4}
