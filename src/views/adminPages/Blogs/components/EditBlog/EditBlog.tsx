@@ -11,33 +11,37 @@ import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 
 import { ErrorMessage } from 'common/components';
+import { IBlog, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
+import BlogService from 'services/blog.service';
 
 class EditBlog extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
 
   state: IForm = {
-    action: 'normal',
+    action: 'loading',
     messageCode: 200,
     messageText: '',
     open: this.props.open,
-    ready: true,
+    ready: false,
     blurErrors: [],
+    data: null,
     id: this.props.id || '',
-    title: 'Sample Blog Post Title',
-    pageName: 'sample-blog-post-title',
-    shortDescription: 'This is a short description of the blog post that provides a quick overview of the content.',
-    description: '# Sample Blog Post\n\nThis is a **markdown** editor with preview support.\n\n## Features\n\n- Write in markdown\n- Preview your content\n- Easy to use\n\n```javascript\nconst example = "code block";\n```\n\n> This is a blockquote',
+    title: '',
+    pageName: '',
+    shortDescription: '',
+    description: '',
     markdownTab: 0,
   }
 
   private resetForm = () => {
     this.setState({
-      action: 'normal',
+      action: 'loading',
       messageCode: 200,
       messageText: '',
       open: false,
       ready: false,
       blurErrors: [],
+      data: null,
       id: '',
       title: '',
       pageName: '',
@@ -47,20 +51,58 @@ class EditBlog extends React.Component<IProps, {}> {
     });
   }
 
+  private fetch = (id: string) => {
+    const client: BlogService = new BlogService();
+
+    client.fetch(id).then((response: IFetchBlogApiResponse) => {
+      if (response.success && response.value) {
+        this.setState({
+          data: response.value,
+          id: response.value.id ?? '',
+          title: response.value.title ?? '',
+          pageName: response.value.pageName ?? '',
+          shortDescription: response.value.shortDescription ?? '',
+          description: response.value.description ?? '',
+          action: 'normal',
+          ready: true
+        });
+      } else {
+        this.setState({
+          action: 'normal',
+          ready: true,
+          messageCode: response.messageCode,
+          messageText: response.message || 'Failed to fetch blog data'
+        });
+      }
+    }).catch((error: Error) => {
+      console.error(error);
+      this.setState({
+        action: 'normal',
+        ready: true,
+        messageCode: 600,
+        messageText: error.message
+      });
+    });
+  }
+
   componentDidUpdate(prevProps: any) {
     if (prevProps.open !== this.props.open && this.props.open) {      
       this.setState({ 
         open: this.props.open,
         id: this.props.id || '',
-        // TODO: Fetch blog data by ID when API is ready
-        // For now, using mock data
-        title: 'Sample Blog Post Title',
-        pageName: 'sample-blog-post-title',
-        shortDescription: 'This is a short description of the blog post that provides a quick overview of the content.',
-        description: '# Sample Blog Post\n\nThis is a **markdown** editor with preview support.\n\n## Features\n\n- Write in markdown\n- Preview your content\n- Easy to use\n\n```javascript\nconst example = "code block";\n```\n\n> This is a blockquote',
-        action: 'normal',
-        ready: true
+        action: 'loading',
+        ready: false
       });
+
+      if (this.props.id) {
+        this.fetch(this.props.id);
+      } else {
+        // No ID provided (new blog creation scenario)
+        this.setState({ 
+          action: 'normal',
+          ready: true
+        });
+      }
     }
   }
 
@@ -205,7 +247,7 @@ class EditBlog extends React.Component<IProps, {}> {
             </Box>
           </Box>
 
-          <Box component={CardContent} padding={4}>
+          <Box component={CardContent} padding={4} display={this.state.action === 'loading' ? 'none' : 'block'}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
                 <ErrorMessage message={this.setErrorMessage(this.state.messageCode, this.state.messageText)} />
@@ -404,6 +446,7 @@ interface IForm {
   open: boolean;
   ready: boolean;
   blurErrors: string[];
+  data: IBlog | null;
   id: string;
   title: string;
   pageName: string;
