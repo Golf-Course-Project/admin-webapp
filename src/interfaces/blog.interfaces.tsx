@@ -10,6 +10,7 @@ export interface IBlog {
 	isActive: boolean;
 	isDraft: boolean;
 	dateCreated: Date;
+	datePublished: Date | null;
 }
 
 export interface IBlogListApiResponse extends IApiResponse {
