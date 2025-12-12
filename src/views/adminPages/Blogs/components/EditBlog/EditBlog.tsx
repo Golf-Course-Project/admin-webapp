@@ -161,7 +161,7 @@ class EditBlog extends React.Component<IProps, {}> {
         anchor='right'
         open={this.state.open}
         variant={'temporary'}
-        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: '100%' } } }}
+        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: '80%' } } }}
       >  
         <Grid container spacing={1}>              
           <Grid item xs={11}>
