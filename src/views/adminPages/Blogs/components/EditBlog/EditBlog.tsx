@@ -54,7 +54,7 @@ class EditBlog extends React.Component<IProps, {}> {
   private fetch = (id: string) => {
     const client: BlogService = new BlogService();
 
-    client.fetch(id).then(async (response: IFetchBlogApiResponse) => {
+    client.fetch(id).then((response: IFetchBlogApiResponse) => {
       if (response.success && response.value) {
         this.setState({
           data: response.value,
@@ -75,7 +75,7 @@ class EditBlog extends React.Component<IProps, {}> {
         });
       }
     }).catch((error: Error) => {
-      console.log(error);
+      console.error(error);
       this.setState({
         action: 'normal',
         ready: true,
@@ -96,6 +96,12 @@ class EditBlog extends React.Component<IProps, {}> {
 
       if (this.props.id) {
         this.fetch(this.props.id);
+      } else {
+        // No ID provided (new blog creation scenario)
+        this.setState({ 
+          action: 'normal',
+          ready: true
+        });
       }
     }
   }
