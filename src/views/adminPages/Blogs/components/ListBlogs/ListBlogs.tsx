@@ -3,8 +3,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container, Button, Typography, Grid } from '@material-ui/core';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 import NotFoundIllustration from 'svg/illustrations/NotFound';
 import EditBlog from '../EditBlog';
@@ -131,10 +130,10 @@ class ListBlogs extends React.Component<IProps, {}> {
         <Box sx={this.state.action === 'normal' ? { display: 'block' } : { display: 'none' }}>          
           <Box marginBottom={4} sx={{ display: 'flex' }}>            
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <Table sx={{ minWidth: 520 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>   
-                    <TableCell align="left" sx={{ width: '70%' }}>Title</TableCell>        
+                    <TableCell align="left" sx={{ width: '60%' }}>Title</TableCell>        
                     <TableCell align="center">Date Created</TableCell>   
                     <TableCell align="center">Draft</TableCell>  
                     <TableCell align="center">Active</TableCell>                                                                                         
@@ -147,7 +146,7 @@ class ListBlogs extends React.Component<IProps, {}> {
                       sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
                       hover                                  
                     >                         
-                      <TableCell align="left" sx={{ width: '70%' }}>
+                      <TableCell align="left" sx={{ width: '60%' }}>
                         <Link component="button" onClick={(e:any) => this.handleOpenBlogSideBar(row)} sx={{ textAlign: 'left' }}>
                           {row.title}
                         </Link>                        
@@ -156,11 +155,11 @@ class ListBlogs extends React.Component<IProps, {}> {
                       <TableCell align="center">{new Date(row.dateCreated).toLocaleDateString()}</TableCell>  
 
                       <TableCell align="center">
-                        {row.isDraft ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+                        {row.isDraft ? <CheckCircleIcon color="primary" fontSize="small" /> : null}
                       </TableCell>
                       
                       <TableCell align="center">
-                        {row.isActive ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+                        {row.isActive ? <CheckCircleIcon color="primary" fontSize="small" /> : null}
                       </TableCell>                                                                               
                     </TableRow>
                   ))}
@@ -171,7 +170,7 @@ class ListBlogs extends React.Component<IProps, {}> {
         </Box>
 
         <Box display={this.state.action === 'loading' ? 'block' : 'none'}>  
-          <SkeletonTable rows={10} columns={4} display={this.state.action === 'loading' ? true : false}></SkeletonTable>                 
+          <SkeletonTable rows={10} columns={4} display={this.state.action === 'loading' ? true : false} columnWidths={['60%', 'auto', 'auto', 'auto']} minWidth={520}></SkeletonTable>                 
         </Box>    
 
         <EditBlog
