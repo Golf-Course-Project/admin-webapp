@@ -127,7 +127,12 @@ class ListBlogs extends React.Component<IProps, {}> {
           </Container>         
         </Box>
 
-        <Box sx={this.state.action === 'normal' ? { display: 'block' } : { display: 'none' }}>          
+        <Box sx={this.state.action === 'normal' ? { display: 'block' } : { display: 'none' }}>
+          <Box marginBottom={2}>
+            <Typography variant="h4" sx={{ fontWeight: 600 }}>
+              💬 Blog Posts
+            </Typography>
+          </Box>
           <Box marginBottom={4} sx={{ display: 'flex' }}>            
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 520 }} aria-label="simple table">
