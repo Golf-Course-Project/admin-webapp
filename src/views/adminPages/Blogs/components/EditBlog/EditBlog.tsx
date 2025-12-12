@@ -161,7 +161,7 @@ class EditBlog extends React.Component<IProps, {}> {
         anchor='right'
         open={this.state.open}
         variant={'temporary'}
-        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: '100%' } } }}
+        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: '80%' } } }}
       >  
         <Grid container spacing={1}>              
           <Grid item xs={11}>
@@ -325,20 +325,24 @@ class EditBlog extends React.Component<IProps, {}> {
                                   padding: 3,
                                   minHeight: '400px',
                                   backgroundColor: '#fafafa',
-                                  '& h1': { fontSize: '2em', marginBottom: '0.5em' },
-                                  '& h2': { fontSize: '1.5em', marginBottom: '0.5em' },
-                                  '& h3': { fontSize: '1.17em', marginBottom: '0.5em' },
+                                  color: '#333',
+                                  '& h1': { fontSize: '2em', marginBottom: '0.5em', color: '#333' },
+                                  '& h2': { fontSize: '1.5em', marginBottom: '0.5em', color: '#333' },
+                                  '& h3': { fontSize: '1.17em', marginBottom: '0.5em', color: '#333' },
+                                  '& p': { color: '#333' },
                                   '& code': {
                                     backgroundColor: '#f5f5f5',
                                     padding: '2px 4px',
                                     borderRadius: '3px',
-                                    fontFamily: 'monospace'
+                                    fontFamily: 'monospace',
+                                    color: '#333'
                                   },
                                   '& pre': {
                                     backgroundColor: '#f5f5f5',
                                     padding: '10px',
                                     borderRadius: '5px',
-                                    overflow: 'auto'
+                                    overflow: 'auto',
+                                    color: '#333'
                                   },
                                   '& blockquote': {
                                     borderLeft: '4px solid #ddd',
