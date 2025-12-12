@@ -127,16 +127,22 @@ class ListBlogs extends React.Component<IProps, {}> {
           </Container>         
         </Box>
 
-        <Box sx={this.state.action === 'normal' ? { display: 'block' } : { display: 'none' }}>          
+        <Box sx={this.state.action === 'normal' ? { display: 'block' } : { display: 'none' }}>
+          <Box marginBottom={2}>
+            <Typography variant="h4" sx={{ fontWeight: 600 }}>
+              💬 Blog Posts
+            </Typography>
+          </Box>
           <Box marginBottom={4} sx={{ display: 'flex' }}>            
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 520 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>   
                     <TableCell align="left" sx={{ width: '60%' }}>Title</TableCell>        
-                    <TableCell align="center">Date Created</TableCell>   
-                    <TableCell align="center">Draft</TableCell>  
-                    <TableCell align="center">Active</TableCell>                                                                                         
+                    <TableCell align="center" sx={{ width: '10%' }}>Date Created</TableCell>   
+                    <TableCell align="center" sx={{ width: '10%' }}>Date Published</TableCell>   
+                    <TableCell align="center" sx={{ width: '5%' }}>Draft</TableCell>  
+                    <TableCell align="center" sx={{ width: '5%' }}>Active</TableCell>                                                                                         
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -152,13 +158,17 @@ class ListBlogs extends React.Component<IProps, {}> {
                         </Link>                        
                       </TableCell>                        
 
-                      <TableCell align="center">{new Date(row.dateCreated).toLocaleDateString()}</TableCell>  
+                      <TableCell align="center" sx={{ width: '10%' }}>{new Date(row.dateCreated).toLocaleDateString()}</TableCell>  
 
-                      <TableCell align="center">
+                      <TableCell align="center" sx={{ width: '10%' }}>
+                        {row.datePublished ? new Date(row.datePublished).toLocaleDateString() : ''}
+                      </TableCell>
+
+                      <TableCell align="center" sx={{ width: '5%' }}>
                         {row.isDraft ? <CheckCircleIcon color="primary" fontSize="small" /> : null}
                       </TableCell>
                       
-                      <TableCell align="center">
+                      <TableCell align="center" sx={{ width: '5%' }}>
                         {row.isActive ? <CheckCircleIcon color="primary" fontSize="small" /> : null}
                       </TableCell>                                                                               
                     </TableRow>
@@ -170,7 +180,7 @@ class ListBlogs extends React.Component<IProps, {}> {
         </Box>
 
         <Box display={this.state.action === 'loading' ? 'block' : 'none'}>  
-          <SkeletonTable rows={10} columns={4} display={this.state.action === 'loading' ? true : false} columnWidths={['60%', 'auto', 'auto', 'auto']} minWidth={520}></SkeletonTable>                 
+          <SkeletonTable rows={10} columns={5} display={this.state.action === 'loading' ? true : false} columnWidths={['60%', '10%', '10%', '5%', '5%']} minWidth={520}></SkeletonTable>                 
         </Box>    
 
         <EditBlog
