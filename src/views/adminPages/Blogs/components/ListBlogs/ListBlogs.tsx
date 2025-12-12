@@ -2,9 +2,11 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container, Button, Typography, Grid } from '@material-ui/core';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 
-import Illustration from 'svg/illustrations/Globe';
+import NotFoundIllustration from 'svg/illustrations/NotFound';
 import EditBlog from '../EditBlog';
 
 import { SkeletonTable } from 'common/components';
@@ -56,7 +58,7 @@ class ListBlogs extends React.Component<IProps, {}> {
           count: response.value.length,
           selectedRowId: '',     
           errorMsg: '',
-          action: 'normal'         
+          action: response.value.length === 0 ? 'empty' : 'normal'         
         });       
       }
     }).catch((error: Error) => {      
@@ -70,11 +72,59 @@ class ListBlogs extends React.Component<IProps, {}> {
 
         <ErrorMessage message={this.state.errorMsg}></ErrorMessage>               
         
-        <Box display="flex" justifyContent="center" alignItems="center" sx={this.state.action === 'empty' ? { display: 'block' } : { display: 'none' }}>
-          <Container maxWidth="sm">
-            <Box display="flex" justifyContent="center" alignItems={'center'}>
-              <Illustration width='400px' height='400px'/>
-            </Box>
+        <Box display="flex" justifyContent="center" alignItems="center" sx={this.state.action === 'empty' ? { display: 'flex', minHeight: '400px' } : { display: 'none' }}>
+          <Container maxWidth="lg">
+            <Grid container spacing={6}>
+              <Grid item container justifyContent={'center'} xs={12} md={6}>
+                <Box
+                  height={'100%'}
+                  width={'100%'}
+                  maxWidth={{ xs: 500, md: '100%' }}
+                >
+                  <NotFoundIllustration width={'100%'} height={'100%'} />
+                </Box>
+              </Grid>
+              <Grid
+                item
+                container
+                alignItems={'center'}
+                justifyContent={'center'}
+                xs={12}
+                md={6}
+              >
+                <Box>
+                  <Typography
+                    variant="h1"
+                    component={'h1'}
+                    align={'left'}
+                    sx={{ fontWeight: 700 }}
+                  >
+                    No Blog Posts Found
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    component="p"
+                    color="textSecondary"
+                    align={'left'}
+                  >
+                    Looks like there are no blogs posts to edit.
+                  </Typography>
+                  <Box
+                    marginTop={4}
+                    display={'flex'}
+                    justifyContent={'flex-start'}
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                    >
+                      Create new post
+                    </Button>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
           </Container>         
         </Box>
 
@@ -84,11 +134,10 @@ class ListBlogs extends React.Component<IProps, {}> {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>   
-                    <TableCell align="left">Title</TableCell>        
-                    <TableCell align="left">Short Description</TableCell>  
+                    <TableCell align="left" sx={{ width: '70%' }}>Title</TableCell>        
                     <TableCell align="center">Date Created</TableCell>   
-                    <TableCell align="center">Is Draft</TableCell>  
-                    <TableCell align="center">Is Active</TableCell>                                                                                         
+                    <TableCell align="center">Draft</TableCell>  
+                    <TableCell align="center">Active</TableCell>                                                                                         
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -98,19 +147,21 @@ class ListBlogs extends React.Component<IProps, {}> {
                       sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
                       hover                                  
                     >                         
-                      <TableCell align="left">
+                      <TableCell align="left" sx={{ width: '70%' }}>
                         <Link component="button" onClick={(e:any) => this.handleOpenBlogSideBar(row)} sx={{ textAlign: 'left' }}>
                           {row.title}
                         </Link>                        
                       </TableCell>                        
-                      
-                      <TableCell align="left">{row.shortDescription}</TableCell>   
 
                       <TableCell align="center">{new Date(row.dateCreated).toLocaleDateString()}</TableCell>  
 
-                      <TableCell align="center">{row.isDraft ? 'Yes' : 'No'}</TableCell>
+                      <TableCell align="center">
+                        {row.isDraft ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+                      </TableCell>
                       
-                      <TableCell align="center">{row.isActive ? 'Yes' : 'No'}</TableCell>                                                                               
+                      <TableCell align="center">
+                        {row.isActive ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+                      </TableCell>                                                                               
                     </TableRow>
                   ))}
                 </TableBody>
@@ -120,7 +171,7 @@ class ListBlogs extends React.Component<IProps, {}> {
         </Box>
 
         <Box display={this.state.action === 'loading' ? 'block' : 'none'}>  
-          <SkeletonTable rows={10} columns={5} display={this.state.action === 'loading' ? true : false}></SkeletonTable>                 
+          <SkeletonTable rows={10} columns={4} display={this.state.action === 'loading' ? true : false}></SkeletonTable>                 
         </Box>    
 
         <EditBlog
