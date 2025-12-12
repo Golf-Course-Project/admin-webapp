@@ -1,1 +1,1 @@
-export { default as EditBlog } from './EditBlog';
+export { default } from './EditBlog';

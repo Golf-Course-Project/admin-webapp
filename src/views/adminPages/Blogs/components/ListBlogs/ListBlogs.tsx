@@ -2,7 +2,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container, Skeleton } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container } from '@material-ui/core';
 
 import Illustration from 'svg/illustrations/Globe';
 import EditBlog from '../EditBlog';

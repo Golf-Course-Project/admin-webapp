@@ -1,1 +1,1 @@
-export { default as Blogs } from './Blogs';
+export { default } from './Blogs';
