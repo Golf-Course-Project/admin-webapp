@@ -1,86 +1,75 @@
-//@url = https://localhost:44345
+//@url = http://localhost:4000
 @url = https://golfcourseproject-courseservice.azurewebsites.net
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImY3ZmQ0YjQwLWNhZjQtNDU2Ny1iODg5LTE2MTlhYWQxNDM0MSIsImVtYWlsIjoiZGFuaGVsbGVtQG91dGxvb2suY29tIiwicm9sZSI6InNpdGUgYWRtaW4iLCJ0b2tlbiI6IjIxMTZlOGM0LTJiZmItNGQ0OC1iZjE5LWUxYzc4ZWQ3NzVkZiIsIm5iZiI6MTczNTA2NTIxOCwiZXhwIjoxNzM3NjU3MjE4LCJpYXQiOjE3MzUwNjUyMTh9.cqAfw9cu51kRRuO-kFeGLl3EvAe5O0vX2slb7rSIfXM
+@apiKey = 0780d1ad8
 
-
-### List courses by state
-GET {{url}}/api/course/list/states/mi/1 HTTP/1.1
+### Get Course by ID
+GET {{url}}/api/course/0038f6eb-e419-40f5-bc90-b1145a533239 HTTP/1.1
 content-type: application/json
-X-Authorization: {{token}}
+X-ApiKey: {{apiKey}}
+###
 
-### Courses by state
-POST {{url}}/api/course/list/states/mi HTTP/1.1
+### Create Course
+POST {{url}}/api/course/create HTTP/1.1
 content-type: application/json
-X-Authorization: {{token}}
+X-ApiKey: {{apiKey}}
 
-{
-    "state": "mi",
-    "text": null,
-    "address": "-1",
-    "city": null,
-    "email": null,
-    "phone": null,
-    "website": null,
-    "pageNumber": 1
+{    
+    "facilityId": "2bbe4135-5852-4d49-9893-0dbfdd7f2539",
+    "name": "Fields Ranch West",
+    "description": "",
+    "longitude": -96.85203550989914,
+    "latitude": 33.21346909607158,
+    "address1": "3725 PGA Pkwy",
+    "city": "Frisco",
+    "state": "TX",
+    "postalCode": 75033,
+    "YearOpened": 2023,
+    "Designer": "Beau Welling"
 }
 
-### Courses with Ranking
-POST {{url}}/api/course/search/ranking HTTP/1.1
+###
+
+### Create Facility
+POST {{url}}/api/facility/create HTTP/1.1
 content-type: application/json
-X-Authorization: {{token}}
+X-ApiKey: {{apiKey}}
 
 {
-    "state":"mi",
-    "text":null,
-    "name":null,
-    "city":null,
-    "isRanked":null,
-    "isFeatured":null,
-    "tier":"I",
-    "year":2024,
-    "sourceRefValueId":100,
-    "nameRefValueId":201
+    "name": "Cabot Citrus Farms",
+    "description": "A beautiful golf course located in the heart of Florida.",
+    "address1": "7590 Ponce De Leon Blvd",
+    "city": "Brooksville",
+    "state": "FL",   
+    "Type": 1,
+    "postalCode": 34614,
+    "longitude": -82.4799264411736,
+    "latitude": 28.68349223484484,
+    "phone": "(352) 796-4653",
+    "website": "http://www.cabotcitrusfarms.com",
+    "email": "reservations@cabotcitrusfarms.com",
+    "facebook": "https://www.facebook.com/cabotcitrusfarms",
+    "instagram": "https://www.instagram.com/cabotcitrusfarms"
 }
 
-
-### Create
-POST {{url}}/api/courses/create HTTP/1.1
+### List By Ids
+POST {{url}}/api/course/list HTTP/1.1
 content-type: application/json
-X-Authorization: {{token}}
+X-ApiKey: {{apiKey}}
 
 {
-    "id":null,
-    "usgaCourseId":9561,
-    "facilityName":"Green Briar Golf Course",
-    "courseName":"Green Briar Golf Course",
-    "description":null,
-    "longitude":-83.9883851,
-    "latitude":44.3644012,
-    "address1":"3379 E Sage Lake Road",
-    "address2":"",
-    "city":"Lupton",
-    "state":"MI",
-    "postalCode":"",
-    "country":"USA",
-    "email":"",
-    "phone":"",
-    "website":null,
-    "instagram":null,
-    "twitter":null,
-    "usgaUpdatedOn":"2018-09-28"
-}
+    "ids": [
+      "dc12b631-341b-4d6e-85f1-f24cdc14a322",
+      "a14c616f-7e85-4371-9840-e0ccbedc775e",
+      "1392ca84-0f1a-487b-9ada-141ffd7b93b4",
+      "e5bb6246-c6be-42ff-b9e2-118c88cd122e"
+    ]
+  }
 
-### Update for FacilityId
-PATCH {{url}}/api/courses/update HTTP/1.1
+### Search
+POST {{url}}/api/course/search/ai HTTP/1.1
 content-type: application/json
-X-Authorization: {{token}}
+X-ApiKey: {{apiKey}}
 
 {
-    "usgaCourseId":30486,
-    "usgaFacilityId":17315
+    "state": "FL"
 }
-
-### Fetch
-GET {{url}}/api/course/5a21a972-e65d-48a3-b84b-4d48b7bc5707/includefacility HTTP/1.1
-content-type: application/json
-X-Authorization: {{token}}
