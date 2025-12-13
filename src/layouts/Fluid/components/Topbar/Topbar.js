@@ -138,7 +138,7 @@ const Topbar = ({
             >
               Documentation
             </Link>
-          </Box>         
+          </Box>
         </Box>
       </Box>
     </Box>

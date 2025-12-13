@@ -48,7 +48,7 @@ const Process = () => {
           {
             title: 'Share Requirements',
             subtitle:
-              'You provide details about the services you\'re looking for, ideal budget, and timeline.',
+              "You provide details about the services you're looking for, ideal budget, and timeline.",
           },
           {
             title: 'We Identify Best-Fits',

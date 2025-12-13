@@ -11,7 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 const SidebarNav = ({ pages, onClose, auth }) => {
   const theme = useTheme();
   const [activeLink, setActiveLink] = useState('');
-  
+
   useEffect(() => {
     setActiveLink(window && window.location ? window.location.pathname : '');
   }, []);
@@ -29,8 +29,17 @@ const SidebarNav = ({ pages, onClose, auth }) => {
       </Box>
       <Box paddingX={2} paddingBottom={2}>
         <Box>
-          {pages.map((item, i) => (                      
-            <Box key={i} marginBottom={4} style={{display: (item.authOnly === true && auth.isAuthenticated === false) ? 'none' : 'block' }}>
+          {pages.map((item, i) => (
+            <Box
+              key={i}
+              marginBottom={4}
+              style={{
+                display:
+                  item.authOnly === true && auth.isAuthenticated === false
+                    ? 'none'
+                    : 'block',
+              }}
+            >
               <Typography
                 variant="caption"
                 sx={{
@@ -43,8 +52,18 @@ const SidebarNav = ({ pages, onClose, auth }) => {
                 {item.title}
               </Typography>
               <Grid container spacing={1}>
-                {item.pages.map((p, i) => (                                
-                  <Grid item xs={6} key={i} style={{display: (p.authHide === true && auth.isAuthenticated === true) ? 'none' : 'block'}}>                   
+                {item.pages.map((p, i) => (
+                  <Grid
+                    item
+                    xs={6}
+                    key={i}
+                    style={{
+                      display:
+                        p.authHide === true && auth.isAuthenticated === true
+                          ? 'none'
+                          : 'block',
+                    }}
+                  >
                     <Link
                       variant="body2"
                       component={'a'}
@@ -55,18 +74,18 @@ const SidebarNav = ({ pages, onClose, auth }) => {
                         '&:hover': {
                           textDecoration: 'none',
                           color: theme.palette.primary.dark,
-                        },                        
+                        },
                       }}
-                      onClick={() => onClose()}                                         
+                      onClick={() => onClose()}
                     >
                       {p.title}
                     </Link>
-                  </Grid>                  
+                  </Grid>
                 ))}
               </Grid>
-            </Box>            
+            </Box>
           ))}
-        </Box>         
+        </Box>
       </Box>
     </Box>
   );
@@ -75,7 +94,7 @@ const SidebarNav = ({ pages, onClose, auth }) => {
 SidebarNav.propTypes = {
   pages: PropTypes.array.isRequired,
   onClose: PropTypes.func,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
 
 export default SidebarNav;

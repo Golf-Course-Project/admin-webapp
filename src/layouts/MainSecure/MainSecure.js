@@ -24,18 +24,24 @@ HideOnScroll.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const MainSecure = ({ children, themeToggler, themeMode, setThemePalette, paletteType, }) => {
+const MainSecure = ({
+  children,
+  themeToggler,
+  themeMode,
+  setThemePalette,
+  paletteType,
+}) => {
   const theme = useTheme();
-  const [openSidebar, setOpenSidebar] = useState(false);  
+  const [openSidebar, setOpenSidebar] = useState(false);
   const auth = { isAuthenticated: true, permissions: [] };
-  
+
   const handleSidebarOpen = () => {
     setOpenSidebar(true);
   };
 
   const handleSidebarClose = () => {
     setOpenSidebar(false);
-  };    
+  };
 
   return (
     <div>

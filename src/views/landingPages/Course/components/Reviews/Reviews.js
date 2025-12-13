@@ -105,7 +105,7 @@ const Reviews = () => {
             },
             {
               feedback:
-                'Love the app for cash back, reward points and fraud protection – just like when you\'re swiping your card.',
+                "Love the app for cash back, reward points and fraud protection – just like when you're swiping your card.",
               image: 'https://assets.maccarianagency.com/avatars/img3.jpg',
               name: 'Chary Smith',
               title: 'SEO at Comoti',
