@@ -1,6 +1,7 @@
 import { blogServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper'; 
-import { IBlogListApiResponse, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
+import { IBlog, IBlogListApiResponse, IBlogPatch, IBlogPost, IBlogPublishPatch, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
+import path from 'path';
 
 export class BlogService {
   
@@ -43,6 +44,69 @@ export class BlogService {
       return await Promise.reject(error);
     }
   }
+
+  async publish(body: IBlogPublishPatch): Promise<IFetchBlogApiResponse> {
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(blogServiceUrl + '/api/blog/publish', {
+        method: 'patch',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),
+        body: JSON.stringify(body)
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  } 
+  
+  async patch(body: IBlogPatch): Promise<IFetchBlogApiResponse> {
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(blogServiceUrl + '/api/blog', {
+        method: 'patch',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),
+        body: JSON.stringify(body)
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  } 
+
+  async create(body: IBlogPost): Promise<IFetchBlogApiResponse> {
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(blogServiceUrl + '/api/blog', {
+        method: 'post',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),
+        body: JSON.stringify(body)
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  } 
 }
 
 export default BlogService;

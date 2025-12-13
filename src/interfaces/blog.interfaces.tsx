@@ -13,6 +13,31 @@ export interface IBlog {
 	datePublished: Date | null;
 }
 
+export interface IBlogPatch {
+	id: string;
+	title: string;
+	pageName: string;
+	description: string;
+	shortDescription: string;	
+}
+
+export interface IBlogPost {
+	id: string;
+	title: string;
+	pageName: string;
+	description: string;
+	shortDescription: string;
+	defaultImagePath: string;
+	isActive: boolean;
+	isDraft: boolean;
+	dateCreated: Date;
+}
+
+export interface IBlogPublishPatch {
+	id: string;	
+	isDraft: boolean;	
+}
+
 export interface IBlogListApiResponse extends IApiResponse {
 	value: IBlog[];
 }
@@ -20,3 +45,5 @@ export interface IBlogListApiResponse extends IApiResponse {
 export interface IFetchBlogApiResponse extends IApiResponse {
 	value: IBlog | null;
 }
+
+
