@@ -163,26 +163,25 @@ class EditBlog extends React.Component<IProps, {}> {
     this.setState({ snackOpen: false });
   };
 
-  private handleCopyIdToClipboard = () => {
+  private handleCopyToClipboard = (text: string, stateField: 'clipId' | 'clipPageName') => {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(this.state.id).then(() => {
-        this.setState({ clipId: true });
-        setTimeout(() => { this.setState({ clipId: false }); }, 2000);
+      navigator.clipboard.writeText(text).then(() => {
+        this.setState({ [stateField]: true } as any);
+        setTimeout(() => { 
+          this.setState({ [stateField]: false } as any); 
+        }, 2000);
       }).catch(() => {
         // Clipboard write failed, silently ignore
       });
     }
   };
 
+  private handleCopyIdToClipboard = () => {
+    this.handleCopyToClipboard(this.state.id, 'clipId');
+  };
+
   private handleCopyPageNameToClipboard = () => {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(this.state.pageName).then(() => {
-        this.setState({ clipPageName: true });
-        setTimeout(() => { this.setState({ clipPageName: false }); }, 2000);
-      }).catch(() => {
-        // Clipboard write failed, silently ignore
-      });
-    }
+    this.handleCopyToClipboard(this.state.pageName, 'clipPageName');
   };
 
   private handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
