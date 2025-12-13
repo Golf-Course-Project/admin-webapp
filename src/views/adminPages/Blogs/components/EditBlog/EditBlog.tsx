@@ -304,7 +304,7 @@ class EditBlog extends React.Component<IProps, {}> {
 
           <Divider variant="middle" />
 
-          <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
+          <Box display={'flex'} alignItems={'center'} justifyContent={'center'} sx={{ width: '100%', paddingTop: '20px' }}>
             <Box width={'100%'}>
               <ErrorMessage message={this.state.messageText} />
             </Box>

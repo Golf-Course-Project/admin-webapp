@@ -21,18 +21,6 @@ export interface IBlogPatch {
 	shortDescription: string;	
 }
 
-export interface IBlogPost {
-	id: string;
-	title: string;
-	pageName: string;
-	description: string;
-	shortDescription: string;
-	defaultImagePath: string;
-	isActive: boolean;
-	isDraft: boolean;
-	dateCreated: Date;
-}
-
 export interface IBlogPublishPatch {
 	id: string;	
 	isDraft: boolean;	

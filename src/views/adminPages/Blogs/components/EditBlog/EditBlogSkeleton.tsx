@@ -19,34 +19,23 @@ class EditBlogSkeleton extends React.Component<IProps, {}> {
               <Box display="flex" flexDirection={'column'}>
                 <Grid container spacing={1}>
                   {/* Blog ID Field */}
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12} md={12} sx={{ marginBottom: '25px' }}>
                     <Skeleton variant="rectangular" width="100%" height={56} sx={{ borderRadius: '4px' }} />
-                    <Skeleton variant="text" width="10%" height={20} sx={{ marginTop: '4px' }} />
                   </Grid>
                   {/* Title Field */}
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12} md={12} sx={{ marginBottom: '25px' }}>
                     <Skeleton variant="rectangular" width="100%" height={56} sx={{ borderRadius: '4px' }} />
-                    <Skeleton variant="text" width="10%" height={20} sx={{ marginTop: '4px' }} />
                   </Grid>
                   {/* Page Name Field */}
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12} md={12} sx={{ marginBottom: '25px' }}>
                     <Skeleton variant="rectangular" width="100%" height={56} sx={{ borderRadius: '4px' }} />
-                    <Skeleton variant="text" width="10%" height={20} sx={{ marginTop: '4px' }} />
                   </Grid>
                   {/* Short Description Field */}
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12} md={12} sx={{ marginBottom: '25px' }}>
                     <Skeleton variant="rectangular" width="100%" height={120} sx={{ borderRadius: '4px' }} />
-                    <Skeleton variant="text" width="10%" height={20} sx={{ marginTop: '4px' }} />
                   </Grid>
                   {/* Description Section */}
-                  <Grid item xs={12} md={12} sx={{ marginTop: '15px' }}>
-                    {/* Tabs skeleton */}
-                    <Box sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)', marginBottom: '16px' }}>
-                      <Box display="flex" gap={2}>
-                        <Skeleton variant="text" width={100} height={48} />
-                        <Skeleton variant="text" width={100} height={48} />
-                      </Box>
-                    </Box>
+                  <Grid item xs={12} md={12} sx={{ marginTop: '15px' }}>                   
                     {/* Editor/Preview Area */}
                     <Skeleton variant="rectangular" width="100%" height={400} sx={{ borderRadius: '4px' }} />
                   </Grid>

@@ -1,6 +1,6 @@
 import { blogServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper'; 
-import { IBlogListApiResponse, IBlogPatch, IBlogPost, IBlogPublishPatch, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
+import { IBlogListApiResponse, IBlogPatch, IBlogPublishPatch, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
 
 export class BlogService {
   
@@ -18,7 +18,8 @@ export class BlogService {
       });
 
       const results = await Promise.resolve(response);
-      return await results.json();
+      const text = await results.text();
+      return text ? JSON.parse(text) : {};
     } catch (error) {
       return await Promise.reject(error);
     }
@@ -38,7 +39,8 @@ export class BlogService {
       });
 
       const results = await Promise.resolve(response);
-      return await results.json();
+      const text = await results.text();
+      return text ? JSON.parse(text) : {};
     } catch (error) {
       return await Promise.reject(error);
     }
@@ -59,7 +61,8 @@ export class BlogService {
       });
 
       const results = await Promise.resolve(response);
-      return await results.json();
+      const text = await results.text();
+      return text ? JSON.parse(text) : {};
     } catch (error) {
       return await Promise.reject(error);
     }
@@ -69,7 +72,7 @@ export class BlogService {
     const jwt: string | null = fetchJwt();
 
     try {
-      const response = await fetch(blogServiceUrl + '/api/blog', {
+      const response = await fetch(blogServiceUrl + '/api/blog/update', {
         method: 'patch',
         headers: new Headers({
           'Content-Type': 'application/json',
@@ -80,28 +83,30 @@ export class BlogService {
       });
 
       const results = await Promise.resolve(response);
-      return await results.json();
+      const text = await results.text();
+
+      return text ? JSON.parse(text) : {};
     } catch (error) {
       return await Promise.reject(error);
     }
   } 
 
-  async create(body: IBlogPost): Promise<IFetchBlogApiResponse> {
+  async create(): Promise<IFetchBlogApiResponse> {
     const jwt: string | null = fetchJwt();
 
     try {
-      const response = await fetch(blogServiceUrl + '/api/blog', {
+      const response = await fetch(blogServiceUrl + '/api/blog/create', {
         method: 'post',
         headers: new Headers({
           'Content-Type': 'application/json',
           'X-Authorization': `Bearer ${jwt}`,
           Accept: 'application/json',
-        }),
-        body: JSON.stringify(body)
+        }),        
       });
 
       const results = await Promise.resolve(response);
-      return await results.json();
+      const text = await results.text();
+      return text ? JSON.parse(text) : {};
     } catch (error) {
       return await Promise.reject(error);
     }
