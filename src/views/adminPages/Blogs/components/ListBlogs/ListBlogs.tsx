@@ -45,7 +45,7 @@ class ListBlogs extends React.Component<IProps, {}> {
     
     const client: BlogService = new BlogService();
     
-    client.create().then(async (response: IFetchBlogApiResponse) => {
+    client.create().then((response: IFetchBlogApiResponse) => {
       if (response.messageCode !== 200) {
         this.setState({ errorMsg: response.message, creatingBlog: false });
         return;
