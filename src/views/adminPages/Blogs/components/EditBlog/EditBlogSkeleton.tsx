@@ -2,6 +2,11 @@ import React from 'react';
 import { Box, Grid, Skeleton } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles';
 
+interface IProps {
+  display: boolean;
+  theme: Theme;
+}
+
 class EditBlogSkeleton extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
 
@@ -73,11 +78,6 @@ class EditBlogSkeleton extends React.Component<IProps, {}> {
       </Box>
     );
   }
-}
-
-interface IProps {
-  display: boolean;
-  theme: Theme;
 }
 
 export default EditBlogSkeleton;
