@@ -1,7 +1,6 @@
 import { blogServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper'; 
-import { IBlog, IBlogListApiResponse, IBlogPatch, IBlogPost, IBlogPublishPatch, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
-import path from 'path';
+import { IBlogListApiResponse, IBlogPatch, IBlogPost, IBlogPublishPatch, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
 
 export class BlogService {
   
