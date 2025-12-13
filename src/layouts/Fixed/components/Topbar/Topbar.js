@@ -25,7 +25,10 @@ const Topbar = ({
       width={'100%'}
     >
       <Box display={'flex'} alignItems={'center'}>
-        <Box marginRight={{ xs: 1, sm: 2 }} sx={{ display: { md: 'none', sm: 'block' } }}>
+        <Box
+          marginRight={{ xs: 1, sm: 2 }}
+          sx={{ display: { md: 'none', sm: 'block' } }}
+        >
           <IconButton onClick={onSidebarOpen} aria-label="Menu">
             <MenuIcon />
           </IconButton>
@@ -128,7 +131,7 @@ const Topbar = ({
             <Link underline="none" component="a" href="/" color="textPrimary">
               Home
             </Link>
-          </Box>         
+          </Box>
         </Box>
       </Box>
     </Box>

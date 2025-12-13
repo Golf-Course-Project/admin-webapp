@@ -39,7 +39,12 @@ const Topbar = ({
           height={{ xs: 28, md: 32 }}
           width={25}
         >
-          <img src="../assets/icononly_transparent_nobuffer.png" alt="logo" height={'100%'} width={'100%'} />
+          <img
+            src="../assets/icononly_transparent_nobuffer.png"
+            alt="logo"
+            height={'100%'}
+            width={'100%'}
+          />
         </Box>
       </Box>
       <Box display="flex" alignItems={'center'}>
@@ -127,7 +132,7 @@ const Topbar = ({
             <Link underline="none" component="a" href="/" color="textPrimary">
               Home
             </Link>
-          </Box>         
+          </Box>
         </Box>
       </Box>
     </Box>

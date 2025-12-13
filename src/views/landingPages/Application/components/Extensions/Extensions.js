@@ -65,7 +65,7 @@ const Extensions = () => {
           {
             title: 'Slack',
             subtitle:
-              'Sync your team\'s work and activity to share automatically in a channel with a simple plugin.',
+              "Sync your team's work and activity to share automatically in a channel with a simple plugin.",
             icon: 'https://assets.maccarianagency.com/svg/logos/slack.svg',
           },
           {

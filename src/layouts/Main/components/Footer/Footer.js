@@ -24,7 +24,7 @@ const Footer = () => (
           width={35}
         >
           <WebbeeLogo height={'100%'} width={'100%'} />
-        </Box>        
+        </Box>
       </Box>
     </Grid>
     <Grid item xs={12}>
@@ -34,8 +34,9 @@ const Footer = () => (
         color="textSecondary"
         gutterBottom
       >
-        &copy; The Golf Course Project. 2021, The Golf Course Project. All rights reserved
-      </Typography>      
+        &copy; The Golf Course Project. 2021, The Golf Course Project. All
+        rights reserved
+      </Typography>
     </Grid>
   </Grid>
 );

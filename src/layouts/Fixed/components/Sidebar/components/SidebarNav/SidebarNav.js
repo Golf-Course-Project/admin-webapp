@@ -65,7 +65,7 @@ const SidebarNav = ({ pages, onClose }) => {
             </Box>
           </Box>
         ))}
-      </Box>   
+      </Box>
     </Box>
   );
 };

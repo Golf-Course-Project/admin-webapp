@@ -5,7 +5,7 @@ import { useTheme } from '@material-ui/core/styles';
 const TeamWorking = ({ width = '164', height = '101' }) => {
   const theme = useTheme();
   const colorPrimaryMain = theme.palette.primary.main;
-  
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -50,10 +50,10 @@ import {
 //  ForgotPasswordSimple as ForgotPasswordSimpleView,
 //} from './views/authPages';
 
-import { 
-  Logout as LogoutView,   
+import {
+  Logout as LogoutView,
   Home as MyHomeView,
-  Profile as MyProfileView 
+  Profile as MyProfileView,
 } from './views/myPages';
 
 // Documentation pages
@@ -93,7 +93,6 @@ import {
   Courses as CoursesAdminView,
   Blogs as BlogsAdminView,
 } from './views/adminPages';
-
 
 const Routes = () => {
   return (
@@ -593,7 +592,7 @@ const Routes = () => {
             layout={MainSecureLayout}
           />
         )}
-      />    
+      />
 
       <Route
         exact
@@ -629,7 +628,7 @@ const Routes = () => {
             layout={MainSecureLayout}
           />
         )}
-      />     
+      />
 
       <Route
         exact
@@ -641,7 +640,7 @@ const Routes = () => {
             layout={MainSecureLayout}
           />
         )}
-      />     
+      />
 
       <Route
         exact
@@ -653,7 +652,7 @@ const Routes = () => {
             layout={MainSecureLayout}
           />
         )}
-      />     
+      />
 
       <Route
         exact

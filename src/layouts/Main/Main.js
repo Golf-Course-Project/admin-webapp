@@ -31,7 +31,7 @@ HideOnScroll.propTypes = {
 };
 
 const Authenticate = (authService) => {
-  const jwt = fetchJwt(); 
+  const jwt = fetchJwt();
 
   return { isAuthenticated: authService.IsToken(jwt), permissions: [] };
 };
@@ -45,7 +45,7 @@ const Main = ({
 }) => {
   const theme = useTheme();
   const [openSidebar, setOpenSidebar] = useState(false);
-  
+
   auth = Authenticate(authService);
 
   const handleSidebarOpen = () => {

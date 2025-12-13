@@ -23,8 +23,13 @@ const Footer = () => (
           height={30}
           width={24}
         >
-          <img src="../assets/icononly_transparent_nobuffer.png" alt="logo" height={'100%'} width={'100%'} />
-        </Box>       
+          <img
+            src="../assets/icononly_transparent_nobuffer.png"
+            alt="logo"
+            height={'100%'}
+            width={'100%'}
+          />
+        </Box>
         <Box display="flex" flexWrap={'wrap'} alignItems={'center'}>
           <Box marginTop={1} marginRight={2}>
             <Link
@@ -46,7 +51,7 @@ const Footer = () => (
               variant={'subtitle2'}
             >
               Documentation
-            </Link>                   
+            </Link>
           </Box>
         </Box>
       </Box>
@@ -58,8 +63,9 @@ const Footer = () => (
         color="textSecondary"
         gutterBottom
       >
-        &copy; The Golf Course Project. 2021, The Golf Course Project. All rights reserved
-      </Typography>      
+        &copy; The Golf Course Project. 2021, The Golf Course Project. All
+        rights reserved
+      </Typography>
     </Grid>
   </Grid>
 );
