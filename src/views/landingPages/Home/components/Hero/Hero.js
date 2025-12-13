@@ -65,7 +65,9 @@ const Hero = () => {
               color="primary"
               size="large"
               fullWidth={isMd ? false : true}
-              href={'https://material-ui.com/store/items/webbee-landing-page/'}
+              href={
+                'https://material-ui.com/store/items/webbee-landing-page/'
+              }
               target={'_blank'}
             >
               Purchase now

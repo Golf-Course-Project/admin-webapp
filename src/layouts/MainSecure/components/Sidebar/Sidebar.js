@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box';
 import { SidebarNav } from './components';
 
 const Sidebar = (props) => {
-  const { pages, open, variant, onClose, auth, ...rest } = props;
+  const { pages, open, variant, onClose, auth, ...rest } = props; 
 
   return (
     <Drawer
@@ -38,7 +38,7 @@ Sidebar.propTypes = {
   open: PropTypes.bool.isRequired,
   variant: PropTypes.string.isRequired,
   pages: PropTypes.array.isRequired,
-  auth: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 export default Sidebar;
