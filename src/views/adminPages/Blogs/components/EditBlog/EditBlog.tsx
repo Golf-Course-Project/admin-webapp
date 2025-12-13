@@ -2,7 +2,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Button, CardContent, CircularProgress, Divider, Drawer, Grid, IconButton, TextField, Typography, Tabs, Tab, Paper } from '@material-ui/core';
+import { Button, CardContent, Divider, Drawer, Grid, IconButton, TextField, Typography, Tabs, Tab, Paper } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import SaveIcon from '@material-ui/icons/Save';
 import SimpleMDE from 'react-simplemde-editor';
@@ -13,6 +13,7 @@ import DOMPurify from 'dompurify';
 import { ErrorMessage } from 'common/components';
 import { IBlog, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
 import BlogService from 'services/blog.service';
+import EditBlogSkeleton from './EditBlogSkeleton';
 
 class EditBlog extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -203,7 +204,7 @@ class EditBlog extends React.Component<IProps, {}> {
         anchor='right'
         open={this.state.open}
         variant={'temporary'}
-        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: '80%' } } }}
+        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: '60%' } } }}
       >  
         <Grid container spacing={1}>              
           <Grid item xs={11}>
@@ -241,11 +242,7 @@ class EditBlog extends React.Component<IProps, {}> {
             </Box>
           </Box>
 
-          <Box display={'flex'} alignItems={'center'} justifyContent={'center'} marginTop={4} marginBottom={2}>
-            <Box display={this.state.action === 'loading' ? 'flex' : 'none'}>
-              <CircularProgress color="primary" />
-            </Box>
-          </Box>
+          <EditBlogSkeleton display={this.state.action === 'loading'} theme={this.props.theme} />
 
           <Box component={CardContent} padding={4} display={this.state.action === 'loading' ? 'none' : 'block'}>
             <Grid container spacing={1}>
