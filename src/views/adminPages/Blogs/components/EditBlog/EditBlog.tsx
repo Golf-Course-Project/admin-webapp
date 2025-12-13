@@ -2,7 +2,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Button, CardContent, Divider, Drawer, Grid, IconButton, TextField, Typography, Tabs, Tab, Paper } from '@material-ui/core';
+import { Button, CardContent, Divider, Drawer, Grid, IconButton, TextField, Typography, Tabs, Tab, Paper, Skeleton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import SaveIcon from '@material-ui/icons/Save';
 import SimpleMDE from 'react-simplemde-editor';
@@ -225,13 +225,19 @@ class EditBlog extends React.Component<IProps, {}> {
 
         <Box sx={{ height: '100%', padding: 1 }} >
           <Box marginBottom={1}>
-            <Typography
-              variant="h3"
-              align={'center'}
-              sx={{ fontWeight: 500 }}
-            >
-              {this.state.title || 'New Blog Post'}
-            </Typography>
+            {this.state.action === 'loading' ? (
+              <Box display="flex" justifyContent="center">
+                <Skeleton variant="text" width="40%" height={48} />
+              </Box>
+            ) : (
+              <Typography
+                variant="h3"
+                align={'center'}
+                sx={{ fontWeight: 500 }}
+              >
+                {this.state.title || 'New Blog Post'}
+              </Typography>
+            )}
           </Box>
 
           <Divider variant="middle" />
