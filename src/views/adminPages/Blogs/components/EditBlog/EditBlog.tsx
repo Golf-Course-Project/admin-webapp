@@ -2,16 +2,19 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Button, CardContent, Divider, Drawer, Grid, IconButton, TextField, Typography, Tabs, Tab, Paper, Skeleton } from '@material-ui/core';
+import { Button, CardContent, Divider, Drawer, Grid, IconButton, TextField, Typography, Tabs, Tab, Paper, Skeleton, Snackbar, Alert, InputAdornment } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import SaveIcon from '@material-ui/icons/Save';
+import CopyIcon from '@material-ui/icons/ContentCopy';
+import CheckIcon from '@material-ui/icons/Check';
+import { green } from '@material-ui/core/colors';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 
 import { ErrorMessage } from 'common/components';
-import { IBlog, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
+import { IBlog, IBlogPatch, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
 import BlogService from 'services/blog.service';
 import EditBlogSkeleton from './EditBlogSkeleton';
 
@@ -32,6 +35,9 @@ class EditBlog extends React.Component<IProps, {}> {
     shortDescription: '',
     description: '',
     markdownTab: 0,
+    snackOpen: false,
+    clipId: false,
+    clipPageName: false,
   }
 
   private resetForm = () => {
@@ -49,6 +55,9 @@ class EditBlog extends React.Component<IProps, {}> {
       shortDescription: '',
       description: '',
       markdownTab: 0,
+      snackOpen: false,
+      clipId: false,
+      clipPageName: false,
     });
   }
 
@@ -113,20 +122,67 @@ class EditBlog extends React.Component<IProps, {}> {
   }
 
   handleSaveOnClick() {
-    // TODO: Implement save functionality when API is ready
     this.setState({ action: 'update' });
-    console.log('Save clicked', {
+
+    const body: IBlogPatch = {
       id: this.state.id,
       title: this.state.title,
       pageName: this.state.pageName,
       shortDescription: this.state.shortDescription,
       description: this.state.description
+    };
+
+    const client: BlogService = new BlogService();
+
+    client.patch(body).then((response: IFetchBlogApiResponse) => {
+      if (response.success) {
+        this.setState({ 
+          action: 'normal', 
+          messageCode: 200,
+          messageText: '',
+          snackOpen: true 
+        });
+      } else {
+        this.setState({ 
+          action: 'normal',
+          messageCode: response.messageCode,
+          messageText: response.message || 'Failed to save blog'
+        });
+      }
+    }).catch((error: Error) => {
+      console.error(error);
+      this.setState({
+        action: 'normal',
+        messageCode: 600,
+        messageText: error.message
+      });
     });
-    // Simulate save completion
-    setTimeout(() => {
-      this.setState({ action: 'normal' });
-    }, 1000);
   }
+
+  private handleSnackClose = () => {
+    this.setState({ snackOpen: false });
+  };
+
+  private handleCopyToClipboard = (text: string, stateField: 'clipId' | 'clipPageName') => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        this.setState({ [stateField]: true } as any);
+        setTimeout(() => { 
+          this.setState({ [stateField]: false } as any); 
+        }, 2000);
+      }).catch(() => {
+        // Clipboard write failed, silently ignore
+      });
+    }
+  };
+
+  private handleCopyIdToClipboard = () => {
+    this.handleCopyToClipboard(this.state.id, 'clipId');
+  };
+
+  private handleCopyPageNameToClipboard = () => {
+    this.handleCopyToClipboard(this.state.pageName, 'clipPageName');
+  };
 
   private handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -206,6 +262,12 @@ class EditBlog extends React.Component<IProps, {}> {
         variant={'temporary'}
         sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: '60%' } } }}
       >  
+        <Snackbar open={this.state.snackOpen} autoHideDuration={1000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
+          <Alert severity="success" sx={{ minWidth: '400px' }}>
+            Blog successfully saved!
+          </Alert>
+        </Snackbar>
+
         <Grid container spacing={1}>              
           <Grid item xs={11}>
           </Grid>
@@ -270,6 +332,21 @@ class EditBlog extends React.Component<IProps, {}> {
                           helperText={' '}
                           InputProps={{
                             readOnly: true,
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  onClick={() => this.handleCopyIdToClipboard()}
+                                  edge="end"
+                                  size="small"
+                                >
+                                  {this.state.clipId ? (
+                                    <CheckIcon sx={{ color: green[700] }} />
+                                  ) : (
+                                    <CopyIcon />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
                           }}
                         />
                       </Grid>
@@ -286,6 +363,7 @@ class EditBlog extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('title') ? true : false}
                           helperText={this.setHelperTextMessage('title')}
+                          disabled={this.state.action === 'update'}
                         />
                       </Grid>
                       <Grid item xs={12} md={12}>
@@ -301,6 +379,24 @@ class EditBlog extends React.Component<IProps, {}> {
                           onBlur={(e: any) => this.handleInputBlur(e)}
                           error={this.state.blurErrors.includes('pageName') ? true : false}
                           helperText={this.setHelperTextMessage('pageName')}
+                          disabled={this.state.action === 'update'}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  onClick={() => this.handleCopyPageNameToClipboard()}
+                                  edge="end"
+                                  size="small"
+                                >
+                                  {this.state.clipPageName ? (
+                                    <CheckIcon sx={{ color: green[700] }} />
+                                  ) : (
+                                    <CopyIcon />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
                         />
                       </Grid>
                       <Grid item xs={12} md={12}>
@@ -316,6 +412,7 @@ class EditBlog extends React.Component<IProps, {}> {
                           value={this.state.shortDescription}
                           onChange={(e: any) => this.handleInputChanges(e)}
                           helperText={' '}
+                          disabled={this.state.action === 'update'}
                         />
                       </Grid>
                       <Grid item xs={12} md={12} sx={{ marginTop: '15px' }}>
@@ -330,12 +427,12 @@ class EditBlog extends React.Component<IProps, {}> {
                             textColor="primary"
                             sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
                           >
-                            <Tab label="Markdown" />
-                            <Tab label="Preview" />
+                            <Tab label="Markdown" disabled={this.state.action === 'update'} />
+                            <Tab label="Preview" disabled={this.state.action === 'update'} />
                           </Tabs>
                           <Box sx={{ marginTop: 2 }}>
                             {this.state.markdownTab === 0 && (
-                              <Box>
+                              <Box sx={{ pointerEvents: this.state.action === 'update' ? 'none' : 'auto', opacity: this.state.action === 'update' ? 0.6 : 1 }}>
                                 <SimpleMDE
                                   value={this.state.description}
                                   onChange={this.handleMarkdownChange}
@@ -456,4 +553,7 @@ interface IForm {
   shortDescription: string;
   description: string;
   markdownTab: number;
+  snackOpen: boolean;
+  clipId: boolean;
+  clipPageName: boolean;
 }
