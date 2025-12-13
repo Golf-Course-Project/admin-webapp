@@ -72,7 +72,7 @@ class ListBlogs extends React.Component<IProps, {}> {
   private handleBlogUpdate = (blog: IBlog | null) => {
     if (blog === null) return;
     
-    this.setState(data => {
+    this.setState(() => {
       const newData = this.state.data.map(item => item.id === blog.id
         ? { ...item, title: blog.title }
         : item
