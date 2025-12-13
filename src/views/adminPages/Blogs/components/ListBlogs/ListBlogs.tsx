@@ -10,7 +10,7 @@ import EditBlog from '../EditBlog';
 
 import { SkeletonTable } from 'common/components';
 
-import { IBlog, IBlogListApiResponse } from 'interfaces/blog.interfaces';
+import { IBlog, IBlogListApiResponse, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
 import BlogService from 'services/blog.service';
 import ErrorMessage from 'common/components/ErrorMessage';
 
@@ -25,6 +25,7 @@ class ListBlogs extends React.Component<IProps, {}> {
     selectedRowId: '', 
     openBlogSideBar: false,   
     selectedBlog: null,
+    isCreating: false,
   }
 
   componentDidMount() {
@@ -37,6 +38,47 @@ class ListBlogs extends React.Component<IProps, {}> {
 
   private handleSidebarClose = () => {
     this.setState({ openBlogSideBar: false });       
+  }; 
+
+  private handleCreateNewBlog = () => {
+    this.setState({ isCreating: true, errorMsg: '' });
+
+    const client: BlogService = new BlogService();
+    
+    client.create().then(async (response: IFetchBlogApiResponse) => {
+      if (response.messageCode !== 200 || !response.success) {
+        this.setState({ 
+          errorMsg: response.message || 'Failed to create blog', 
+          isCreating: false 
+        });
+        return;
+      }
+
+      if (response.success && response.value) {
+        // Add the new blog to the list
+        const newBlog: IBlog = response.value;
+        this.setState({
+          data: [newBlog, ...this.state.data],
+          count: this.state.count + 1,
+          isCreating: false,
+          selectedBlog: newBlog,
+          openBlogSideBar: true,
+          selectedRowId: newBlog.id,
+          action: 'normal'
+        });
+      }
+    }).catch((error: Error) => {
+      this.setState({ errorMsg: error.message, isCreating: false });
+    });
+  };
+
+  private handleBlogUpdate = (blog: IBlog | null) => {
+    if (blog === null) return;
+    
+    const newData = this.state.data.map(item => 
+      item.id === blog.id ? { ...item, title: blog.title } : item
+    );
+    this.setState({ data: newData });
   }; 
 
   private loadBlogs = () => {
@@ -117,8 +159,10 @@ class ListBlogs extends React.Component<IProps, {}> {
                       variant="contained"
                       color="primary"
                       size="large"
+                      onClick={this.handleCreateNewBlog}
+                      disabled={this.state.isCreating}
                     >
-                      Create new post
+                      {this.state.isCreating ? 'Creating...' : 'Create new post'}
                     </Button>
                   </Box>
                 </Box>
@@ -128,10 +172,18 @@ class ListBlogs extends React.Component<IProps, {}> {
         </Box>
 
         <Box sx={this.state.action === 'normal' ? { display: 'block' } : { display: 'none' }}>
-          <Box marginBottom={2}>
+          <Box marginBottom={2} display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="h4" sx={{ fontWeight: 600 }}>
               💬 Blog Posts
             </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleCreateNewBlog}
+              disabled={this.state.isCreating}
+            >
+              {this.state.isCreating ? 'Creating...' : 'Create New'}
+            </Button>
           </Box>
           <Box marginBottom={4} sx={{ display: 'flex' }}>            
             <TableContainer component={Paper}>
@@ -188,7 +240,8 @@ class ListBlogs extends React.Component<IProps, {}> {
           open={this.state.openBlogSideBar}
           id={this.state.selectedBlog?.id}
           title={this.state.selectedBlog?.title}         
-          onClose={this.handleSidebarClose}                            
+          onClose={this.handleSidebarClose}
+          onBlogUpdate={(e: any) => this.handleBlogUpdate(e)}                            
         >
         </EditBlog>   
       </Box>
@@ -211,4 +264,5 @@ interface IForm {
   selectedRowId: string;  
   openBlogSideBar: boolean; 
   selectedBlog: IBlog | null; 
+  isCreating: boolean;
 }

@@ -142,6 +142,11 @@ class EditBlog extends React.Component<IProps, {}> {
           messageText: '',
           snackOpen: true 
         });
+        
+        // Notify parent component of the update
+        if (this.props.onBlogUpdate && response.value) {
+          this.props.onBlogUpdate(response.value);
+        }
       } else {
         this.setState({ 
           action: 'normal',
@@ -537,6 +542,7 @@ interface IProps {
   id?: string;
   title?: string;
   onClose: () => void;
+  onBlogUpdate?: (blog: IBlog | null) => void;
 }
 
 interface IForm {
