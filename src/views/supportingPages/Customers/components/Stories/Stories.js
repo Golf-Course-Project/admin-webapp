@@ -52,21 +52,21 @@ const Stories = ({ themeMode = 'light' }) => {
             companyLogo:
               'https://assets.maccarianagency.com/svg/logos/amazon-original.svg',
             description:
-              "Free delivery on millions of items with Prime. Low prices across earth's biggest selection of books, music, DVDs, electronics, computers, software",
+              'Free delivery on millions of items with Prime. Low prices across earth\'s biggest selection of books, music, DVDs, electronics, computers, software',
           },
           {
             media: 'https://assets.maccarianagency.com/backgrounds/img24.jpg',
             companyLogo:
               'https://assets.maccarianagency.com/svg/logos/fitbit-original.svg',
             description:
-              "Find your fit with Fitbit's family of fitness products that help you stay motivated and improve your health by tracking your activity, exercise, food, weight and sleep.",
+              'Find your fit with Fitbit\'s family of fitness products that help you stay motivated and improve your health by tracking your activity, exercise, food, weight and sleep.',
           },
           {
             media: 'https://assets.maccarianagency.com/backgrounds/img25.jpg',
             companyLogo:
               'https://assets.maccarianagency.com/svg/logos/google-original.svg',
             description:
-              "Search the world's information, including webpages, images, videos and more. Google has many special features to help you find exactly what you're looking for.",
+              'Search the world\'s information, including webpages, images, videos and more. Google has many special features to help you find exactly what you\'re looking for.',
           },
           {
             media: 'https://assets.maccarianagency.com/backgrounds/img1.jpg',
@@ -101,7 +101,7 @@ const Stories = ({ themeMode = 'light' }) => {
             companyLogo:
               'https://assets.maccarianagency.com/svg/logos/slack-original.svg',
             description:
-              "Slack is a new way to communicate with your team. It's faster, better organized, and more secure than email.",
+              'Slack is a new way to communicate with your team. It\'s faster, better organized, and more secure than email.',
           },
         ].map((item, i) => (
           <Grid item xs={12} sm={6} md={4} key={i}>

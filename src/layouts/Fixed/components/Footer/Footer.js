@@ -48,7 +48,7 @@ const Footer = () => (
             >
               Documentation
             </Link>
-          </Box>
+          </Box>          
         </Box>
       </Box>
     </Grid>
@@ -59,9 +59,8 @@ const Footer = () => (
         color="textSecondary"
         gutterBottom
       >
-        &copy; The Golf Course Project. 2024, The Golf Course Project. All
-        rights reserved
-      </Typography>
+        &copy; The Golf Course Project. 2024, The Golf Course Project. All rights reserved
+      </Typography>      
     </Grid>
   </Grid>
 );

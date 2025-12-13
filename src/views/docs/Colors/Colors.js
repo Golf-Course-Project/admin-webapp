@@ -12,22 +12,13 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Container from '../../../common/Container';
-import {
-  light as lightGreen,
-  dark as darkGreen,
-} from '../../../theme/palette--green';
-import {
-  light as lightBlue,
-  dark as darkBlue,
-} from '../../../theme/palette--blue';
+import { light as lightGreen, dark as darkGreen } from '../../../theme/palette--green';
+import { light as lightBlue, dark as darkBlue } from '../../../theme/palette--blue';
 import {
   light as lightIndigo,
   dark as darkIndigo,
 } from '../../../theme/palette--indigo';
-import {
-  light as lightPink,
-  dark as darkPink,
-} from '../../../theme/palette--pink';
+import { light as lightPink, dark as darkPink } from '../../../theme/palette--pink';
 import {
   light as lightOrange,
   dark as darkOrange,
