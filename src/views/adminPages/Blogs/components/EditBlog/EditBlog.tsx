@@ -43,6 +43,7 @@ class EditBlog extends React.Component<IProps, {}> {
     publishAction: 'normal',
     publishSnackOpen: false,
     publishSnackMessage: '',
+    publishSnackSeverity: 'success',
   }
 
   private resetForm = () => {
@@ -66,6 +67,7 @@ class EditBlog extends React.Component<IProps, {}> {
       publishAction: 'normal',
       publishSnackOpen: false,
       publishSnackMessage: '',
+      publishSnackSeverity: 'success',
     });
   }
 
@@ -191,7 +193,8 @@ class EditBlog extends React.Component<IProps, {}> {
           publishAction: 'normal',
           data: response.value,
           publishSnackOpen: true,
-          publishSnackMessage: newIsPublished ? 'Blog published successfully!' : 'Blog unpublished successfully!'
+          publishSnackMessage: newIsPublished ? 'Blog published successfully!' : 'Blog unpublished successfully!',
+          publishSnackSeverity: 'success'
         });
         
         // Call the update callback to update the parent list
@@ -202,7 +205,8 @@ class EditBlog extends React.Component<IProps, {}> {
         this.setState({ 
           publishAction: 'normal',
           publishSnackOpen: true,
-          publishSnackMessage: 'Failed to update publish status'
+          publishSnackMessage: 'Failed to update publish status',
+          publishSnackSeverity: 'error'
         });
       }
     }).catch((error: Error) => {
@@ -210,7 +214,8 @@ class EditBlog extends React.Component<IProps, {}> {
       this.setState({
         publishAction: 'normal',
         publishSnackOpen: true,
-        publishSnackMessage: 'Error: ' + error.message
+        publishSnackMessage: 'Error: ' + error.message,
+        publishSnackSeverity: 'error'
       });
     });
   }
@@ -329,7 +334,7 @@ class EditBlog extends React.Component<IProps, {}> {
         </Snackbar>
 
         <Snackbar open={this.state.publishSnackOpen} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handlePublishSnackClose()}>
-          <Alert severity="success" sx={{ minWidth: '400px' }}>
+          <Alert severity={this.state.publishSnackSeverity} sx={{ minWidth: '400px' }}>
             {this.state.publishSnackMessage}
           </Alert>
         </Snackbar>
@@ -638,7 +643,8 @@ interface IForm {
   snackOpen: boolean;
   clipId: boolean;
   clipPageName: boolean;
-  publishAction: string;
+  publishAction: 'normal' | 'updating';
   publishSnackOpen: boolean;
   publishSnackMessage: string;
+  publishSnackSeverity: 'success' | 'error';
 }
