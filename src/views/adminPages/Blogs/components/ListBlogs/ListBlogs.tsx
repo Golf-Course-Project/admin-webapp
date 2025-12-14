@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Container, Button, Typography, Grid } from '@material-ui/core';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
 import NotFoundIllustration from 'svg/illustrations/NotFound';
 import EditBlog from '../EditBlog';
@@ -191,10 +192,9 @@ class ListBlogs extends React.Component<IProps, {}> {
                 <TableHead>
                   <TableRow>   
                     <TableCell align="left" sx={{ width: '60%' }}>Title</TableCell>        
-                    <TableCell align="center" sx={{ width: '10%' }}>Date Created</TableCell>   
-                    <TableCell align="center" sx={{ width: '10%' }}>Date Published</TableCell>   
-                    <TableCell align="center" sx={{ width: '5%' }}>Draft</TableCell>  
-                    <TableCell align="center" sx={{ width: '5%' }}>Active</TableCell>                                                                                         
+                    <TableCell align="center" sx={{ width: '15%' }}>Date Created</TableCell>   
+                    <TableCell align="center" sx={{ width: '15%' }}>Date Published</TableCell>   
+                    <TableCell align="center" sx={{ width: '10%' }}>Published</TableCell>                                                                                         
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -210,18 +210,18 @@ class ListBlogs extends React.Component<IProps, {}> {
                         </Link>                        
                       </TableCell>                        
 
-                      <TableCell align="center" sx={{ width: '10%' }}>{new Date(row.dateCreated).toLocaleDateString()}</TableCell>  
+                      <TableCell align="center" sx={{ width: '15%' }}>{new Date(row.dateCreated).toLocaleDateString()}</TableCell>  
 
-                      <TableCell align="center" sx={{ width: '10%' }}>
+                      <TableCell align="center" sx={{ width: '15%' }}>
                         {row.datePublished ? new Date(row.datePublished).toLocaleDateString() : ''}
                       </TableCell>
 
-                      <TableCell align="center" sx={{ width: '5%' }}>
-                        {row.isDraft ? <CheckCircleIcon color="primary" fontSize="small" /> : null}
-                      </TableCell>
-                      
-                      <TableCell align="center" sx={{ width: '5%' }}>
-                        {row.isActive ? <CheckCircleIcon color="primary" fontSize="small" /> : null}
+                      <TableCell align="center" sx={{ width: '10%' }}>
+                        {row.isDraft ? (
+                          <RadioButtonUncheckedIcon color="disabled" fontSize="small" />
+                        ) : (
+                          <CheckCircleIcon sx={{ color: 'green' }} fontSize="small" />
+                        )}
                       </TableCell>                                                                               
                     </TableRow>
                   ))}
@@ -232,7 +232,7 @@ class ListBlogs extends React.Component<IProps, {}> {
         </Box>
 
         <Box display={this.state.action === 'loading' ? 'block' : 'none'}>  
-          <SkeletonTable rows={10} columns={5} display={this.state.action === 'loading' ? true : false} columnWidths={['60%', '10%', '10%', '5%', '5%']} minWidth={520}></SkeletonTable>                 
+          <SkeletonTable rows={10} columns={4} display={this.state.action === 'loading' ? true : false} columnWidths={['60%', '15%', '15%', '10%']} minWidth={520}></SkeletonTable>                 
         </Box>    
 
         <EditBlog
