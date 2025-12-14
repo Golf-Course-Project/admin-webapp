@@ -8,7 +8,7 @@ export interface IBlog {
 	shortDescription: string;
 	defaultImagePath: string;
 	isActive: boolean;
-	isDraft: boolean;
+	isPublished: boolean;
 	dateCreated: Date;
 	datePublished: Date | null;
 }
@@ -23,7 +23,7 @@ export interface IBlogPatch {
 
 export interface IBlogPublishPatch {
 	id: string;	
-	isDraft: boolean;	
+	isPublished: boolean;	
 }
 
 export interface IBlogListApiResponse extends IApiResponse {

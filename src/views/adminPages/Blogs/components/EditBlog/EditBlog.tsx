@@ -7,6 +7,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import SaveIcon from '@material-ui/icons/Save';
 import CopyIcon from '@material-ui/icons/ContentCopy';
 import CheckIcon from '@material-ui/icons/Check';
+import PublishIcon from '@material-ui/icons/Publish';
+import UnpublishedIcon from '@material-ui/icons/Unpublished';
 import { green } from '@material-ui/core/colors';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
@@ -14,7 +16,7 @@ import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 
 import { ErrorMessage } from 'common/components';
-import { IBlog, IBlogPatch, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
+import { IBlog, IBlogPatch, IBlogPublishPatch, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
 import BlogService from 'services/blog.service';
 import EditBlogSkeleton from './EditBlogSkeleton';
 
@@ -38,6 +40,9 @@ class EditBlog extends React.Component<IProps, {}> {
     snackOpen: false,
     clipId: false,
     clipPageName: false,
+    publishAction: 'normal',
+    publishSnackOpen: false,
+    publishSnackMessage: '',
   }
 
   private resetForm = () => {
@@ -58,6 +63,9 @@ class EditBlog extends React.Component<IProps, {}> {
       snackOpen: false,
       clipId: false,
       clipPageName: false,
+      publishAction: 'normal',
+      publishSnackOpen: false,
+      publishSnackMessage: '',
     });
   }
 
@@ -164,8 +172,55 @@ class EditBlog extends React.Component<IProps, {}> {
     });
   }
 
+  handlePublishOnClick() {
+    this.setState({ publishAction: 'updating' });
+
+    const currentIsPublished = this.state.data?.isPublished || false;
+    const newIsPublished = !currentIsPublished;
+
+    const body: IBlogPublishPatch = {
+      id: this.state.id,
+      isPublished: newIsPublished
+    };
+
+    const client: BlogService = new BlogService();
+
+    client.publish(body).then((response: IFetchBlogApiResponse) => {
+      if (response.success && response.value) {
+        this.setState({ 
+          publishAction: 'normal',
+          data: response.value,
+          publishSnackOpen: true,
+          publishSnackMessage: newIsPublished ? 'Blog published successfully!' : 'Blog unpublished successfully!'
+        });
+        
+        // Call the update callback to update the parent list
+        if (this.props.onBlogUpdate) {
+          this.props.onBlogUpdate(response.value);
+        }
+      } else {
+        this.setState({ 
+          publishAction: 'normal',
+          publishSnackOpen: true,
+          publishSnackMessage: 'Failed to update publish status'
+        });
+      }
+    }).catch((error: Error) => {
+      console.error(error);
+      this.setState({
+        publishAction: 'normal',
+        publishSnackOpen: true,
+        publishSnackMessage: 'Error: ' + error.message
+      });
+    });
+  }
+
   private handleSnackClose = () => {
     this.setState({ snackOpen: false });
+  };
+
+  private handlePublishSnackClose = () => {
+    this.setState({ publishSnackOpen: false });
   };
 
   private handleCopyToClipboard = (text: string, stateField: 'clipId' | 'clipPageName') => {
@@ -270,6 +325,12 @@ class EditBlog extends React.Component<IProps, {}> {
         <Snackbar open={this.state.snackOpen} autoHideDuration={1000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
           <Alert severity="success" sx={{ minWidth: '400px' }}>
             Blog successfully saved!
+          </Alert>
+        </Snackbar>
+
+        <Snackbar open={this.state.publishSnackOpen} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handlePublishSnackClose()}>
+          <Alert severity="success" sx={{ minWidth: '400px' }}>
+            {this.state.publishSnackMessage}
           </Alert>
         </Snackbar>
 
@@ -509,6 +570,7 @@ class EditBlog extends React.Component<IProps, {}> {
                         <Box
                           display={'flex'}
                           justifyContent={'flex-start'}
+                          gap={2}
                           sx={{ paddingBottom: '10px' }}
                         >
                           <Button
@@ -520,6 +582,20 @@ class EditBlog extends React.Component<IProps, {}> {
                           >
                             {this.state.action === 'update' ? 'Saving...' : 'Save'}
                           </Button>
+                          {this.state.data && (
+                            <Button
+                              variant="contained"
+                              color={this.state.data.isPublished ? 'secondary' : 'primary'}
+                              startIcon={this.state.data.isPublished ? <UnpublishedIcon /> : <PublishIcon />}
+                              sx={{ width: { xs: '100%', md: 'auto' }, minWidth: '200px' }}
+                              onClick={(e: any) => this.handlePublishOnClick()}
+                              disabled={this.state.publishAction === 'updating'}
+                            >
+                              {this.state.publishAction === 'updating' 
+                                ? 'Updating...' 
+                                : (this.state.data.isPublished ? 'Unpublish' : 'Publish')}
+                            </Button>
+                          )}
                         </Box>
                       </Grid>
                     </Grid>
@@ -562,4 +638,7 @@ interface IForm {
   snackOpen: boolean;
   clipId: boolean;
   clipPageName: boolean;
+  publishAction: string;
+  publishSnackOpen: boolean;
+  publishSnackMessage: string;
 }
