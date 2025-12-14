@@ -220,7 +220,7 @@ class ListBlogs extends React.Component<IProps, {}> {
                         {row.isDraft ? (
                           <RadioButtonUncheckedIcon color="disabled" fontSize="small" />
                         ) : (
-                          <CheckCircleIcon sx={{ color: 'green' }} fontSize="small" />
+                          <CheckCircleIcon color="success" fontSize="small" />
                         )}
                       </TableCell>                                                                               
                     </TableRow>
