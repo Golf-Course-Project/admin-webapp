@@ -217,7 +217,7 @@ class ListBlogs extends React.Component<IProps, {}> {
                       </TableCell>
 
                       <TableCell align="center" sx={{ width: '10%' }}>
-                        {row.isDraft ? (
+                        {!row.isPublished ? (
                           <RadioButtonUncheckedIcon color="disabled" fontSize="small" />
                         ) : (
                           <CheckCircleIcon color="success" fontSize="small" />
