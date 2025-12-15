@@ -2,7 +2,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Alert, Button, CardContent, Divider, Drawer, Grid, IconButton, InputAdornment, Snackbar, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@material-ui/core';
+import { Alert, Button, CardContent, Divider, Drawer, Grid, IconButton, InputAdornment, Snackbar, TextField, ToggleButton, ToggleButtonGroup, Typography, Tabs, Tab, Paper } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
@@ -12,6 +12,10 @@ import CopyIcon from '@material-ui/icons/ContentCopy';
 import CheckIcon from '@material-ui/icons/Check';
 import SwapIcon from '@material-ui/icons/ChangeCircle';
 import { green } from '@material-ui/core/colors';
+import SimpleMDE from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css';
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 
 import { IFacility, IFetchFacilityApiResponse, IPatchFacilityApiResponse } from 'interfaces/facility.interfaces';
 import { FacilityService } from 'services/facility.service';
@@ -48,6 +52,7 @@ class EditFacility extends React.Component<IProps, {}> {
     type: -1,
     snackOpen: false,
     clipFacilityId: false,
+    markdownTab: 0,
     courses: this.props.courses
   }
 
@@ -99,6 +104,7 @@ class EditFacility extends React.Component<IProps, {}> {
       type: -1,
       snackOpen: false,
       clipFacilityId: false,
+      markdownTab: 0,
     });
     
   }
@@ -260,6 +266,22 @@ class EditFacility extends React.Component<IProps, {}> {
     }
 
     this.setState({ blurErrors: blurErrors });
+  }
+
+  private handleMarkdownChange = (value: string) => {
+    this.setState({ description: value });
+  }
+
+  private handleMarkdownTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    this.setState({ markdownTab: newValue });
+  }
+
+  private renderMarkdown = (text: string): string => {
+    // Use marked library to convert markdown to HTML
+    const rawHtml = marked.parse(text) as string;
+    // Sanitize the HTML to prevent XSS attacks
+    const cleanHtml = DOMPurify.sanitize(rawHtml);
+    return cleanHtml;
   }
 
   private setHelperTextMessage = (field: string) => {
@@ -596,22 +618,90 @@ class EditFacility extends React.Component<IProps, {}> {
                           <ToggleButton value={-1} onClick={(e: any) => this.handleTypeChange(e, -1)} sx={{ minWidth: '25%' }}>Unknown</ToggleButton>
                         </ToggleButtonGroup>
                       </Grid>
-                      <Grid item xs={12} md={12}>
-                        <TextField
-                          type="text"
-                          label="Description"
-                          variant="outlined"
-                          color="primary"
-                          multiline
-                          rows={6}
-                          fullWidth
-                          name={'description'}
-                          value={this.state.description}
-                          onChange={(e: any) => this.handleInputChanges(e)}
-                          onBlur={(e: any) => this.handleInputBlur(e)}
-                          error={this.state.blurErrors.includes('description') ? true : false}
-                          helperText={this.setHelperTextMessage('description')}                          
-                        />
+                      <Grid item xs={12} md={12} sx={{ marginTop: '15px' }}>
+                        <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 500 }}>
+                          Description
+                        </Typography>
+                        <Box>
+                          <Tabs
+                            value={this.state.markdownTab}
+                            onChange={(e: any, val: any) => this.handleMarkdownTabChange(e, val)}
+                            indicatorColor="primary"
+                            textColor="primary"
+                            sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
+                          >
+                            <Tab label="Markdown" />
+                            <Tab label="Preview" />
+                          </Tabs>
+                          <Box sx={{ marginTop: 2 }}>
+                            {this.state.markdownTab === 0 && (
+                              <Box>
+                                <SimpleMDE
+                                  value={this.state.description}
+                                  onChange={this.handleMarkdownChange}
+                                  options={{
+                                    spellChecker: false,
+                                    placeholder: 'Write facility description in markdown...',
+                                    status: false,
+                                    toolbar: [
+                                      'bold',
+                                      'italic',
+                                      'heading',
+                                      '|',
+                                      'quote',
+                                      'unordered-list',
+                                      'ordered-list',
+                                      '|',
+                                      'link',
+                                      'image',
+                                      '|',
+                                      'preview',
+                                      'guide'
+                                    ],
+                                    minHeight: '300px',
+                                  }}
+                                />
+                              </Box>
+                            )}
+                            {this.state.markdownTab === 1 && (
+                              <Paper
+                                variant="outlined"
+                                sx={{
+                                  padding: 3,
+                                  minHeight: '300px',
+                                  backgroundColor: '#fafafa',
+                                  color: '#333',
+                                  '& h1': { fontSize: '2em', marginBottom: '0.5em', color: '#333' },
+                                  '& h2': { fontSize: '1.5em', marginBottom: '0.5em', color: '#333' },
+                                  '& h3': { fontSize: '1.17em', marginBottom: '0.5em', color: '#333' },
+                                  '& p': { color: '#333' },
+                                  '& code': {
+                                    backgroundColor: '#f5f5f5',
+                                    padding: '2px 4px',
+                                    borderRadius: '3px',
+                                    fontFamily: 'monospace',
+                                    color: '#333'
+                                  },
+                                  '& pre': {
+                                    backgroundColor: '#f5f5f5',
+                                    padding: '10px',
+                                    borderRadius: '5px',
+                                    overflow: 'auto',
+                                    color: '#333'
+                                  },
+                                  '& blockquote': {
+                                    borderLeft: '4px solid #ddd',
+                                    paddingLeft: '10px',
+                                    margin: '10px 0',
+                                    color: '#666'
+                                  }
+                                }}
+                              >
+                                <div dangerouslySetInnerHTML={{ __html: this.renderMarkdown(this.state.description) }} />
+                              </Paper>
+                            )}
+                          </Box>
+                        </Box>
                       </Grid>
                       
                       <Grid item xs={12} md={8}>
@@ -695,6 +785,7 @@ interface IForm {
   type: number;
   snackOpen: boolean;
   clipFacilityId: boolean;
+  markdownTab: number;
   courses: IListItem[] | [];
 }
 

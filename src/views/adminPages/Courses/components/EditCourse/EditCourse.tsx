@@ -2,7 +2,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Button, CardContent, CircularProgress, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography, Snackbar, Alert, Select, MenuItem, InputLabel, FormControl, InputAdornment } from '@material-ui/core';
+import { Button, CardContent, CircularProgress, Divider, Drawer, Grid, IconButton, TextField, ToggleButton, ToggleButtonGroup, Typography, Snackbar, Alert, Select, MenuItem, InputLabel, FormControl, InputAdornment, Tabs, Tab, Paper } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
@@ -12,6 +12,10 @@ import SaveIcon from '@material-ui/icons/Save';
 import SwapIcon from '@material-ui/icons/ChangeCircle';
 import CopyIcon from '@material-ui/icons/ContentCopy';
 import CheckIcon from '@material-ui/icons/Check';
+import SimpleMDE from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css';
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 
 import { IFacility } from 'interfaces/facility.interfaces';
 import { ICourse, ICoursePatch, IFetchCourseAndFacilityApiResponse, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
@@ -60,6 +64,7 @@ class EditCourse extends React.Component<IProps, {}> {
     defaultPhoto: '',
     snackOpen: false,
     clip: false,
+    markdownTab: 0,
     courses: this.props.courses
   }
 
@@ -100,6 +105,7 @@ class EditCourse extends React.Component<IProps, {}> {
       synced: false,
       snackOpen: false,
       clip: false,
+      markdownTab: 0,
     });
     
   }
@@ -315,7 +321,21 @@ class EditCourse extends React.Component<IProps, {}> {
 
     this.setState({ blurErrors: blurErrors });
   }
+  private handleMarkdownChange = (value: string) => {
+    this.setState({ description: value });
+  }
 
+  private handleMarkdownTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    this.setState({ markdownTab: newValue });
+  }
+
+  private renderMarkdown = (text: string): string => {
+    // Use marked library to convert markdown to HTML
+    const rawHtml = marked.parse(text) as string;
+    // Sanitize the HTML to prevent XSS attacks
+    const cleanHtml = DOMPurify.sanitize(rawHtml);
+    return cleanHtml;
+  }
   private handleSyncChange = (e: React.MouseEvent<HTMLElement>, value: boolean) => {
     e.preventDefault();
 
@@ -666,7 +686,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           disabled={this.state.synced}                      
                         />
                       </Grid>
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={12} md={12}>
                         <TextField
                           type="text"
                           label="Website"
@@ -682,7 +702,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           disabled={this.state.synced}                      
                         />
                       </Grid>        
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={6} md={6}>
                         <TextField
                           type="text"
                           label="Designer"
@@ -697,7 +717,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           helperText={this.setHelperTextMessage('designer')}                                                  
                         />
                       </Grid>    
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={6} md={6}>
                         <TextField
                           type="text"
                           label="Year Opened"
@@ -712,7 +732,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           helperText={this.setHelperTextMessage('yearOpened')}                                                  
                         />
                       </Grid>    
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={6} md={6}>
                         <TextField
                           type="text"
                           label="Price - Low"
@@ -727,7 +747,7 @@ class EditCourse extends React.Component<IProps, {}> {
                           helperText={this.setHelperTextMessage('priceLow')}                                                  
                         />
                       </Grid>    
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={6} md={6}>
                         <TextField
                           type="text"
                           label="Price - High"
@@ -821,21 +841,89 @@ class EditCourse extends React.Component<IProps, {}> {
                         </FormControl>
                       </Grid>                                 
                       <Grid item xs={12} md={12} sx={{ marginTop: '15px' }}>
-                        <TextField
-                          type="text"
-                          label="Description"
-                          variant="outlined"
-                          color="primary"
-                          multiline
-                          rows={10}
-                          fullWidth
-                          name={'description'}
-                          value={this.state.description}
-                          onChange={(e: any) => this.handleInputChanges(e)}
-                          onBlur={(e: any) => this.handleInputBlur(e)}
-                          error={this.state.blurErrors.includes('description') ? true : false}
-                          helperText={this.setHelperTextMessage('description')}                                                 
-                        />
+                        <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 500 }}>
+                          Description
+                        </Typography>
+                        <Box>
+                          <Tabs
+                            value={this.state.markdownTab}
+                            onChange={(e: any, val: any) => this.handleMarkdownTabChange(e, val)}
+                            indicatorColor="primary"
+                            textColor="primary"
+                            sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
+                          >
+                            <Tab label="Markdown" />
+                            <Tab label="Preview" />
+                          </Tabs>
+                          <Box sx={{ marginTop: 2 }}>
+                            {this.state.markdownTab === 0 && (
+                              <Box>
+                                <SimpleMDE
+                                  value={this.state.description}
+                                  onChange={this.handleMarkdownChange}
+                                  options={{
+                                    spellChecker: false,
+                                    placeholder: 'Write course description in markdown...',
+                                    status: false,
+                                    toolbar: [
+                                      'bold',
+                                      'italic',
+                                      'heading',
+                                      '|',
+                                      'quote',
+                                      'unordered-list',
+                                      'ordered-list',
+                                      '|',
+                                      'link',
+                                      'image',
+                                      '|',
+                                      'preview',
+                                      'guide'
+                                    ],
+                                    minHeight: '400px',
+                                  }}
+                                />
+                              </Box>
+                            )}
+                            {this.state.markdownTab === 1 && (
+                              <Paper
+                                variant="outlined"
+                                sx={{
+                                  padding: 3,
+                                  minHeight: '400px',
+                                  backgroundColor: '#fafafa',
+                                  color: '#333',
+                                  '& h1': { fontSize: '2em', marginBottom: '0.5em', color: '#333' },
+                                  '& h2': { fontSize: '1.5em', marginBottom: '0.5em', color: '#333' },
+                                  '& h3': { fontSize: '1.17em', marginBottom: '0.5em', color: '#333' },
+                                  '& p': { color: '#333' },
+                                  '& code': {
+                                    backgroundColor: '#f5f5f5',
+                                    padding: '2px 4px',
+                                    borderRadius: '3px',
+                                    fontFamily: 'monospace',
+                                    color: '#333'
+                                  },
+                                  '& pre': {
+                                    backgroundColor: '#f5f5f5',
+                                    padding: '10px',
+                                    borderRadius: '5px',
+                                    overflow: 'auto',
+                                    color: '#333'
+                                  },
+                                  '& blockquote': {
+                                    borderLeft: '4px solid #ddd',
+                                    paddingLeft: '10px',
+                                    margin: '10px 0',
+                                    color: '#666'
+                                  }
+                                }}
+                              >
+                                <div dangerouslySetInnerHTML={{ __html: this.renderMarkdown(this.state.description) }} />
+                              </Paper>
+                            )}
+                          </Box>
+                        </Box>
                       </Grid>  
 
                       {/* <Grid item xs={12} md={12} sx={{ paddingBottom: '20px' }}>
@@ -946,6 +1034,7 @@ interface IForm {
   synced: boolean; 
   snackOpen: boolean;
   clip: boolean;
+  markdownTab: number;
   courses: ICourseItem[] | [];
 }
 
