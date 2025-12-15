@@ -29,6 +29,29 @@ import CoursePhotos from '../CoursePhotos';
 class EditCourse extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
 
+  // SimpleMDE options - defined once to prevent re-initialization on every render
+  private simpleMdeOptions = {
+    spellChecker: false,
+    placeholder: 'Write course description in markdown...',
+    status: false,
+    toolbar: [
+      'bold',
+      'italic',
+      'heading',
+      '|',
+      'quote',
+      'unordered-list',
+      'ordered-list',
+      '|',
+      'link',
+      'image',
+      '|',
+      'preview',
+      'guide'
+    ],
+    minHeight: '400px',
+  };
+
   state: IForm = {
     action: 'loading',   
     messageCode: 200,
@@ -867,27 +890,7 @@ class EditCourse extends React.Component<IProps, {}> {
                                 <SimpleMDE
                                   value={this.state.description}
                                   onChange={this.handleMarkdownChange}
-                                  options={{
-                                    spellChecker: false,
-                                    placeholder: 'Write course description in markdown...',
-                                    status: false,
-                                    toolbar: [
-                                      'bold',
-                                      'italic',
-                                      'heading',
-                                      '|',
-                                      'quote',
-                                      'unordered-list',
-                                      'ordered-list',
-                                      '|',
-                                      'link',
-                                      'image',
-                                      '|',
-                                      'preview',
-                                      'guide'
-                                    ],
-                                    minHeight: '400px',
-                                  }}
+                                  options={this.simpleMdeOptions}
                                 />
                               </Box>
                             )}
