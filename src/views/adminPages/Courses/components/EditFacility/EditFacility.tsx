@@ -27,6 +27,29 @@ import ConfirmDelete from '../ConfirmDelete';
 class EditFacility extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
 
+  // SimpleMDE options - defined once to prevent re-initialization on every render
+  private simpleMdeOptions = {
+    spellChecker: false,
+    placeholder: 'Write facility description in markdown...',
+    status: false,
+    toolbar: [
+      'bold',
+      'italic',
+      'heading',
+      '|',
+      'quote',
+      'unordered-list',
+      'ordered-list',
+      '|',
+      'link',
+      'image',
+      '|',
+      'preview',
+      'guide'
+    ],
+    minHeight: '400px',
+  };
+
   state: IForm = {
     action: 'loading',    
     messageCode: 200,
@@ -646,27 +669,7 @@ class EditFacility extends React.Component<IProps, {}> {
                                 <SimpleMDE
                                   value={this.state.description}
                                   onChange={this.handleMarkdownChange}
-                                  options={{
-                                    spellChecker: false,
-                                    placeholder: 'Write facility description in markdown...',
-                                    status: false,
-                                    toolbar: [
-                                      'bold',
-                                      'italic',
-                                      'heading',
-                                      '|',
-                                      'quote',
-                                      'unordered-list',
-                                      'ordered-list',
-                                      '|',
-                                      'link',
-                                      'image',
-                                      '|',
-                                      'preview',
-                                      'guide'
-                                    ],
-                                    minHeight: '300px',
-                                  }}
+                                  options={this.simpleMdeOptions}
                                 />
                               </Box>
                             )}
