@@ -18,6 +18,7 @@ import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 
 import { IFacility, IFetchFacilityApiResponse, IPatchFacilityApiResponse } from 'interfaces/facility.interfaces';
+import { getMarkdownPreviewStyles } from '../markdownEditorStyles';
 import { FacilityService } from 'services/facility.service';
 import { ErrorMessage } from 'common/components';
 import ConfirmDelete from '../ConfirmDelete';
@@ -672,36 +673,7 @@ class EditFacility extends React.Component<IProps, {}> {
                             {this.state.markdownTab === 1 && (
                               <Paper
                                 variant="outlined"
-                                sx={{
-                                  padding: 3,
-                                  minHeight: '300px',
-                                  backgroundColor: '#fafafa',
-                                  color: '#333',
-                                  '& h1': { fontSize: '2em', marginBottom: '0.5em', color: '#333' },
-                                  '& h2': { fontSize: '1.5em', marginBottom: '0.5em', color: '#333' },
-                                  '& h3': { fontSize: '1.17em', marginBottom: '0.5em', color: '#333' },
-                                  '& p': { color: '#333' },
-                                  '& code': {
-                                    backgroundColor: '#f5f5f5',
-                                    padding: '2px 4px',
-                                    borderRadius: '3px',
-                                    fontFamily: 'monospace',
-                                    color: '#333'
-                                  },
-                                  '& pre': {
-                                    backgroundColor: '#f5f5f5',
-                                    padding: '10px',
-                                    borderRadius: '5px',
-                                    overflow: 'auto',
-                                    color: '#333'
-                                  },
-                                  '& blockquote': {
-                                    borderLeft: '4px solid #ddd',
-                                    paddingLeft: '10px',
-                                    margin: '10px 0',
-                                    color: '#666'
-                                  }
-                                }}
+                                sx={getMarkdownPreviewStyles('300px')}
                               >
                                 <div dangerouslySetInnerHTML={{ __html: this.renderMarkdown(this.state.description) }} />
                               </Paper>
