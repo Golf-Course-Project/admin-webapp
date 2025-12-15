@@ -925,7 +925,7 @@ class EditCourse extends React.Component<IProps, {}> {
                                   }
                                 }}
                               >
-                                <div dangerouslySetInnerHTML={{ __html: this.renderMarkdown(this.state.description) }} />
+                                <div dangerouslySetInnerHTML={{ __html: this.renderMarkdown(this.state.description ?? "") }} />
                               </Paper>
                             )}
                           </Box>
