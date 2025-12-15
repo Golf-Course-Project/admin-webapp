@@ -330,11 +330,17 @@ class EditCourse extends React.Component<IProps, {}> {
   }
 
   private renderMarkdown = (text: string): string => {
-    // Use marked library to convert markdown to HTML
-    const rawHtml = marked.parse(text) as string;
-    // Sanitize the HTML to prevent XSS attacks
-    const cleanHtml = DOMPurify.sanitize(rawHtml);
-    return cleanHtml;
+    try {
+      // Use marked library to convert markdown to HTML
+      const rawHtml = marked.parse(text) as string;
+      // Sanitize the HTML to prevent XSS attacks
+      const cleanHtml = DOMPurify.sanitize(rawHtml);
+      return cleanHtml;
+    } catch (error) {
+      // Optionally log the error for debugging
+      // console.error('Error rendering markdown:', error);
+      return '';
+    }
   }
   private handleSyncChange = (e: React.MouseEvent<HTMLElement>, value: boolean) => {
     e.preventDefault();
