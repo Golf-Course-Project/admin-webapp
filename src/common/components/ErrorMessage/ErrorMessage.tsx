@@ -7,11 +7,13 @@ class ErrorMessage extends React.Component<IProps, {}> {
 
   render() {
     return (
-      <Box marginBottom={4} display={this.props.message !== '' ? 'box' : 'none'} width={'100%'}>
-        <Alert variant="outlined" severity="error">
-          <AlertTitle>Oops</AlertTitle>
-          <div dangerouslySetInnerHTML={{ __html: this.props.message }} />
-        </Alert>
+      <Box marginBottom={2} marginLeft={4} marginRight={4} display={this.props.message !== '' ? 'box' : 'none'} minWidth={'100%'}>
+        <Box width={'100%'}>
+          <Alert variant="outlined" severity="error">
+            <AlertTitle>Oops</AlertTitle>
+            <div dangerouslySetInnerHTML={{ __html: this.props.message }} />
+          </Alert>
+        </Box>
       </Box>
     );
   }
