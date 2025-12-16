@@ -567,6 +567,7 @@ class EditBlog extends React.Component<IProps, {}> {
                               <Paper
                                 variant="outlined"
                                 sx={{
+                                  width: '100%',
                                   padding: 3,
                                   minHeight: '400px',
                                   backgroundColor: '#fafafa',
