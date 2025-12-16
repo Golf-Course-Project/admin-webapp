@@ -373,27 +373,30 @@ class EditBlog extends React.Component<IProps, {}> {
             )}
           </Box>
 
-          <Divider variant="middle" />
-
-          <Box display={'flex'} alignItems={'center'} justifyContent={'center'} sx={{ width: '100%', paddingTop: '20px' }}>
-            <Box width={'100%'}>
-              <ErrorMessage message={this.state.messageText} />
-            </Box>
-          </Box>
+          <Divider variant="middle" />         
 
           <EditBlogSkeleton display={this.state.action === 'loading'} theme={this.props.theme} />
 
           <Box component={CardContent} padding={4} display={this.state.action === 'loading' ? 'none' : 'block'}>
+           
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <ErrorMessage message={this.setErrorMessage(this.state.messageCode, this.state.messageText)} />
                 <form noValidate autoComplete="off">
                   <Box display="flex" flexDirection={'column'}>
                     <Grid container spacing={1}>
+                      
+                      {(this.state.messageCode !== 200 || this.state.messageText) && (
+                        <Grid item xs={12} md={12}>  
+                          <Box sx={{ width: '100%', marginBottom: 2 }}>
+                            <ErrorMessage message={this.state.messageText || this.setErrorMessage(this.state.messageCode, this.state.messageText)} />
+                          </Box>
+                        </Grid>
+                      )}
+
                       <Grid item xs={12} md={12}>
                         <TextField
                           type="text"
-                          label="Blog ID"
+                          label="Blog Id"
                           variant="outlined"
                           color="primary"
                           fullWidth

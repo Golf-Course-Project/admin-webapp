@@ -8,8 +8,8 @@ class ErrorMessage extends React.Component<IProps, {}> {
     if (!this.props.message) return null;
     
     return (
-      <div style={{ width: '100%', margin: '0 32px 16px 32px', boxSizing: 'border-box' }}>
-        <Alert variant="outlined" severity="error" style={{ width: '100%', maxWidth: '95%', paddingTop: '12px', paddingBottom: '8px' }}>
+      <div style={{ width: '100%', boxSizing: 'border-box' }}>
+        <Alert variant="outlined" severity="error" style={{ width: '100%', maxWidth: '100%', paddingTop: '12px', paddingBottom: '8px' }}>
           <AlertTitle>{this.props.message}</AlertTitle>
         </Alert>
       </div>
