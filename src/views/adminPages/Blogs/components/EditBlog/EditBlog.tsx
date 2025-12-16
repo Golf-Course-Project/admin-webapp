@@ -9,6 +9,7 @@ import CopyIcon from '@material-ui/icons/ContentCopy';
 import CheckIcon from '@material-ui/icons/Check';
 import PublishIcon from '@material-ui/icons/Publish';
 import UnpublishedIcon from '@material-ui/icons/Unpublished';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { green } from '@material-ui/core/colors';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
@@ -19,6 +20,7 @@ import { ErrorMessage } from 'common/components';
 import { IBlog, IBlogPatch, IBlogPublishPatch, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
 import BlogService from 'services/blog.service';
 import EditBlogSkeleton from './EditBlogSkeleton';
+import ConfirmDelete from '../../../Courses/components/ConfirmDelete';
 
 class EditBlog extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -69,6 +71,15 @@ class EditBlog extends React.Component<IProps, {}> {
       publishSnackMessage: '',
       publishSnackSeverity: 'success',
     });
+  }
+
+  handleOnCloseAfterDelete() {
+    this.setState({ action: 'normal' });
+    this.props.onClose();
+  }
+
+  cancelDeleteCallback() {
+    this.setState({ action: 'normal' });
   }
 
   private fetch = (id: string) => {
@@ -228,6 +239,10 @@ class EditBlog extends React.Component<IProps, {}> {
     this.setState({ publishSnackOpen: false });
   };
 
+  private handleDeleteOnClick = () => {
+    this.setState({ action: 'confirm-delete' });
+  };
+
   private handleCopyToClipboard = (text: string, stateField: 'clipId' | 'clipPageName') => {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(() => {
@@ -356,7 +371,13 @@ class EditBlog extends React.Component<IProps, {}> {
           </Grid>
         </Grid>          
 
-        <Box sx={{ height: '100%', padding: 1 }} >
+        <Box display={this.state.action === 'confirm-delete' ? 'block' : 'none'} sx={{ height: '100%', padding: 1 }} >
+          <Box marginTop={20} justifyContent={'center'}>
+            <ConfirmDelete id={this.state.id} editMode={'blog'} theme={this.props.theme} text={this.state.title} onSuccess={this.handleOnCloseAfterDelete.bind(this)} onCancel={this.cancelDeleteCallback.bind(this)}></ConfirmDelete>
+          </Box>
+        </Box>
+
+        <Box display={this.state.action === 'confirm-delete' ? 'none' : 'block'} sx={{ height: '100%', padding: 1 }} >
           <Box marginBottom={1}>
             {this.state.action === 'loading' ? (
               <Box display="flex" justifyContent="center">
@@ -606,6 +627,17 @@ class EditBlog extends React.Component<IProps, {}> {
                           )}
                         </Box>
                       </Grid>
+                      <Grid item xs={12} md={12}>
+                        <Box
+                          display={this.state.action === 'confirm-delete' ? 'none' : 'flex'}
+                          justifyContent={'flex-start'}
+                          sx={{ paddingBottom: '10px' }}
+                        >
+                          <Button variant="contained" startIcon={<DeleteIcon />} sx={{ width: { xs: '100%', md: 'auto' }, minWidth: '200px', background: this.props.theme.palette.grey[600] }} onClick={(e: any) => this.handleDeleteOnClick()}>
+                            Delete
+                          </Button>
+                        </Box>
+                      </Grid>
                     </Grid>
                   </Box>
                 </form>
@@ -630,7 +662,7 @@ interface IProps {
 }
 
 interface IForm {
-  action: string;
+  action: 'loading' | 'normal' | 'confirm-delete' | 'update';
   messageText: string;
   messageCode: number;
   open: boolean;
