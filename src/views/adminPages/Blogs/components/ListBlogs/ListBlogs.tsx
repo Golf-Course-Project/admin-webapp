@@ -71,8 +71,19 @@ class ListBlogs extends React.Component<IProps, {}> {
   };
 
   private handleBlogUpdate = (blog: IBlog | null) => {
-    if (blog === null) return;
+    if (blog === null) {
+      // Handle deletion - remove the blog from the list
+      this.setState(() => {
+        const newData = this.state.data.filter(item => item.id !== this.state.selectedBlog?.id);
+        return { 
+          data: newData,
+          count: newData.length
+        };
+      });
+      return;
+    }
     
+    // Handle update - update the blog in the list
     this.setState(() => {
       const newData = this.state.data.map(item => item.id === blog.id
         ? { ...item, title: blog.title }
@@ -83,36 +94,47 @@ class ListBlogs extends React.Component<IProps, {}> {
   }; 
 
   private loadBlogs = () => {
-    this.setState({ action: 'loading' });
+    this.setState({ action: 'loading', errorMsg: '' });
 
     const client: BlogService = new BlogService();  
     
     client.list().then(async (response: IBlogListApiResponse) => {        
+      console.log('Blog list response:', response);
 
-      if (response.messageCode !== 200) {
-        this.setState({ errorMsg: response.message, action: 'error', selectedRowId: ''});        
-        return;
-      }
+      // Check if we got a valid array (even if empty)
+      const blogs = response.value || [];
+      const isValidResponse = Array.isArray(blogs);
 
-      if (response.success) {          
+      if (isValidResponse) {
         this.setState({
-          data: response.value,
-          count: response.value.length,
+          data: blogs,
+          count: blogs.length,
           selectedRowId: '',     
           errorMsg: '',
-          action: response.value.length === 0 ? 'empty' : 'normal'         
-        });       
+          action: blogs.length === 0 ? 'empty' : 'normal'         
+        });
+      } else {
+        // Invalid response structure
+        this.setState({ 
+          errorMsg: response.message || 'Invalid response from server', 
+          action: 'error', 
+          selectedRowId: '',
+          data: []
+        });
       }
     }).catch((error: Error) => {      
+      console.error('Blog list error:', error);
       this.setState({ errorMsg: error.message, action: 'error', data: []});           
     });
-  }  
+  }
 
   render() {
     return (
       <Box>   
 
-        <ErrorMessage message={this.state.errorMsg}></ErrorMessage>               
+        <Box display={this.state.action === 'error' ? 'block' : 'none'}>
+          <ErrorMessage message={this.state.errorMsg}></ErrorMessage>               
+        </Box>
         
         <Box display="flex" justifyContent="center" alignItems="center" sx={this.state.action === 'empty' ? { display: 'flex', minHeight: '400px' } : { display: 'none' }}>
           <Container maxWidth="lg">
@@ -136,20 +158,12 @@ class ListBlogs extends React.Component<IProps, {}> {
               >
                 <Box>
                   <Typography
-                    variant="h1"
+                    variant="h3"
                     component={'h1'}
                     align={'left'}
                     sx={{ fontWeight: 700 }}
                   >
                     No Blog Posts Found
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    component="p"
-                    color="textSecondary"
-                    align={'left'}
-                  >
-                    Looks like there are no blog posts to edit.
                   </Typography>
                   <Box
                     marginTop={4}
@@ -163,7 +177,7 @@ class ListBlogs extends React.Component<IProps, {}> {
                       onClick={this.handleCreateNew}
                       disabled={this.state.creatingBlog}
                     >
-                      {this.state.creatingBlog ? 'Creating...' : 'Create new post'}
+                      {this.state.creatingBlog ? 'Creating...' : 'Create Blog Post'}
                     </Button>
                   </Box>
                 </Box>

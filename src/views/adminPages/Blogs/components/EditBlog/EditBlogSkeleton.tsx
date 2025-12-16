@@ -44,8 +44,21 @@ class EditBlogSkeleton extends React.Component<IProps, {}> {
                     <Box
                       display={'flex'}
                       justifyContent={'flex-start'}
+                      gap={2}
                       sx={{ paddingBottom: '10px' }}
                     >
+                      <Skeleton 
+                        variant="rectangular" 
+                        width={200} 
+                        height={36} 
+                        sx={{ borderRadius: '4px' }} 
+                      />
+                      <Skeleton 
+                        variant="rectangular" 
+                        width={200} 
+                        height={36} 
+                        sx={{ borderRadius: '4px' }} 
+                      />
                       <Skeleton 
                         variant="rectangular" 
                         width={200} 

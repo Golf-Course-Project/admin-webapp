@@ -20,10 +20,32 @@ import { ErrorMessage } from 'common/components';
 import { IBlog, IBlogPatch, IBlogPublishPatch, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
 import BlogService from 'services/blog.service';
 import EditBlogSkeleton from './EditBlogSkeleton';
-import ConfirmDelete from '../../../Courses/components/ConfirmDelete';
+import ConfirmDelete from '../ConfirmDelete';
 
 class EditBlog extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
+
+  private simpleMDEOptions: any = {
+    spellChecker: false,
+    placeholder: 'Write your blog post in markdown...',
+    status: false,
+    toolbar: [
+      'bold',
+      'italic',
+      'heading',
+      '|',
+      'quote',
+      'unordered-list',
+      'ordered-list',
+      '|',
+      'link',
+      'image',
+      '|',
+      'preview',
+      'guide'
+    ],
+    minHeight: '400px',
+  };
 
   state: IForm = {
     action: 'loading',
@@ -74,7 +96,13 @@ class EditBlog extends React.Component<IProps, {}> {
   }
 
   handleOnCloseAfterDelete() {
-    this.setState({ action: 'normal' });
+    // Notify parent to remove the blog from the list
+    if (this.props.onBlogUpdate) {
+      this.props.onBlogUpdate(null);
+    }
+    
+    // Reset form and close the panel
+    this.resetForm();
     this.props.onClose();
   }
 
@@ -373,7 +401,7 @@ class EditBlog extends React.Component<IProps, {}> {
 
         <Box display={this.state.action === 'confirm-delete' ? 'block' : 'none'} sx={{ height: '100%', padding: 1 }} >
           <Box marginTop={20} justifyContent={'center'}>
-            <ConfirmDelete id={this.state.id} editMode={'blog'} theme={this.props.theme} text={this.state.title} onSuccess={this.handleOnCloseAfterDelete.bind(this)} onCancel={this.cancelDeleteCallback.bind(this)}></ConfirmDelete>
+            <ConfirmDelete id={this.state.id} theme={this.props.theme} text={this.state.title} onSuccess={this.handleOnCloseAfterDelete.bind(this)} onCancel={this.cancelDeleteCallback.bind(this)}></ConfirmDelete>
           </Box>
         </Box>
 
@@ -531,27 +559,7 @@ class EditBlog extends React.Component<IProps, {}> {
                                 <SimpleMDE
                                   value={this.state.description}
                                   onChange={this.handleMarkdownChange}
-                                  options={{
-                                    spellChecker: false,
-                                    placeholder: 'Write your blog post in markdown...',
-                                    status: false,
-                                    toolbar: [
-                                      'bold',
-                                      'italic',
-                                      'heading',
-                                      '|',
-                                      'quote',
-                                      'unordered-list',
-                                      'ordered-list',
-                                      '|',
-                                      'link',
-                                      'image',
-                                      '|',
-                                      'preview',
-                                      'guide'
-                                    ],
-                                    minHeight: '400px',
-                                  }}
+                                  options={this.simpleMDEOptions}
                                 />
                               </Box>
                             )}
@@ -625,19 +633,12 @@ class EditBlog extends React.Component<IProps, {}> {
                                 : (this.state.data.isPublished ? 'Unpublish' : 'Publish')}
                             </Button>
                           )}
-                        </Box>
-                      </Grid>
-                      <Grid item xs={12} md={12}>
-                        <Box
-                          display={this.state.action === 'confirm-delete' ? 'none' : 'flex'}
-                          justifyContent={'flex-start'}
-                          sx={{ paddingBottom: '10px' }}
-                        >
+
                           <Button variant="contained" startIcon={<DeleteIcon />} sx={{ width: { xs: '100%', md: 'auto' }, minWidth: '200px', background: this.props.theme.palette.grey[600] }} onClick={(e: any) => this.handleDeleteOnClick()}>
                             Delete
                           </Button>
                         </Box>
-                      </Grid>
+                      </Grid>                      
                     </Grid>
                   </Box>
                 </form>
