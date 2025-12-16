@@ -127,8 +127,7 @@ export class BlogService {
       });
 
       const results = await Promise.resolve(response);
-      const text = await results.text();
-      return text ? JSON.parse(text) : {};
+      return await results.json();
     } catch (error) {
       return await Promise.reject(error);
     }

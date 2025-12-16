@@ -239,6 +239,10 @@ class EditBlog extends React.Component<IProps, {}> {
     this.setState({ publishSnackOpen: false });
   };
 
+  private handleDeleteOnClick = () => {
+    this.setState({ action: 'confirm-delete' });
+  };
+
   private handleCopyToClipboard = (text: string, stateField: 'clipId' | 'clipPageName') => {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(() => {
@@ -625,9 +629,8 @@ class EditBlog extends React.Component<IProps, {}> {
                           display={this.state.action === 'confirm-delete' ? 'none' : 'flex'}
                           justifyContent={'flex-start'}
                           sx={{ paddingBottom: '10px' }}
-                          onClick={(e: any) => this.setState({ action: 'confirm-delete' })}
                         >
-                          <Button variant="contained" startIcon={<DeleteIcon />} sx={{ width: { xs: '100%', md: 'auto' }, minWidth: '200px', background: this.props.theme.palette.grey[600] }}>
+                          <Button variant="contained" startIcon={<DeleteIcon />} sx={{ width: { xs: '100%', md: 'auto' }, minWidth: '200px', background: this.props.theme.palette.grey[600] }} onClick={(e: any) => this.handleDeleteOnClick()}>
                             Delete
                           </Button>
                         </Box>
