@@ -148,7 +148,7 @@ export default ConfirmDelete;
 interface IProps {
   id: string;
   theme: Theme;
-  editMode: string;
+  editMode: 'course' | 'facility' | 'blog';
   text: string;
   onSuccess: () => void;
   onCancel: () => void;
