@@ -659,7 +659,7 @@ interface IProps {
 }
 
 interface IForm {
-  action: string;
+  action: 'loading' | 'normal' | 'confirm-delete' | 'update';
   messageText: string;
   messageCode: number;
   open: boolean;
