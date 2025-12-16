@@ -10,6 +10,7 @@ import { alpha } from '@material-ui/core';
 import { IApiResponse } from 'interfaces/api-response.interface';
 import CourseService from 'services/course.service';
 import FacilityService from 'services/facility.service';
+import BlogService from 'services/blog.service';
 
 class ConfirmDelete extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};  
@@ -42,6 +43,20 @@ class ConfirmDelete extends React.Component<IProps, {}> {
       });
 
       facilityClient = null;
+    }
+
+    if (this.props.editMode === 'blog') {
+      let blogClient: BlogService | null = new BlogService();   
+
+      blogClient.destroy(id).then(async (response: IApiResponse) => {
+        if (response.success) {        
+          this.props.onSuccess(); 
+        }
+      }).catch((error: Error) => {
+        console.log(error);
+      });
+
+      blogClient = null;
     }    
   }
 
@@ -88,7 +103,7 @@ class ConfirmDelete extends React.Component<IProps, {}> {
           gutterBottom
           align={'center'}      
         >
-          Are you sure you want to delete this {this.props.editMode === 'course' ? 'course' : 'facility'}?          
+          Are you sure you want to delete this {this.props.editMode === 'course' ? 'course' : this.props.editMode === 'facility' ? 'facility' : 'blog post'}?          
         </Box> 
 
         <Box
@@ -110,7 +125,7 @@ class ConfirmDelete extends React.Component<IProps, {}> {
               color={'primary'}        
               onClick={(e: any) => this.handleOnDeleteClick(this.props.id)}
             >
-              Yes, Delete {this.props.editMode === 'course' ? 'Course' : 'Facility'}
+              Yes, Delete {this.props.editMode === 'course' ? 'Course' : this.props.editMode === 'facility' ? 'Facility' : 'Blog Post'}
             </Button>
 
             <Button
