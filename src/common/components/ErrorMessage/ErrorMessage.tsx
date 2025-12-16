@@ -1,20 +1,18 @@
 import React from 'react';
-import Box from '@material-ui/core/Box';
 import { Alert, AlertTitle } from '@material-ui/core';
 
 class ErrorMessage extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};  
 
   render() {
+    if (!this.props.message) return null;
+    
     return (
-      <Box marginBottom={2} marginLeft={4} marginRight={4} display={this.props.message !== '' ? 'block' : 'none'} minWidth={'100%'}>
-        <Box width={'100%'}>
-          <Alert variant="outlined" severity="error">
-            <AlertTitle>Oops</AlertTitle>
-            <div dangerouslySetInnerHTML={{ __html: this.props.message }} />
-          </Alert>
-        </Box>
-      </Box>
+      <div style={{ width: '100%', margin: '0 32px 16px 32px', boxSizing: 'border-box' }}>
+        <Alert variant="outlined" severity="error" style={{ width: '100%', maxWidth: '95%', paddingTop: '12px', paddingBottom: '8px' }}>
+          <AlertTitle>{this.props.message}</AlertTitle>
+        </Alert>
+      </div>
     );
   }
 }
