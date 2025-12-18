@@ -11,7 +11,8 @@ import CheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import UnCheckedIcon from '@material-ui/icons/RadioButtonUncheckedOutlined';
 import { green, grey } from '@material-ui/core/colors';
 
-import { ICoursePatchForDefaultPhoto, ICoursePhoto, IFetchPhotosApiResponse, IPatchCourseApiResponse, IPostPhotosApiResponse } from 'interfaces/course.interfaces';
+import { ICoursePatchForDefaultPhoto, IPatchCourseApiResponse } from 'interfaces/course.interfaces';
+import { IImage, IFetchImagesApiResponse, IPostImagesApiResponse } from 'interfaces/images.interfaces';
 import CourseService from 'services/course.service';
 import { IStandardApiResponse } from 'interfaces/api-response.interface';
 
@@ -90,7 +91,7 @@ class CoursePhotos extends React.Component<IProps, {}> {
   private handleDeletePhotoOnClick = (name: string) => {
     let client: CourseService | null = new CourseService();
 
-    client.deletePhoto(this.state.courseId, name).then(async (response: IStandardApiResponse) => {
+    client.deleteImage(this.state.courseId, name).then(async (response: IStandardApiResponse) => {
       if (response.success) {
         const courses = this.state.data.filter(item => item.name !== name);
         this.setState({ data: courses });
@@ -128,7 +129,7 @@ class CoursePhotos extends React.Component<IProps, {}> {
   private fetch = (courseId: string) => {
     const client: CourseService = new CourseService();
 
-    client.fetchPhotos(courseId).then(async (response: IFetchPhotosApiResponse) => {        
+    client.fetchImages(courseId).then(async (response: IFetchImagesApiResponse) => {        
           
       if (response.success) {
         this.setState({
@@ -163,10 +164,10 @@ class CoursePhotos extends React.Component<IProps, {}> {
    
     const client: CourseService = new CourseService();
 
-    await client.postPhotos(formData, this.props.courseId).then((response: IPostPhotosApiResponse) => {
+    await client.postImages(formData, this.props.courseId).then((response: IPostImagesApiResponse) => {
             
       if (response.success) {
-        const newData: ICoursePhoto[] = response.value || []; // Ensure response value is always an array
+        const newData: IImage[] = response.value || []; // Ensure response value is always an array
         this.setState({ action: 'normal', filesSelectedToBeUploaded: [], data: newData });
       }
     }).catch((error: Error) => {
@@ -378,7 +379,7 @@ interface IForm {
   messageText: string,
   messageCode: number,
   snackOpen: boolean,
-  data: ICoursePhoto[],
+  data: IImage[],
   count: number,
   facilityId: string,
   courseId: string,

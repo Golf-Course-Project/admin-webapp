@@ -34,4 +34,3 @@ export interface IFetchBlogApiResponse extends IApiResponse {
 	value: IBlog | null;
 }
 
-

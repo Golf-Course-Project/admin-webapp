@@ -1,7 +1,8 @@
 import { courseServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper'; 
 import { IStandardApiResponse } from 'interfaces/api-response.interface';
-import { ICoursePatch, ICourseSearchCriteriaBody, IFetchCourseAndFacilityApiResponse, IPatchCourseApiResponse, ICourseListWithRankingApiResponse, IFetchPhotosApiResponse, ICoursePatchForDefaultPhoto } from 'interfaces/course.interfaces';
+import { ICoursePatch, ICourseSearchCriteriaBody, IFetchCourseAndFacilityApiResponse, IPatchCourseApiResponse, ICourseListWithRankingApiResponse, ICoursePatchForDefaultPhoto } from 'interfaces/course.interfaces';
+import { IFetchImagesApiResponse, IPostImagesApiResponse } from 'interfaces/images.interfaces';
 
 export class CourseService {
   
@@ -49,7 +50,7 @@ export class CourseService {
     }
   } 
 
-  async fetchPhotos(id : string): Promise<IFetchPhotosApiResponse> {
+  async fetchImages(id : string): Promise<IFetchImagesApiResponse> {
     
     const jwt: string | null = fetchJwt();
 
@@ -70,7 +71,7 @@ export class CourseService {
     }
   } 
 
-  async postPhotos(body: FormData, id: string): Promise<IFetchPhotosApiResponse> {
+  async postImages(body: FormData, id: string): Promise<IPostImagesApiResponse> {
     const jwt: string | null = fetchJwt();
 
     try {
@@ -155,7 +156,7 @@ export class CourseService {
     }
   }
 
-  async deletePhoto(courseId: string, name : string): Promise<IStandardApiResponse> {
+  async deleteImage(courseId: string, name : string): Promise<IStandardApiResponse> {
     
     const jwt: string | null = fetchJwt();
 

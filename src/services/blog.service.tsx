@@ -2,6 +2,7 @@ import { blogServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper'; 
 import { IBlogListApiResponse, IBlogPatch, IBlogPublishPatch, IFetchBlogApiResponse } from 'interfaces/blog.interfaces';
 import { IStandardApiResponse } from 'interfaces/api-response.interface';
+import { IFetchImagesApiResponse, IPostImagesApiResponse } from 'interfaces/images.interfaces';
 
 export class BlogService {
   
@@ -118,6 +119,67 @@ export class BlogService {
 
     try {
       const response = await fetch(blogServiceUrl + '/api/blog/' + id, {
+        method: 'delete',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),        
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  }
+
+  async fetchImages(id : string): Promise<IFetchImagesApiResponse> {
+    
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(`${blogServiceUrl}/api/blog/${id}/photos`, {
+        method: 'get',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),        
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  } 
+
+  async postImages(body: FormData, id: string): Promise<IPostImagesApiResponse> {
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(`${blogServiceUrl}/api/blog/${id}/postphotos`, {
+        method: 'POST',
+        headers: new Headers({   
+          'X-Authorization': `Bearer ${jwt}`,        
+        }),   
+        body: body,     
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  }
+
+  async deleteImage(blogId: string, name : string): Promise<IStandardApiResponse> {
+    
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(`${blogServiceUrl}/api/blog/${blogId}/${name}`, {
         method: 'delete',
         headers: new Headers({
           'Content-Type': 'application/json',
