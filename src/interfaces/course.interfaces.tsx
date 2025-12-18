@@ -135,11 +135,6 @@ export interface ICoursePatchForDefaultPhoto {
 	defaultPhoto: string;
 }
 
-export interface ICoursePhoto {	
-	name: string;
-	url: string;
-}
-
 export interface IPatchCourseApiResponse extends IApiResponse {
 	value: ICourse | null;
 }
@@ -150,12 +145,4 @@ export interface IFetchCourseApiResponse extends IApiResponse {
 
 export interface IFetchCourseAndFacilityApiResponse extends IApiResponse {
 	value: { course: ICourse | null, facility: IFacility | null };
-}
-
-export interface IFetchPhotosApiResponse extends IApiResponse {
-	value: ICoursePhoto[] | null;
-}
-
-export interface IPostPhotosApiResponse extends IApiResponse {
-	value: ICoursePhoto[] | null;
 }
