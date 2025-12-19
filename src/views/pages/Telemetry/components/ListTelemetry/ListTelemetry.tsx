@@ -159,12 +159,13 @@ class ListTelemetry extends React.Component<IProps, {}> {
                         <Table sx={{ minWidth: 520 }} aria-label="course telemetry table">
                           <TableHead>
                             <TableRow>   
-                              <TableCell align="center" sx={{ width: '8%' }}>View</TableCell>  
-                              <TableCell align="left" sx={{ width: '20%' }}>Course</TableCell>        
-                              <TableCell align="center" sx={{ width: '12%' }}>State</TableCell>   
-                              <TableCell align="left" sx={{ width: '15%' }}>IP</TableCell>   
-                              <TableCell align="left" sx={{ width: '25%' }}>Referer</TableCell>   
-                              <TableCell align="center" sx={{ width: '20%' }}>Date Created</TableCell>                                                                                         
+                              <TableCell align="center" sx={{ width: '7%' }}>View</TableCell>  
+                              <TableCell align="left" sx={{ width: '21%' }}>Course</TableCell>        
+                              <TableCell align="left" sx={{ width: '22%' }}>Controller</TableCell>   
+                              <TableCell align="center" sx={{ width: '10%' }}>State</TableCell>   
+                              <TableCell align="left" sx={{ width: '12%' }}>IP</TableCell>   
+                              <TableCell align="left" sx={{ width: '10%' }}>Referer</TableCell>   
+                              <TableCell align="center" sx={{ width: '18%' }}>Date Created</TableCell>                                                                                         
                             </TableRow>
                           </TableHead>
                           <TableBody>
@@ -174,7 +175,7 @@ class ListTelemetry extends React.Component<IProps, {}> {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
                                 hover                                  
                               >                         
-                                <TableCell align="center" sx={{ width: '8%' }}>
+                                <TableCell align="center" sx={{ width: '7%' }}>
                                   <IconButton 
                                     size="small" 
                                     onClick={(e:any) => this.handleOpenTelemetrySideBar(row)}
@@ -183,21 +184,23 @@ class ListTelemetry extends React.Component<IProps, {}> {
                                   </IconButton>
                                 </TableCell>                        
 
-                                <TableCell align="left" sx={{ width: '20%' }}>{row.name || '-'}</TableCell>  
+                                <TableCell align="left" sx={{ width: '21%' }}>{row.name || '-'}</TableCell>  
 
-                                <TableCell align="center" sx={{ width: '12%' }}>{row.state || '-'}</TableCell>
+                                <TableCell align="left" sx={{ width: '22%' }}>{row.controller || '-'}</TableCell>
 
-                                <TableCell align="left" sx={{ width: '15%' }}>{row.ipAddress || '-'}</TableCell>
+                                <TableCell align="center" sx={{ width: '10%' }}>{row.state || '-'}</TableCell>
 
-                                <TableCell align="left" sx={{ width: '25%' }}>
+                                <TableCell align="left" sx={{ width: '12%' }}>{row.ipAddress || '-'}</TableCell>
+
+                                <TableCell align="left" sx={{ width: '10%' }}>
                                   {row.referer && !row.referer.includes('https://www.golfcourseproject.com/') ? (
                                     <span style={{ fontSize: '0.85em', wordBreak: 'break-all' }}>
-                                      {row.referer.length > 40 ? row.referer.substring(0, 40) + '...' : row.referer}
+                                      {row.referer.length > 15 ? row.referer.substring(0, 15) + '...' : row.referer}
                                     </span>
                                   ) : ''}
                                 </TableCell>
 
-                                <TableCell align="center" sx={{ width: '20%' }}>
+                                <TableCell align="center" sx={{ width: '18%' }}>
                                   {row.dateCreated ? new Date(row.dateCreated).toLocaleDateString() : '-'}
                                 </TableCell>                                                                               
                               </TableRow>
@@ -238,10 +241,11 @@ class ListTelemetry extends React.Component<IProps, {}> {
                           <TableHead>
                             <TableRow>   
                               <TableCell align="center" sx={{ width: '10%' }}>View</TableCell>  
-                              <TableCell align="center" sx={{ width: '15%' }}>State</TableCell>   
+                              <TableCell align="left" sx={{ width: '30%' }}>Controller</TableCell>   
+                              <TableCell align="center" sx={{ width: '10%' }}>State</TableCell>   
                               <TableCell align="left" sx={{ width: '20%' }}>IP</TableCell>   
-                              <TableCell align="left" sx={{ width: '30%' }}>Referer</TableCell>   
-                              <TableCell align="center" sx={{ width: '25%' }}>Date Created</TableCell>                                                                                         
+                              <TableCell align="left" sx={{ width: '15%' }}>Referer</TableCell>   
+                              <TableCell align="center" sx={{ width: '15%' }}>Date Created</TableCell>                                                                                         
                             </TableRow>
                           </TableHead>
                           <TableBody>
@@ -258,21 +262,23 @@ class ListTelemetry extends React.Component<IProps, {}> {
                                   >
                                     <VisibilityIcon fontSize="small" />
                                   </IconButton>
-                                </TableCell>                        
+                                </TableCell>
 
-                                <TableCell align="center" sx={{ width: '15%' }}>{row.state || '-'}</TableCell>
+                                <TableCell align="left" sx={{ width: '30%' }}>{row.controller || '-'}</TableCell>                        
+
+                                <TableCell align="center" sx={{ width: '10%' }}>{row.state || '-'}</TableCell>
 
                                 <TableCell align="left" sx={{ width: '20%' }}>{row.ipAddress || '-'}</TableCell>
 
-                                <TableCell align="left" sx={{ width: '30%' }}>
+                                <TableCell align="left" sx={{ width: '15%' }}>
                                   {row.referer && !row.referer.includes('https://www.golfcourseproject.com/') ? (
                                     <span style={{ fontSize: '0.85em', wordBreak: 'break-all' }}>
-                                      {row.referer.length > 40 ? row.referer.substring(0, 40) + '...' : row.referer}
+                                      {row.referer.length > 20 ? row.referer.substring(0, 20) + '...' : row.referer}
                                     </span>
                                   ) : ''}
                                 </TableCell>
 
-                                <TableCell align="center" sx={{ width: '25%' }}>
+                                <TableCell align="center" sx={{ width: '15%' }}>
                                   {row.dateCreated ? new Date(row.dateCreated).toLocaleDateString() : '-'}
                                 </TableCell>                                                                               
                               </TableRow>
@@ -289,9 +295,9 @@ class ListTelemetry extends React.Component<IProps, {}> {
         </Box>
 
         <Box display={this.state.action === 'loading' ? 'block' : 'none'}>  
-          <SkeletonTable rows={10} columns={6} display={this.state.action === 'loading' ? true : false} columnWidths={['8%', '20%', '12%', '15%', '25%', '20%']} minWidth={520}></SkeletonTable>
+          <SkeletonTable rows={10} columns={7} display={this.state.action === 'loading' ? true : false} columnWidths={['7%', '21%', '22%', '10%', '12%', '10%', '18%']} minWidth={520}></SkeletonTable>
           <Box sx={{ marginTop: '50px' }}>
-            <SkeletonTable rows={10} columns={5} display={this.state.action === 'loading' ? true : false} columnWidths={['10%', '15%', '20%', '30%', '25%']} minWidth={520}></SkeletonTable>
+            <SkeletonTable rows={10} columns={6} display={this.state.action === 'loading' ? true : false} columnWidths={['10%', '30%', '10%', '20%', '15%', '15%']} minWidth={520}></SkeletonTable>
           </Box>                 
         </Box>    
 
