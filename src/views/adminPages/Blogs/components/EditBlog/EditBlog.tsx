@@ -439,12 +439,12 @@ class EditBlog extends React.Component<IProps, {}> {
 
           <EditBlogSkeleton display={this.state.action === 'loading'} theme={this.props.theme} />
 
-          <Box component={CardContent} padding={4} display={this.state.action === 'loading' ? 'none' : 'block'}>
+          <Box component={CardContent} padding={4} display={this.state.action === 'loading' ? 'none' : 'block'} sx={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
            
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <form noValidate autoComplete="off">
-                  <Box display="flex" flexDirection={'column'}>
+                <form noValidate autoComplete="off" style={{ width: '100%' }}>
+                  <Box display="flex" flexDirection={'column'} sx={{ width: '100%' }}>
                     <Grid container spacing={1}>
                       
                       {(this.state.messageCode !== 200 || this.state.messageText) && (
@@ -553,78 +553,92 @@ class EditBlog extends React.Component<IProps, {}> {
                           disabled={this.state.action === 'update'}
                         />
                       </Grid>
-                      <Grid item xs={12} md={12} sx={{ marginTop: '15px' }}>
-                        <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 500 }}>
-                          Description
-                        </Typography>
-                        <Box sx={{ width: '100%' }}>
-                          <Tabs
-                            value={this.state.markdownTab}
-                            onChange={(e: any, val: any) => this.handleMarkdownTabChange(e, val)}
-                            indicatorColor="primary"
-                            textColor="primary"
-                            sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
-                          >
-                            <Tab label="Markdown" disabled={this.state.action === 'update'} />
-                            <Tab label="Preview" disabled={this.state.action === 'update'} />
-                          </Tabs>
-                          <Box sx={{ marginTop: 2, width: '100%' }}>
-                            {this.state.markdownTab === 0 && (
-                              <Box sx={{ pointerEvents: this.state.action === 'update' ? 'none' : 'auto', opacity: this.state.action === 'update' ? 0.6 : 1, width: '100%' }}>
-                                <SimpleMdeReact
-                                  value={this.state.description}
-                                  onChange={this.handleMarkdownChange}
-                                  options={this.simpleMDEOptions}
-                                />
-                              </Box>
-                            )}
-                            {this.state.markdownTab === 1 && (
-                              <Paper
-                                variant="outlined"
-                                sx={{
+                      <Grid item xs={12} sx={{ marginTop: '15px' }}>
+                        <Box sx={{ width: '100%', maxWidth: '100%', overflow: 'hidden' }}>
+                          <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 500 }}>
+                            Description
+                          </Typography>
+                          <Box sx={{ width: '100%' }}>
+                            <Tabs
+                              value={this.state.markdownTab}
+                              onChange={(e: any, val: any) => this.handleMarkdownTabChange(e, val)}
+                              indicatorColor="primary"
+                              textColor="primary"
+                              sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
+                            >
+                              <Tab label="Markdown" disabled={this.state.action === 'update'} />
+                              <Tab label="Preview" disabled={this.state.action === 'update'} />
+                            </Tabs>
+                            <Box sx={{ marginTop: 2, width: '100%' }}>
+                              {this.state.markdownTab === 0 && (
+                                <Box sx={{ 
+                                  pointerEvents: this.state.action === 'update' ? 'none' : 'auto', 
+                                  opacity: this.state.action === 'update' ? 0.6 : 1, 
                                   width: '100%',
-                                  padding: 3,
-                                  minHeight: '400px',
-                                  backgroundColor: '#fafafa',
-                                  color: '#333',
-                                  overflow: 'auto',
-                                  boxSizing: 'border-box',
-                                  '& h1': { fontSize: '2em', marginBottom: '0.5em', color: '#333' },
-                                  '& h2': { fontSize: '1.5em', marginBottom: '0.5em', color: '#333' },
-                                  '& h3': { fontSize: '1.17em', marginBottom: '0.5em', color: '#333' },
-                                  '& p': { color: '#333', maxWidth: '100%' },
-                                  '& img': {
-                                    maxWidth: '100%',
-                                    height: 'auto',
+                                  '& .EasyMDEContainer': { width: '100% !important', maxWidth: '100% !important' },
+                                  '& .CodeMirror': { width: '100% !important', maxWidth: '100% !important' },
+                                  '& .editor-toolbar': { width: '100% !important' },
+                                  '& .CodeMirror-scroll': { width: '100% !important' }
+                                }}>
+                                  <SimpleMdeReact
+                                    value={this.state.description}
+                                    onChange={this.handleMarkdownChange}
+                                    options={this.simpleMDEOptions}
+                                  />
+                                </Box>
+                              )}
+                              {this.state.markdownTab === 1 && (
+                                <Paper
+                                  variant="outlined"
+                                  sx={{
                                     display: 'block',
-                                    margin: '10px 0'
-                                  },
-                                  '& code': {
-                                    backgroundColor: '#f5f5f5',
-                                    padding: '2px 4px',
-                                    borderRadius: '3px',
-                                    fontFamily: 'monospace',
+                                    width: '100% !important',
+                                    maxWidth: 'none !important',
+                                    padding: 3,
+                                    minHeight: '400px',
+                                    backgroundColor: '#fafafa',
                                     color: '#333',
-                                    wordBreak: 'break-word'
-                                  },
-                                  '& pre': {
-                                    backgroundColor: '#f5f5f5',
-                                    padding: '10px',
-                                    borderRadius: '5px',
                                     overflow: 'auto',
-                                    color: '#333'
-                                  },
-                                  '& blockquote': {
-                                    borderLeft: '4px solid #ddd',
-                                    paddingLeft: '10px',
-                                    margin: '10px 0',
-                                    color: '#666'
-                                  }
-                                }}
-                              >
-                                <div dangerouslySetInnerHTML={{ __html: this.renderMarkdown(this.state.description) }} />
-                              </Paper>
-                            )}
+                                    boxSizing: 'border-box',
+                                    margin: 0,
+                                    flex: '1 1 auto',
+                                    '& h1': { fontSize: '2em', marginBottom: '0.5em', color: '#333' },
+                                    '& h2': { fontSize: '1.5em', marginBottom: '0.5em', color: '#333' },
+                                    '& h3': { fontSize: '1.17em', marginBottom: '0.5em', color: '#333' },
+                                    '& p': { color: '#333', maxWidth: '100%' },
+                                    '& img': {
+                                      maxWidth: '100%',
+                                      height: 'auto',
+                                      display: 'block',
+                                      margin: '10px 0'
+                                    },
+                                    '& code': {
+                                      backgroundColor: '#f5f5f5',
+                                      padding: '2px 4px',
+                                      borderRadius: '3px',
+                                      fontFamily: 'monospace',
+                                      color: '#333',
+                                      wordBreak: 'break-word'
+                                    },
+                                    '& pre': {
+                                      backgroundColor: '#f5f5f5',
+                                      padding: '10px',
+                                      borderRadius: '5px',
+                                      overflow: 'auto',
+                                      color: '#333'
+                                    },
+                                    '& blockquote': {
+                                      borderLeft: '4px solid #ddd',
+                                      paddingLeft: '10px',
+                                      margin: '10px 0',
+                                      color: '#666'
+                                    }
+                                  }}
+                                >
+                                  <div dangerouslySetInnerHTML={{ __html: this.renderMarkdown(this.state.description) }} />
+                                </Paper>
+                              )}
+                            </Box>
                           </Box>
                         </Box>
                       </Grid>                     
