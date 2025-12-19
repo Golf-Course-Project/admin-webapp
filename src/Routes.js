@@ -92,6 +92,7 @@ import {
   Docs as DocsAdminView,
   Courses as CoursesAdminView,
   Blogs as BlogsAdminView,
+  Telemetry as TelemetryAdminView,
 } from './views/pages';
 
 
@@ -638,6 +639,18 @@ const Routes = () => {
           <WithLayout
             {...matchProps}
             component={BlogsAdminView}
+            layout={MainSecureLayout}
+          />
+        )}
+      />     
+
+      <Route
+        exact
+        path="/admin-telemetry"
+        render={(matchProps) => (
+          <WithLayout
+            {...matchProps}
+            component={TelemetryAdminView}
             layout={MainSecureLayout}
           />
         )}
