@@ -8,6 +8,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { ErrorMessage } from 'common/components';
 import { ITelemetry, IFetchTelemetryApiResponse } from 'interfaces/telemetry.interfaces';
 import TelemetryService from 'services/telemetry.service';
+import { LocationService, IIPLocationResponse } from 'services/location.service';
 
 class ViewTelemetry extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -27,6 +28,8 @@ class ViewTelemetry extends React.Component<IProps, {}> {
     request: '',
     response: '',
     dateCreated: '',
+    locationData: null,
+    locationLoading: false,
   }
 
   private resetForm = () => {
@@ -45,13 +48,15 @@ class ViewTelemetry extends React.Component<IProps, {}> {
       request: '',
       response: '',
       dateCreated: '',
+      locationData: null,
+      locationLoading: false,
     });
   }
 
   private fetch = (id: string) => {
     const client: TelemetryService = new TelemetryService();
 
-    client.fetch(id).then((response: IFetchTelemetryApiResponse) => {
+    client.fetch(id).then(async (response: IFetchTelemetryApiResponse) => {
       if (response.success && response.value) {
         const data = response.value;
         this.setState({
@@ -67,6 +72,11 @@ class ViewTelemetry extends React.Component<IProps, {}> {
           action: 'normal',
           ready: true
         });
+
+        // Automatically lookup IP location if IP address exists
+        if (data.ipAddress) {
+          this.lookupIPLocation(data.ipAddress);
+        }
       } else {
         this.setState({
           action: 'normal',
@@ -85,6 +95,26 @@ class ViewTelemetry extends React.Component<IProps, {}> {
       });
     });
   }
+
+  private lookupIPLocation = async (ip: string) => {
+    if (!ip) return;
+
+    this.setState({ locationLoading: true });
+    
+    try {
+      const result: IIPLocationResponse = await LocationService.getIPLocation(ip);
+      this.setState({ 
+        locationData: result,
+        locationLoading: false 
+      });
+    } catch (error) {
+      console.error('Failed to lookup IP location:', error);
+      this.setState({ 
+        locationData: { success: false, error: 'Location lookup failed' },
+        locationLoading: false 
+      });
+    }
+  };
 
   componentDidUpdate(prevProps: any) {
     if (prevProps.open !== this.props.open && this.props.open) {      
@@ -326,6 +356,104 @@ class ViewTelemetry extends React.Component<IProps, {}> {
                             }}
                           />
                         </Grid>
+                        
+                        {/* IP Location Information */}
+                        {this.state.ipAddress && (
+                          <>
+                            <Grid item xs={12} md={12}>
+                              <Typography variant="h6" sx={{ marginTop: 2, marginBottom: 1, fontWeight: 600 }}>
+                                📍 IP Location Information
+                              </Typography>
+                            </Grid>
+                            
+                            {this.state.locationLoading ? (
+                              <Grid item xs={12} md={12}>
+                                <Skeleton variant="rectangular" width="100%" height={56} />
+                              </Grid>
+                            ) : this.state.locationData ? (
+                              this.state.locationData.success ? (
+                                <>
+                                  <Grid item xs={12} md={6}>
+                                    <TextField
+                                      type="text"
+                                      label="Location"
+                                      variant="outlined"
+                                      color="primary"
+                                      fullWidth
+                                      value={`${this.state.locationData.data?.city}, ${this.state.locationData.data?.region}, ${this.state.locationData.data?.country}`}
+                                      disabled
+                                      helperText={' '}
+                                      InputProps={{
+                                        readOnly: true,
+                                      }}
+                                    />
+                                  </Grid>
+                                  <Grid item xs={12} md={6}>
+                                    <TextField
+                                      type="text"
+                                      label="ISP/Organization"
+                                      variant="outlined"
+                                      color="primary"
+                                      fullWidth
+                                      value={this.state.locationData.data?.isp || 'Unknown'}
+                                      disabled
+                                      helperText={' '}
+                                      InputProps={{
+                                        readOnly: true,
+                                      }}
+                                    />
+                                  </Grid>
+                                  <Grid item xs={12} md={6}>
+                                    <TextField
+                                      type="text"
+                                      label="Timezone"
+                                      variant="outlined"
+                                      color="primary"
+                                      fullWidth
+                                      value={this.state.locationData.data?.timezone || 'Unknown'}
+                                      disabled
+                                      helperText={' '}
+                                      InputProps={{
+                                        readOnly: true,
+                                      }}
+                                    />
+                                  </Grid>
+                                  <Grid item xs={12} md={6}>
+                                    <TextField
+                                      type="text"
+                                      label="Coordinates"
+                                      variant="outlined"
+                                      color="primary"
+                                      fullWidth
+                                      value={`${this.state.locationData.data?.latitude}, ${this.state.locationData.data?.longitude}`}
+                                      disabled
+                                      helperText={' '}
+                                      InputProps={{
+                                        readOnly: true,
+                                      }}
+                                    />
+                                  </Grid>
+                                </>
+                              ) : (
+                                <Grid item xs={12} md={12}>
+                                  <TextField
+                                    type="text"
+                                    label="Location Lookup"
+                                    variant="outlined"
+                                    color="secondary"
+                                    fullWidth
+                                    value={this.state.locationData.error || 'Failed to lookup location'}
+                                    disabled
+                                    helperText={' '}
+                                    InputProps={{
+                                      readOnly: true,
+                                    }}
+                                  />
+                                </Grid>
+                              )
+                            ) : null}
+                          </>
+                        )}
                       </Grid>
                     </Box>
                   </form>
@@ -363,4 +491,6 @@ interface IForm {
   request: string;
   response: string;
   dateCreated: string;
+  locationData: IIPLocationResponse | null;
+  locationLoading: boolean;
 }

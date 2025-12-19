@@ -2,12 +2,14 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Typography } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Typography, Tooltip } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import GolfCourseIcon from '@material-ui/icons/GolfCourse';
 import ArticleIcon from '@material-ui/icons/Article';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import NotListedLocationIcon from '@material-ui/icons/NotListedLocation';
 
 import NotFoundIllustration from 'svg/illustrations/NotFound';
 import ViewTelemetry from '../ViewTelemetry';
@@ -16,6 +18,7 @@ import { SkeletonTable } from 'common/components';
 
 import { ITelemetryListItem, ITelemetryListApiResponse } from 'interfaces/telemetry.interfaces';
 import TelemetryService from 'services/telemetry.service';
+import { LocationService, IIPLocationResponse } from 'services/location.service';
 import ErrorMessage from 'common/components/ErrorMessage';
 
 class ListTelemetry extends React.Component<IProps, {}> {
@@ -31,6 +34,8 @@ class ListTelemetry extends React.Component<IProps, {}> {
     selectedTelemetryId: null,
     courseRelatedExpanded: true,
     generalExpanded: true,
+    ipLocations: {},
+    loadingLocations: {},
   }
 
   componentDidMount() {
@@ -51,6 +56,45 @@ class ListTelemetry extends React.Component<IProps, {}> {
 
   private toggleGeneralExpanded = () => {
     this.setState({ generalExpanded: !this.state.generalExpanded });
+  };
+
+  private handleIPLocationLookup = async (ip: string) => {
+    if (!ip || this.state.ipLocations[ip] || this.state.loadingLocations[ip]) {
+      return;
+    }
+
+    this.setState({ 
+      loadingLocations: { ...this.state.loadingLocations, [ip]: true }
+    });
+
+    try {
+      const result: IIPLocationResponse = await LocationService.getIPLocation(ip);
+      
+      this.setState({ 
+        ipLocations: { 
+          ...this.state.ipLocations, 
+          [ip]: result 
+        },
+        loadingLocations: { ...this.state.loadingLocations, [ip]: false }
+      });
+    } catch (error) {
+      console.error('Failed to lookup IP location:', error);
+      this.setState({ 
+        loadingLocations: { ...this.state.loadingLocations, [ip]: false }
+      });
+    }
+  };
+
+  private renderLocationTooltip = (ip: string) => {
+    const location = this.state.ipLocations[ip];
+    if (!location) return '';
+    
+    if (!location.success) {
+      return location.error || 'Location lookup failed';
+    }
+    
+    const data = location.data;
+    return `${data.city}, ${data.region}, ${data.country}\nISP: ${data.isp}\nTimezone: ${data.timezone}`;
   };
 
   private loadTelemetry = () => {
@@ -190,7 +234,27 @@ class ListTelemetry extends React.Component<IProps, {}> {
 
                                 <TableCell align="center" sx={{ width: '10%' }}>{row.state || '-'}</TableCell>
 
-                                <TableCell align="left" sx={{ width: '12%' }}>{row.ipAddress || '-'}</TableCell>
+                                <TableCell align="left" sx={{ width: '12%' }}>
+                                  <Box display="flex" alignItems="center">
+                                    <span>{row.ipAddress || '-'}</span>
+                                    {row.ipAddress && (
+                                      <Tooltip title={this.renderLocationTooltip(row.ipAddress) || 'Click to lookup location'}>
+                                        <IconButton 
+                                          size="small" 
+                                          onClick={() => this.handleIPLocationLookup(row.ipAddress)}
+                                          disabled={this.state.loadingLocations[row.ipAddress]}
+                                          sx={{ marginLeft: 0.5 }}
+                                        >
+                                          {this.state.ipLocations[row.ipAddress] && this.state.ipLocations[row.ipAddress].success ? (
+                                            <LocationOnIcon fontSize="small" sx={{ color: 'green' }} />
+                                          ) : (
+                                            <NotListedLocationIcon fontSize="small" />
+                                          )}
+                                        </IconButton>
+                                      </Tooltip>
+                                    )}
+                                  </Box>
+                                </TableCell>
 
                                 <TableCell align="left" sx={{ width: '10%' }}>
                                   {row.referer && !row.referer.includes('https://www.golfcourseproject.com/') ? (
@@ -240,10 +304,9 @@ class ListTelemetry extends React.Component<IProps, {}> {
                         <Table sx={{ minWidth: 520 }} aria-label="general telemetry table">
                           <TableHead>
                             <TableRow>   
-                              <TableCell align="center" sx={{ width: '10%' }}>View</TableCell>  
-                              <TableCell align="left" sx={{ width: '30%' }}>Controller</TableCell>   
-                              <TableCell align="center" sx={{ width: '10%' }}>State</TableCell>   
-                              <TableCell align="left" sx={{ width: '20%' }}>IP</TableCell>   
+                              <TableCell align="center" sx={{ width: '12%' }}>View</TableCell>  
+                              <TableCell align="left" sx={{ width: '35%' }}>Controller</TableCell>   
+                              <TableCell align="left" sx={{ width: '23%' }}>IP</TableCell>   
                               <TableCell align="left" sx={{ width: '15%' }}>Referer</TableCell>   
                               <TableCell align="center" sx={{ width: '15%' }}>Date Created</TableCell>                                                                                         
                             </TableRow>
@@ -255,7 +318,7 @@ class ListTelemetry extends React.Component<IProps, {}> {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
                                 hover                                  
                               >                         
-                                <TableCell align="center" sx={{ width: '10%' }}>
+                                <TableCell align="center" sx={{ width: '12%' }}>
                                   <IconButton 
                                     size="small" 
                                     onClick={(e:any) => this.handleOpenTelemetrySideBar(row)}
@@ -264,11 +327,29 @@ class ListTelemetry extends React.Component<IProps, {}> {
                                   </IconButton>
                                 </TableCell>
 
-                                <TableCell align="left" sx={{ width: '30%' }}>{row.controller || '-'}</TableCell>                        
+                                <TableCell align="left" sx={{ width: '35%' }}>{row.controller || '-'}</TableCell>                        
 
-                                <TableCell align="center" sx={{ width: '10%' }}>{row.state || '-'}</TableCell>
-
-                                <TableCell align="left" sx={{ width: '20%' }}>{row.ipAddress || '-'}</TableCell>
+                                <TableCell align="left" sx={{ width: '23%' }}>
+                                  <Box display="flex" alignItems="center">
+                                    <span>{row.ipAddress || '-'}</span>
+                                    {row.ipAddress && (
+                                      <Tooltip title={this.renderLocationTooltip(row.ipAddress) || 'Click to lookup location'}>
+                                        <IconButton 
+                                          size="small" 
+                                          onClick={() => this.handleIPLocationLookup(row.ipAddress)}
+                                          disabled={this.state.loadingLocations[row.ipAddress]}
+                                          sx={{ marginLeft: 0.5 }}
+                                        >
+                                          {this.state.ipLocations[row.ipAddress] && this.state.ipLocations[row.ipAddress].success ? (
+                                            <LocationOnIcon fontSize="small" sx={{ color: 'green' }} />
+                                          ) : (
+                                            <NotListedLocationIcon fontSize="small" />
+                                          )}
+                                        </IconButton>
+                                      </Tooltip>
+                                    )}
+                                  </Box>
+                                </TableCell>
 
                                 <TableCell align="left" sx={{ width: '15%' }}>
                                   {row.referer && !row.referer.includes('https://www.golfcourseproject.com/') ? (
@@ -297,7 +378,7 @@ class ListTelemetry extends React.Component<IProps, {}> {
         <Box display={this.state.action === 'loading' ? 'block' : 'none'}>  
           <SkeletonTable rows={10} columns={7} display={this.state.action === 'loading' ? true : false} columnWidths={['7%', '21%', '22%', '10%', '12%', '10%', '18%']} minWidth={520}></SkeletonTable>
           <Box sx={{ marginTop: '50px' }}>
-            <SkeletonTable rows={10} columns={6} display={this.state.action === 'loading' ? true : false} columnWidths={['10%', '30%', '10%', '20%', '15%', '15%']} minWidth={520}></SkeletonTable>
+            <SkeletonTable rows={10} columns={5} display={this.state.action === 'loading' ? true : false} columnWidths={['12%', '35%', '23%', '15%', '15%']} minWidth={520}></SkeletonTable>
           </Box>                 
         </Box>    
 
@@ -330,4 +411,6 @@ interface IForm {
   selectedTelemetryId: string | null;
   courseRelatedExpanded: boolean;
   generalExpanded: boolean;
+  ipLocations: { [key: string]: any };
+  loadingLocations: { [key: string]: boolean };
 }
