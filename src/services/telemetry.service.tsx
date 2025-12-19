@@ -1,4 +1,4 @@
-import { blogServiceUrl } from '../helpers/urls.helper';
+import { courseServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper';
 import { ITelemetryListApiResponse, IFetchTelemetryApiResponse } from 'interfaces/telemetry.interfaces';
 
@@ -8,7 +8,7 @@ export class TelemetryService {
     const jwt: string | null = fetchJwt();
 
     try {
-      const response = await fetch(`${blogServiceUrl}/api/telemetry/list/days/${days}`, {
+      const response = await fetch(`${courseServiceUrl}/api/telemetry/list/days/${days}`, {
         method: 'GET',
         headers: new Headers({
           'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ export class TelemetryService {
     const jwt: string | null = fetchJwt();
 
     try {
-      const response = await fetch(`${blogServiceUrl}/api/telemetry/state/${state}`, {
+      const response = await fetch(`${courseServiceUrl}/api/telemetry/state/${state}`, {
         method: 'GET',
         headers: new Headers({
           'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export class TelemetryService {
     const jwt: string | null = fetchJwt();
 
     try {
-      const response = await fetch(`${blogServiceUrl}/api/telemetry/course/${courseId}`, {
+      const response = await fetch(`${courseServiceUrl}/api/telemetry/course/${courseId}`, {
         method: 'GET',
         headers: new Headers({
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export class TelemetryService {
     const jwt: string | null = fetchJwt();
 
     try {
-      const response = await fetch(`${blogServiceUrl}/api/telemetry/${id}`, {
+      const response = await fetch(`${courseServiceUrl}/api/telemetry/${id}`, {
         method: 'GET',
         headers: new Headers({
           'Content-Type': 'application/json',
