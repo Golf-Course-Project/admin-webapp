@@ -557,7 +557,7 @@ class EditBlog extends React.Component<IProps, {}> {
                         <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 500 }}>
                           Description
                         </Typography>
-                        <Box>
+                        <Box sx={{ width: '100%' }}>
                           <Tabs
                             value={this.state.markdownTab}
                             onChange={(e: any, val: any) => this.handleMarkdownTabChange(e, val)}
@@ -568,9 +568,9 @@ class EditBlog extends React.Component<IProps, {}> {
                             <Tab label="Markdown" disabled={this.state.action === 'update'} />
                             <Tab label="Preview" disabled={this.state.action === 'update'} />
                           </Tabs>
-                          <Box sx={{ marginTop: 2 }}>
+                          <Box sx={{ marginTop: 2, width: '100%' }}>
                             {this.state.markdownTab === 0 && (
-                              <Box sx={{ pointerEvents: this.state.action === 'update' ? 'none' : 'auto', opacity: this.state.action === 'update' ? 0.6 : 1 }}>
+                              <Box sx={{ pointerEvents: this.state.action === 'update' ? 'none' : 'auto', opacity: this.state.action === 'update' ? 0.6 : 1, width: '100%' }}>
                                 <SimpleMdeReact
                                   value={this.state.description}
                                   onChange={this.handleMarkdownChange}
@@ -587,16 +587,25 @@ class EditBlog extends React.Component<IProps, {}> {
                                   minHeight: '400px',
                                   backgroundColor: '#fafafa',
                                   color: '#333',
+                                  overflow: 'auto',
+                                  boxSizing: 'border-box',
                                   '& h1': { fontSize: '2em', marginBottom: '0.5em', color: '#333' },
                                   '& h2': { fontSize: '1.5em', marginBottom: '0.5em', color: '#333' },
                                   '& h3': { fontSize: '1.17em', marginBottom: '0.5em', color: '#333' },
-                                  '& p': { color: '#333' },
+                                  '& p': { color: '#333', maxWidth: '100%' },
+                                  '& img': {
+                                    maxWidth: '100%',
+                                    height: 'auto',
+                                    display: 'block',
+                                    margin: '10px 0'
+                                  },
                                   '& code': {
                                     backgroundColor: '#f5f5f5',
                                     padding: '2px 4px',
                                     borderRadius: '3px',
                                     fontFamily: 'monospace',
-                                    color: '#333'
+                                    color: '#333',
+                                    wordBreak: 'break-word'
                                   },
                                   '& pre': {
                                     backgroundColor: '#f5f5f5',
