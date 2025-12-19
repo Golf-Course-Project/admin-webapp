@@ -92,7 +92,7 @@ import {
   Docs as DocsAdminView,
   Courses as CoursesAdminView,
   Blogs as BlogsAdminView,
-} from './views/adminPages';
+} from './views/pages';
 
 
 const Routes = () => {
