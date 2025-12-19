@@ -4,6 +4,10 @@ import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Typography } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import GolfCourseIcon from '@material-ui/icons/GolfCourse';
+import ArticleIcon from '@material-ui/icons/Article';
 
 import NotFoundIllustration from 'svg/illustrations/NotFound';
 import ViewTelemetry from '../ViewTelemetry';
@@ -25,6 +29,8 @@ class ListTelemetry extends React.Component<IProps, {}> {
     selectedRowId: '', 
     openTelemetrySideBar: false,   
     selectedTelemetryId: null,
+    courseRelatedExpanded: true,
+    generalExpanded: true,
   }
 
   componentDidMount() {
@@ -37,6 +43,14 @@ class ListTelemetry extends React.Component<IProps, {}> {
 
   private handleSidebarClose = () => {
     this.setState({ openTelemetrySideBar: false });       
+  };
+
+  private toggleCourseRelatedExpanded = () => {
+    this.setState({ courseRelatedExpanded: !this.state.courseRelatedExpanded });
+  };
+
+  private toggleGeneralExpanded = () => {
+    this.setState({ generalExpanded: !this.state.generalExpanded });
   };
 
   private loadTelemetry = () => {
@@ -116,79 +130,169 @@ class ListTelemetry extends React.Component<IProps, {}> {
         </Box>
 
         <Box sx={this.state.action === 'normal' ? { display: 'block' } : { display: 'none' }}>
-          <Box marginBottom={2} display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="h4" sx={{ fontWeight: 600 }}>
-              📊 Telemetry Data
-            </Typography>
-          </Box>
-          <Box marginBottom={4} sx={{ display: 'flex' }}>            
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 520 }} aria-label="telemetry table">
-                <TableHead>
-                  <TableRow>   
-                    <TableCell align="center" sx={{ width: '5%' }}>View</TableCell>  
-                    <TableCell align="left" sx={{ width: '15%' }}>Course</TableCell>        
-                    <TableCell align="left" sx={{ width: '15%' }}>Title</TableCell>   
-                    <TableCell align="center" sx={{ width: '8%' }}>State</TableCell>   
-                    <TableCell align="left" sx={{ width: '12%' }}>IP</TableCell>   
-                    <TableCell align="left" sx={{ width: '15%' }}>Referer</TableCell>   
-                    <TableCell align="left" sx={{ width: '15%' }}>Agent</TableCell>   
-                    <TableCell align="center" sx={{ width: '15%' }}>Date Created</TableCell>                                                                                         
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {this.state.data.map((row) => (                    
-                    <TableRow
-                      key={row.id}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
-                      hover                                  
-                    >                         
-                      <TableCell align="center" sx={{ width: '5%' }}>
-                        <IconButton 
-                          size="small" 
-                          onClick={(e:any) => this.handleOpenTelemetrySideBar(row)}
-                        >
-                          <VisibilityIcon fontSize="small" />
-                        </IconButton>
-                      </TableCell>                        
+          {(() => {
+            const withCourseId = this.state.data.filter(row => row.courseId);
+            const withoutCourseId = this.state.data.filter(row => !row.courseId);
+            
+            return (
+              <>
+                {/* First List - Items with Course ID */}
+                {withCourseId.length > 0 && (
+                  <>
+                    <Box marginBottom={2} display="flex" justifyContent="space-between" alignItems="center">
+                      <Box display="flex" alignItems="center">
+                        <GolfCourseIcon sx={{ marginRight: 1 }} />
+                        <Typography variant="h4" sx={{ fontWeight: 600 }}>
+                          Course-Related Telemetry Data
+                        </Typography>
+                      </Box>
+                      <IconButton 
+                        size="small" 
+                        onClick={this.toggleCourseRelatedExpanded}
+                        sx={{ marginLeft: 1 }}
+                      >
+                        {this.state.courseRelatedExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                      </IconButton>
+                    </Box>
+                    <Box marginBottom={4} sx={{ display: this.state.courseRelatedExpanded ? 'flex' : 'none' }}>            
+                      <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 520 }} aria-label="course telemetry table">
+                          <TableHead>
+                            <TableRow>   
+                              <TableCell align="center" sx={{ width: '8%' }}>View</TableCell>  
+                              <TableCell align="left" sx={{ width: '20%' }}>Course</TableCell>        
+                              <TableCell align="center" sx={{ width: '12%' }}>State</TableCell>   
+                              <TableCell align="left" sx={{ width: '15%' }}>IP</TableCell>   
+                              <TableCell align="left" sx={{ width: '25%' }}>Referer</TableCell>   
+                              <TableCell align="center" sx={{ width: '20%' }}>Date Created</TableCell>                                                                                         
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {withCourseId.map((row) => (                    
+                              <TableRow
+                                key={row.id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
+                                hover                                  
+                              >                         
+                                <TableCell align="center" sx={{ width: '8%' }}>
+                                  <IconButton 
+                                    size="small" 
+                                    onClick={(e:any) => this.handleOpenTelemetrySideBar(row)}
+                                  >
+                                    <VisibilityIcon fontSize="small" />
+                                  </IconButton>
+                                </TableCell>                        
 
-                      <TableCell align="left" sx={{ width: '15%' }}>{row.name || '-'}</TableCell>  
+                                <TableCell align="left" sx={{ width: '20%' }}>{row.name || '-'}</TableCell>  
 
-                      <TableCell align="left" sx={{ width: '15%' }}>{row.title || '-'}</TableCell>
+                                <TableCell align="center" sx={{ width: '12%' }}>{row.state || '-'}</TableCell>
 
-                      <TableCell align="center" sx={{ width: '8%' }}>{row.state || '-'}</TableCell>
+                                <TableCell align="left" sx={{ width: '15%' }}>{row.ipAddress || '-'}</TableCell>
 
-                      <TableCell align="left" sx={{ width: '12%' }}>{row.ipAddress || '-'}</TableCell>
+                                <TableCell align="left" sx={{ width: '25%' }}>
+                                  {row.referer && !row.referer.includes('https://www.golfcourseproject.com/') ? (
+                                    <span style={{ fontSize: '0.85em', wordBreak: 'break-all' }}>
+                                      {row.referer.length > 40 ? row.referer.substring(0, 40) + '...' : row.referer}
+                                    </span>
+                                  ) : ''}
+                                </TableCell>
 
-                      <TableCell align="left" sx={{ width: '15%' }}>
-                        {row.referer ? (
-                          <span style={{ fontSize: '0.85em', wordBreak: 'break-all' }}>
-                            {row.referer.length > 30 ? row.referer.substring(0, 30) + '...' : row.referer}
-                          </span>
-                        ) : '-'}
-                      </TableCell>
+                                <TableCell align="center" sx={{ width: '20%' }}>
+                                  {row.dateCreated ? new Date(row.dateCreated).toLocaleDateString() : '-'}
+                                </TableCell>                                                                               
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </Box>
+                  </>
+                )}
 
-                      <TableCell align="left" sx={{ width: '15%' }}>
-                        {row.userAgent ? (
-                          <span style={{ fontSize: '0.85em' }}>
-                            {row.userAgent.length > 30 ? row.userAgent.substring(0, 30) + '...' : row.userAgent}
-                          </span>
-                        ) : '-'}
-                      </TableCell>
+                {/* Spacer between tables */}
+                {withCourseId.length > 0 && withoutCourseId.length > 0 && (
+                  <Box sx={{ marginBottom: '20px' }} />
+                )}
 
-                      <TableCell align="center" sx={{ width: '15%' }}>
-                        {row.dateCreated ? new Date(row.dateCreated).toLocaleDateString() : '-'}
-                      </TableCell>                                                                               
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>          
+                {/* Second List - Items without Course ID */}
+                {withoutCourseId.length > 0 && (
+                  <>
+                    <Box marginTop={withCourseId.length > 0 ? '50px' : 0} marginBottom={2} display="flex" justifyContent="space-between" alignItems="center">
+                      <Box display="flex" alignItems="center">
+                        <ArticleIcon sx={{ marginRight: 1 }} />
+                        <Typography variant="h4" sx={{ fontWeight: 600 }}>
+                          General Telemetry Data
+                        </Typography>
+                      </Box>
+                      <IconButton 
+                        size="small" 
+                        onClick={this.toggleGeneralExpanded}
+                        sx={{ marginLeft: 1 }}
+                      >
+                        {this.state.generalExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                      </IconButton>
+                    </Box>
+                    <Box marginBottom={4} sx={{ display: this.state.generalExpanded ? 'flex' : 'none' }}>            
+                      <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 520 }} aria-label="general telemetry table">
+                          <TableHead>
+                            <TableRow>   
+                              <TableCell align="center" sx={{ width: '10%' }}>View</TableCell>  
+                              <TableCell align="center" sx={{ width: '15%' }}>State</TableCell>   
+                              <TableCell align="left" sx={{ width: '20%' }}>IP</TableCell>   
+                              <TableCell align="left" sx={{ width: '30%' }}>Referer</TableCell>   
+                              <TableCell align="center" sx={{ width: '25%' }}>Date Created</TableCell>                                                                                         
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {withoutCourseId.map((row) => (                    
+                              <TableRow
+                                key={row.id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
+                                hover                                  
+                              >                         
+                                <TableCell align="center" sx={{ width: '10%' }}>
+                                  <IconButton 
+                                    size="small" 
+                                    onClick={(e:any) => this.handleOpenTelemetrySideBar(row)}
+                                  >
+                                    <VisibilityIcon fontSize="small" />
+                                  </IconButton>
+                                </TableCell>                        
+
+                                <TableCell align="center" sx={{ width: '15%' }}>{row.state || '-'}</TableCell>
+
+                                <TableCell align="left" sx={{ width: '20%' }}>{row.ipAddress || '-'}</TableCell>
+
+                                <TableCell align="left" sx={{ width: '30%' }}>
+                                  {row.referer && !row.referer.includes('https://www.golfcourseproject.com/') ? (
+                                    <span style={{ fontSize: '0.85em', wordBreak: 'break-all' }}>
+                                      {row.referer.length > 40 ? row.referer.substring(0, 40) + '...' : row.referer}
+                                    </span>
+                                  ) : ''}
+                                </TableCell>
+
+                                <TableCell align="center" sx={{ width: '25%' }}>
+                                  {row.dateCreated ? new Date(row.dateCreated).toLocaleDateString() : '-'}
+                                </TableCell>                                                                               
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </Box>
+                  </>
+                )}
+              </>
+            );
+          })()}          
         </Box>
 
         <Box display={this.state.action === 'loading' ? 'block' : 'none'}>  
-          <SkeletonTable rows={10} columns={8} display={this.state.action === 'loading' ? true : false} columnWidths={['5%', '15%', '15%', '8%', '12%', '15%', '15%', '15%']} minWidth={520}></SkeletonTable>                 
+          <SkeletonTable rows={10} columns={6} display={this.state.action === 'loading' ? true : false} columnWidths={['8%', '20%', '12%', '15%', '25%', '20%']} minWidth={520}></SkeletonTable>
+          <Box sx={{ marginTop: '50px' }}>
+            <SkeletonTable rows={10} columns={5} display={this.state.action === 'loading' ? true : false} columnWidths={['10%', '15%', '20%', '30%', '25%']} minWidth={520}></SkeletonTable>
+          </Box>                 
         </Box>    
 
         <ViewTelemetry
@@ -218,4 +322,6 @@ interface IForm {
   selectedRowId: string;  
   openTelemetrySideBar: boolean; 
   selectedTelemetryId: string | null;
+  courseRelatedExpanded: boolean;
+  generalExpanded: boolean;
 }

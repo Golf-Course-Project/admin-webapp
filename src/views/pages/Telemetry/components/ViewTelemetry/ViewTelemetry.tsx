@@ -282,7 +282,7 @@ class ViewTelemetry extends React.Component<IProps, {}> {
                             color="primary"
                             fullWidth
                             multiline
-                            rows={4}
+                            rows={6}
                             name={'request'}
                             value={this.state.request}
                             disabled
@@ -300,7 +300,7 @@ class ViewTelemetry extends React.Component<IProps, {}> {
                             color="primary"
                             fullWidth
                             multiline
-                            rows={4}
+                            rows={8}
                             name={'response'}
                             value={this.state.response}
                             disabled
