@@ -21,6 +21,7 @@ import { IBlog, IBlogPatch, IBlogPublishPatch, IFetchBlogApiResponse } from 'int
 import BlogService from 'services/blog.service';
 import EditBlogSkeleton from './EditBlogSkeleton';
 import ConfirmDelete from '../ConfirmDelete';
+import BlogImages from '../BlogImages';
 
 class EditBlog extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -604,6 +605,19 @@ class EditBlog extends React.Component<IProps, {}> {
                           </Box>
                         </Box>
                       </Grid>
+                      
+                      <Grid item xs={12} md={12} sx={{ marginTop: '20px' }}>
+                        <Divider />
+                      </Grid>
+
+                      <Grid item xs={12} md={12}>
+                        <BlogImages blogId={this.state.id} theme={this.props.theme} ready={this.state.ready} />
+                      </Grid>
+
+                      <Grid item xs={12} md={12}>
+                        <Divider />
+                      </Grid>
+
                       <Grid item xs={12} md={12} sx={{ marginTop: '20px' }}>
                         <Box
                           display={'flex'}
