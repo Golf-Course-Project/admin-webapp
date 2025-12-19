@@ -70,9 +70,9 @@ class BlogImages extends React.Component<IProps, {}> {
     if (filesSelectedToBeUploaded.length === 0) {
       const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
       if (fileUpload) { fileUpload.value = ''; }
-      this.setState({ action: 'normal', files: [] });
+      this.setState({ action: 'normal', filesSelectedToBeUploaded: [] });
     } else {
-      this.setState({ files: filesSelectedToBeUploaded });
+      this.setState({ filesSelectedToBeUploaded: filesSelectedToBeUploaded });
     }
   }
 
@@ -89,7 +89,7 @@ class BlogImages extends React.Component<IProps, {}> {
       }
 
     }).catch((error: Error) => {
-      this.setState({ action: 'failed', message: error.message });
+      this.setState({ action: 'failed', messageText: error.message });
     });
 
     client = null;
@@ -328,7 +328,7 @@ interface IForm {
   data: IImage[],
   count: number,
   blogId: string,
-  filesSelectedToBeUploaded: [], 
+  filesSelectedToBeUploaded: File[], 
   reachedFileLimit: boolean,  
 }
 
