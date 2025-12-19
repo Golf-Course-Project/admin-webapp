@@ -7,6 +7,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import UploadIcon from '@material-ui/icons/Upload';
 import AddIcon from '@material-ui/icons/AddCircle';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import CopyIcon from '@material-ui/icons/ContentCopy';
 import { green, grey } from '@material-ui/core/colors';
 
 import { IImage, IFetchImagesApiResponse, IPostImagesApiResponse } from 'interfaces/images.interfaces';
@@ -28,7 +29,8 @@ class BlogImages extends React.Component<IProps, {}> {
     count: 0,
     blogId: this.props.blogId,
     filesSelectedToBeUploaded: [],   
-    reachedFileLimit: false,   
+    reachedFileLimit: false,
+    copiedImageUrl: '',
   } 
 
   componentDidMount() {
@@ -94,6 +96,19 @@ class BlogImages extends React.Component<IProps, {}> {
 
     client = null;
   }
+
+  private handleCopyImageUrlToClipboard = (url: string) => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(() => {
+        this.setState({ copiedImageUrl: url });
+        setTimeout(() => { 
+          this.setState({ copiedImageUrl: '' }); 
+        }, 2000);
+      }).catch(() => {
+        // Clipboard write failed, silently ignore
+      });
+    }
+  };
 
   private fetch = (blogId: string) => {
     const client: BlogService = new BlogService();
@@ -246,13 +261,13 @@ class BlogImages extends React.Component<IProps, {}> {
               align={'left'}
               sx={{ fontWeight: 500, marginTop: 2, marginBottom: 2 }}
             >
-              No blog images found. <Link component="button" fontSize={16} onClick={(e: any) => this.handleAddIconOnClick(e)}>Click here</Link> to upload new images.
+              No blog images found. <Link component="button" fontSize={16} onClick={(e: any) => { e.preventDefault(); this.handleAddIconOnClick(e); }}>Click here</Link> to upload new images.
 
             </Typography>
           </Box>
 
           <Box display="flex" width={'100%'} sx={this.state.action === 'normal' && this.state.count > 0 ? { display: 'flex', width: '100%' } : { display: 'none' }}>
-            <ImageList sx={{ width: '100%' }} cols={2}>             
+            <ImageList sx={{ width: '100%' }} cols={3}>             
               {this.state.data.map((photo, index) => (
                 <ImageListItem key={index}>
                   <img
@@ -265,6 +280,13 @@ class BlogImages extends React.Component<IProps, {}> {
                     title={photo.name.length > 14 ? `${photo.name.substring(0, 11)}...` : photo.name}
                     actionIcon={
                       <div>
+                        <IconButton
+                          sx={{ color: this.state.copiedImageUrl === photo.url ? green[500] : 'rgba(255, 255, 255, 0.54)' }}
+                          aria-label={`copy url for ${photo.name}`}
+                          onClick={(e: any) => this.handleCopyImageUrlToClipboard(photo.url)}
+                        >
+                          <CopyIcon />
+                        </IconButton>
                         <IconButton
                           sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                           aria-label={`info about ${photo.name}`}
@@ -329,6 +351,7 @@ interface IForm {
   count: number,
   blogId: string,
   filesSelectedToBeUploaded: File[], 
-  reachedFileLimit: boolean,  
+  reachedFileLimit: boolean,
+  copiedImageUrl: string,
 }
 

@@ -11,7 +11,8 @@ import PublishIcon from '@material-ui/icons/Publish';
 import UnpublishedIcon from '@material-ui/icons/Unpublished';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { green } from '@material-ui/core/colors';
-import SimpleMDE from 'react-simplemde-editor';
+import EasyMDE from 'easymde';
+import { SimpleMdeReact } from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
@@ -26,7 +27,7 @@ import BlogImages from '../BlogImages';
 class EditBlog extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
 
-  private simpleMDEOptions: any = {
+  private simpleMDEOptions: EasyMDE.Options = {
     spellChecker: false,
     placeholder: 'Write your blog post in markdown...',
     status: false,
@@ -43,9 +44,13 @@ class EditBlog extends React.Component<IProps, {}> {
       'image',
       '|',
       'preview',
+      'side-by-side',
+      'fullscreen',
+      '|',
       'guide'
     ],
     minHeight: '400px',
+    sideBySideFullscreen: false,
   };
 
   state: IForm = {
@@ -317,6 +322,11 @@ class EditBlog extends React.Component<IProps, {}> {
           blurErrors.push('pageName');
         }
         break;
+      case 'shortDescription':
+        if (this.state.shortDescription.length < 3 && !blurErrors.includes(e.currentTarget.name)) {
+          blurErrors.push('shortDescription');
+        }
+        break;
       default:
         break;
     }
@@ -347,6 +357,8 @@ class EditBlog extends React.Component<IProps, {}> {
         return this.state.blurErrors.includes('title') ? 'Title is required' : ' ';
       case 'pageName':
         return this.state.blurErrors.includes('pageName') ? 'Page Name is required' : ' ';
+      case 'shortDescription':
+        return this.state.blurErrors.includes('shortDescription') ? 'Short Description is required' : ' ';
       default:
         return ' ';
     }
@@ -371,13 +383,13 @@ class EditBlog extends React.Component<IProps, {}> {
         variant={'temporary'}
         sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: '60%' } } }}
       >  
-        <Snackbar open={this.state.snackOpen} autoHideDuration={1000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
+        <Snackbar open={this.state.snackOpen} autoHideDuration={1000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()} sx={{ mr: 2, mt: 2 }}>
           <Alert severity="success" sx={{ minWidth: '400px' }}>
             Blog successfully saved!
           </Alert>
         </Snackbar>
 
-        <Snackbar open={this.state.publishSnackOpen} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handlePublishSnackClose()}>
+        <Snackbar open={this.state.publishSnackOpen} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handlePublishSnackClose()} sx={{ mr: 2, mt: 2 }}>
           <Alert severity={this.state.publishSnackSeverity} sx={{ minWidth: '400px' }}>
             {this.state.publishSnackMessage}
           </Alert>
@@ -535,7 +547,9 @@ class EditBlog extends React.Component<IProps, {}> {
                           name={'shortDescription'}
                           value={this.state.shortDescription}
                           onChange={(e: any) => this.handleInputChanges(e)}
-                          helperText={' '}
+                          onBlur={(e: any) => this.handleInputBlur(e)}
+                          error={this.state.blurErrors.includes('shortDescription') ? true : false}
+                          helperText={this.setHelperTextMessage('shortDescription')}
                           disabled={this.state.action === 'update'}
                         />
                       </Grid>
@@ -557,7 +571,7 @@ class EditBlog extends React.Component<IProps, {}> {
                           <Box sx={{ marginTop: 2 }}>
                             {this.state.markdownTab === 0 && (
                               <Box sx={{ pointerEvents: this.state.action === 'update' ? 'none' : 'auto', opacity: this.state.action === 'update' ? 0.6 : 1 }}>
-                                <SimpleMDE
+                                <SimpleMdeReact
                                   value={this.state.description}
                                   onChange={this.handleMarkdownChange}
                                   options={this.simpleMDEOptions}
@@ -604,11 +618,8 @@ class EditBlog extends React.Component<IProps, {}> {
                             )}
                           </Box>
                         </Box>
-                      </Grid>
+                      </Grid>                     
                       
-                      <Grid item xs={12} md={12} sx={{ marginTop: '20px' }}>
-                        <Divider />
-                      </Grid>
 
                       <Grid item xs={12} md={12}>
                         <BlogImages blogId={this.state.id} theme={this.props.theme} ready={this.state.ready} />
@@ -630,7 +641,7 @@ class EditBlog extends React.Component<IProps, {}> {
                             startIcon={<SaveIcon />}
                             sx={{ width: { xs: '100%', md: 'auto' }, minWidth: '200px' }}
                             onClick={(e: any) => this.handleSaveOnClick()}
-                            disabled={this.state.action === 'update'}
+                            disabled={this.state.action === 'update' || this.state.title.length < 3 || this.state.pageName.length < 3 || this.state.shortDescription.length < 3}
                           >
                             {this.state.action === 'update' ? 'Saving...' : 'Save'}
                           </Button>
