@@ -91,6 +91,11 @@ export const pages = [
         title: 'Blogs',
         href: '/admin-blogs',
         authHide: false,
+      },
+      {
+        title: 'Telemetry',
+        href: '/admin-telemetry',
+        authHide: false,
       },  
       {
         title: 'Misc',
