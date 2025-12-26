@@ -1,6 +1,7 @@
 import { courseServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper';
 import { ITelemetryListApiResponse, IFetchTelemetryApiResponse } from 'interfaces/telemetry.interfaces';
+import { IApiResponse } from 'interfaces/api-response.interface';
 
 export class TelemetryService {
   
@@ -78,6 +79,28 @@ export class TelemetryService {
           'X-Authorization': `Bearer ${jwt}`,
           Accept: 'application/json',
         }),
+      });
+
+      const results = await Promise.resolve(response);
+      const text = await results.text();
+      return text ? JSON.parse(text) : {};
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  }
+
+  async deleteByIds(ids: string[]): Promise<IApiResponse> {
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(`${courseServiceUrl}/api/telemetry/delete/ids`, {
+        method: 'DELETE',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),
+        body: JSON.stringify(ids),
       });
 
       const results = await Promise.resolve(response);

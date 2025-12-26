@@ -2,7 +2,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Typography, Tooltip, Skeleton, Checkbox, Select, MenuItem, FormControl, Chip, Box as MuiBox, Link } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Typography, Tooltip, Skeleton, Checkbox, Select, MenuItem, FormControl, Chip, Box as MuiBox, Link, Snackbar, Alert } from '@material-ui/core';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import GolfCourseIcon from '@material-ui/icons/GolfCourse';
@@ -10,6 +10,8 @@ import ArticleIcon from '@material-ui/icons/Article';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import NotListedLocationIcon from '@material-ui/icons/NotListedLocation';
 import FlagIcon from '@material-ui/icons/Flag';
+import DeleteIcon from '@material-ui/icons/Delete';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 import NotFoundIllustration from 'svg/illustrations/NotFound';
 import ViewTelemetry from '../ViewTelemetry';
@@ -46,6 +48,7 @@ class ListTelemetry extends React.Component<IProps, {}> {
     selectedReferrers: [],
     selectedGeneralControllers: [],
     selectedGeneralReferrers: [],
+    snackOpen: false,
   }
 
   componentDidMount() {
@@ -64,8 +67,108 @@ class ListTelemetry extends React.Component<IProps, {}> {
     this.setState({ courseRelatedExpanded: !this.state.courseRelatedExpanded });
   };
 
+  private handleDeleteCourseRelatedItems = async () => {
+    if (this.state.selectedCourseRelatedItems.length === 0) {
+      return;
+    }
+
+    const itemsToDeleteCount = this.state.selectedCourseRelatedItems.length;
+
+    try {
+      const client: TelemetryService = new TelemetryService();
+      const response = await client.deleteByIds(this.state.selectedCourseRelatedItems);
+      
+      if (response.success) {
+        // Reset all filters to show full updated list
+        const resetFilters = {
+          selectedCourseRelatedItems: [],
+          selectedCourseRelatedIPs: [],
+          selectedCourses: [],
+          selectedControllers: [],
+          selectedStates: [],
+          selectedReferrers: [],
+          snackOpen: true
+        };
+        
+        if (itemsToDeleteCount >= 10) {
+          // If 10 or more items deleted, refresh the entire list from API
+          this.setState(resetFilters);
+          await this.props.callback();
+        } else {
+          // If 10 or fewer items deleted, remove them client-side
+          const deletedItemIds = [...this.state.selectedCourseRelatedItems];
+          const updatedData = this.state.data.filter(item => 
+            !deletedItemIds.includes(item.id)
+          );
+          this.setState({ 
+            ...resetFilters,
+            data: updatedData,
+            count: this.state.count - itemsToDeleteCount
+          });
+        }
+      } else {
+        this.setState({ errorMsg: response.message || 'Failed to delete items' });
+      }
+    } catch (error: any) {
+      this.setState({ errorMsg: error.message || 'An error occurred while deleting items' });
+    }
+  };
+
+  private handleSnackClose = () => {
+    this.setState({ snackOpen: false });
+  };
+
+  private handleRefreshData = async () => {
+    this.props.callback();
+  };
+
   private toggleGeneralExpanded = () => {
     this.setState({ generalExpanded: !this.state.generalExpanded });
+  };
+
+  private handleDeleteGeneralItems = async () => {
+    if (this.state.selectedGeneralItems.length === 0) {
+      return;
+    }
+
+    const itemsToDeleteCount = this.state.selectedGeneralItems.length;
+
+    try {
+      const client: TelemetryService = new TelemetryService();
+      const response = await client.deleteByIds(this.state.selectedGeneralItems);
+      
+      if (response.success) {
+        // Reset all filters to show full updated list
+        const resetFilters = {
+          selectedGeneralItems: [],
+          selectedGeneralIPs: [],
+          selectedGeneralControllers: [],
+          selectedGeneralReferrers: [],
+          snackOpen: true
+        };
+        
+        if (itemsToDeleteCount >= 10) {
+          // If 10 or more items deleted, refresh the entire list from API
+          this.setState(resetFilters);
+          await this.props.callback();
+        } else {
+          // If 10 or fewer items deleted, remove them client-side
+          const deletedItemIds = [...this.state.selectedGeneralItems];
+          const updatedData = this.state.data.filter(item => 
+            !deletedItemIds.includes(item.id)
+          );
+          this.setState({ 
+            ...resetFilters,
+            data: updatedData,
+            count: this.state.count - itemsToDeleteCount
+          });
+        }
+      } else {
+        this.setState({ errorMsg: response.message || 'Failed to delete items' });
+      }
+    } catch (error: any) {
+      this.setState({ errorMsg: error.message || 'An error occurred while deleting items' });
+    }
   };
 
   private handleIPLocationLookup = async (ip: string) => {
@@ -95,28 +198,95 @@ class ListTelemetry extends React.Component<IProps, {}> {
     }
   };
 
+  private getFilteredCourseRelatedItems = () => {
+    let withCourseId = this.state.data.filter(row => row.courseId);
+    
+    // Apply separate IP filters
+    if (this.state.selectedCourseRelatedIPs.length > 0) {
+      withCourseId = withCourseId.filter(item => 
+        item.ipAddress && this.state.selectedCourseRelatedIPs.includes(item.ipAddress)
+      );
+    }
+    
+    // Apply course filter
+    if (this.state.selectedCourses.length > 0) {
+      withCourseId = withCourseId.filter(item => 
+        item.name && this.state.selectedCourses.includes(item.name)
+      );
+    }
+    
+    // Apply controller filter
+    if (this.state.selectedControllers.length > 0) {
+      withCourseId = withCourseId.filter(item => 
+        item.controller && this.state.selectedControllers.includes(item.controller)
+      );
+    }
+    
+    // Apply state filter
+    if (this.state.selectedStates.length > 0) {
+      withCourseId = withCourseId.filter(item => 
+        item.state && this.state.selectedStates.includes(item.state)
+      );
+    }
+    
+    // Apply referrer filter
+    if (this.state.selectedReferrers.length > 0) {
+      withCourseId = withCourseId.filter(item => 
+        item.referer && this.state.selectedReferrers.includes(item.referer)
+      );
+    }
+    
+    return withCourseId;
+  };
+
+  private getFilteredGeneralItems = () => {
+    let withoutCourseId = this.state.data.filter(row => !row.courseId);
+    
+    if (this.state.selectedGeneralIPs.length > 0) {
+      withoutCourseId = withoutCourseId.filter(item => 
+        item.ipAddress && this.state.selectedGeneralIPs.includes(item.ipAddress)
+      );
+    }
+    
+    // Apply general controller filter
+    if (this.state.selectedGeneralControllers.length > 0) {
+      withoutCourseId = withoutCourseId.filter(item => 
+        item.controller && this.state.selectedGeneralControllers.includes(item.controller)
+      );
+    }
+    
+    // Apply general referrer filter
+    if (this.state.selectedGeneralReferrers.length > 0) {
+      withoutCourseId = withoutCourseId.filter(item => 
+        item.referer && this.state.selectedGeneralReferrers.includes(item.referer)
+      );
+    }
+    
+    return withoutCourseId;
+  };
+
   private handleCourseRelatedHeaderRadio = () => {
-    const withCourseId = this.state.data.filter(row => row.courseId);
+    const withCourseId = this.getFilteredCourseRelatedItems();
     const allSelected = withCourseId.length > 0 && withCourseId.every(item => this.state.selectedCourseRelatedItems.includes(item.id));
     
     if (allSelected) {
       // If all are selected, unselect all
       this.setState({ selectedCourseRelatedItems: [] });
     } else {
-      // If not all are selected, select all
+      // If not all are selected, select all visible/filtered items
       this.setState({ selectedCourseRelatedItems: withCourseId.map(item => item.id) });
     }
   };
 
   private handleGeneralHeaderRadio = () => {
-    const withoutCourseId = this.state.data.filter(row => !row.courseId);
+    const withoutCourseId = this.getFilteredGeneralItems();
     const allSelected = withoutCourseId.length > 0 && withoutCourseId.every(item => this.state.selectedGeneralItems.includes(item.id));
     
     if (allSelected) {
       // If all are selected, unselect all
       this.setState({ selectedGeneralItems: [] });
     } else {
-      // If not all are selected, select all
+      // If not all are selected, select all visible/filtered items
       this.setState({ selectedGeneralItems: withoutCourseId.map(item => item.id) });
     }
   };
@@ -364,63 +534,8 @@ class ListTelemetry extends React.Component<IProps, {}> {
 
         <Box sx={this.state.action === 'normal' ? { display: 'block' } : { display: 'none' }}>
           {(() => {
-            let withCourseId = this.state.data.filter(row => row.courseId);
-            let withoutCourseId = this.state.data.filter(row => !row.courseId);
-            
-            // Apply separate IP filters
-            if (this.state.selectedCourseRelatedIPs.length > 0) {
-              withCourseId = withCourseId.filter(item => 
-                item.ipAddress && this.state.selectedCourseRelatedIPs.includes(item.ipAddress)
-              );
-            }
-            
-            // Apply course filter
-            if (this.state.selectedCourses.length > 0) {
-              withCourseId = withCourseId.filter(item => 
-                item.name && this.state.selectedCourses.includes(item.name)
-              );
-            }
-            
-            // Apply controller filter
-            if (this.state.selectedControllers.length > 0) {
-              withCourseId = withCourseId.filter(item => 
-                item.controller && this.state.selectedControllers.includes(item.controller)
-              );
-            }
-            
-            // Apply state filter
-            if (this.state.selectedStates.length > 0) {
-              withCourseId = withCourseId.filter(item => 
-                item.state && this.state.selectedStates.includes(item.state)
-              );
-            }
-            
-            // Apply referrer filter
-            if (this.state.selectedReferrers.length > 0) {
-              withCourseId = withCourseId.filter(item => 
-                item.referer && this.state.selectedReferrers.includes(item.referer)
-              );
-            }
-            
-            if (this.state.selectedGeneralIPs.length > 0) {
-              withoutCourseId = withoutCourseId.filter(item => 
-                item.ipAddress && this.state.selectedGeneralIPs.includes(item.ipAddress)
-              );
-            }
-            
-            // Apply general controller filter
-            if (this.state.selectedGeneralControllers.length > 0) {
-              withoutCourseId = withoutCourseId.filter(item => 
-                item.controller && this.state.selectedGeneralControllers.includes(item.controller)
-              );
-            }
-            
-            // Apply general referrer filter
-            if (this.state.selectedGeneralReferrers.length > 0) {
-              withoutCourseId = withoutCourseId.filter(item => 
-                item.referer && this.state.selectedGeneralReferrers.includes(item.referer)
-              );
-            }
+            const withCourseId = this.getFilteredCourseRelatedItems();
+            const withoutCourseId = this.getFilteredGeneralItems();
             
             return (
               <>
@@ -434,13 +549,31 @@ class ListTelemetry extends React.Component<IProps, {}> {
                           Course related data
                         </Typography>
                       </Box>
-                      <IconButton 
-                        size="small" 
-                        onClick={this.toggleCourseRelatedExpanded}
-                        sx={{ marginLeft: 1 }}
-                      >
-                        {this.state.courseRelatedExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                      </IconButton>
+                      <Box display="flex" alignItems="center">
+                        <IconButton 
+                          size="small" 
+                          onClick={this.handleRefreshData}
+                          sx={{ marginRight: 1 }}
+                        >
+                          <RefreshIcon fontSize="medium" sx={{ color: '#666' }} />
+                        </IconButton>
+                        {this.state.selectedCourseRelatedItems.length > 0 && (
+                          <IconButton 
+                            size="small" 
+                            onClick={this.handleDeleteCourseRelatedItems}
+                            sx={{ marginRight: 1 }}
+                          >
+                            <DeleteIcon fontSize="medium" sx={{ color: '#666' }} />
+                          </IconButton>
+                        )}
+                        <IconButton 
+                          size="small" 
+                          onClick={this.toggleCourseRelatedExpanded}
+                          sx={{ marginLeft: 1 }}
+                        >
+                          {this.state.courseRelatedExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                        </IconButton>
+                      </Box>
                     </Box>
                     <Box marginBottom={4} sx={{ display: this.state.courseRelatedExpanded ? 'flex' : 'none' }}>            
                       <TableContainer component={Paper}>
@@ -715,13 +848,31 @@ class ListTelemetry extends React.Component<IProps, {}> {
                           General Telemetry Data
                         </Typography>
                       </Box>
-                      <IconButton 
-                        size="small" 
-                        onClick={this.toggleGeneralExpanded}
-                        sx={{ marginLeft: 1 }}
-                      >
-                        {this.state.generalExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                      </IconButton>
+                      <Box display="flex" alignItems="center">
+                        <IconButton 
+                          size="small" 
+                          onClick={this.handleRefreshData}
+                          sx={{ marginRight: 1 }}
+                        >
+                          <RefreshIcon fontSize="medium" sx={{ color: '#666' }} />
+                        </IconButton>
+                        {this.state.selectedGeneralItems.length > 0 && (
+                          <IconButton 
+                            size="small" 
+                            onClick={this.handleDeleteGeneralItems}
+                            sx={{ marginRight: 1 }}
+                          >
+                            <DeleteIcon fontSize="medium" sx={{ color: '#666' }} />
+                          </IconButton>
+                        )}
+                        <IconButton 
+                          size="small" 
+                          onClick={this.toggleGeneralExpanded}
+                          sx={{ marginLeft: 1 }}
+                        >
+                          {this.state.generalExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                        </IconButton>
+                      </Box>
                     </Box>
                     <Box marginBottom={4} sx={{ display: this.state.generalExpanded ? 'flex' : 'none' }}>            
                       <TableContainer component={Paper}>
@@ -947,7 +1098,13 @@ class ListTelemetry extends React.Component<IProps, {}> {
           id={this.state.selectedTelemetryId}
           onClose={this.handleSidebarClose}
         >
-        </ViewTelemetry>   
+        </ViewTelemetry>
+        
+        <Snackbar open={this.state.snackOpen} autoHideDuration={3000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
+          <Alert onClose={(e: any) => this.handleSnackClose()} severity="success">
+            Selected telemetry records have been permanently deleted.
+          </Alert>
+        </Snackbar>   
       </Box>
     );
   }
@@ -982,4 +1139,5 @@ interface IForm {
   selectedReferrers: string[];
   selectedGeneralControllers: string[];
   selectedGeneralReferrers: string[];
+  snackOpen: boolean;
 }
