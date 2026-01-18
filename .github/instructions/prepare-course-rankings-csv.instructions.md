@@ -6,7 +6,7 @@ Sand Valley (Sedge Valley)
 
 First search is "Sand Valley". If that does not match. Try "Sedge Valley". If that does not match try "Sand Valley Sedge Valley". 
 
-If you still do not get a match try looking up just the via City and State. These fields are in the Location field. City is left of the comm and state is right of it. 
+If you still do not get a match try looking up just the via City and/or State. These fields are in the City, State or Location field. City is left of the comma and state is right of it. 
 
 For example "West Point, MS"
 

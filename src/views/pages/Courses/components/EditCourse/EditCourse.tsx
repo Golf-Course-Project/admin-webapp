@@ -386,48 +386,42 @@ class EditCourse extends React.Component<IProps, {}> {
         </Snackbar>          
 
         <Grid container spacing={1}>              
-          <Grid item xs={9}>
-            <Box
-              display={this.props.onSwapCourseToFacility === undefined ? 'none' : 'flex'}
-              justifyContent={'flex-end'}
-              sx={{ paddingRight: '5px', paddingTop: '15px' }}            
-            >              
-              <Button variant="contained" size="small" color="primary" startIcon={<SwapIcon />} onClick={(e: any) => this.handleOnSwapToFacility()}>Open Facility</Button>
-            </Box>
-          </Grid>
-          <Grid item xs={1}>
-            <Box
-              display={this.props.courses.length === 0 ? 'none' : 'flex'}
-              justifyContent={'flex-end'}
-              sx={{ paddingRight: '5px', paddingTop: '10px' }}              
-            >
-              <IconButton disabled={(this.state.courses[0] && this.state.courses[0].courseId === this.state.id) ? true : false} onClick={(e: any) => this.handleOnUpClick()}>
-                <ArrowUpIcon fontSize="small" />
-              </IconButton>         
-            </Box>  
-          </Grid>
-          <Grid item xs={1}>
-            <Box
-              display={this.props.courses.length === 0 ? 'none' : 'flex'}
-              justifyContent={'flex-end'}
-              sx={{ paddingRight: '10px', paddingTop: '10px' }}              
-            >
-              <IconButton disabled={this.state.courses[this.state.courses.length - 1] && this.state.courses[this.state.courses.length - 1].courseId === this.state.id ? true : false} onClick={(e: any) => this.handleOnDownClick()}>
-                <ArrowDownIcon fontSize="small" />
-              </IconButton>         
-            </Box>  
-          </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={12}>
             <Box
               display={'flex'}
               justifyContent={'flex-end'}
-              sx={{ paddingRight: '10px', paddingTop: '10px' }}
-              onClick={(e: any) => this.handleOnClose()}
+              alignItems={'center'}
+              sx={{ paddingTop: '10px', paddingRight: '10px', gap: 1 }}
             >
-              <IconButton>
-                <CloseIcon fontSize="small" />
-              </IconButton>         
-            </Box>  
+              <Box
+                display={this.props.onSwapCourseToFacility === undefined ? 'none' : 'flex'}
+                sx={{ paddingRight: '50px' }}            
+              >              
+                <Button variant="contained" size="small" color="primary" startIcon={<SwapIcon />} onClick={(e: any) => this.handleOnSwapToFacility()}>Open Facility</Button>
+              </Box>
+              <Box
+                display={this.props.courses.length === 0 ? 'none' : 'flex'}              
+              >
+                <IconButton disabled={(this.state.courses[0] && this.state.courses[0].courseId === this.state.id) ? true : false} onClick={(e: any) => this.handleOnUpClick()}>
+                  <ArrowUpIcon fontSize="small" />
+                </IconButton>         
+              </Box>
+              <Box
+                display={this.props.courses.length === 0 ? 'none' : 'flex'}              
+              >
+                <IconButton disabled={this.state.courses[this.state.courses.length - 1] && this.state.courses[this.state.courses.length - 1].courseId === this.state.id ? true : false} onClick={(e: any) => this.handleOnDownClick()}>
+                  <ArrowDownIcon fontSize="small" />
+                </IconButton>         
+              </Box>
+              <Box
+                display={'flex'}
+                onClick={(e: any) => this.handleOnClose()}
+              >
+                <IconButton>
+                  <CloseIcon fontSize="small" />
+                </IconButton>         
+              </Box>
+            </Box>
           </Grid>
         </Grid>          
 

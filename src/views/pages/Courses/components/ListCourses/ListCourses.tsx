@@ -9,10 +9,12 @@ import LockIcon from '@material-ui/icons/Lock';
 import UnknownIcon from '@material-ui/icons/NotListedLocation';
 import EditIcon from '@material-ui/icons/Edit';
 import ReviewIcon from '@material-ui/icons/Comment';
+import SearchIcon from '@material-ui/icons/Search';
 import FeaturedIcon from '@material-ui/icons/Star';
 import FlaggedIcon from '@material-ui/icons/Flag';
 
 import Illustration from 'svg/illustrations/Globe';
+import NotFoundIllustration from 'svg/illustrations/NotFound';
 import EditCourse from '../EditCourse';
 import EditFacility from '../EditFacility';
 import EditReview from '../EditReview';
@@ -184,6 +186,16 @@ class ListCourses extends React.Component<IProps, {}> {
     this.setState({ anchorEl: null, menuOpen: false, selectedRowId: null });
   }
 
+  private handleGoogleSearch = () => {
+    const row = this.state.data.find(item => item.courseId === this.state.selectedRowId);
+    if (row && row.courseName && row.state) {
+      const searchQuery = encodeURIComponent(`${row.courseName} ${row.state} golf`);
+      const url = `https://www.google.com/search?q=${searchQuery}`;
+      window.open(url, '_blank');
+    }
+    this.setState({ anchorEl: null, menuOpen: false, selectedRowId: null });
+  };
+
   private handleSwapFacilityToCourse = (obj: {courseId: string, facilityId: string}) => {   
     this.setState({ rowId: obj.courseId, selectedRowId: obj.courseId, openCourseSideBar: true, openFacilitySideBar: false });
   };
@@ -192,12 +204,46 @@ class ListCourses extends React.Component<IProps, {}> {
     this.setState({ openCourseSideBar: false, openFacilitySideBar: true, rowId: obj.courseId, selectedRowId: obj.courseId });
   };
 
+  private handleCourseCreated = (facilityName: string, state: string) => {
+    // Close the facility panel
+    this.setState({ openFacilitySideBar: false });
+    
+    // Update URL with search parameters
+    const searchParams = new URLSearchParams();
+    searchParams.set('searchText', `name:${facilityName}`);
+    searchParams.set('state', state);
+    
+    // Update the browser URL
+    const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+    window.history.pushState({}, '', newUrl);
+    
+    // Trigger the search
+    window.location.href = newUrl;
+  };
+
   private search = (body: ICourseSearchCriteriaBody) => {
     const client: CourseService = new CourseService();  
     
     client.searchWithRanking(body).then(async (response: ICourseListWithRankingApiResponse) => {        
 
       if (response.messageCode !== 200) {
+        // Check if it's a "no results" case vs actual error
+        if (response.message && response.message.toLowerCase().includes('no results')) {
+          this.setState({
+            paging: {
+              currentPage: 1,
+              spanStart: 1,
+              spanEnd: this._pageSize
+            },
+            pageCount: 0,
+            data: [],
+            count: 0,
+            selectedRowId: '',     
+            errorMsg: '',
+            action: 'normal'         
+          });
+          return;
+        }
         this.setState({ errorMsg: response.message, action: 'error', selectedRowId: ''});        
         return;
       }
@@ -268,7 +314,39 @@ class ListCourses extends React.Component<IProps, {}> {
           </Container>         
         </Box>
 
-        <Box sx={this.state.action === 'normal' ? { display: 'block' } : { display: 'none' }}>          
+        <Box display="flex" justifyContent="center" alignItems="center" sx={this.state.action === 'normal' && this.state.count === 0 ? { display: 'block' } : { display: 'none' }}>
+          <Container>
+            <Box 
+              height={'100%'}
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'center'}
+              marginTop={8}
+            >
+              <Box
+                height={'100%'}
+                width={'100%'}
+                maxWidth={500}
+              >
+                <NotFoundIllustration width={'100%'} height={'100%'} />
+              </Box>
+              <Box marginLeft={2}>
+                <Typography
+                  variant="h6"
+                  component="p"
+                  color="textSecondary"
+                  align="left"
+                >
+                  Oops! Looks like there are no results for your search.
+                  <br />
+                  Try something else.
+                </Typography>
+              </Box>
+            </Box>
+          </Container>         
+        </Box>
+
+        <Box sx={this.state.action === 'normal' && this.state.count > 0 ? { display: 'block' } : { display: 'none' }}>          
           <Box marginBottom={2} paddingLeft={1}>
             <Breadcrumbs aria-label="breadcrumb">
               <Typography color="disabled">{this.state.source}</Typography>
@@ -336,6 +414,12 @@ class ListCourses extends React.Component<IProps, {}> {
                               <EditIcon fontSize="small" />
                             </ListItemIcon>
                             <ListItemText primary={`Edit ${row.facilityName}`} />                                
+                          </MenuItem>
+                          <MenuItem onClick={this.handleGoogleSearch}>
+                            <ListItemIcon>
+                              <SearchIcon fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary="Google" />                                
                           </MenuItem>                         
                         </Menu>                        
                       </TableCell>  
@@ -435,7 +519,8 @@ class ListCourses extends React.Component<IProps, {}> {
           facilityId={this.state.selectedCourse?.facilityId}          
           onClose={this.handleSidebarClose}         
           onFacilityUpdate={(e: any) => this.handleFacilityUpdate(e)} 
-          onSwapFacilityToCourse={(e: any) => this.handleSwapFacilityToCourse(e)}                
+          onSwapFacilityToCourse={(e: any) => this.handleSwapFacilityToCourse(e)}
+          onCourseCreated={(facilityName: string, state: string) => this.handleCourseCreated(facilityName, state)}                
           courses={[]}  
         ></EditFacility>    
 

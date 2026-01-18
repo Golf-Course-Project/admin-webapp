@@ -2,13 +2,18 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { CardContent, Divider, Drawer, Grid, IconButton, TextField, Typography, Skeleton } from '@material-ui/core';
+import { CardContent, Divider, Drawer, Grid, IconButton, InputAdornment, TextField, Typography, Skeleton } from '@material-ui/core';
+import { green } from '@material-ui/core/colors';
 import CloseIcon from '@material-ui/icons/Close';
+import CopyIcon from '@material-ui/icons/ContentCopy';
+import CheckIcon from '@material-ui/icons/Check';
 
 import { ErrorMessage } from 'common/components';
 import { ITelemetry, IFetchTelemetryApiResponse } from 'interfaces/telemetry.interfaces';
 import TelemetryService from 'services/telemetry.service';
 import { LocationService, IIPLocationResponse } from 'services/location.service';
+import CourseService from 'services/course.service';
+import { IFetchCourseAndFacilityApiResponse } from 'interfaces/course.interfaces';
 
 class ViewTelemetry extends React.Component<IProps, {}> {
   static defaultProps: Partial<IProps> = {};
@@ -21,6 +26,8 @@ class ViewTelemetry extends React.Component<IProps, {}> {
     ready: false,
     data: null,
     id: this.props.id || '',
+    courseName: '',
+    clipCourseName: false,
     ipAddress: '',
     referer: '',
     courseId: '',
@@ -41,6 +48,8 @@ class ViewTelemetry extends React.Component<IProps, {}> {
       ready: false,
       data: null,
       id: '',
+      courseName: '',
+      clipCourseName: false,
       ipAddress: '',
       referer: '',
       courseId: '',
@@ -52,6 +61,43 @@ class ViewTelemetry extends React.Component<IProps, {}> {
       locationLoading: false,
     });
   }
+
+  private fetchCourseName = async (courseId: string) => {
+    if (!courseId) {
+      this.setState({ courseName: '' });
+      return;
+    }
+
+    const client: CourseService = new CourseService();
+
+    try {
+      const response: IFetchCourseAndFacilityApiResponse = await client.fetchIncFacility(courseId);
+      const name = response?.value?.course?.name ?? '';
+
+      // Avoid stale updates if selection changed while awaiting
+      if (this.state.courseId === courseId) {
+        this.setState({ courseName: name });
+      }
+    } catch (error) {
+      // Non-fatal: telemetry should still render even if course fetch fails
+      if (this.state.courseId === courseId) {
+        this.setState({ courseName: '' });
+      }
+    }
+  };
+
+  private handleCopyCourseNameToClipboard = () => {
+    if (!this.state.courseName) return;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(this.state.courseName).then(() => {
+        this.setState({ clipCourseName: true });
+        setTimeout(() => { this.setState({ clipCourseName: false }); }, 2000);
+      }).catch(() => {
+        // Clipboard write failed, silently ignore
+      });
+    }
+  };
 
   private fetch = (id: string) => {
     const client: TelemetryService = new TelemetryService();
@@ -72,6 +118,12 @@ class ViewTelemetry extends React.Component<IProps, {}> {
           action: 'normal',
           ready: true
         });
+
+        if (data.courseId) {
+          this.fetchCourseName(data.courseId);
+        } else {
+          this.setState({ courseName: '' });
+        }
 
         // Automatically lookup IP location if IP address exists
         if (data.ipAddress) {
@@ -122,7 +174,9 @@ class ViewTelemetry extends React.Component<IProps, {}> {
         open: this.props.open,
         id: this.props.id || '',
         action: 'loading',
-        ready: false
+        ready: false,
+        courseName: '', // Clear previous course name
+        courseId: '', // Clear previous course ID
       });
 
       if (this.props.id) {
@@ -251,6 +305,38 @@ class ViewTelemetry extends React.Component<IProps, {}> {
                             helperText={' '}
                             InputProps={{
                               readOnly: true,
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={12}>
+                          <TextField
+                            type="text"
+                            label="Course Name"
+                            variant="outlined"
+                            color="primary"
+                            fullWidth
+                            name={'courseName'}
+                            value={this.state.courseName}
+                            disabled
+                            helperText={' '}
+                            InputProps={{
+                              readOnly: true,
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    onClick={() => this.handleCopyCourseNameToClipboard()}
+                                    edge="end"
+                                    size="small"
+                                    disabled={!this.state.courseName}
+                                  >
+                                    {this.state.clipCourseName ? (
+                                      <CheckIcon sx={{ color: green[700] }} />
+                                    ) : (
+                                      <CopyIcon />
+                                    )}
+                                  </IconButton>
+                                </InputAdornment>
+                              ),
                             }}
                           />
                         </Grid>
@@ -484,6 +570,8 @@ interface IForm {
   ready: boolean;
   data: ITelemetry | null;
   id: string;
+  courseName: string;
+  clipCourseName: boolean;
   ipAddress: string;
   referer: string;
   courseId: string;

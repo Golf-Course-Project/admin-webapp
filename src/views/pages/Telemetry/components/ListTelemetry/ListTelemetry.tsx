@@ -2,7 +2,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import { Theme } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Typography, Tooltip, Skeleton, Checkbox, Select, MenuItem, FormControl, Chip, Box as MuiBox, Link, Snackbar, Alert } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Typography, Tooltip, Skeleton, Checkbox, Select, MenuItem, FormControl, Chip, Box as MuiBox, Link, Snackbar, Alert, Menu, ListItemIcon, ListItemText } from '@material-ui/core';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import GolfCourseIcon from '@material-ui/icons/GolfCourse';
@@ -12,6 +12,10 @@ import NotListedLocationIcon from '@material-ui/icons/NotListedLocation';
 import FlagIcon from '@material-ui/icons/Flag';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import EditIcon from '@material-ui/icons/Edit';
+import LaunchIcon from '@material-ui/icons/Launch';
+import SearchIcon from '@material-ui/icons/Search';
 
 import NotFoundIllustration from 'svg/illustrations/NotFound';
 import ViewTelemetry from '../ViewTelemetry';
@@ -36,6 +40,7 @@ class ListTelemetry extends React.Component<IProps, {}> {
     selectedTelemetryId: null,
     courseRelatedExpanded: true,
     generalExpanded: true,
+    courseRelatedFlaggedOnly: false,
     ipLocations: {},
     loadingLocations: {},
     selectedCourseRelatedItems: [],
@@ -49,6 +54,9 @@ class ListTelemetry extends React.Component<IProps, {}> {
     selectedGeneralControllers: [],
     selectedGeneralReferrers: [],
     snackOpen: false,
+    menuAnchorEl: null,
+    menuOpen: false,
+    menuSelectedRow: null,
   }
 
   componentDidMount() {
@@ -116,6 +124,43 @@ class ListTelemetry extends React.Component<IProps, {}> {
 
   private handleSnackClose = () => {
     this.setState({ snackOpen: false });
+  };
+
+  private handleMenuOpen = (row: ITelemetryListItem, event: React.MouseEvent<HTMLButtonElement>) => {
+    this.setState({ menuAnchorEl: event.currentTarget, menuOpen: true, menuSelectedRow: row });
+  };
+
+  private handleMenuClose = () => {
+    this.setState({ menuAnchorEl: null, menuOpen: false });
+  };
+
+  private handleEditCourse = () => {
+    const row = this.state.menuSelectedRow;
+    if (row) {
+      const searchText = encodeURIComponent(row.name || '');
+      const state = encodeURIComponent(row.state || '');
+      window.open(`/admin-courses?searchText=${searchText}&state=${state}`, '_blank');
+    }
+    this.handleMenuClose();
+  };
+
+  private handleViewGolfCourseProject = () => {
+    const row = this.state.menuSelectedRow;
+    if (row && row.title && row.state) {
+      const url = `https://www.golfcourseproject.com/${row.state.toLowerCase()}/${row.title}`;
+      window.open(url, '_blank');
+    }
+    this.handleMenuClose();
+  };
+
+  private handleGoogleSearch = () => {
+    const row = this.state.menuSelectedRow;
+    if (row && row.name && row.state) {
+      const searchQuery = encodeURIComponent(`${row.name} ${row.state} golf`);
+      const url = `https://www.google.com/search?q=${searchQuery}`;
+      window.open(url, '_blank');
+    }
+    this.handleMenuClose();
   };
 
   private handleRefreshData = async () => {
@@ -235,8 +280,23 @@ class ListTelemetry extends React.Component<IProps, {}> {
         item.referer && this.state.selectedReferrers.includes(item.referer)
       );
     }
+
+    // Apply flagged-only filter
+    if (this.state.courseRelatedFlaggedOnly) {
+      withCourseId = withCourseId.filter(item => item.isFlagged === true);
+    }
     
     return withCourseId;
+  };
+
+  private toggleCourseRelatedFlaggedOnly = () => {
+    const nextValue = !this.state.courseRelatedFlaggedOnly;
+    this.setState({ courseRelatedFlaggedOnly: nextValue }, () => {
+      const visible = this.getFilteredCourseRelatedItems().map(item => item.id);
+      this.setState({
+        selectedCourseRelatedItems: this.state.selectedCourseRelatedItems.filter(id => visible.includes(id))
+      });
+    });
   };
 
   private getFilteredGeneralItems = () => {
@@ -579,16 +639,27 @@ class ListTelemetry extends React.Component<IProps, {}> {
                       <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 520 }} aria-label="course telemetry table">
                           <TableHead>
-                            <TableRow>   
+                            <TableRow>
+                              <TableCell align="center" sx={{ width: '3%' }}></TableCell>
                               <TableCell align="center" sx={{ width: '5%' }}>
-                                <Checkbox 
+                                <Checkbox
                                   size="small"
                                   checked={withCourseId.length > 0 && withCourseId.every(item => this.state.selectedCourseRelatedItems.includes(item.id))}
                                   onChange={this.handleCourseRelatedHeaderRadio}
                                 />
                               </TableCell>
-                              <TableCell align="center" sx={{ width: '3%' }}></TableCell>
-                              <TableCell align="left" sx={{ width: '22%' }}>
+                              <TableCell align="center" sx={{ width: '3%' }}>
+                                <Tooltip title={this.state.courseRelatedFlaggedOnly ? 'Showing flagged only' : 'Show flagged only'}>
+                                  <Checkbox
+                                    size="small"
+                                    checked={this.state.courseRelatedFlaggedOnly}
+                                    onChange={this.toggleCourseRelatedFlaggedOnly}
+                                    icon={<FlagIcon fontSize="small" sx={{ color: '#666' }} />}
+                                    checkedIcon={<FlagIcon fontSize="small" sx={{ color: 'red' }} />}
+                                  />
+                                </Tooltip>
+                              </TableCell>
+                              <TableCell align="left" sx={{ width: '20%' }}>
                                 <FormControl size="small" sx={{ width: '100%' }}>
                                   <Select
                                     multiple
@@ -763,6 +834,15 @@ class ListTelemetry extends React.Component<IProps, {}> {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
                                 hover                                  
                               >     
+                                <TableCell align="center" sx={{ width: '3%' }}>
+                                  <IconButton
+                                    aria-label="more"
+                                    size="small"
+                                    onClick={(e) => this.handleMenuOpen(row, e)}
+                                  >
+                                    <MoreVertIcon fontSize="small" />
+                                  </IconButton>
+                                </TableCell>
                                 <TableCell align="center" sx={{ width: '5%' }}>
                                   <Checkbox 
                                     size="small"
@@ -779,7 +859,7 @@ class ListTelemetry extends React.Component<IProps, {}> {
                                 <TableCell 
                                   align="left" 
                                   sx={{ 
-                                    width: '22%'
+                                    width: '20%'
                                   }}
                                 >
                                   <Link component="button" onClick={() => this.handleOpenTelemetrySideBar(row)} sx={{ textAlign: 'left' }}>
@@ -828,6 +908,31 @@ class ListTelemetry extends React.Component<IProps, {}> {
                             ))}
                           </TableBody>
                         </Table>
+                        <Menu
+                          anchorEl={this.state.menuAnchorEl}
+                          open={this.state.menuOpen && this.state.menuSelectedRow?.courseId !== undefined}
+                          onClose={this.handleMenuClose}
+                          MenuListProps={{ 'aria-labelledby': 'basic-button' }}
+                        >
+                          <MenuItem onClick={this.handleEditCourse}>
+                            <ListItemIcon>
+                              <EditIcon fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary="Edit Course" />
+                          </MenuItem>
+                          <MenuItem onClick={this.handleViewGolfCourseProject}>
+                            <ListItemIcon>
+                              <LaunchIcon fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary="GolfCourseProject.com" />
+                          </MenuItem>
+                          <MenuItem onClick={this.handleGoogleSearch}>
+                            <ListItemIcon>
+                              <SearchIcon fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary="Google" />
+                          </MenuItem>
+                        </Menu>
                       </TableContainer>
                     </Box>
                   </>
@@ -1127,6 +1232,7 @@ interface IForm {
   selectedTelemetryId: string | null;
   courseRelatedExpanded: boolean;
   generalExpanded: boolean;
+  courseRelatedFlaggedOnly: boolean;
   ipLocations: { [key: string]: any };
   loadingLocations: { [key: string]: boolean };
   selectedCourseRelatedItems: string[];
@@ -1140,4 +1246,7 @@ interface IForm {
   selectedGeneralControllers: string[];
   selectedGeneralReferrers: string[];
   snackOpen: boolean;
+  menuAnchorEl: HTMLElement | null;
+  menuOpen: boolean;
+  menuSelectedRow: ITelemetryListItem | null;
 }

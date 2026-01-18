@@ -105,6 +105,20 @@ export interface ICourseSearchCriteriaBody {
 	nameRefValueId: number | null;
 }
 
+export interface ICoursePost {
+	facilityId: string;
+	name: string;
+	address1: string;
+	address2: string;
+	city: string;
+	state: string;
+	postalCode: number;	
+	phone: string;
+	email: string;
+	website: string;
+	isSynced: boolean;
+}
+
 export interface ICoursePatch {
 	id: string;
 	name: string;
@@ -133,6 +147,10 @@ export interface ICoursePatch {
 export interface ICoursePatchForDefaultPhoto {
 	id: string;
 	defaultPhoto: string;
+}
+
+export interface IPostCourseApiResponse extends IApiResponse {
+	value: ICourse | null;
 }
 
 export interface IPatchCourseApiResponse extends IApiResponse {

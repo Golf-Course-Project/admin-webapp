@@ -11,10 +11,13 @@ import ArrowUpIcon from '@material-ui/icons/ArrowUpward';
 import CopyIcon from '@material-ui/icons/ContentCopy';
 import CheckIcon from '@material-ui/icons/Check';
 import SwapIcon from '@material-ui/icons/ChangeCircle';
+import AddIcon from '@material-ui/icons/Add';
 import { green } from '@material-ui/core/colors';
 
 import { IFacility, IFetchFacilityApiResponse, IPatchFacilityApiResponse } from 'interfaces/facility.interfaces';
+import { ICoursePost, IPostCourseApiResponse } from 'interfaces/course.interfaces';
 import { FacilityService } from 'services/facility.service';
+import CourseService from 'services/course.service';
 import { ErrorMessage } from 'common/components';
 import ConfirmDelete from '../ConfirmDelete';
 
@@ -219,6 +222,44 @@ class EditFacility extends React.Component<IProps, {}> {
     this.props.onSwapFacilityToCourse(obj);
   }
 
+  handleAddNewCourse = async () => {
+    const client: CourseService = new CourseService();
+    const data: ICoursePost = {
+      facilityId: this.state.facilityId,
+      name: 'New Course Name',
+      address1: this.state.address1,
+      address2: this.state.address2,
+      city: this.state.city,
+      state: this.state.state,
+      postalCode: this.state.postalCode !== '' ? parseInt(this.state.postalCode) : 0,
+      phone: this.state.phone,
+      email: this.state.email,
+      website: this.state.website,
+      isSynced: true,
+    };
+
+    try {
+      const response: IPostCourseApiResponse = await client.post(data);
+      
+      if (response.success && response.value && response.value.id) {
+        // Close the facility panel and trigger a search with facility name and state
+        this.props.onCourseCreated(this.state.name, this.state.state);
+      } else {
+        this.setState({ 
+          messageCode: response.messageCode, 
+          messageText: response.message || 'Failed to create course',
+          action: 'error'
+        });
+      }
+    } catch (error: any) {
+      this.setState({ 
+        messageCode: 600, 
+        messageText: error.message || 'Failed to create course',
+        action: 'error'
+      });
+    }
+  };
+
   cancelDeleteCallback() {
     this.setState({ action: 'normal' });
   }
@@ -291,7 +332,7 @@ class EditFacility extends React.Component<IProps, {}> {
         anchor='right'
         open={this.state.open}
         variant={'temporary'}
-        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: 1170 } } }}
+        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: { xs: '100%', sm: '75%' } } }}
       >       
         <Snackbar open={this.state.snackOpen} autoHideDuration={1000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} onClose={(e: any) => this.handleSnackClose()}>
           <Alert severity="success" sx={{ minWidth: '400px' }}>
@@ -300,50 +341,45 @@ class EditFacility extends React.Component<IProps, {}> {
         </Snackbar>
 
         <Grid container spacing={1}>              
-          <Grid item xs={9}>
-            <Box
-              display={this.props.onSwapFacilityToCourse === undefined ? 'none' : 'flex'}
-              justifyContent={'flex-end'}
-              sx={{ paddingRight: '5px', paddingTop: '15px' }}            
-            >              
-              <Button variant="contained" size="small" color="secondary" startIcon={<SwapIcon />} onClick={(e: any) => this.handleOnSwapToCourse()}>Open Course</Button>
-            </Box>
-          </Grid>          
-          <Grid item xs={1}>
-            <Box
-              display={this.props.courses.length === 0 ? 'none' : 'flex'}
-              justifyContent={'flex-end'}
-              sx={{ paddingRight: '5px', paddingTop: '10px' }}
-              onClick={(e: any) => this.handleOnUpClick()}
-            >
-              <IconButton>
-                <ArrowUpIcon fontSize="small" />
-              </IconButton>         
-            </Box>  
-          </Grid>
-          <Grid item xs={1}>
-            <Box
-              display={this.props.courses.length === 0 ? 'none' : 'flex'}
-              justifyContent={'flex-end'}
-              sx={{ paddingRight: '10px', paddingTop: '10px' }}
-              onClick={(e: any) => this.handleOnDownClick()}
-            >
-              <IconButton>
-                <ArrowDownIcon fontSize="small" />
-              </IconButton>         
-            </Box>  
-          </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={12}>
             <Box
               display={'flex'}
               justifyContent={'flex-end'}
-              sx={{ paddingRight: '10px', paddingTop: '10px' }}
-              onClick={(e: any) => this.handleOnClose()}
+              alignItems={'center'}
+              sx={{ paddingTop: '10px', paddingRight: '10px', gap: 1 }}
             >
-              <IconButton>
-                <CloseIcon fontSize="small" />
-              </IconButton>         
-            </Box>  
+              <Box
+                display={this.props.onSwapFacilityToCourse === undefined ? 'none' : 'flex'}
+                sx={{ gap: 1, paddingRight: '50px' }}            
+              >              
+                <Button variant="contained" size="small" sx={{ backgroundColor: green[700], color: 'white', '&:hover': { backgroundColor: green[800] } }} startIcon={<AddIcon />} onClick={this.handleAddNewCourse}>Add New Course</Button>
+                <Button variant="contained" size="small" color="secondary" startIcon={<SwapIcon />} onClick={(e: any) => this.handleOnSwapToCourse()}>Open Course</Button>
+              </Box>
+              <Box
+                display={this.props.courses.length === 0 ? 'none' : 'flex'}
+                onClick={(e: any) => this.handleOnUpClick()}
+              >
+                <IconButton>
+                  <ArrowUpIcon fontSize="small" />
+                </IconButton>         
+              </Box>
+              <Box
+                display={this.props.courses.length === 0 ? 'none' : 'flex'}
+                onClick={(e: any) => this.handleOnDownClick()}
+              >
+                <IconButton>
+                  <ArrowDownIcon fontSize="small" />
+                </IconButton>         
+              </Box>
+              <Box
+                display={'flex'}
+                onClick={(e: any) => this.handleOnClose()}
+              >
+                <IconButton>
+                  <CloseIcon fontSize="small" />
+                </IconButton>         
+              </Box>
+            </Box>
           </Grid>
         </Grid>     
 
@@ -662,6 +698,7 @@ interface IProps {
   onFacilityUpdate: (facility: IFacility | null) => void | undefined;  
   onFacilityChange: (obj: any) => void | undefined;
   onSwapFacilityToCourse: (obj: any) => void | undefined;
+  onCourseCreated: (facilityName: string, state: string) => void | undefined;
   theme: Theme;
   open: boolean;
   facilityId: string;

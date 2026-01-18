@@ -13,7 +13,7 @@ tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'agent', 'todo']
 
 Go thru the csv provided. Go thru it one row at a time. Start with the row as provided. For each row, check for common data issues such as missing values, incorrect formats, or outdated information.
 
-Go through the following fix each data issue found in the row. Do not skip any fields. Update one row at a time. Do not fetch all rows at once.
+Go through the fields and fix each data issue found in the row. Do not skip any fields. Update one row at a time. Do not fetch all rows at once.
 
 ## Steps for cleaning up the data
 

@@ -1,7 +1,7 @@
 import { courseServiceUrl } from '../helpers/urls.helper';
 import { fetchJwt } from '../helpers/jwt.helper'; 
 import { IStandardApiResponse } from 'interfaces/api-response.interface';
-import { ICoursePatch, ICourseSearchCriteriaBody, IFetchCourseAndFacilityApiResponse, IPatchCourseApiResponse, ICourseListWithRankingApiResponse, ICoursePatchForDefaultPhoto } from 'interfaces/course.interfaces';
+import { ICoursePost, ICoursePatch, ICourseSearchCriteriaBody, IFetchCourseAndFacilityApiResponse, IPostCourseApiResponse, IPatchCourseApiResponse, ICourseListWithRankingApiResponse, ICoursePatchForDefaultPhoto } from 'interfaces/course.interfaces';
 import { IFetchImagesApiResponse, IPostImagesApiResponse } from 'interfaces/images.interfaces';
 
 export class CourseService {
@@ -90,30 +90,6 @@ export class CourseService {
     }
   }
 
-  // This is for the search without ranking (deprecated)
-  /*
-  async zz_search(body: ICourseSearch): Promise<ICourseListApiResponse> {    
-    const jwt: string | null = fetchJwt();
-       
-    try {
-      const response = await fetch(courseServiceUrl + '/api/course/search', {
-        method: 'post',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          'X-Authorization': `Bearer ${jwt}`,
-          Accept: 'application/json',
-        }), 
-        body: JSON.stringify(body),       
-      });
-
-      const results = await Promise.resolve(response);
-      return await results.json();
-    } catch (error) {
-      return await Promise.reject(error);
-    }
-  } 
-  */
-
   async searchWithRanking(body: ICourseSearchCriteriaBody): Promise<ICourseListWithRankingApiResponse> {    
     const jwt: string | null = fetchJwt();
        
@@ -177,6 +153,28 @@ export class CourseService {
     }
   }
 
+  async post(data: ICoursePost): Promise<IPostCourseApiResponse> {
+    
+    const jwt: string | null = fetchJwt();
+
+    try {
+      const response = await fetch(courseServiceUrl + '/api/course/create', {
+        method: 'post',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-Authorization': `Bearer ${jwt}`,
+          Accept: 'application/json',
+        }),
+        body: JSON.stringify(data)
+      });
+
+      const results = await Promise.resolve(response);
+      return await results.json();
+    } catch (error) {
+      return await Promise.reject(error);
+    }
+  }
+
   async patch(data: ICoursePatch | ICoursePatchForDefaultPhoto): Promise<IPatchCourseApiResponse> {
     
     const jwt: string | null = fetchJwt();
@@ -198,6 +196,8 @@ export class CourseService {
       return await Promise.reject(error);
     }
   }  
+
+
 }
 
 export default CourseService;

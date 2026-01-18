@@ -25,7 +25,7 @@ export class RefValueData {
   static names = [
     {
       'id': 202,
-      'text': 'Best in State'
+      'text': 'Top Public Courses in the State'
     },
     {
       'id': 203,

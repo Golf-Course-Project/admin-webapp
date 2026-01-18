@@ -14,7 +14,7 @@ Do not update any other fields. Only update if the values are missing from the f
 }
 ```
 
-### Do not update the longitude or latitude fields.
+!! Do not update the longitude or latitude fields.
 
 Then use the facilityId from that `course_fetch` and call the `facility_fetch` tool. If the `type` field is -1, then update the `type` field from the row in the csv. If the value is "public" then set the `type` value to 1. If the value is "private" then set the `type` value to 2. Only update the `type` field. Do not update any other fields. Onlu update the type field, do not update any other fields. Example request should be:
 
@@ -27,8 +27,6 @@ Then use the facilityId from that `course_fetch` and call the `facility_fetch` t
 }
 ```
 
-### Do not update the longitude or latitude fields.
-
-Do not create any powershell scripts. Just go thru the csv one row at a time.
+!! Do not create any powershell scripts. Just go thru the csv one row at a time.
 
 Go row by row. Do not provide a summary of what been done after each row. Just move on to the next row after updating the course and facility.

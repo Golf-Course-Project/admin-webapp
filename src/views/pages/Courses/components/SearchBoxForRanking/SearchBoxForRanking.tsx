@@ -11,6 +11,7 @@ import Container from 'common/Container';
 import { Drawer, FormControl, IconButton, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
 import OptionsIcon from '@material-ui/icons/Settings';
 import CloseIcon from '@material-ui/icons/Close';
+import RestoreIcon from '@material-ui/icons/Restore';
 
 import { RefValueData } from 'data/refvalue.data';
 import { ICourseSearchCriteriaProps } from 'interfaces/course.interfaces';
@@ -34,8 +35,39 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
   componentDidMount() {
     const rankingOptions: IOptions = JSON.parse(localStorage.getItem('rankingOptions') ?? '{}');
     this.setState({ sourceRefValueId: rankingOptions.sourceRefValueId, nameRefValueId: rankingOptions.nameRefValueId, year: rankingOptions.year });
+    
+    // Check for initial search params from query string
+    if (this.props.initialSearchParams) {
+      const { searchText, state } = this.props.initialSearchParams;
+      const newSearchText = searchText ?? this.state.searchText;
+      const newSearchState = state ?? this.state.searchState;
+      
+      this.setState({ searchText: newSearchText, searchState: newSearchState }, () => {
+        // Auto-trigger search after state is set
+        const body: ICourseSearchCriteriaProps = this.buildSearchText(newSearchText.toLocaleLowerCase(), newSearchState.toLocaleLowerCase());
+        const options: IOptions = { sourceRefValueId: this.state.sourceRefValueId, nameRefValueId: this.state.nameRefValueId, year: this.state.year };
+        body.pageNumber = 1;
+        this.props.callback(body, options);
+      });
+    }
   }
 
+  componentDidUpdate(prevProps: IProps) {
+    // Handle when query string params change
+    if (this.props.initialSearchParams && prevProps.initialSearchParams !== this.props.initialSearchParams) {
+      const { searchText, state } = this.props.initialSearchParams;
+      const newSearchText = searchText ?? this.state.searchText;
+      const newSearchState = state ?? this.state.searchState;
+      
+      this.setState({ searchText: newSearchText, searchState: newSearchState }, () => {
+        // Auto-trigger search after state is set
+        const body: ICourseSearchCriteriaProps = this.buildSearchText(newSearchText.toLocaleLowerCase(), newSearchState.toLocaleLowerCase());
+        const options: IOptions = { sourceRefValueId: this.state.sourceRefValueId, nameRefValueId: this.state.nameRefValueId, year: this.state.year };
+        body.pageNumber = 1;
+        this.props.callback(body, options);
+      });
+    }
+  }
 
   private handleOnSettingsClose = () => {
     const options: IOptions = { sourceRefValueId: this.state.sourceRefValueId, nameRefValueId: this.state.nameRefValueId, year: this.state.year };
@@ -46,6 +78,12 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
   private handleOnSettingsOpen = () => {
     const rankingOptions: IOptions = JSON.parse(localStorage.getItem('rankingOptions') ?? '{}');
     this.setState({ openOptions: true, sourceRefValueId: rankingOptions.sourceRefValueId, nameRefValueId: rankingOptions.nameRefValueId, year: rankingOptions.year });
+  }
+
+  private handleResetClick = () => {
+    this.setState({ searchText: '', searchState: '' });
+    localStorage.setItem('searchText', '');
+    localStorage.setItem('searchState', '');
   }
 
   private handleSettingsSelectChanges = (e: React.FormEvent<HTMLSelectElement>) => {
@@ -253,8 +291,11 @@ class SearchBoxForRanking extends React.Component<IProps, {}> {
                       Search
                     </Box>
                   </Grid>
-                  <Grid item xs={12} md={1} display={'flex'} alignItems={'center'} justifyContent={'center'}>
-                    <IconButton aria-label="settings" onClick={(e: any) => this.handleOnSettingsOpen()}>
+                  <Grid item xs={12} md={1} display={'flex'} alignItems={'center'} justifyContent={'center'} gap={0.5}>
+                    <IconButton aria-label="reset" onClick={this.handleResetClick} size="small">
+                      <RestoreIcon />
+                    </IconButton>
+                    <IconButton aria-label="settings" onClick={(e: any) => this.handleOnSettingsOpen()} size="small">
                       <OptionsIcon />
                     </IconButton>
                   </Grid>
@@ -369,6 +410,7 @@ export default SearchBoxForRanking;
 interface IProps {
   callback: (body: ICourseSearchCriteriaProps, options: IOptions) => void;
   theme: Theme;
+  initialSearchParams?: {searchText?: string, state?: string} | null;
 }
 
 interface IForm {
