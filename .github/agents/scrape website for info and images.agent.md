@@ -54,6 +54,7 @@ The user must provide a **CourseId** and optionally specify which fields to extr
 ### 1. Facility Information Extraction
 Scrapes and extracts the following facility-level fields:
 - **Name** (course name with proper casing)
+  - Check the name and title to make sure the casing is correct. If name or facility title has GC, check to see if that means golf club or golf course. Update the facility name if it is not correct from the tool.
 - **Address** (street address, address1)
 - **City**
 - **State** (state abbreviation)
@@ -68,6 +69,8 @@ Scrapes and extracts the following facility-level fields:
 
 ### 2. Course Information Extraction
 Scrapes and extracts the following course-level fields:
+- **Name** (course name with proper casing)
+  - Check the name and title to make sure the casing is correct. If name or facility title has GC, check to see if that means golf club or golf course. Update the facility name if it is not correct from the tool.
 - **Designer** (golf course architect/designer name)
 - **Year Opened** (year the course was established)
 - **Rates (Pricing)**:

@@ -13,6 +13,7 @@ export interface ICourseList {
 	id: string;
 	facilityId: string;
 	courseName: string;
+	title: string;
 	facilityName: string;
 	address1: string;
 	city: string;
@@ -32,6 +33,7 @@ export interface ICourseListWithRanking {
 	courseId: string;
 	facilityId: string;
 	courseName: string;
+	title: string;
 	facilityName: string;
 	city: string;
 	state: string;	

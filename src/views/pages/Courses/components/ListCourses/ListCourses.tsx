@@ -12,6 +12,7 @@ import ReviewIcon from '@material-ui/icons/Comment';
 import SearchIcon from '@material-ui/icons/Search';
 import FeaturedIcon from '@material-ui/icons/Star';
 import FlaggedIcon from '@material-ui/icons/Flag';
+import LaunchIcon from '@material-ui/icons/Launch';
 
 import Illustration from 'svg/illustrations/Globe';
 import NotFoundIllustration from 'svg/illustrations/NotFound';
@@ -191,6 +192,15 @@ class ListCourses extends React.Component<IProps, {}> {
     if (row && row.courseName && row.state) {
       const searchQuery = encodeURIComponent(`${row.courseName} ${row.state} golf`);
       const url = `https://www.google.com/search?q=${searchQuery}`;
+      window.open(url, '_blank');
+    }
+    this.setState({ anchorEl: null, menuOpen: false, selectedRowId: null });
+  };
+
+  private handleViewGolfCourseProject = () => {
+    const row = this.state.data.find(item => item.courseId === this.state.selectedRowId);
+    if (row && row.state && row.title) {
+      const url = `https://www.golfcourseproject.com/${row.state.toLowerCase()}/${row.title}`;
       window.open(url, '_blank');
     }
     this.setState({ anchorEl: null, menuOpen: false, selectedRowId: null });
@@ -414,6 +424,12 @@ class ListCourses extends React.Component<IProps, {}> {
                               <EditIcon fontSize="small" />
                             </ListItemIcon>
                             <ListItemText primary={`Edit ${row.facilityName}`} />                                
+                          </MenuItem>
+                          <MenuItem onClick={this.handleViewGolfCourseProject}>
+                            <ListItemIcon>
+                              <LaunchIcon fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary="Golf Course Project" />                                
                           </MenuItem>
                           <MenuItem onClick={this.handleGoogleSearch}>
                             <ListItemIcon>
