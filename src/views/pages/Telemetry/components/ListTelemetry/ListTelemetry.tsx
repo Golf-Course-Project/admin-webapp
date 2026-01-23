@@ -596,11 +596,14 @@ class ListTelemetry extends React.Component<IProps, {}> {
           {(() => {
             const withCourseId = this.getFilteredCourseRelatedItems();
             const withoutCourseId = this.getFilteredGeneralItems();
+            // Use unfiltered counts to determine if sections should be shown
+            const hasCourseRelatedData = this.state.data.some(row => row.courseId);
+            const hasGeneralData = this.state.data.some(row => !row.courseId);
             
             return (
               <>
                 {/* First List - Items with Course ID */}
-                {withCourseId.length > 0 && (
+                {hasCourseRelatedData && (
                   <>
                     <Box marginBottom={2} display="flex" justifyContent="space-between" alignItems="center">
                       <Box display="flex" alignItems="center">
@@ -939,14 +942,14 @@ class ListTelemetry extends React.Component<IProps, {}> {
                 )}
 
                 {/* Spacer between tables */}
-                {withCourseId.length > 0 && withoutCourseId.length > 0 && (
+                {hasCourseRelatedData && hasGeneralData && (
                   <Box sx={{ marginBottom: '20px' }} />
                 )}
 
                 {/* Second List - Items without Course ID */}
-                {withoutCourseId.length > 0 && (
+                {hasGeneralData && (
                   <>
-                    <Box marginTop={withCourseId.length > 0 ? '50px' : 0} marginBottom={2} display="flex" justifyContent="space-between" alignItems="center">
+                    <Box marginTop={hasCourseRelatedData ? '50px' : 0} marginBottom={2} display="flex" justifyContent="space-between" alignItems="center">
                       <Box display="flex" alignItems="center">
                         <ArticleIcon sx={{ marginRight: 1 }} />
                         <Typography variant="h4" sx={{ fontWeight: 600 }}>
