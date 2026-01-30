@@ -2,12 +2,12 @@ Id,FacilityId,CourseName,FacilityName,City,State,Website,DefaultPhoto,IsFlagged
 cfa0a17c-d021-4a8e-9711-a28d41282039,5992A260-080D-4F99-A72A-96DF1A61824D,Settlers Bay Golf Course,Settlers Bay Golf Course,Wasilla,AK,https://www.settlersbay.com,,True
 9b0f2538-cf04-448a-b395-60292a7a87f8,44A880A9-7886-4B90-9E52-B8CAAC9EB529,Palmer Golf Course,Palmer Golf Course,Palmer,AK,https://palmergolfcourse.com,,True
 1acef68e-a47e-438f-8f6f-6389c2de0d0a,4A9C705C-AF8E-47F9-8D68-9B7F7B8B8C00,Creek Course,Moose Run Golf Course,Anchorage,AK,https://www.mooserungolfcourse.com,,True
-714f4a9e-531e-4cd5-9c02-843236dd1550,14B64734-A750-4070-A4CF-54C9446A8EF0,Chena Bend Golf Course,Chena Bend Golf Course,Fairbanks,AK,https://wainwright.armymwr.com/programs/chena-bend-golf-course,,True
+714f4a9e-531e-4cd5-9c02-843236dd1550,14B64734-A750-4070-A4CF-54C9446A8EF0,Chena Bend Golf Course,Chena Bend Golf Course,Fairbanks,AK,,,True
 321e641d-c543-435e-9ea0-900a8e9d6de8,958892A5-FC03-4392-9351-BCC90BC168D6,Anchorage Golf Course,Anchorage Golf Course,Anchorage,AK,https://www.anchoragegolfcourse.com,,True
 a21ebf37-7bd8-48b4-b067-ff848cf71213,6448D0E8-0313-46DD-BC58-3F5CAB6BC4AB,West Course,Country Club of Birmingham,Birmingham,AL,https://www.ccbham.org/,,True
 13a30344-50c1-4bfb-ac5a-541f708889ae,A23E7EB7-BEE9-40EF-9DE9-C0A1EE4E8573,Shoal Creek Club,Shoal Creek Club,Shoal Creek,AL,https://www.shoalcreekclub.com,,True
 8ccd5fe8-2988-45a1-a03e-590f8b8a15ae,90BB59BA-09B6-43D9-AE90-93619C54C0DA,Sherling/Canyon,Cambrian Ridge Golf Course,Greenville,AL,https://www.rtjgolf.com/cambrianridge,,True
-08dc3b1f-d2c1-440f-ae4a-19601b537497,EB8A4BBA-F319-4537-8E3F-FFD7EDFED1BA,Ross Bridge Golf Course,Ross Bridge Golf Course,Birmingham,AL,https://www.rtjgolf.com/rossbridge,,True
+08dc3b1f-d2c1-440f-ae4a-19601b537497,EB8A4BBA-F319-4537-8E3F-FFD7EDFED1BA,Ross Bridge Golf Course,Ross Bridge Golf Course,Birmingham,AL,,,True
 300626cc-6ce3-4698-b294-caf6863a35a4,D4862F8E-25E4-4B09-A296-31805486A430,Pursell Farms,Farmlinks Golf Club,Sylacauga,AL,https://www.pursellfarms.com/,True,False
 ebe83794-928b-47f0-8a83-8f4587baebe4,8B621C11-3769-4E52-B7A3-DF8487CD5C69,Links,Grand National Golf Course,Opelika,AL,https://www.rtjgolf.com/grandnational/,,True
 37a3c407-5d3b-4b14-bfca-74ffeeb2d179,3151FD21-F4FE-4C60-82AD-FC88B9C7196F,Legislator,Capitol Hill Golf Course,Prattville,AL,https://www.rtjgolf.com/capitolhill,,True
@@ -15,11 +15,11 @@ ebe83794-928b-47f0-8a83-8f4587baebe4,8B621C11-3769-4E52-B7A3-DF8487CD5C69,Links,
 9d1e3cb2-e94d-4f89-b74f-b6af59d94b6c,BC388181-DBCF-4E9F-B487-AAE0045464F2,Kiva Dunes,Kiva Dunes,Gulf Shores,AL,https://www.kivadunes.com/,,True
 684101ea-fe99-48b4-9a15-bf1db63c3351,3151FD21-F4FE-4C60-82AD-FC88B9C7196F,Judge,Capitol Hill Golf Course,Prattville,AL,https://www.rtjgolf.com/capitolhill,,True
 4a4e013a-207c-4882-b934-61d990dfbded,01FF3AF1-CBED-4DAC-B559-CC5EFEEBA27F,Huntsville Country Club,Huntsville Country Club,Huntsville,AL,https://www.huntsvillecountryclub.com/,,True
-8b4f0ec9-69ec-4456-b21f-0ff338a768be,1E0FAEDD-71EF-4C94-AA5F-0567C6BD35F8,Falls,Magnolia Grove,Semmes,AL,https://www.rtjgolf.com/magnoliagrove,,True
-3ab4c99c-dd3e-4c6c-9d56-962ca29506f8,1E0FAEDD-71EF-4C94-AA5F-0567C6BD35F8,Crossings,Magnolia Grove,Semmes,AL,https://www.rtjgolf.com/magnoliagrove,,True
+8b4f0ec9-69ec-4456-b21f-0ff338a768be,1E0FAEDD-71EF-4C94-AA5F-0567C6BD35F8,Falls,Magnolia Grove,Semmes,AL,,,True
+3ab4c99c-dd3e-4c6c-9d56-962ca29506f8,1E0FAEDD-71EF-4C94-AA5F-0567C6BD35F8,Crossings,Magnolia Grove,Semmes,AL,,,True
 0ced2861-286e-49a4-a7d4-4ff96000a63f,8D473806-70B7-4462-BCA4-A2FD1B7D49DC,North-West,The Ridges at Village Creek,Wynne,AR,https://www.arkansasstateparks.com/parks/village-creek-state-park,,True
-fad1e14f-c25f-42cb-89c6-97fc36ebaad6,99A8FA99-68B6-43C2-A796-79ABEBCF3D8D,Mystic Creek Golf Club,Mystic Creek Golf Club,El Dorado,AR,https://www.mysticcreekgolf.com/,,True
-2ef62c15-610d-44a8-a009-71496bc8333d,F673DE3D-158E-4D28-8C98-486EAA6C50A8,Mountain Ranch Golf Club,Mountain Ranch Golf Club,Fairfield Bay,AR,https://www.ffbgolf.com/,,True
+fad1e14f-c25f-42cb-89c6-97fc36ebaad6,99A8FA99-68B6-43C2-A796-79ABEBCF3D8D,Mystic Creek Golf Club,Mystic Creek Golf Club,El Dorado,AR,,,True
+2ef62c15-610d-44a8-a009-71496bc8333d,F673DE3D-158E-4D28-8C98-486EAA6C50A8,Mountain Ranch Golf Club,Mountain Ranch Golf Club,Fairfield Bay,AR,,,True
 b3a1a4a9-c0c3-4ab4-9624-7b91cb0b5621,57EEE340-8AF6-4C66-96B3-9C25BD8528C5,Big Creek Golf & Country Club,Big Creek Golf & Country Club,Mountain Home,AR,https://www.bigcreekgolf.com/,,True
 daede798-0183-4562-8c14-44a6f7be9506,0C00F826-7188-4837-B0A8-A0DBFA0C735C,Arlington,Hot Springs Country Club,Hot Springs,AR,https://www.hotspringscc.com/,,True
 4df804b9-f88c-4ad1-878c-0db8d740ef23,48B9E391-8B9B-4D92-9683-549175FDCF32,Wickenburg Ranch Golf & Social Club,Wickenburg Ranch Golf & Social Club,Wickenburg,AZ,https://www.wickenburgranch.com/,,True
@@ -27,16 +27,16 @@ acc36fc9-6781-4a69-8d0b-634c57db8458,5C4B5A86-D1CD-42BF-A567-93049E796B73,Upper,
 149de048-a0d3-4649-90fa-3a735caa516b,6494DD00-D902-46AA-8F3B-4067BC925E98,Tortolita/Saguaro,Golf Club at Dove Mountain,Marana,AZ,https://www.golfclubatdovemountain.com/,,True
 b777f0e5-71e6-4878-8a07-4c7e85053f2f,540A41A8-C713-420F-ACD2-6EBC0D5273F5,The O'odham Course,Talking Stick Golf Club,Scottsdale,AZ,https://talkingstickgolfclub.com/,,True
 b51d41d1-353f-4821-933f-b396df706d60,922DB70D-77DA-4DC2-8126-FC744CCB8D3E,Talon,Grayhawk,Scottsdale,AZ,https://www.grayhawkgolf.com/,,True
-3e5eb46a-8188-4181-817f-b3e46d04bdad,9D2EB775-C074-48EF-90BB-6AAF714A7BDC,"Stone Canyon Club, The","Stone Canyon Club, The",Oro Valley,AZ,https://www.stonecanyon.com/,,True
+3e5eb46a-8188-4181-817f-b3e46d04bdad,9D2EB775-C074-48EF-90BB-6AAF714A7BDC,The Stone Canyon Club,The Stone Canyon Club,Oro Valley,AZ,https://www.stonecanyon.com/,,True
 1919d911-9b39-4d19-a532-4231d21f6321,439E1B3D-D354-4EDE-BCD9-75EB71C35E88,Stadium,TPC of Scottsdale,Scottsdale,AZ,https://tpc.com/scottsdale/,,True
 5e46bd5d-1920-496d-aaa7-b0928d834759,C75F73B2-4DDD-423F-B3FA-C97507BF27AC,South,Boulders,Carefree,AZ,https://www.theboulders.com/,,True
 3f9cc30c-32b5-4c12-bbf5-d14af9105f3c,25F4C05A-869C-403F-A5C0-8B05B20B7C32,Saguaro,We-Ko-Pa Golf Club,Fort Mcdowell,AZ,https://wekopa.com/,,True
-211d11ac-2d42-446c-9b5c-88fa82548f3b,6004961A-FF85-44FA-8C0E-CBBECFE813A8,"Rim Club, The","Rim Club, The",Payson,AZ,https://www.therimclub.com/,,True
+211d11ac-2d42-446c-9b5c-88fa82548f3b,6004961A-FF85-44FA-8C0E-CBBECFE813A8,The Rim Club,The Rim Club,Payson,AZ,https://www.rimgolf.com/,,True
 7b284d73-01cd-4cc2-ad18-83a124d171d3,43103D8F-0C51-45FD-B09C-356F8B9ED4A8,Ridge/Canyon,La Paloma Country Club,Tucson,AZ,https://www.lapalomacc.com/,,True
 caab3ccc-4adf-4014-93b9-013c49c192b6,C2102D54-9E8B-4348-B46B-6D2617D49687,Raven Golf Club-Phoenix,Raven Golf Club-Phoenix,Phoenix,AZ,https://www.ravenphx.com/,,True
 4fde9e3c-9609-47b5-87de-53929a6bcb0c,922DB70D-77DA-4DC2-8126-FC744CCB8D3E,Raptor,Grayhawk,Scottsdale,AZ,https://www.grayhawkgolf.com/,,True
 46b44c85-98b7-4216-9615-a76fd04d9ea9,46B56720-3099-4B90-9E73-D88AADE97066,Quintero Golf Club,Quintero Golf Club,Peoria,AZ,https://www.quinterogolf.com/,,True
-689c6d96-73b1-4290-900c-a99ee3142225,86D06060-5730-4508-AB4E-03A9D33950F3,Pinnacle Course,Troon North Golf Course,Scottsdale,AZ,https://www.troonnorthgolf.com/,,True
+689c6d96-73b1-4290-900c-a99ee3142225,86D06060-5730-4508-AB4E-03A9D33950F3,Pinnacle Course,Troon North Golf Course,Scottsdale,AZ,,,True
 2dc0f2f5-1e68-4a4a-9245-c1c77545c255,C75F73B2-4DDD-423F-B3FA-C97507BF27AC,North,Boulders,Carefree,AZ,https://www.theboulders.com/,,True
 ecd095d5-9686-4bf4-abb0-646020c37aa7,6743E784-3054-429D-A8C5-85D956B42224,Dinosaur Mountain,Gold Canyon,Gold Canyon,AZ,https://www.gcgr.com/,,True
 8a5063cf-c95d-470f-9aa1-3c52a60f28cf,CF7265DB-785A-4FAD-BF69-4C45C20435C6,Devil's Claw Course,Whirlwind Golf Club,Chandler,AZ,https://www.whirlwindgolf.com/,,True
@@ -48,14 +48,14 @@ e7a68123-61a5-4e50-a3a0-56a3b3fc21c2,CF7265DB-785A-4FAD-BF69-4C45C20435C6,Cattai
 8be709ed-e147-4d4e-b8e4-6f676bc7e245,08FC0487-F04C-4669-AA19-92C414AAB9E7,Canyon,Forest Highlands,Flagstaff,AZ,https://fhgc.com/,,True
 2db3414d-1eac-4ad6-85d1-cf35ffcfd6bb,570A700C-8AED-4B22-A7E0-8DD02B31216F,Arizona National  Golf Course,Arizona National Golf Course,Tucson,AZ,https://www.arizonanationalgolfclub.com/,,True
 e088cf0c-fad9-4b19-a540-512ec2b75da5,3B5E28FD-555F-4EB9-A51F-484DD50D06DD,Ambiente Course,Camelback Golf Club,Scottsdale,AZ,https://www.camelbackgolf.com/,,True
-8cfef137-b9f9-42d3-8553-32ade78f648d,B337B83D-76D6-49A1-A7AF-8D26A4190C88,Ak-Chin Southern Dunes Golf Club,Ak-Chin Southern Dunes Golf Club,Maricopa,AZ,https://www.akchinsoutherndunes.com/,,True
-1dfffb94-d08c-4d05-837c-33ca58de3182,2145CF71-E757-46B1-A5FB-50DD0B876864,Yocha-De-He Golf Course at Cache Creek,Yocha Dehe Golf Course at Cache Creek,Brooks,CA,https://www.yochadehegolfclub.com/,,True
+8cfef137-b9f9-42d3-8553-32ade78f648d,B337B83D-76D6-49A1-A7AF-8D26A4190C88,Ak-Chin Southern Dunes Golf Club,Ak-Chin Southern Dunes Golf Club,Maricopa,AZ,,,True
+1dfffb94-d08c-4d05-837c-33ca58de3182,2145CF71-E757-46B1-A5FB-50DD0B876864,Yocha-De-He Golf Course at Cache Creek,Yocha Dehe Golf Course at Cache Creek,Brooks,CA,,,True
 e31cc8a6-cd53-4766-89d9-340207cd3a96,E9FC7625-6752-47B3-BE1E-D250B51F3D82,Wilshire Country Club,Wilshire Country Club,Los Angeles,CA,https://www.wilshirecountryclub.com/,,True
 8baa9fe6-62a2-4255-a783-950d1091f421,315BB996-22A9-40B3-9724-EA4E3889AE36,Whitehawk Ranch Golf Course,Whitehawk Ranch Golf Course,Clio,CA,https://whitehawkranch.com/,,True
 f3b0bb72-1bff-4fb6-ad0c-adc302f67104,92AB0DFF-E95D-4F52-8873-FC3C0B8AA5F1,Trump National Golf Club of Los Angeles,Trump National Golf Club of Los Angeles,Rancho Palos Verdes,CA,https://www.trumpnationallosangeles.com/,,True
 400937cb-a4e0-4ded-af52-630b9d3d7f33,46A36F28-1D94-4B95-B7E9-B9CF8ADCEA9A,Tradition Golf Club,Tradition Golf Club,La Quinta,CA,https://www.traditiongc.com/,,True
 8cfc84ea-d771-4a6c-8db4-052f1280a9a4,C878116B-5D4C-493F-8E1F-726EFAFADA39,The Riviera Country Club,The Riviera Country Club,Pacific Palisades,CA,https://www.therivieracountryclub.com/,,True
-6b425e12-2330-4845-b473-2e9f1210a347,896BD6AB-BC58-433F-AFBE-50FDE5209E18,The Quarry at La Quinta,The Quarry at La Quinta,La Quinta,CA,https://www.quarryatlaquinta.com/,,True
+6b425e12-2330-4845-b473-2e9f1210a347,896BD6AB-BC58-433F-AFBE-50FDE5209E18,The Quarry at La Quinta,The Quarry at La Quinta,La Quinta,CA,,,True
 19db6ef1-73e5-469d-b7af-c477dec596f6,209AE1DE-EE06-472C-929C-E94D864D0C96,The Links at Spanish Bay,The Links at Spanish Bay,Pebble Beach,CA,https://www.pebblebeach.com/golf/the-links-at-spanish-bay/,,True
 b34f6804-acb3-44aa-ab6d-9dfa771ccdd1,772FB543-4DE8-4280-851F-EE85E6E11838,The Grand Golf Club,The Grand Golf Club,San Diego,CA,https://www.fairmont.com/san-diego/golf/,,True
 a8a16046-29f5-47f3-8282-39331ed3558a,EA1319AE-F8A6-4243-9456-3F6565925CD2,Stone Eagle Golf Club,Stone Eagle Golf Club,Palm Desert,CA,https://www.stoneeaglegolf.com/,,True
@@ -63,133 +63,133 @@ e6076877-b07a-41dd-90f1-8e5bc841710c,C833E3C4-1D1D-4B4D-BD28-3294B249CBE5,Spygla
 acb7d53f-dc84-44e6-bce3-ad12e0d4e4be,A9385285-75BA-4257-AFE9-4B2E6E93E554,South,Torrey Pines,San Diego,CA,https://www.torreypines.com/,,True
 0c772571-3295-4bac-9bcc-9115fa58aed2,CDCD5BF2-35DF-4518-813F-8865E0602967,Shore,Monterey Peninsula Country Club,Pebble Beach,CA,https://www.mpccpb.org/,,True
 75a6faf1-86f8-42c1-bb96-bf8c3082e907,5CAE5018-0CCC-4203-A131-A313BD1B2A1E,Sherwood Country Club,Sherwood Country Club,Thousand Oaks,CA,http://www.sherwoodcountryclub.com/,,True
-67fe39f1-34c6-4163-9d64-f746505e1206,ECCACFE0-4836-4C86-8C52-121B01BFE5CD,Santa Ana Country Club,Santa Ana Country Club,Santa Ana,CA,https://www.santaanacountryclub.com/,,True
+67fe39f1-34c6-4163-9d64-f746505e1206,ECCACFE0-4836-4C86-8C52-121B01BFE5CD,Santa Ana Country Club,Santa Ana Country Club,Santa Ana,CA,,,True
 5757832a-f284-4d7a-9b0f-0cd3489f7f47,08EE7B4C-7623-441A-9E94-4B920FCF6F07,Rustic Canyon Golf Course,Rustic Canyon Golf Course,Moorpark,CA,https://www.rusticcanyongolfcourse.com/,,True
 e542ad02-8ff1-4261-92ab-981202cfec37,1ADD4E21-F786-4222-8A8E-296E5C2477FA,Rams Hill Golf Club,Rams Hill Golf Club,Borrego Springs,CA,https://www.ramshill.com/,,True
 ac29c9cd-0328-4a78-a76f-ffbd342717d4,B8957F4F-AD99-43E0-B5B5-C650964AB503,Quail Lodge Golf Course,Quail Lodge Golf Course,Carmel,CA,https://www.quaillodge.com/golf,,True
-4d3b05ae-deed-4f10-ade4-fb38e3609cb2,8E36D101-4F14-452E-A289-04E0DCD36BB5,Preserve Golf Club (The),Preserve Golf Club (The),Carmel,CA,https://www.preservegolfclub.com/,,True
+4d3b05ae-deed-4f10-ade4-fb38e3609cb2,8E36D101-4F14-452E-A289-04E0DCD36BB5,Preserve Golf Club,Preserve Golf Club,Carmel,CA,https://www.preservegolfclub.com/,,True
 e5c0d338-6bda-4a59-b10c-09101ed8ef51,4E214765-D632-4529-AF3E-9BF1A4FF7B63,Poppy Hills Golf Course,Poppy Hills Golf Course,Pebble Beach,CA,https://poppyhillsgolf.ncga.org/,,True
-972f5ef3-1aec-489f-bd36-edce7cee0ed9,C2C802F8-A83B-4AD9-B202-598AF288137C,Players,Indian Wells Golf Resort,Indian Wells,CA,https://www.indianwellsgolfresort.com/,,True
+972f5ef3-1aec-489f-bd36-edce7cee0ed9,C2C802F8-A83B-4AD9-B202-598AF288137C,Players,Indian Wells Golf Resort,Indian Wells,CA,,,True
 32ffbeb9-1fc5-4e42-9851-a8e1e0ce25a3,D1451999-E35B-4ED4-8E56-1FB5641824FB,Pete Dye Stadium Course,PGA West,La Quinta,CA,https://www.pgawest.com/,,True
 35da8375-852a-4096-ad76-6532dc3cb321,0F87D368-FE8B-4091-B67D-E3D6295A4753,Pebble Beach Golf Links,Pebble Beach Golf Links,Pebble Beach,CA,https://www.pebblebeach.com/golf/pebble-beach-golf-links/,True,False
 6c225609-6bda-43e2-a085-57bf6c81b264,A632EE84-7BA7-4501-975A-2217C0DD11C9,Pasatiempo Golf Course,Pasatiempo Golf Club,Santa Cruz,CA,https://www.pasatiempo.com/,,True
-e24a8e84-e4e2-4c44-9fd7-6cb3cabc12b9,FD5BD74E-C459-4A73-96A8-3998C81148B8,Pacific Grove Gl,Pacific Grove Gl,Pacific Grove,CA,https://www.pacificgrovegolf.com/,,True
+e24a8e84-e4e2-4c44-9fd7-6cb3cabc12b9,FD5BD74E-C459-4A73-96A8-3998C81148B8,Pacific Grove Golf Links,Pacific Grove Golf Links,Pacific Grove,CA,https://www.playpacificgrove.com/,,True
 fbf23e90-ddc9-460c-bca7-56500ec05332,C1F13CF8-6FC7-46BD-98E7-076A853E98E0,Old Greenwood Golf Course,Old Greenwood Golf Course,Truckee,CA,https://www.tahoemountainclub.com/golf/old-greenwood/,,True
 1bf61e1c-25f7-4e3e-a34f-37099a2a12ef,27280D24-E8A9-4946-9828-A0A95D8E6545,Ocean South,Pelican Hill Golf Club,Newport Beach,CA,https://www.pelicanhill.com/golf/,,True
 6c3528ac-a850-4e57-82df-12e29f5fc8e6,27280D24-E8A9-4946-9828-A0A95D8E6545,Ocean North,Pelican Hill Golf Club,Newport Beach,CA,https://www.pelicanhill.com/golf/,,True
 17280783-f68c-4633-8a55-8632c51344a9,43FB65DA-C3A8-441A-9214-83C1C0EC25EF,Ocean,Olympic Club,San Francisco,CA,https://www.olyclub.com/,,True
 4ee7c1e2-54ae-439a-91b0-69a5a00f16d4,54C9DC51-08BC-4059-BFFE-18A928460D10,Oak Quarry Golf Club,Oak Quarry Golf Club,Riverside,CA,http://www.oakquarry.com/,,True
-48deaaae-4e33-4cf1-bc19-5b7646ce1490,7216F756-FFE5-4B83-89D5-46BB02A3C11D,North,The Los Angeles Country Club,Los Angeles,CA,https://www.lacc.org/,,True
+48deaaae-4e33-4cf1-bc19-5b7646ce1490,7216F756-FFE5-4B83-89D5-46BB02A3C11D,North,The Los Angeles Country Club,Los Angeles,CA,,,True
 cda4d7ea-4d7b-40fe-9e83-8f320dcb3657,0923A91A-A91A-42AC-B70E-B617401FB0B4,North,Silverado Resort & Spa,Napa,CA,https://www.silveradoresort.com/,True,False
 afc1a3fc-f093-4f51-a51b-67c8fe464c08,A9385285-75BA-4257-AFE9-4B2E6E93E554,North,Torrey Pines,San Diego,CA,https://www.torreypines.com/,,True
-fbaef94b-905b-485f-9007-7941e5d39ee5,D12AF145-6FED-4D70-A726-522F78AAA8E4,North,Omni La Costa Resort & Spa,Carlsbad,CA,https://www.omnihotels.com/hotels/san-diego-la-costa/golf,True,False
+fbaef94b-905b-485f-9007-7941e5d39ee5,D12AF145-6FED-4D70-A726-522F78AAA8E4,North,Omni La Costa Resort & Spa,Carlsbad,CA,,True,False
 da7bcb73-207e-40af-8e7a-41912fe07a92,D1451999-E35B-4ED4-8E56-1FB5641824FB,Nicklaus Tournament Course,PGA West,La Quinta,CA,https://www.pgawest.com/,,True
 70ecbfed-a5c1-4dd9-9aca-f5674c662792,8CBBABE6-E279-4BE7-A8F9-E83C02B5C1B3,Mesa Verde Country Club,Mesa Verde Country Club,Costa Mesa,CA,https://www.mesaverdecc.com/,,True
 08d85cf1-9c84-43e0-8a50-50f90159bab6,07E645B0-2D8D-4304-8261-B7AA18D31927,Meadow Club,Meadow Club,Fairfax,CA,https://www.meadowclub.com/,,True
 2f620c9c-41f3-4cdd-a153-2bf467e28fbc,A96C54CB-2843-4465-9763-E08ED4885382,Mayacama Golf Course,Mayacama Golf Course,Santa Rosa,CA,https://www.mayacama.com/,,True
 d453e083-3d1b-4276-ae57-f1206c898d0d,7C8C57AA-D055-4F06-879B-098C6BDA2160,Martis Camp,Martis Camp,Truckee,CA,https://www.martiscamp.com/,,True
-9a8833b4-c974-46d1-99ab-4f4ca55b941a,A786991F-6E8F-481B-9546-CE9485002E76,Marriott Shadow Ridge Golf Club,Marriott Shadow Ridge Golf Club,Palm Desert,CA,https://www.shadowridgegc.com/,,True
-abb9b317-6e0c-4fef-9b5f-d5fe3906f4e4,C7062566-39AB-472B-82AB-F089010ACE02,Maderas Golf Club,Maderas Golf Club,Poway,CA,https://www.maderasgolfclub.com/,,True
-fb99ac01-f7ef-4b7b-bcf7-f9fa133e4607,244C5C28-5C92-472E-A26E-832A8A41E39E,Lake Merced Golf Course,Lake Merced Golf Course,Daly City,CA,https://www.lakemercedgolfclub.com/,,True
+9a8833b4-c974-46d1-99ab-4f4ca55b941a,A786991F-6E8F-481B-9546-CE9485002E76,Marriott Shadow Ridge Golf Club,Marriott Shadow Ridge Golf Club,Palm Desert,CA,,,True
+abb9b317-6e0c-4fef-9b5f-d5fe3906f4e4,C7062566-39AB-472B-82AB-F089010ACE02,Maderas Golf Club,Maderas Golf Club,Poway,CA,,,True
+fb99ac01-f7ef-4b7b-bcf7-f9fa133e4607,244C5C28-5C92-472E-A26E-832A8A41E39E,Lake Merced Golf Course,Lake Merced Golf Course,Daly City,CA,,,True
 15736040-98a2-4ff3-a0f2-4ca1eb45ba55,43FB65DA-C3A8-441A-9214-83C1C0EC25EF,Lake Course,Olympic Club,San Francisco,CA,https://www.olyclub.com/,,True
 e0f8b0ed-db7f-4187-bdc9-61b0fe6822e1,054C4328-F4DF-46FE-BC93-D5307BA8EDDF,La Purisima Golf Course,La Purisima Golf Course,Lompoc,CA,https://www.lapurisimagolf.com/,,True
-266fc8b6-2208-49b1-911b-6dc01bad91e4,EF069C83-CFAD-4E5A-881D-812B66D65186,Inside 9,Valley Club of Montecito,Santa Barbara,CA,https://www.valleyclubofmontecito.com/,,True
-42c1455a-b1b4-4ed7-adfe-9507a0684be7,25AA63F6-09CF-4B0D-B69C-B557680A7BD3,Harding Park (Tpc) Golf Course,Harding Park (Tpc) Golf Course,San Francisco,CA,https://tpc.com/hardingpark/,,True
+266fc8b6-2208-49b1-911b-6dc01bad91e4,EF069C83-CFAD-4E5A-881D-812B66D65186,Inside 9,Valley Club of Montecito,Santa Barbara,CA,,,True
+42c1455a-b1b4-4ed7-adfe-9507a0684be7,25AA63F6-09CF-4B0D-B69C-B557680A7BD3,Harding Park (TPC) Golf Course,Harding Park (TPC) Golf Course,San Francisco,CA,https://tpc.com/hardingpark/,,True
 cf4d8085-6cd6-463a-b711-e4fe4adc9826,654EEF44-D1D4-4DBF-9017-6E32B1F3A2C8,Firecliff,Desert Willow Golf Resort,Palm Desert,CA,https://www.desertwillow.com/,,True
-9873f4a7-cc90-4d99-b453-c7ab789fa8bd,0D75FADF-BF0E-4CA1-80E7-B133A2717EA3,Eagle Falls Golf Course,Eagle Falls Golf Course,Indio,CA,https://www.eaglefallsgolf.com/,,True
+9873f4a7-cc90-4d99-b453-c7ab789fa8bd,0D75FADF-BF0E-4CA1-80E7-B133A2717EA3,Eagle Falls Golf Course,Eagle Falls Golf Course,Indio,CA,,,True
 10a798c3-b519-4003-970c-15f535155e9b,CDCD5BF2-35DF-4518-813F-8865E0602967,Dunes,Monterey Peninsula Country Club,Pebble Beach,CA,https://www.mpccpb.org/,,True
-f83d7c8c-d268-4dc6-b470-604529158ff3,F51499CE-FA39-4497-98B8-2B4D1DD9FB80,Cypress Point Club,Cypress Point Club,Pebble Beach,CA,https://www.cypresspointclub.com/,,True
-b9e6ce6f-396a-4b62-af6b-d54558a4d835,21EB0363-71E4-435C-890C-8DD14A68E1A9,Cordevalle Golf Club,Cordevalle Golf Club,San Martin,CA,https://www.cordevalle.com/golf,,True
-27f3a6e3-f3a1-463a-a367-df16e444d470,2A77205E-EBAA-4D61-98EA-D3CBB35EF9B2,Classic Club,Classic Club,Palm Desert,CA,https://www.classicclubgolf.com/,,True
-d9ae2e0f-901d-4d14-aab1-914bf670a530,C2C802F8-A83B-4AD9-B202-598AF288137C,Celebrity,Indian Wells Golf Resort,Indian Wells,CA,https://www.indianwellsgolfresort.com/,,True
+f83d7c8c-d268-4dc6-b470-604529158ff3,F51499CE-FA39-4497-98B8-2B4D1DD9FB80,Cypress Point Club,Cypress Point Club,Pebble Beach,CA,,,True
+b9e6ce6f-396a-4b62-af6b-d54558a4d835,21EB0363-71E4-435C-890C-8DD14A68E1A9,Cordevalle Golf Club,Cordevalle Golf Club,San Martin,CA,,,True
+27f3a6e3-f3a1-463a-a367-df16e444d470,2A77205E-EBAA-4D61-98EA-D3CBB35EF9B2,Classic Club,Classic Club,Palm Desert,CA,,,True
+d9ae2e0f-901d-4d14-aab1-914bf670a530,C2C802F8-A83B-4AD9-B202-598AF288137C,Celebrity,Indian Wells Golf Resort,Indian Wells,CA,,,True
 18a37285-eef1-4b97-bc00-1fc6ca8efa6f,025C379A-D7ED-40A6-99EE-617EE00FF90E,California Golf Course of Sf,California Golf Course of Sf,South San Francisco,CA,https://www.calclub.org/,,True
-fdc1cc1f-a6f1-4c76-a949-e01504079653,E3F19300-B5AB-4BC0-B1B1-76E00919F528,Bel-Air Country Club,Bel-Air Country Club,Los Angeles,CA,https://www.belaircc.org/,,True
+fdc1cc1f-a6f1-4c76-a949-e01504079653,E3F19300-B5AB-4BC0-B1B1-76E00919F528,Bel-Air Country Club,Bel-Air Country Club,Los Angeles,CA,,,True
 51e166f3-e172-4de2-9ee4-bb3b2ef63d0c,8255807C-AD87-446E-9929-890B072800E7,Bayonet,Bayonet/Black Horse Golf Course,Seaside,CA,https://www.bayonetblackhorse.com/,,True
 4b7451af-378b-4bc9-9bef-b9eb283eaca8,F7356CA7-1057-4648-AE45-D67AA26EF536,Barona Creek Golf Club,Barona Creek Golf Club,Lakeside,CA,https://www.barona.com/resort/golf/,,True
 05a6487b-aaa7-48f9-b0a5-075b4b0efb1b,1693C429-E0B4-41B7-AFEE-05594677F8D1,Aviara Golf Club,Aviara Golf Club,Carlsbad,CA,https://www.parkhyattaviara.com/golf,,True
-e6234d64-d7b8-489f-a07e-1fa1a4247cd5,2F4A09DA-AED2-4DCD-881E-79CEE76AE0BC,Annandale Golf Club,Annandale Golf Club,Pasadena,CA,https://www.annandalegolfclub.com/,,True
+e6234d64-d7b8-489f-a07e-1fa1a4247cd5,2F4A09DA-AED2-4DCD-881E-79CEE76AE0BC,Annandale Golf Club,Annandale Golf Club,Pasadena,CA,http://www.annandalegolf.com,,True
 cc29e9d1-3695-41c9-8340-7f98f06f62c3,1C69BBB3-D68E-4BE2-8640-AFEB08703894,2023 Alternate,Soule Park Golf Club,Ojai,CA,https://www.soulepark.com/,,True
 c04ebf65-3337-41de-a7d8-9dc8f376523d,6804B338-A500-4F32-ABD1-02A3D04D3491,West Course,Broadmoor Golf Club,Colorado Springs,CO,https://www.broadmoorgolfclub.org/,,True
 8af046ff-e48d-4103-beb0-6d984205b65f,97066558-66BD-471E-A60D-77B2222273A0,TPC Colorado,TPC Colorado,Berthoud,CO,https://tpc.com/colorado/,,True
-08057db4-1d95-4927-90ea-78f7169d19df,A0D6B3D5-DC5A-4401-BE2C-4A8489241843,River Valley Ranch Golf Club,River Valley Ranch Golf Club,Carbondale,CO,https://www.rivervalleyranchgolf.com/,,True
+08057db4-1d95-4927-90ea-78f7169d19df,A0D6B3D5-DC5A-4401-BE2C-4A8489241843,River Valley Ranch Golf Club,River Valley Ranch Golf Club,Carbondale,CO,,,True
 317ca3e8-7052-4f82-98c9-08b86ab2ebde,70263FDA-9C61-4636-ACA6-9AD13CA2B1DA,Redlands Mesa Golf Club,Redlands Mesa Golf Club,Grand Junction,CO,https://www.redlandsmesa.com/,,True
 53b4b11b-be2b-48d6-9ca2-c1b4721ecfea,75E1026A-04C7-45F1-8C35-02AD9A6CFDE3,Raindance National,Raindance National,Windsor,CO,https://raindancenational.com/,,True
 2159b2c6-44cf-412f-bb19-98f4ad0f26bb,D4FE869E-91CF-4153-AAC6-80C7ED9621C7,Norman Course,Red Sky Golf Club,Wolcott,CO,https://www.redskygolfclub.com/,,True
 ebba76fe-d24e-45f6-b306-5a9ff9eaee9a,D4FE869E-91CF-4153-AAC6-80C7ED9621C7,Fazio Course,Red Sky Golf Club,Wolcott,CO,https://www.redskygolfclub.com/,,True
 32acf805-33dd-4677-be17-61d996ba2aa7,6804B338-A500-4F32-ABD1-02A3D04D3491,East Course,Broadmoor Golf Club,Colorado Springs,CO,https://www.broadmoorgolfclub.org/,,True
-d6c89c32-eb9c-4e96-a999-c8a499347b3a,45A2386F-10B7-4312-AE37-E23C596C99C2,Commonground Golf Course,Commonground Golf Course,Aurora,CO,https://www.commongroundgc.org/,,True
-79e69772-0a1f-4900-9585-2bf08145e73e,AA3DDD83-CD9C-4E69-A049-00CDC60B2F7E,Colorado Golf Club,Colorado Golf Club,Parker,CO,https://www.praderagolfclub.com/,,True
-adde972e-f8a0-4375-a81f-16bd812ee3ff,3A1DF527-167F-4669-91A1-387292006EA1,Cherry Hills Country Club,Cherry Hills Country Club,Cherry Hills Village,CO,https://www.cherryhillscc.org/,,True
-0c993966-75c3-45e2-a833-9e21cab21c9e,6D12F0DC-6292-4F4F-B122-381811CFD94A,Castle Pines Golf Club,Castle Pines Golf Club,Castle Rock,CO,https://www.castlepinesgolfclub.com/,,True
+d6c89c32-eb9c-4e96-a999-c8a499347b3a,45A2386F-10B7-4312-AE37-E23C596C99C2,Commonground Golf Course,Commonground Golf Course,Aurora,CO,,,True
+79e69772-0a1f-4900-9585-2bf08145e73e,AA3DDD83-CD9C-4E69-A049-00CDC60B2F7E,Colorado Golf Club,Colorado Golf Club,Parker,CO,,,True
+adde972e-f8a0-4375-a81f-16bd812ee3ff,3A1DF527-167F-4669-91A1-387292006EA1,Cherry Hills Country Club,Cherry Hills Country Club,Cherry Hills Village,CO,,,True
+0c993966-75c3-45e2-a833-9e21cab21c9e,6D12F0DC-6292-4F4F-B122-381811CFD94A,Castle Pines Golf Club,Castle Pines Golf Club,Castle Rock,CO,,,True
 f7b98cf6-ffc7-4082-b5ba-62bf5856184b,A9ED1D69-9E63-4D8C-BFEF-1409ABB1031E,Bear Dance Golf Club,Bear Dance Golf Club,Larkspur,CO,https://beardancegolf.com/,,True
 76d4a123-ebfe-4c1a-916f-ff063abcf222,981960F9-FC21-48EA-9A5E-6D13523A542B,Yale Golf Course,Yale Golf Course,New Haven,CT,https://yalegolf.yale.edu/,,True
-23a0765a-11dc-4d33-823a-f3c088a71b3a,25F71B36-1AF1-4FC5-93B0-0CF62353BFB8,Woodway Country Club,Woodway Country Club,Darien,CT,https://www.woodwaycc.org/,,True
-88a918ec-b2dc-42ac-bf88-3538d1be5dc9,F3F695A3-648D-4554-BC2D-ECFBA4B8EFB5,Wintonbury Hills Golf Course,Wintonbury Hills Golf Course,Bloomfield,CT,https://www.wintonburyhills.com/,,True
-fa309614-6440-4f29-8c60-812a2e158792,7238E89F-B009-44C4-BBFE-56B00D734DEA,Wee Burn Country Club,Wee Burn Country Club,Darien,CT,https://www.weeburncc.org/,,True
+23a0765a-11dc-4d33-823a-f3c088a71b3a,25F71B36-1AF1-4FC5-93B0-0CF62353BFB8,Woodway Country Club,Woodway Country Club,Darien,CT,,,True
+88a918ec-b2dc-42ac-bf88-3538d1be5dc9,F3F695A3-648D-4554-BC2D-ECFBA4B8EFB5,Wintonbury Hills Golf Course,Wintonbury Hills Golf Course,Bloomfield,CT,,,True
+fa309614-6440-4f29-8c60-812a2e158792,7238E89F-B009-44C4-BBFE-56B00D734DEA,Wee Burn Country Club,Wee Burn Country Club,Darien,CT,,,True
 369b1540-3787-4de6-8f20-7c4179e34de9,CE2D5FAD-73EC-4391-AB80-6FC4CA3D87B6,Tamarack Country Club,Tamarack Country Club,Greenwich,CT,https://www.tamarackcountryclub.com/,,True
-48131d29-5b55-4a14-8747-f81c620b3324,FA0A3CC2-1799-498F-8601-47E8111497DC,"Stanwich Club, The","Stanwich Club, The",Greenwich,CT,https://www.stanwichclub.com/,,True
-e2504a3a-9964-4dd2-adaa-5f3b8a2a35be,AA389CB8-0F23-4538-92DD-C465DE9F12D9,Shenecountry Clubossett Golf Club,Shennecossett Golf Club,Groton,CT,https://www.shennecossett.com/,,True
-6bfa96be-3419-4e99-8276-2697193066b5,E289FD67-81F8-434A-84C7-EF8898516B06,Rockrimmon Country Club,Rockrimmon Country Club,Stamford,CT,https://www.rockrimmoncc.com/,,True
-bae85689-6f22-490f-96b1-044e5b037a32,C7D94AD6-B739-4006-BA92-0800357936D8,Richter Park Golf Course,Richter Park Golf Course,Danbury,CT,https://richterpark.com/,,True
-f7e5d37a-d515-4523-b543-38d732c3e984,78C68706-42F0-46A6-9D4C-342414874714,Mohegan Sun Golf Club,Mohegan Sun Golf Club,Baltic,CT,https://www.mohegansun.com/golf.html,,True
+48131d29-5b55-4a14-8747-f81c620b3324,FA0A3CC2-1799-498F-8601-47E8111497DC,The Stanwich Club,The Stanwich Club,Greenwich,CT,,,True
+e2504a3a-9964-4dd2-adaa-5f3b8a2a35be,AA389CB8-0F23-4538-92DD-C465DE9F12D9,Shenecountry Clubossett Golf Club,Shennecossett Golf Club,Groton,CT,,,True
+6bfa96be-3419-4e99-8276-2697193066b5,E289FD67-81F8-434A-84C7-EF8898516B06,Rockrimmon Country Club,Rockrimmon Country Club,Stamford,CT,,,True
+bae85689-6f22-490f-96b1-044e5b037a32,C7D94AD6-B739-4006-BA92-0800357936D8,Richter Park Golf Course,Richter Park Golf Course,Danbury,CT,,,True
+f7e5d37a-d515-4523-b543-38d732c3e984,78C68706-42F0-46A6-9D4C-342414874714,Mohegan Sun Golf Club,Mohegan Sun Golf Club,Baltic,CT,,,True
 4f2908c9-5f21-4171-9978-978a261893ee,E95C568F-BB8B-4B7E-A1E0-AD42F20452C1,Lake of Isles North,Lake of Isles Golf Club,Mashantucket,CT,https://www.lakeofisles.com/,,True
-9c107bde-7c3c-483f-8d08-dbfdd3fe09f3,641DDE75-0C7D-4A13-9BC7-EAA072A2A920,Keney Golf Course,Keney Golf Course,Hartford,CT,https://www.hartfordgolfclub.org/keney-park,,True
-2f448571-6e4d-42f0-9824-10a8a3a41519,389A6EC4-2638-4AD0-853A-5ECE8941C325,Hotchkiss School Golf Club,Hotchkiss School Golf Club,Lakeville,CT,https://www.hotchkiss.org/athletics/golf,,True
+9c107bde-7c3c-483f-8d08-dbfdd3fe09f3,641DDE75-0C7D-4A13-9BC7-EAA072A2A920,Keney Golf Course,Keney Golf Course,Hartford,CT,,,True
+2f448571-6e4d-42f0-9824-10a8a3a41519,389A6EC4-2638-4AD0-853A-5ECE8941C325,Hotchkiss School Golf Club,Hotchkiss School Golf Club,Lakeville,CT,,,True
 774258ad-5a90-412e-9163-e39489a95ac8,658799B3-42A8-4744-8B98-A58B7DCBCAC0,Great River Golf Club,Great River Golf Club,Milford,CT,https://www.greatrivergolfclub.com/,,True
 c32d775b-a21a-40a0-b359-ed4ab1c970dc,C9730608-7772-4428-A800-6886721FB06C,Golf Club at Oxford Greens,Golf Club at Oxford Greens,Oxford,CT,https://www.oxfordgreens.com/,,True
-121ccde0-e0cb-444e-afa7-3cbfa71cafd6,81EC30BA-8009-4C1A-93AB-3CE4A61D17E8,Gillette Ridge Golf Club,Gillette Ridge Golf Club,Bloomfield,CT,https://www.gillettegridge.com/,,True
+121ccde0-e0cb-444e-afa7-3cbfa71cafd6,81EC30BA-8009-4C1A-93AB-3CE4A61D17E8,Gillette Ridge Golf Club,Gillette Ridge Golf Club,Bloomfield,CT,,,True
 0bc1512c-b436-42c3-bb2a-4758a7a8b916,76602B96-B2C3-457F-AE37-12C030AC9A67,Country Club of Fairfield,Country Club of Fairfield,Fairfield,CT,https://www.ccfairfield.com/,,True
 da31f6a9-3fab-4fbc-aa8a-2ffb2ab2746d,8F289219-4464-4279-B76D-C1E24C540CDB,Brooklawn Country Club,Brooklawn Country Club,Fairfield,CT,https://www.brooklawncc.com/,,True
-531304f9-9ede-4b79-88c0-29f9d4ce6541,41DC5BE8-F829-4C61-92AF-7D214FE98B10,White Clay Creek Country Club,White Clay Creek Country Club,Wilmington,DE,https://www.fieldstonegolfclub.com/,,True
+531304f9-9ede-4b79-88c0-29f9d4ce6541,41DC5BE8-F829-4C61-92AF-7D214FE98B10,White Clay Creek Country Club,White Clay Creek Country Club,Wilmington,DE,,,True
 bbdb7675-ed56-4885-ad8b-2adfc6fb6de6,C135DDCE-0413-4EB0-8FB4-5787E02B717A,South Course,Wilmington Country Club,Wilmington,DE,https://www.wilmingtoncc.com/,,True
 acfbfc6e-16d1-426a-8c66-90ae0c482516,704D5C11-2393-481A-BEEB-879BD4BDDCA1,Rock Manor Golf Course,Rock Manor Golf Course,Wilmington,DE,https://www.rockmanorgolf.com/,,True
-e7f59bc4-8266-4db0-84b4-a29a349c10a6,CC89E456-80FA-4D12-93BD-2350795CDFF3,Plantation Lakes Golf & Country Club,Plantation Lakes,Milsboro,DE,https://www.peninsulagolfclub.com/,,True
+e7f59bc4-8266-4db0-84b4-a29a349c10a6,CC89E456-80FA-4D12-93BD-2350795CDFF3,Plantation Lakes Golf & Country Club,Plantation Lakes,Milsboro,DE,,,True
 06ab844c-05aa-4002-ba99-7e1964c5b20e,91E77C32-91E8-42CC-9CB8-ABE8724F3131,Baywood Greens Golf Course,Baywood Greens Golf Course,Long Neck,DE,https://www.baywoodgreens.com/,,True
-fedbc922-f054-49be-ab8f-17d401313b08,D8CA0995-E849-48CC-8E11-1DBD00C40A58,Bayside Resort Golf Course,Bayside Resort Golf Course,Selbyville,DE,https://www.baysidegolf.com/,,True
-735dd97e-3876-47cb-ad3c-7eab112fe645,F70CCB6B-5D2F-4944-9075-FDEED9A1DF56,West Course,John's Island Club,Vero Beach,FL,https://www.johnsgolf.com/,,True
+fedbc922-f054-49be-ab8f-17d401313b08,D8CA0995-E849-48CC-8E11-1DBD00C40A58,Bayside Resort Golf Course,Bayside Resort Golf Course,Selbyville,DE,,,True
+735dd97e-3876-47cb-ad3c-7eab112fe645,F70CCB6B-5D2F-4944-9075-FDEED9A1DF56,West Course,John's Island Club,Vero Beach,FL,,,True
 acb1948e-729e-4414-9055-bce97bdd35c0,FE54DD67-46A6-43B1-887C-EA638192DE09,West,Belleair Country Club,Belleair,FL,https://www.belleaircc.com/,,True
-1262dbe4-5ccb-4aca-9335-3dc4d6f493ac,444517E8-BB0B-4B24-B2F4-62CF886722C8,Wanamaker Course,Pga Golf Club,Port St Lucie,FL,https://www.pgahq.com/golf/pga-golf-club/,,True
-ab721869-0dae-4d86-8be6-0c6e541511ea,65A0BD00-F134-417E-961B-F583DFF85009,The Ocean Course at Hammock Beach,Hammock Beach Resorts,Palm Coast,FL,https://www.hammockbeach.com/golf/ocean-course/,,True
-277f8d61-d45b-4f98-82f0-55d325677d73,65A0BD00-F134-417E-961B-F583DFF85009,The Conservatory at Hammock Beach,Hammock Beach Resorts,Palm Coast,FL,https://www.hammockbeach.com/golf/conservatory-course/,,True
-2959155c-c36d-4c2f-a822-b9fd15020d27,D384A555-1830-4CCD-9033-116A29693381,The Concession Golf Club,The Concession Golf Club,Bradenton,FL,https://www.concessiongolfclub.com/,,True
-effe7990-8170-4bb1-a1a8-7aeceafe3bbe,AB5D8976-72FC-4898-A1DC-D61EF0D71509,The Champion,Pga National Resort & Spa,Palm Beach Gardens,FL,https://www.pgaresort.com/golf/champion-course,,True
+1262dbe4-5ccb-4aca-9335-3dc4d6f493ac,444517E8-BB0B-4B24-B2F4-62CF886722C8,Wanamaker Course,Pga Golf Club,Port St Lucie,FL,,,True
+ab721869-0dae-4d86-8be6-0c6e541511ea,65A0BD00-F134-417E-961B-F583DFF85009,The Ocean Course at Hammock Beach,Hammock Beach Resorts,Palm Coast,FL,,,True
+277f8d61-d45b-4f98-82f0-55d325677d73,65A0BD00-F134-417E-961B-F583DFF85009,The Conservatory at Hammock Beach,Hammock Beach Resorts,Palm Coast,FL,,,True
+2959155c-c36d-4c2f-a822-b9fd15020d27,D384A555-1830-4CCD-9033-116A29693381,The Concession Golf Club,The Concession Golf Club,Bradenton,FL,,,True
+effe7990-8170-4bb1-a1a8-7aeceafe3bbe,AB5D8976-72FC-4898-A1DC-D61EF0D71509,The Champion,Pga National Resort & Spa,Palm Beach Gardens,FL,,,True
 0d27bee8-4157-44af-b116-a9bd8d81c4dd,CDA7404D-9905-4655-8BA1-F72E7A082225,The Bear's Club,The Bear's Club,Jupiter,FL,https://www.thebearsclub.com/,,True
 0f2b2bbe-3829-4927-914a-fffc64fc1d17,2CF64E28-918D-4E3F-92E1-B6C3E7F5EB2A,Stadium Course,TPC Sawgrass,Ponte Vedra Beach,FL,https://tpc.com/sawgrass,True,False
 095dc944-7b42-43d6-8cd0-4ebd75e848eb,E03B57B4-DA2D-4ED3-ACAA-93F00B70B2F5,Southern Dunes Golf & Country Club,Southern Dunes Golf & Country Club,Haines City,FL,https://www.southerndunes.com/,,True
-1480ca22-b475-41df-8f84-0347b4705691,0FAC2594-01E1-43A2-99A7-53AA2D6F0F83,Soffer Course,Turnberry Isle Country Club,Aventura,FL,https://www.legacyturnberry.com/golf/,,True
+1480ca22-b475-41df-8f84-0347b4705691,0FAC2594-01E1-43A2-99A7-53AA2D6F0F83,Soffer Course,Turnberry Isle Country Club,Aventura,FL,,,True
 6a61c34a-a332-4131-9e9a-2453380bb153,E22711A4-688F-4E4D-8D18-A63CA8B6EC72,Seminole Golf Club,Seminole Golf Club,Juno Beach,FL,https://www.seminolegolfclub.com/,,True
 2b4f9c67-d7e3-4dfb-ad34-5fa5dac3489b,D2E591E8-CE51-40EF-9398-63FC5DCEF790,Red,Streamsong Resort,Bowling Green,FL,https://www.streamsongresort.com/,,True
-e4629a93-0bc9-492c-8198-cab9353b9e88,33BCB4D1-3E5C-4782-B831-29BBA30DA0B5,Pine Tree Golf Club,Pine Tree Golf Club,Boynton Beach,FL,https://www.pinetreegolfclub.com/,,True
+e4629a93-0bc9-492c-8198-cab9353b9e88,33BCB4D1-3E5C-4782-B831-29BBA30DA0B5,Pine Tree Golf Club,Pine Tree Golf Club,Boynton Beach,FL,,,True
 a14c616f-7e85-4371-9840-e0ccbedc775e,6D981B63-1374-448F-9268-E2036D95A038,Panther Lake,Orange County National Golf Club,Winter Garden,FL,https://www.ocngolf.com/,,True
 a58b143d-d7a6-4de7-868a-9d01c249c962,35ECF9DE-B03C-4DA8-AD56-D25F6F1D3804,Old Memorial Golf Club,Old Memorial Golf Club,Tampa,FL,https://www.oldmemorialgolfclub.com/,,True
-3d152329-b3e4-4404-9886-e514f07610d3,1BFF78E3-F1BF-4A20-9402-55CDEE0FAB75,Old Marsh Golf Club,Old Marsh Golf Club,Palm Beach Gardens,FL,https://www.oldmarshgolfclub.com/,,True
+3d152329-b3e4-4404-9886-e514f07610d3,1BFF78E3-F1BF-4A20-9402-55CDEE0FAB75,Old Marsh Golf Club,Old Marsh Golf Club,Palm Beach Gardens,FL,,,True
 9ba1397b-f2a6-4015-a397-c299a5cba3ef,1F4D5D76-0472-4888-BDB7-24129319C11D,Ocean Course,Ponte Vedra Inn & Club,Ponte Vedra Beach,FL,https://www.pontevedra.com/golf/,,True
-6a594a4a-3a45-4565-b55c-3e2adf30693b,b689e4e1-ab25-4324-ba94-f7d62a03770e,Oak Marsh,Omni Amelia Island Resort,Fernandina Beach,FL,https://www.omnihotels.com/hotels/amelia-island,True,False
-f8f0d790-c706-43e0-9506-f474ed348e45,921758A2-1771-4EEC-9C93-259F8F541BF6,Naples National Golf Club,Naples National Golf Club,Naples,FL,https://www.tiburonnaples.com/,,True
-831aecb4-84a4-4d31-882b-af3ca584b577,450DF6F8-DA3C-43A4-A96E-5238A5F095A9,Mountain Lake,Mountain Lake,Lake Wales,FL,https://www.grandlakewales.com/,,True
-668776e6-4ebc-4f90-8d41-b7c8083592d2,884B4151-63F4-43BE-A10F-8C907DAB514C,Medalist Golf Club,Medalist Golf Club,Hobe Sound,FL,https://www.lostlakegolfclub.com/,,True
-a5e4dec9-dbdd-403f-a75d-3e303a55b7d6,b689e4e1-ab25-4324-ba94-f7d62a03770e,Long Point,Omni Amelia Island Resort,Fernandina Beach,FL,https://www.omnihotels.com/hotels/amelia-island,True,False
-98b27dfc-f3e6-48c4-80c1-f51c3013ba39,97229788-59AB-4FEE-A8A8-40A85FDA9C79,Loblolly Golf Club,Loblolly Golf Club,Hobe Sound,FL,https://www.lostlakegolfclub.com/,,True
-615b517e-1a49-41b3-b39e-fe90ffa4813d,0AC0D059-5905-4E0F-B4C2-3FA822C23032,King & Bear,World Golf Village,St Augustine,FL,https://www.worldgolfvillage.com/,,True
-e487214a-1fdc-4956-8237-63093ebbd881,A4F56E68-8E3F-4AA9-A85A-CB85D4846E73,Kelly Plantation Golf Club,Kelly Plantation Golf Club,Destin,FL,https://www.regattabay.com/,,True
+6a594a4a-3a45-4565-b55c-3e2adf30693b,b689e4e1-ab25-4324-ba94-f7d62a03770e,Oak Marsh,Omni Amelia Island Resort,Fernandina Beach,FL,,True,False
+f8f0d790-c706-43e0-9506-f474ed348e45,921758A2-1771-4EEC-9C93-259F8F541BF6,Naples National Golf Club,Naples National Golf Club,Naples,FL,,,True
+831aecb4-84a4-4d31-882b-af3ca584b577,450DF6F8-DA3C-43A4-A96E-5238A5F095A9,Mountain Lake,Mountain Lake,Lake Wales,FL,,,True
+668776e6-4ebc-4f90-8d41-b7c8083592d2,884B4151-63F4-43BE-A10F-8C907DAB514C,Medalist Golf Club,Medalist Golf Club,Hobe Sound,FL,,,True
+a5e4dec9-dbdd-403f-a75d-3e303a55b7d6,b689e4e1-ab25-4324-ba94-f7d62a03770e,Long Point,Omni Amelia Island Resort,Fernandina Beach,FL,,True,False
+98b27dfc-f3e6-48c4-80c1-f51c3013ba39,97229788-59AB-4FEE-A8A8-40A85FDA9C79,Loblolly Golf Club,Loblolly Golf Club,Hobe Sound,FL,,,True
+615b517e-1a49-41b3-b39e-fe90ffa4813d,0AC0D059-5905-4E0F-B4C2-3FA822C23032,King & Bear,World Golf Village,St Augustine,FL,,,True
+e487214a-1fdc-4956-8237-63093ebbd881,A4F56E68-8E3F-4AA9-A85A-CB85D4846E73,Kelly Plantation Golf Club,Kelly Plantation Golf Club,Destin,FL,,,True
 3a251d47-8b64-42c6-bbe8-5e33d0fe94fa,ac6aa993-c15e-4fb8-aa6a-bda872330468,Karoo,Cabot Citrus Farms,Brooksville,FL,http://www.cabotcitrusfarms.com,True,False
-15a351cf-9200-4753-a4ed-a51c5f401704,604155C0-13FD-46CC-8969-1C3C9AAF57B8,Juliette Falls,Juliette Falls,Dunnellon,FL,https://www.golfatjuliettefalls.com/,,True
-db0a86d1-bc25-46ca-8d44-91b2a9581659,2ED61BCD-7150-42DF-A641-F90D44569EC7,Hills Course,Jupiter Hills Club,Tequesta,FL,https://www.jupitarnc.com/,,True
-37c3a841-5aba-413e-bb99-3aa8fbf1f8f8,C53A0431-C2C3-4C3C-AE49-4EAD028AF7BE,High Ridge Country Club,High Ridge Country Club,Lantana,FL,https://www.lantanagolfclub.com/,,True
-7b2581fc-8aeb-46ee-a405-2abc8bbc8446,F4E6417B-0632-493E-B37B-626450A97A51,Hammock Bay Golf & Country Club,Members Club at Marco,Naples,FL,https://www.calusagolf.com/,,True
+15a351cf-9200-4753-a4ed-a51c5f401704,604155C0-13FD-46CC-8969-1C3C9AAF57B8,Juliette Falls,Juliette Falls,Dunnellon,FL,,,True
+db0a86d1-bc25-46ca-8d44-91b2a9581659,2ED61BCD-7150-42DF-A641-F90D44569EC7,Hills Course,Jupiter Hills Club,Tequesta,FL,,,True
+37c3a841-5aba-413e-bb99-3aa8fbf1f8f8,C53A0431-C2C3-4C3C-AE49-4EAD028AF7BE,High Ridge Country Club,High Ridge Country Club,Lantana,FL,,,True
+7b2581fc-8aeb-46ee-a405-2abc8bbc8446,F4E6417B-0632-493E-B37B-626450A97A51,Hammock Bay Golf & Country Club,Members Club at Marco,Naples,FL,,,True
 0fbe1fd1-1c08-4d48-9baa-f5c8fc236df1,99A34ED1-9087-4A65-BEBB-4DE462F9E69F,Golden Palm,Trump National Doral,Miami,FL,https://www.trumphotels.com/miami,,True
-21274539-51bc-4d27-9ffa-2c62e87bd6de,7E6B2FD4-1663-4151-BE61-70F102AFA940,Gasparilla Golf Club,Gasparilla Golf Club,Boca Grande,FL,https://www.gasparillagolfclub.com/,,True
-ccfa0de1-6fe7-40b1-8538-d52c112e4d33,5F6C98B0-0B96-4E15-8B4E-0B1F56850A95,El Campeon,Mission Inn Resort,Howey-In-The-Hills,FL,https://missioninnresort.com/golf/el-campeon/,,True
+21274539-51bc-4d27-9ffa-2c62e87bd6de,7E6B2FD4-1663-4151-BE61-70F102AFA940,Gasparilla Golf Club,Gasparilla Golf Club,Boca Grande,FL,,,True
+ccfa0de1-6fe7-40b1-8538-d52c112e4d33,5F6C98B0-0B96-4E15-8B4E-0B1F56850A95,El Campeon,Mission Inn Resort,Howey-In-The-Hills,FL,,,True
 d9237eff-fddd-4061-a332-44946a0d7b1d,2CF64E28-918D-4E3F-92E1-B6C3E7F5EB2A,Dye's Valley Course,TPC Sawgrass,Ponte Vedra Beach,FL,https://tpc.com/sawgrass,,True
-25081041-169d-413b-9df4-4d230890038b,444517E8-BB0B-4B24-B2F4-62CF886722C8,Dye Course,Pga Golf Club,Port St Lucie,FL,https://www.pgahq.com/golf/pga-golf-club/,,True
+25081041-169d-413b-9df4-4d230890038b,444517E8-BB0B-4B24-B2F4-62CF886722C8,Dye Course,Pga Golf Club,Port St Lucie,FL,,,True
 0a851852-b840-4811-a84d-1789d5ad8d7a,05942D06-4367-4F4A-AE19-4ED0EF2EC9BB,Deer Creek Golf Club,Deer Creek Golf Club,Deerfield Beach,FL,https://www.deercreekflorida.com/golf/,,True
 dfb82d0a-6716-4220-b11c-9184e3854473,6D981B63-1374-448F-9268-E2036D95A038,Crooked Cat,Orange County National Golf Club,Winter Garden,FL,https://www.ocngolf.com/,,True
-4c2c5a8f-806c-4b56-b60e-36401cf74c29,1D365358-D374-4861-93FB-EB5E23220E90,Crandon Golf at Key Biscayne,Crandon Golf at Key Biscayne,Key Biscayne,FL,https://crandon.golf/,,True
+4c2c5a8f-806c-4b56-b60e-36401cf74c29,1D365358-D374-4861-93FB-EB5E23220E90,Crandon Golf at Key Biscayne,Crandon Golf at Key Biscayne,Key Biscayne,FL,,,True
 f8fa49e6-9905-4ea1-8297-143ae3b21828,F756D347-C08A-4181-9C28-AF135947E7D3,Coral Ridge Country Club,Coral Ridge Country Club,Ft. Lauderdale,FL,https://www.coralridgecc.com/,,True
 b6311850-2d14-49f4-87a9-90caa3d05dd4,E0373A4D-09C3-4F3E-8763-5AD8E88B0485,Coral Creek Club,Coral Creek Club,Placida,FL,https://www.coralcreekclub.com/,,True
-407fa16d-845a-4598-815e-7e7a8c6a0be3,386391B0-B87D-4293-9090-BB53BD2932E7,Copperhead,Innisbrook Resort & Golf Club,Palm Harbor,FL,https://www.innisbrookgolfresort.com/golf/courses/copperhead,,True
+407fa16d-845a-4598-815e-7e7a8c6a0be3,386391B0-B87D-4293-9090-BB53BD2932E7,Copperhead,Innisbrook Resort & Golf Club,Palm Harbor,FL,,,True
 15353f81-6306-416c-a863-9888c8e09efb,6ED0BC87-B6A7-4AD6-8B7B-6CE9CB8688D5,Charger Course,Arnold Palmers Bay Hill Club & Lodge,Orlando,FL,https://www.bayhill.com/,,True
-f528d5f5-e7bf-410c-bf2c-650bc920c92f,F1AA3118-F2C3-40D8-AD85-95271314BAB8,Championship,Trump International Golf Club,West Palm Beach,FL,https://www.trumpinternationalgc.com/,,True
+f528d5f5-e7bf-410c-bf2c-650bc920c92f,F1AA3118-F2C3-40D8-AD85-95271314BAB8,Championship,Trump International Golf Club,West Palm Beach,FL,,,True
 99e9c53b-1056-4fab-a9d5-e1661685ab79,6ED0BC87-B6A7-4AD6-8B7B-6CE9CB8688D5,Champion/Challenger,Arnold Palmers Bay Hill Club & Lodge,Orlando,FL,https://www.bayhill.com/,,True
 cbac1477-b433-4928-8a71-5bc41954b36c,30FB01F4-7706-429E-A198-DEAFF85498A7,Camp Creek Golf Club,Camp Creek Golf Club,Watersound,FL,https://www.watersoundclub.com/golf,,True
 f7de7a6c-9375-4393-85ab-2e3c84eab22d,C18CD1D7-57BF-41B6-988A-D8663A328F0E,Calusa Pines Golf Club,Calusa Pines Golf Club,Naples,FL,https://calusapinesgolfclub.com/,,True
@@ -203,14 +203,14 @@ f1c8258f-9ce7-41cb-b8ad-763c66fbefcd,118A48AF-2A20-4BD6-B2DC-DFAB5A06E491,Univer
 d511fb30-30b8-46a0-a422-d0cf91487048,BED807B8-2CB6-49FF-BECC-A0B72A091AE9,The Oconee Golf Course,Reynolds Lake Oconee,Greensboro,GA,https://www.reynoldslakeoconee.com/,,True
 7860b55f-fb19-44d4-82c1-3773154c6bda,BED807B8-2CB6-49FF-BECC-A0B72A091AE9,The National Golf Course,Reynolds Lake Oconee,Greensboro,GA,https://www.reynoldslakeoconee.com/,,True
 04229ebe-63ca-4c2a-bc82-ede84dc5add3,F55FEEAE-848E-4FD6-A65F-620230123D43,The Highlands Course,The McLemore,Rising Fawn,GA,https://www.themclemore.com/golf/,True,False
-581ee098-115f-4665-b807-d8701691ee72,6E311CD3-52E7-4C64-B844-CF74E19045E3,The Ford Field & River Club,The Ford Field & River Club,Richmond Hill,GA,https://www.thefordfieldandriverclub.com/,,True
+581ee098-115f-4665-b807-d8701691ee72,6E311CD3-52E7-4C64-B844-CF74E19045E3,The Ford Field & River Club,The Ford Field & River Club,Richmond Hill,GA,,,True
 7648af83-ac7a-4dfa-ba8e-772e2f377c78,59AC66CB-BE42-43E1-939E-B0B61F1BD556,Seaside Course,Sea Island,St Simons Island,GA,https://www.seaisland.com/,,True
 870f7e37-cf97-4a77-beda-6d11223d43e2,59AC66CB-BE42-43E1-939E-B0B61F1BD556,Plantation Course,Sea Island,St Simons Island,GA,https://www.seaisland.com/,,True
-a4454704-287d-4c48-a8d2-4d459ca5841b,9ED076DB-23B4-489B-8BE5-98159B6D28BC,Peachtree Golf Club,Peachtree Golf Club,Atlanta,GA,https://www.peachtreegolfclub.org/,,True
-c2a3ff90-c341-41c1-880f-163212776623,D8015A4E-BEBF-41F3-8436-FB46B78E498E,Ocean Forest Golf Club,Ocean Forest Golf Club,Sea Island,GA,https://www.oceanforestgc.com/,,True
-d0b9e012-07ec-461d-b1d3-93f86e720725,5226EDEC-F4EB-4FC9-A448-F813E24625F5,North,Cherokee Town & Country Club,Atlanta,GA,https://www.cherokeetc.com/,,True
-04fedeb8-632a-4544-a769-6dc82a818c2f,39BCA6A5-449F-4768-ABEF-115F82D09B68,King & Prince Golf Course,King & Prince Golf Course,St. Simons,GA,https://www.kingandprince.com/golf/,,True
-59741c32-f3c9-4c20-ab22-deb206d54884,649F84C1-42D2-4BE5-AECD-862ADC10986B,Kinderlou Forest Golf Club,Kinderlou Forest Golf Club,Valdosta,GA,https://www.kinderlou.com/golf,,True
+a4454704-287d-4c48-a8d2-4d459ca5841b,9ED076DB-23B4-489B-8BE5-98159B6D28BC,Peachtree Golf Club,Peachtree Golf Club,Atlanta,GA,,,True
+c2a3ff90-c341-41c1-880f-163212776623,D8015A4E-BEBF-41F3-8436-FB46B78E498E,Ocean Forest Golf Club,Ocean Forest Golf Club,Sea Island,GA,,,True
+d0b9e012-07ec-461d-b1d3-93f86e720725,5226EDEC-F4EB-4FC9-A448-F813E24625F5,North,Cherokee Town & Country Club,Atlanta,GA,,,True
+04fedeb8-632a-4544-a769-6dc82a818c2f,39BCA6A5-449F-4768-ABEF-115F82D09B68,King & Prince Golf Course,King & Prince Golf Course,St. Simons,GA,,,True
+59741c32-f3c9-4c20-ab22-deb206d54884,649F84C1-42D2-4BE5-AECD-862ADC10986B,Kinderlou Forest Golf Club,Kinderlou Forest Golf Club,Valdosta,GA,,,True
 24c5983e-d58b-4986-b1a2-30e974097da6,A4C39EEF-EB3E-4126-9A75-8C9671A63114,Highlands,Atlanta Athletic Club,Johns Creek,GA,https://www.atlantaathleticclub.org/,,True
 f10e04ed-8203-458f-9ad6-0c13a337f116,635D01B0-D905-4874-9F2A-36EABB9BB56F,Hawks Ridge Golf Club,Hawks Ridge Golf Club,Ball Ground,GA,https://www.hawksridge.com/,,True
 87ecbbe2-42ee-4f98-9ffd-f115238e23ec,39BC030C-C4D3-4A95-A928-F592ADE934B2,Harbor Club,Harbor Club,Greensboro,GA,https://www.harborclub.com/,,True
@@ -218,10 +218,10 @@ e1e50b73-20dd-4894-9868-d0389c9061c3,BED807B8-2CB6-49FF-BECC-A0B72A091AE9,Great 
 6da19e13-0dda-4d42-87af-2668d718cfae,AF6EA625-0874-4DC1-8E5A-17F1D2E7ADC9,Frederica Golf Club,Frederica Golf Club,St. Simons Island,GA,https://www.seaisland.com/golf/retreat-course/,,True
 323c7e77-9fc3-460f-9ed2-b214ed28014f,55566EC6-0A1D-4581-BD1B-EA05B4C70766,East Lake Golf Club,East Lake Golf Club,Atlanta,GA,https://www.capitalcityclub.org/,,True
 ebbe9f95-c119-44c9-9b95-98d796ca16a2,66DD7C6E-87F7-4F90-96BB-200F224F1A71,Cuscowilla On Lake Oconee,Cuscowilla On Lake Oconee,Eatonton,GA,https://www.cuscowilla.com/,,True
-2acc2ba6-db18-42f6-9c2e-d2faf4bfd8d1,A988A758-9835-44E5-A7D5-137B46EE38FF,Cobblestone Golf Course,Cobblestone Golf Course,Acworth,GA,https://cobblestonegolfcourse.com/,,True
+2acc2ba6-db18-42f6-9c2e-d2faf4bfd8d1,A988A758-9835-44E5-A7D5-137B46EE38FF,Cobblestone Golf Course,Cobblestone Golf Course,Acworth,GA,,,True
 c272d8e3-da6c-4f94-bbfe-097f276dd478,3F7BC50D-CB58-497C-9CF9-3E077708B32E,Bear's Best Atlanta,Bear's Best Atlanta,Suwanee,GA,https://www.bearsbestatlanta.com/,,True
-70f4c00f-7273-47e0-b6c1-47f171824f2f,9DBBFC70-F151-4984-BBA9-0B306B12F699,Augusta Country Club,Augusta Country Club,Augusta,GA,https://www.augustacc.com/,,True
-d9718bcd-2313-4dd1-9ec2-44ec8549b2a4,E6644F8D-E4D6-4FC6-8218-41AD1828825F,Atlanta Country Club,Atlanta Country Club,Marietta,GA,https://www.atlanticgc.org/,,True
+70f4c00f-7273-47e0-b6c1-47f171824f2f,9DBBFC70-F151-4984-BBA9-0B306B12F699,Augusta Country Club,Augusta Country Club,Augusta,GA,,,True
+d9718bcd-2313-4dd1-9ec2-44ec8549b2a4,E6644F8D-E4D6-4FC6-8218-41AD1828825F,Atlanta Country Club,Atlanta Country Club,Marietta,GA,,,True
 c3fe687e-e143-4191-bdb4-428986ff7fcb,F5FFDAD4-F0D2-4348-9A28-9B41BABC4CF8,Achasta Golf Club,Achasta Golf Club,Dahlonega,GA,https://achastatepark.com/,,True
 e69dcdf9-168b-4c53-9cbe-232ce54f67aa,646EEC83-733A-4765-9ADB-06B1C3A49988,Wailua Golf Course,Wailua Golf Course,Lihue,HI,https://www.hokualalugasthouse.com/golf/,,True
 95815ebf-6512-405c-a4fd-c122e7f36a8c,FF7C2D94-7D0E-4823-B5CF-9B1F04E82063,The Plantation Course,Kapalua Resort,Lahaina,HI,https://golfatkapalua.com/,,True
@@ -234,7 +234,7 @@ f276014f-3e7a-4092-b4b6-0cddd5ab9d61,DF6B8E31-87A5-40ED-816D-454C9A25E9F1,Nickla
 bcf503c7-8426-403c-8f66-2c5164669c6c,5513A5CC-C67C-498C-81A3-EDFC92E8ED81,Mauna Kea Golf Course,Mauna Kea Resorts,Kohala Coast,HI,https://www.maunakearesort.com/golf/course-overview,,True
 90039c8e-5bd5-4005-8a92-31cbca8dcdeb,0D78ACFD-D87E-49F0-AFC5-FDA95EC2DB4D,Manele Golf Course,Manele Golf Course,Lanai City,HI,https://www.fourseasons.com/lanai/golf/,,True
 19fbdc93-4fa3-4388-8a32-9ff0e0de827e,41B80C57-4142-49E7-A6D9-592C7C5E4487,Makai Course,Princeville Makai Golf Course,Princeville,HI,https://www.makaigolf.com/,,True
-9088364d-d231-4073-8b07-dc6708ba3653,514A22D0-3927-4FA6-A654-61ADBAAFD2F1,"Kukuiula, The Club At","Kukuiula, The Club At",Koloa,HI,https://www.clubatkukuiula.com/,,True
+9088364d-d231-4073-8b07-dc6708ba3653,514A22D0-3927-4FA6-A654-61ADBAAFD2F1,The Club at Kukuiula,The Club at Kukuiula,Koloa,HI,https://www.clubatkukuiula.com/,,True
 4b4cf674-826f-46c9-b140-fd129a80b6b1,41EB4745-458F-4835-B924-B20D0A592DE0,Ko Olina Golf Club,Ko Olina Golf Club,Kapolei,HI,https://www.koolina.com/golf/,,True
 0fbf4baa-9472-4746-91f2-4809c9264a20,BEC81A9B-5AAF-4337-B354-F5E94C6BC595,Kapolei Golf Course,Kapolei Golf Course,Kapolei,HI,https://kapoleigolf.com/,,True
 b57be382-e951-4c2e-b3f5-f12e1ae83fb7,A135435D-A355-4D91-A28A-E020E8B10E7D,Gold Course,Wailea Golf Club,Kihei,HI,https://www.waileagolf.com/,,True
@@ -262,7 +262,7 @@ a597c83f-0119-4ba1-a7c6-b0a0cc64c04f,312BE472-0CCA-4913-8386-F949125AA0B7,Thunde
 9f429842-8bf4-4cfb-a3d9-8f06a0434a02,CECDBBA6-CF2F-4B49-9720-6FA4E3E2891C,The Highlands of Elgin Golf Club,The Highlands of Elgin Golf Club,Elgin,IL,https://www.highlandsofelgin.com/,,True
 7899ff76-2a62-4777-8784-e5e6677506ca,4525274C-CC73-411D-B1BA-604BF790351A,The Glen Club,The Glen Club,Glenview,IL,https://www.theglencourse.com/,,True
 cea31124-ff49-44d2-af88-a2de73add8ac,C0470978-F78D-41B7-9761-C53B0319D304,The General,Eagle Ridge Resort,Galena,IL,https://www.generalgolf.com/,,True
-60faa60e-555e-42d0-8aa7-a007e581c86e,772642A2-9C8A-42AC-A2CE-9B428D2926E1,Stonewall Orchard Gc,Stonewall Orchard Gc,Grayslake,IL,https://www.stonewallorchard.com/,,True
+60faa60e-555e-42d0-8aa7-a007e581c86e,772642A2-9C8A-42AC-A2CE-9B428D2926E1,Stonewall Orchard Golf Club,Stonewall Orchard Golf Club,Grayslake,IL,https://www.stonewallorchard.com/,,True
 35da2811-4601-4fa2-a186-6bcfcdf48ea1,5402154B-E9A5-49BE-8B6C-E92E1B6335B8,Starboard,Harborside International,East Chicago,IL,https://www.harborsidegolf.com/,,True
 e348a67b-639b-44ad-a037-e56cf92e0e7b,ECA099FE-A22B-4DFC-BD3E-93852500E36C,South,Olympia Fields Country Club,Olympia Fields,IL,https://www.olympiafieldscc.org/,,True
 5312341d-1588-4638-a7fc-301a5f2eb8f8,61200552-55B3-4190-BFB1-DDA64DFE6F62,Skokie Country Club,Skokie Country Club,Glencoe,IL,https://www.skokiecc.org/,,True
@@ -297,7 +297,7 @@ f922975d-43d9-4f49-ba0e-f9535141b967,2076AB2B-D4C2-4C06-9907-52C22DDE55A0,Culver
 27bde486-baec-4198-b9f7-c2c6d482c436,ADEFA1C6-3942-4769-A07A-D62E98BD910B,Crooked Stick Golf Club,Crooked Stick Golf Club,Carmel,IN,https://www.crookedstick.org/,,True
 0d11d4b7-1c15-4367-aa07-402d5f50675f,902E441F-697F-4883-BB92-D5B51EC62EE5,Coyote Crossing Golf Club,Coyote Crossing Golf Club,West Lafayette,IN,https://www.coyotecrossing.com/,,True
 afd6a083-9da0-4f3a-b5fb-d93bd5802a2e,1DF94FAA-D1E9-40D6-9FA4-7371153CA414,Chariot Run Golf Course,Chariot Run Golf Course,Laconia,IN,https://www.chariotrun.com/,,True
-c27ce92b-47b3-4196-8ebc-52b0b9d3203f,86774735-BCF1-4428-8280-5C1CDB8CED76,Brickyard Crossing Gc,Brickyard Crossing Gc,Indianapolis,IN,https://www.brickyardcrossing.com/,,True
+c27ce92b-47b3-4196-8ebc-52b0b9d3203f,86774735-BCF1-4428-8280-5C1CDB8CED76,Brickyard Crossing Golf Course,Brickyard Crossing Golf Course,Indianapolis,IN,https://www.brickyardcrossing.com/,,True
 1253af9e-98e9-4dbe-bf27-ef1568c09a66,9B560BD1-3B77-4007-A843-C7835EF316A6,Ackerman-Allen Course,Birck Boilermaker Golf Complex,West Lafayette,IN,https://www.tributarygolf.com/,,True
 17052e46-3ed1-4452-bb44-e8a495c0f421,A4433977-6627-497A-90C3-F205EC78202B,Wolf Creek Golf Links,Wolf Creek Golf Links,Olathe,KS,https://wolfcreekgolflinks.com/,,True
 70071d91-6927-4d2d-b507-d8325ed72f65,1F23A42D-2813-4B40-BE05-CCCAA1754695,Sand Creek Station Golf Course,Sand Creek Station Golf Course,Newton,KS,https://sandcreekstation.com/,,True
@@ -348,7 +348,7 @@ f2a0b174-72cd-4696-88a5-889e9d6fcc4b,3F8132A0-B78F-4874-8F63-72CA61E96E9A,Cape C
 ea2c6e26-c4a0-4acb-b04b-0593255f5298,B1E9B442-6F8E-4EAA-9015-7A05427A8339,Brae Burn Country Club,Brae Burn Country Club,West Newton,MA,https://www.braeburncc.com/,,True
 8fd8fd3d-5831-4fdd-b29c-f978797a8fc8,770793D4-E4E3-45DD-92D6-75BAD2825355,Boston Golf Club,Boston Golf Club,Hingham,MA,https://www.bostongolfclub.com/,,True
 1a46d570-b04a-40f9-b8e5-ce3197af1588,939A6356-913F-4956-9854-EDFCE569D81F,Worthington Manor Golf Club,Worthington Manor Golf Club,Urbana,MD,https://www.worthingtonmanorgc.com/,,True
-27f09468-1fc1-433d-8ee5-027004cf255c,556B60D8-89F3-48D3-8708-EBDE5042208E,Whiskey Creek Gc,Whiskey Creek Gc,Ijamsville,MD,https://www.whiskeycreekgolf.com/,,True
+27f09468-1fc1-433d-8ee5-027004cf255c,556B60D8-89F3-48D3-8708-EBDE5042208E,Whiskey Creek Golf Club,Whiskey Creek Golf Club,Ijamsville,MD,https://www.whiskeycreekgolf.com/,,True
 90ac7da6-b98c-4e68-89c0-421354c2e617,4FA66D6B-FBE6-4AA2-BEBA-669254A5D9ED,University of Maryland Golf Course,University of Maryland Golf Course,College Park,MD,https://www.golf.umd.edu/,,True
 380713cd-9b22-40ff-8710-bd2679385ec9,7EAAA1B9-1F20-4490-9814-DAEE74B37947,TPC Potomac at Avenel Farm,TPC Potomac at Avenel Farm,Potomac,MD,https://tpc.com/potomac/,,True
 60765105-1457-475d-9827-51bc4178cbf3,678E171F-7CB7-45FC-AD31-1EDE6CDF7394,The Links at Lighthouse Sound,The Links at Lighthouse Sound,Bishopville,MD,https://lighthousesound.com/,,True
@@ -443,7 +443,7 @@ c367b502-90cf-4bf3-92c1-0231d9e3eba7,576866C1-F65C-44F8-A942-F5DCBF80FBC6,South 
 a62dad45-e91f-4727-ab75-e6a86ed6faab,25E16E35-8264-4FF8-8A13-0CD6E44DE645,Old Works Golf Course,Old Works Golf Course,Anaconda,MT,https://www.oldworks.com/,,True
 3f93a228-42a3-4864-8873-2663892ef293,576866C1-F65C-44F8-A942-F5DCBF80FBC6,North Course,Whitefish Lake Golf Club,Whitefish,MT,https://www.whitefishlakegolfclub.com/,,True
 2a38e104-babc-479c-9846-86edda6450fa,AD038DD2-5B1A-401D-8040-4C480FD50485,Canyon River Golf Club,Canyon River Golf Club,Missoula,MT,https://www.missoulagolf.org/,,True
-95bdb623-9520-48eb-8a59-1f9c6c6c3374,6FA872B4-3E1F-4CA0-9212-0D0D7B51895A,Wade Hampton Gc,Wade Hampton Gc,Cashiers,NC,https://www.trilliumlinks.com/,,True
+95bdb623-9520-48eb-8a59-1f9c6c6c3374,6FA872B4-3E1F-4CA0-9212-0D0D7B51895A,Wade Hampton Golf Club,Wade Hampton Golf Club,Cashiers,NC,https://www.wadehamptongc.com,,True
 45ce53b1-95e4-4036-a5af-43d13a406d7d,4560E6CA-B380-49C0-B530-94FEDBE047F8,Tobacco Road Golf Club,Tobacco Road Golf Club,Sanford,NC,https://tobaccoroadgolf.com/,,True
 6d8cd483-eed2-4719-bb1f-55140cd8cc8c,E0CABC76-033A-414F-B8E8-2317D8463E6B,Talamore,Talamore,Southern Pines,NC,https://www.midpinesgolf.com/,,True
 8cefa50f-5ec7-4582-90d1-99cc80d07d31,FE410936-EBEF-4FD6-AC98-71CB96D8B7C1,Southern Pines Golf Club,Southern Pines Golf Club,Southern Pines,NC,https://www.southernpinesgolfclub.com/,,True
@@ -464,9 +464,9 @@ dd965af2-9955-40dc-aaed-128d753a02e3,CFD0A3CB-9C50-4E19-881A-BB08A7F1C965,Mid Pi
 2c9c00f2-9b0a-4190-9ef1-afa666dc8113,BF7E92A5-DBC1-4A16-8FC9-2FA037F276BA,Jones Course,Rock Barn Golf & Country Club,Conover,NC,https://www.rockbarn.com/,,True
 a33fa134-8b1b-46ff-a80e-345c2295ea01,E1411FB2-FCF3-4DA2-ACC0-B5981A5BEC93,High Hampton,High Hampton,Cashiers,NC,https://www.highhampton.com/,,True
 d5f02c4e-1d31-41ce-901a-33dfb51bdacf,29B3B7AC-68D7-4468-A9C4-9C5AF4004A63,Grandfather,Grandfather Golf & Country Club,Linville,NC,https://www.grandfatherclubnc.com/,,True
-5bcf5620-1b11-4b5f-a736-0196bd2a94fa,7E373D81-E361-4A5A-A169-8F402C894E96,Finley Gc,Finley Gc,Chapel Hill,NC,https://www.finleygolfcourse.com/,,True
-d887386a-34d4-4ee8-a4b4-ffd87e33853e,D885EBF7-00A0-4BDB-81FD-8B2D7A72F2D2,Eagle Point Gc,Eagle Point Gc,Wilmington,NC,https://www.eaglepointgolfclub.com/,,True
-2c4f5ae5-8cd0-4985-8917-1d0d35c595c2,2E7BF328-26E4-49B8-AA90-AFFBA0CFABB5,Duke University Gc,Duke University Gc,Durham,NC,https://golf.duke.edu/,,True
+5bcf5620-1b11-4b5f-a736-0196bd2a94fa,7E373D81-E361-4A5A-A169-8F402C894E96,Finley Golf Club,Finley Golf Club,Chapel Hill,NC,http://www.finleygolfclub.com,,True
+d887386a-34d4-4ee8-a4b4-ffd87e33853e,D885EBF7-00A0-4BDB-81FD-8B2D7A72F2D2,Eagle Point Golf Club,Eagle Point Golf Club,Wilmington,NC,https://eaglepoint.golf,,True
+2c4f5ae5-8cd0-4985-8917-1d0d35c595c2,2E7BF328-26E4-49B8-AA90-AFFBA0CFABB5,Duke University Golf Course,Duke University Golf Course,Durham,NC,https://golf.duke.edu/,,True
 adfa962b-e349-44d9-9f17-a739abb681d1,5E7E25C1-044F-4723-8540-AFB7E4F6CC90,Dormie Club,Dormie Club,West End,NC,https://www.dormieclub.com/,,True
 9e41da7a-98e0-4ba3-8380-2ce974f5ec2b,EA63287A-1152-4FAE-A489-11051741E9C1,Dogwood,Country Club of North Carolina,Pinehurst,NC,https://www.ccofnc.com/,,True
 10d9fcf8-1739-462f-be8c-42fd6736598a,AF0F4FAA-9B53-4DBF-A47E-A3B4FB96DE52,Diamond Creek,Diamond Creek,Banner Elk,NC,https://www.diamondcreekcc.com/,,True
@@ -474,7 +474,7 @@ adfa962b-e349-44d9-9f17-a739abb681d1,5E7E25C1-044F-4723-8540-AFB7E4F6CC90,Dormie
 374d6cd4-d911-46f0-b281-cb0fa36ea388,2D106045-D069-46D6-B30D-FADCE6672D64,Charlotte Country Club,Charlotte Country Club,Charlotte,NC,https://www.charlottecountryclub.org/,,True
 7f825e8f-3ab3-4707-af86-4a1a5ac41953,A1F8E4BE-0DBC-49DF-A6C5-D4B77832083A,Champion Hills Club,Champion Hills Club,Hendersonville,NC,https://www.championhills.com/,,True
 2a36cd12-6f19-485d-a5ff-f5600679dfe4,94D8D01E-D9AA-4380-A00E-20966BF71450,Cape Fear Country Club,Cape Fear Country Club,Wilmington,NC,https://www.capefearcc.com/,,True
-175f53f8-8748-4b4b-884b-7559d6a95cd0,A3715346-B760-4F70-B205-40CBACDB9637,Cameron-Stewart,Thistle Gc,Sunset Beach,NC,https://www.thistle.com/golf,,True
+175f53f8-8748-4b4b-884b-7559d6a95cd0,A3715346-B760-4F70-B205-40CBACDB9637,Cameron-Stewart,Thistle Golf Club,Sunset Beach,NC,https://www.thistlegolf.com,,True
 aee04127-f9b4-46f1-93ad-046aa906f548,79E4AD3F-E6F5-4A6C-87D3-D2BC35CD9010,Biltmore Forest Country Club,Biltmore Forest Country Club,Biltmore,NC,https://www.biltmoreforestcc.com/,,True
 5fcbcb41-f743-4150-969d-791250f4787c,C76BD70A-3F7D-460F-8A96-5249EC484B46,Bald Head Island Country Club,Bald Head Island Country Club,Bald Head Island,NC,https://www.bhiclub.net/,,True
 11e7db68-97d8-491e-8eb4-97a11a39e316,F9336BE7-627E-410A-85D9-E5381E9C735F,Vardon Golf Club,Vardon Golf Club,Burlington58722,ND,https://vardongolfclub.com/,,True
@@ -505,7 +505,7 @@ a30959cf-2d1f-4eb5-b12f-5ed43544405f,C71ED017-DFB2-4E47-9896-85956F72AB62,Shore 
 9b129f4f-2fc4-4087-ba5e-666ba72a01f0,EF186DE7-3156-4ED3-AFAA-06E77D5E9EDD,Scotland Run Golf Club,Scotland Run Golf Club,Williamstown,NJ,https://www.scotlandrun.com/,,True
 58bf028e-3565-4f3d-9a76-d17f3ec5d6ae,6B065860-FC00-4ABE-B597-EF7F3BDCAC23,Rock Spring Club,Rock Spring Club,West Orange,NJ,https://www.rockspringgolfclub.com/,,True
 369bb2aa-2d7a-4739-bf6d-cfb1639307b7,B8863F27-FA8A-4A58-ADFD-B52AFD04D961,Riverwinds Golf Club,Riverwinds Golf Club,Thorofare,NJ,https://riverwinds.org/,,True
-f55f2fb7-0c51-4922-a9f6-e3905860f7e1,2A8DF5CC-5835-4E9B-8E7B-3E467C978882,"Ridge at Back Brook, The","Ridge at Back Brook, The",Ringoes,NJ,https://www.backbrook.com/,,True
+f55f2fb7-0c51-4922-a9f6-e3905860f7e1,2A8DF5CC-5835-4E9B-8E7B-3E467C978882,The Ridge at Back Brook,The Ridge at Back Brook,Ringoes,NJ,https://www.backbrook.com/,,True
 1b11ba6d-7bad-4d7d-947e-a5734264fb1d,0CAD91F5-8E03-40C8-83AC-F7426A8AD574,Plainfield West,Plainfield West,Edison,NJ,https://www.plainfieldcc.com/,,True
 88a422e1-6738-460e-8ecb-922271a7d62d,9315C3A6-3E9D-48B3-98CC-5401512D21EF,Plainfield Country Club,Plainfield Country Club,Edison,NJ,https://www.plainfieldcc.com/,,True
 0c5358e6-31da-4744-a7b8-62e0d53693ad,00983CF3-C376-493A-86E7-94D0E84321AF,Pines Course,Seaview Resort & Spa,Galloway,NJ,https://www.seaviewgolf.com/,,True
@@ -526,14 +526,14 @@ e48eb253-29d1-4d7e-a07a-f3a1e2265a95,5015097D-329D-46E8-B223-3BBDE3384409,Essex 
 6c86d8e1-1863-46e3-85eb-719fff1f6683,ED6783A8-944F-4DAD-821D-F0C9578BC07C,Ballyowen Golf Club,Ballyowen Golf Club,Hamburg,NJ,https://www.ballyowengolf.com/,,True
 dd88ba33-9e94-43a1-a900-3ecc8205c355,10CBDF7F-B3C1-4AFA-A92D-0CFBDAB1145E,Ballamor Golf Club,Ballamor Golf Club,Egg Harbor Township,NJ,https://www.ballamorgolfclub.com/,,True
 2f4d3119-6e95-405a-ba67-9bfc27743f1a,2FAD8A1F-F7F2-49F3-8104-FBC6C75300E4,Atlantic City Country Club,Atlantic City Country Club,Northfield,NJ,https://accountryclub.com/,,True
-b1e8ce89-47b8-40da-84ed-01078b5bf20e,666B2AA0-B1AC-4DFC-BA77-16416F0C10DB,Twin Warriors Gc,Twin Warriors Gc,Santa Ana Pueblo,NM,https://www.santaanapueblo.org/golf/,,True
+b1e8ce89-47b8-40da-84ed-01078b5bf20e,666B2AA0-B1AC-4DFC-BA77-16416F0C10DB,Twin Warriors Golf Club,Twin Warriors Golf Club,Santa Ana Pueblo,NM,https://www.mynewmexicogolf.com/twin/,,True
 5edb6067-24c1-41ba-b085-f261b74d0e38,28C73C65-8F90-4C63-9891-5CCED00F647E,Taos Country Club,Taos Country Club,Rancho De Taos,NM,https://www.taoscountryclub.com/,,True
-6e0c829d-5bb8-4de8-8154-11127bf50118,2B8AED78-55FF-4ACE-BD39-CF0149479D92,Rockwind Community Links Gc,Rockwind Community Links Gc,Hobbs,NM,https://www.rockwindgolfcourse.com/,,True
+6e0c829d-5bb8-4de8-8154-11127bf50118,2B8AED78-55FF-4ACE-BD39-CF0149479D92,Rockwind Community Links Golf Course,Rockwind Community Links Golf Course,Hobbs,NM,https://www.rockwindgolfcourse.com/,,True
 e143fae0-9cb7-43c1-b14b-adfaf56751bd,13DDC191-046F-483E-BCB5-0294F1765C82,Red Hawk Golf Club,Red Hawk Golf Club,Las Cruces,NM,https://www.redhawkpublicgolf.com/,,True
-1600ff80-d47a-4d41-a280-58e10c791695,4B785740-3D5F-4643-ACBD-5D1EC5FF2BC1,Pinon Hills Gc,Pinon Hills Gc,Farmington,NM,https://www.pinonhillscc.com/,,True
+1600ff80-d47a-4d41-a280-58e10c791695,4B785740-3D5F-4643-ACBD-5D1EC5FF2BC1,Pinon Hills Golf Course,Pinon Hills Golf Course,Farmington,NM,http://www.pinonhillsgolf.com,,True
 b3c0ac8c-c449-40d7-80eb-6242a53a03d8,4190DB46-1880-4881-ACB4-C4AE138F45C0,Paako Ridge Golf Club,Paako Ridge Golf Club,Sandia Park,NM,https://paakogolf.com/,,True
 0130bad8-f620-4279-a263-1bf9572acf88,493071A3-8FF1-4964-94D3-6140EC3DFFAD,Cochiti Golf Club,Cochiti Golf Club,Cochiti Lake,NM,https://www.cochitigolfclub.com/,,True
-c8875bbe-5880-4b9c-9979-cb878da31b42,012BBF8E-5674-47A6-A392-C5E0A26D210A,Black Mesa Gc,Black Mesa Golf Club,La Mesilla,NM,https://golfblackmesa.com/,,True
+c8875bbe-5880-4b9c-9979-cb878da31b42,012BBF8E-5674-47A6-A392-C5E0A26D210A,Black Mesa Golf Club,Black Mesa Golf Club,La Mesilla,NM,https://golfblackmesa.com/,,True
 78BDF6A1-73B6-41B6-8315-9FA5C912DE0E,1B68F614-3049-4A33-805E-44D92BC28033,Wynn Golf Club,Wynn Golf Club,Las Vegas,NV,https://www.wynnlasvegas.com/experiences/golf,,True
 a556599d-06b8-4a26-9203-ad25fa6ebf00,E2374F43-8785-4E44-A0D8-A455FB989264,Wolf Creek Golf Club,Wolf Creek Golf Club,Mesquite,NV,http://www.golfwolfcreek.com/,,True
 9478a325-70fb-4c19-9faf-4bc4bdb993f5,D20B06D5-1C65-4594-893A-2FC94D5A5C0C,Wolf,Paiute Resort Golf Club,Las Vegas,NV,https://www.wynnlasvegas.com/experiences/golf,,True
@@ -679,14 +679,14 @@ cc9686dd-dcd3-4db9-a3d7-b78a3b9db52b,BB263727-12F8-4B79-AC32-784ACE4580D4,Golf C
 d3ed81ce-2aa5-480f-ae4f-1005a90d8f77,87091972-7BC5-4B51-9735-E9EA3102F548,Applebrook Golf Club,Applebrook Golf Club,Malvern,PA,https://www.applebrookgolfclub.com/,,True
 2b5669f8-f791-4780-b9bb-c3493b09ce3f,D8BE7A6C-13F6-49AF-9DCE-5C65DF91F05B,Allegheny Country Club,Allegheny Country Club,Sewickley,PA,https://www.alleghenycountryclub.com/,,True
 7b66c927-6515-40a6-b134-3f9bc0a821ad,7C8270B9-DABE-4117-B0CB-57F885C1D61A,Wannamoisett Country Club,Wannamoisett Country Club,Rumford,RI,https://www.wannamoisett.com/,,True
-b4441af3-b1d6-48e5-b437-de0dd7d5d5f4,505D9334-122D-40B0-B68E-9AD2B75525B3,Triggs Memorial Gc,Triggs Memorial Gc,Providence,RI,https://triggs.us/,,True
+b4441af3-b1d6-48e5-b437-de0dd7d5d5f4,505D9334-122D-40B0-B68E-9AD2B75525B3,Triggs Memorial Golf Course,Triggs Memorial Golf Course,Providence,RI,https://triggs.us/,,True
 8e4ef2b7-004b-42f2-adfd-cf7170f96a9a,A89B515D-48B0-4E29-9D28-D4F14E14C17C,The Misquamicut Club,The Misquamicut Club,Watch Hill,RI,https://www.watchhillgolf.com/,,True
-5e6388b7-7bf6-4847-9479-79d74bd79eeb,75FFDAA3-0D84-478C-BABA-4B36F657C74E,Shelter Harbor Gc,Shelter Harbor Gc,Charlestown,RI,https://www.ri.gov/DEM/parks/beach/charlestown.php,,True
-983b1262-2019-43ef-91d4-807fd81620a9,D7A71989-F604-46D6-AB36-6E3EC03F342D,North Kingstown Gc,North Kingstown Gc,North Kingstown,RI,https://www.northkingstown.org/Facilities/Facility/Details/North-Kingstown-Municipal-Golf-Course-22,,True
-c06e4b34-ca43-4fa8-aa6d-9d6c7176d40e,1C979711-7D3D-41A9-AB81-8244EA58D614,Newport National Gc,Newport National Gc,Middletown,RI,https://www.newportnational.com/,,True
+5e6388b7-7bf6-4847-9479-79d74bd79eeb,75FFDAA3-0D84-478C-BABA-4B36F657C74E,Shelter Harbor Golf Club,Shelter Harbor Golf Club,Charlestown,RI,http://www.shgcri.com,,True
+983b1262-2019-43ef-91d4-807fd81620a9,D7A71989-F604-46D6-AB36-6E3EC03F342D,North Kingstown Golf Course,North Kingstown Golf Course,North Kingstown,RI,https://www.northkingstown.org/Facilities/Facility/Details/North-Kingstown-Municipal-Golf-Course-22,,True
+c06e4b34-ca43-4fa8-aa6d-9d6c7176d40e,1C979711-7D3D-41A9-AB81-8244EA58D614,Newport National Golf Club,Newport National Golf Club,Middletown,RI,https://www.newportnational.com/,,True
 bf877717-1a16-4ddd-bf9d-52e880474e57,0AB7DFD7-0330-464D-AEA5-1F9FF789BAD3,Newport Country Club,Newport Country Club,Newport,RI,https://www.newportcc.org/,,True
 49cb90bf-5ab7-450b-a5c6-858ddf24a433,616B2DD8-1BE5-4C7D-A08D-869723809B4E,Montaup Country Club,Montaup Country Club,Portsmouth,RI,https://www.greenvalleycc.com/,,True
-ad5ce138-82d4-48a9-b753-7e094e9e909b,AC159CFC-78BA-404F-846D-E57C4DEE0238,Meadow Brook Gc,Meadow Brook Gc,Wyoming,RI,https://www.riverbendcc.com/,,True
+ad5ce138-82d4-48a9-b753-7e094e9e909b,AC159CFC-78BA-404F-846D-E57C4DEE0238,Meadow Brook Golf Course,Meadow Brook Golf Course,Wyoming,RI,http://www.meadowbrookgolfri.com,,True
 9d25fe10-b402-4971-b24d-a5c7ab012b80,BBDC7748-0ED1-44F3-94C5-D8E6F08DBD97,Yeamans Hall Club,Yeamans Hall Club,Charleston,SC,https://www.charlestongolf.com/,,True
 d155762b-de66-46e1-a8e7-8cd7e11a0962,5F639001-D16A-499F-B89F-4A20EA732B55,Turtle Point,Kiawah Island Golf Resort,Kiawah Island,SC,https://kiawahresort.com/,,True
 bb62ec9b-d3fa-4111-b4d9-9541717c310e,C52823F3-E0AF-4C3E-B30A-DE35FE896A22,True Blue Golf Club,True Blue Golf Club,Pawley's Island,SC,https://www.truebluegolf.com/,,True
@@ -714,17 +714,17 @@ dc12b631-341b-4d6e-85f1-f24cdc14a322,22DE6F62-5A8A-4D5F-A05F-C2E42A2B0D9C,Dye Cl
 4ec7adb2-5977-4732-b5cf-ac88c03246b1,1B63411D-AED4-4F0B-A90F-F6C9F146D90D,Country Club of Charleston,Country Club of Charleston,Charleston,SC,https://www.cccharleston.com/,,True
 6f75723e-7a44-4236-8c24-a91546d9f3d5,5F639001-D16A-499F-B89F-4A20EA732B55,Cougar Point,Kiawah Island Golf Resort,Kiawah Island,SC,https://kiawahresort.com/,,True
 f4ae232f-abcf-4c28-a542-ffc59497bc6a,11F4C430-2E18-43E8-A884-D4AFCF51C0C1,Congaree,Congaree,Ridgeland,SC,https://www.congaree.com/,,True
-92d6b420-09a0-4b5d-a5b0-be198b643e97,AB437ED5-B2FC-48BA-A2A5-9347B0FB505A,"Cliffs at Mountain Park, The","Cliffs at Mountain Park, The",Travelers Rest,SC,https://www.cliffsliving.com/golf/mountain-park/,,True
+92d6b420-09a0-4b5d-a5b0-be198b643e97,AB437ED5-B2FC-48BA-A2A5-9347B0FB505A,The Cliffs at Mountain Park,The Cliffs at Mountain Park,Travelers Rest,SC,https://www.cliffsliving.com/golf/mountain-park/,,True
 9b75ece7-1bb5-46eb-bd47-72de5f18b8f4,4D29321F-D099-4AB7-87AD-BD369A516751,Chechessee Creek Club,Chechessee Creek Club,Okatie,SC,https://www.chechesseecreekclub.com/,,True
 2c07ea55-143a-4411-ba84-37bac6603ee1,021F71F1-C929-45A5-B27B-BBAAF5FD9851,Cassique Family,Kiawah Island Club,Charleston,SC,https://www.kiawahislandclub.com/,,True
 81f48541-d203-43f6-87b9-0f3a855983da,775FE037-13A6-413D-9E15-5CB6EA302D7D,Caledonia Golf & Fish Club,Caledonia Golf & Fish Club,Pawleys Island,SC,https://caledoniagolfandfishclub.com/,,True
 2cd6ce47-c27a-4ab2-96ea-f1c3b8819b11,82753178-06A7-4D34-B483-E3BA5A15253A,Atlantic Dunes,The Sea Pines Resort,Hilton Head Island,SC,https://www.seapines.com/golf,,True
-a0e16614-ef26-4275-b6f4-264c7a83fdc1,236CD528-2052-4E9D-B203-F7543E53F3D9,"Aiken Golf Club, The","Aiken Golf Club, The",Aiken,SC,https://www.aikengolfclub.com/,,True
+a0e16614-ef26-4275-b6f4-264c7a83fdc1,236CD528-2052-4E9D-B203-F7543E53F3D9,The Aiken Golf Club,The Aiken Golf Club,Aiken,SC,https://www.aikengolfclub.com/,,True
 a0059161-ecb5-404a-8143-f767d8d55306,2A06644B-0298-42F8-9772-9F733963C189,Willow Run Golf Course,Willow Run Golf Course,Sioux Falls,SD,https://www.willowruncc.com/,,True
 d8115f6b-337f-499f-9154-405b53272686,E0E89BE4-3931-423C-80A6-332F90317856,Sutton Bay,Sutton Bay,Agar,SD,https://suttonbay.com/,,True
 13d8db80-0d69-4ce6-be81-03e8c79e80af,E3C8170B-6616-461A-AF87-6ABE79267F83,Prairie Green Golf Course,Prairie Green Golf Course,Sioux Falls,SD,https://www.prairiegolfcourse.com/,,True
 f981bd98-54a8-4d89-bff8-006fa6b0c3e0,280F5268-9E13-46E4-A305-3026FB0A06B3,Meadowbrook Golf Course,Meadowbrook Golf Course,Rapid City,SD,https://www.meadowbrookgc.com/,,True
-6d198d00-7471-4d99-8092-0c9a0089d1f1,BCB98B1B-983A-4D7A-AB1D-968BC5589519,Hart Ranch Gc,Hart Ranch Gc,Rapid City,SD,https://www.hartranch.com/golf,,True
+6d198d00-7471-4d99-8092-0c9a0089d1f1,BCB98B1B-983A-4D7A-AB1D-968BC5589519,Hart Ranch Golf Club,Hart Ranch Golf Club,Rapid City,SD,https://www.hartranch.com/golf,,True
 755cb9a0-6a3e-482b-acac-3eaa45045630,9A4663E9-6A30-4C19-8495-D4CBAB99FBDB,Golf Club at Red Rock,Golf Club at Red Rock,Rapid City,SD,https://www.golfclubatredrock.com/,,True
 f6578faf-e5cd-429c-b676-1ba4f70daa3c,D3562DBB-00C3-4B55-9B0F-2B60277A817F,The Golf Club of Tennessee,The Golf Club of Tennessee,Kingston Springs,TN,https://www.gcogtn.com/,,True
 92d05b47-c749-4bfd-a907-15f655b8c41c,AEC7D6C4-9706-4A71-BC60-8FAAD474626E,Sweetens Cove Golf Club,Sweetens Cove Golf Club,South Pittsburg,TN,https://sweetenscovegolfclub.com/,,True
@@ -735,7 +735,7 @@ ca1e2a79-6d45-4ea6-afef-240a89a4b40a,92676B22-9A2F-4AC8-A25D-A4E2679693A1,The Ho
 fcd7ee2c-4dde-419e-9816-ee51fb7da3eb,0922D670-1116-4F7C-A3AA-855C4B527E4A,Gaylord Springs Golf Links,Gaylord Springs Golf Links,Nashville,TN,https://www.gaylordsprings.com/,,True
 8fcf1c29-5b17-4874-a027-4e6b69ccfe64,04DA5E26-112F-4388-B496-E1262884FCC1,Whispering Pines Golf Club,Whispering Pines Golf Club,Trinity,TX,https://www.trinityforestgolfclub.com/,,True
 a6175d9e-77b9-4ba6-a22d-63885e4d01eb,AE500091-DA85-47A2-97F9-AAC4F31C893C,Trinity Forest Golf Club,Trinity Forest Golf Club,Dallas,TX,https://www.dallasnationalgc.com/,,True
-3c4214c2-6892-4714-8edb-5321957d416b,F5AC1996-F316-4C38-B8AC-E85F27FDB9EB,Tpc,Sports Club of Las Colinas,Irving,TX,https://www.hackberrycreekcc.com/,,True
+3c4214c2-6892-4714-8edb-5321957d416b,F5AC1996-F316-4C38-B8AC-E85F27FDB9EB,TPC,Sports Club of Las Colinas,Irving,TX,https://www.hackberrycreekcc.com/,,True
 f26728fc-dd9c-4696-bdf0-f4eef507028b,546F0F5A-BB19-425E-9EB0-4F7DFF7752F4,Tournament,Golf Club of Houston,Humble,TX,https://www.golfclublakehouston.com/,,True
 23d34602-4e14-4386-91a9-c58720be8c54,410BE951-C4C3-4C5F-A5A2-3F12B4FE5A34,The Tribute Golf Links,The Tribute Golf Links,The Colony,TX,https://www.stonebridgecountryclub.net/,,True
 51a399a0-742c-4332-bbaf-22eab1933533,1B84FB4E-7AF0-45E7-97AE-0334FFDE33A4,The Rawls Course at Texas Tech,The Rawls Course at Texas Tech,Lubbock,TX,https://www.rawlsgolfcourse.com/,,True
@@ -766,13 +766,13 @@ c8ff3e9d-b1f4-482d-b40c-c3a7f761aded,35462C5C-123A-4297-8010-5D8C0EF9273F,Blueja
 fc1c9131-b369-4a49-bd4c-bba39106439d,FA576DE5-02B1-4320-8C89-271A8FD31E0A,Austin Golf Club,Austin Golf Club,Spicewood,TX,https://www.austingolfclub.com/,,True
 7c986d19-59d8-4559-9c6e-4a3e07199803,D36A440C-EF74-4541-9960-E0E4A5802FAC,Austin Country Club,Austin Country Club,Austin,TX,https://www.austincountryclub.com/,,True
 60b6add5-72c0-4175-8e58-1e1e57ea05e0,35952525-4F1B-43B2-B9CE-80ED2C35D7E0,The Ledges,The Ledges,St. George,UT,https://www.ledges.com/golf,,True
-1f244608-ca9e-46c8-abd0-c322d0e85d78,F0267149-831A-4CB3-8C2D-AB3110A46826,The Hideout Gc,The Hideout Gc,Monticello,UT,https://www.hideoutgolf.com/,,True
-0b1cb2e3-3c77-4e29-8f0a-e70703ed6b40,B543A506-0339-4A44-8DE5-3263347938D3,Thanksgiving Point Gc,Thanksgiving Point Gc,Lehi,UT,https://thanksgivingpointgolf.com/,,True
+1f244608-ca9e-46c8-abd0-c322d0e85d78,F0267149-831A-4CB3-8C2D-AB3110A46826,The Hideout Golf Course,The Hideout Golf Course,Monticello,UT,https://www.hideoutgolf.com/,,True
+0b1cb2e3-3c77-4e29-8f0a-e70703ed6b40,B543A506-0339-4A44-8DE5-3263347938D3,Thanksgiving Point Golf Club,Thanksgiving Point Golf Club,Lehi,UT,https://www.thanksgivingpointgolfclub.com,,True
 2f3a7291-a72f-47c5-9953-3c8903194f4a,7D987BF3-14D8-4764-9E94-72DFE169B2E6,Silver Course,Soldier Hollow,Midway,UT,https://www.soldierhollowgolfcourse.com/,,True
-e0a482f0-5247-4c57-9b21-1b3221e1f599,F8C0F452-CF3C-449E-92DF-67349E27EE54,Pointe/Woodbridge,Sunbrook Gc,St. George,UT,https://www.sunbrookgolf.com/,,True
-beeaf5e6-1cfc-44a3-8f34-a6dfd4230ef5,F082A33F-4BA7-4C08-90FD-22D78D3F122A,Green Spring Gc,Green Spring Gc,Washington,UT,https://www.greenspringgc.com/,,True
+e0a482f0-5247-4c57-9b21-1b3221e1f599,F8C0F452-CF3C-449E-92DF-67349E27EE54,Pointe/Woodbridge,Sunbrook Golf Club,St. George,UT,https://sgcityutah.gov/activity/golf/sunbrook_golf_course,,True
+beeaf5e6-1cfc-44a3-8f34-a6dfd4230ef5,F082A33F-4BA7-4C08-90FD-22D78D3F122A,Green Spring Golf Course,Green Spring Golf Course,Washington,UT,https://www.copperrock.com,,True
 741cd741-8d01-4a8f-953e-92eb8aa515e4,7D987BF3-14D8-4764-9E94-72DFE169B2E6,Gold Course,Soldier Hollow,Midway,UT,https://www.soldierhollowgolfcourse.com/,,True
-8c9b4997-1fe9-40eb-a515-09db793e1eb2,A7EF76F4-BF75-486B-A391-D3BD7C936195,Copper Rock Gc,Copper Rock,Hurricane,UT,https://copperrock.com/golf/,,True
+8c9b4997-1fe9-40eb-a515-09db793e1eb2,A7EF76F4-BF75-486B-A391-D3BD7C936195,Copper Rock Golf Course,Copper Rock Golf Course,Hurricane,UT,https://copperrock.com/golf/,,True
 97484490-d872-4b8d-84bf-c4b64136f253,FDE7297E-B007-4026-92D5-85C2B7D82CC8,Championship,Sand Hollow Resort,Hurricane,UT,https://sandhollowresort.com/,,True
 7212d3f4-0cc4-4357-bd44-1fb59393ff0a,0dc44017-fbb7-452a-bc67-9906bc6215d2,Black Desert Course,Black Desert Resort,Ivins,UT,https://www.blackdesertresort.com,True,False
 f429d191-597b-4dc0-8083-e578ad0c15a7,057D5894-E43C-4989-963A-EB68173AC9E7,The Olde Farm,The Olde Farm,Bristol,VA,https://www.theoldefarm.com/,,True
@@ -806,7 +806,7 @@ c969c8d3-8b7b-44ef-bbab-59ec70f4c7f5,829EDF60-E38B-4183-8F2C-0374B3D63674,White 
 960d2b4a-ba97-4d25-9095-60917974052f,2673F64A-B979-4B75-9ED5-07F261FD8521,Salish Cliffs Golf Club,Salish Cliffs Golf Club,Shelton,WA,https://www.salishcliffs.com/,,True
 90984d0b-8a3b-4ced-a7c3-1449e5a82207,82C44EDD-12B3-4E66-B1C6-5F1BBA3B33BE,Rope Rider,Suncadia Resort,Roslyn,WA,https://www.suncadia.com/play/golf,,True
 dcee7e0a-0334-4308-ade4-a32ea2c55df3,7992B09B-6069-468E-A5D2-4647FA2B7C52,Palouse Ridge Golf Club,Palouse Ridge Golf Club,Pullman,WA,https://palouseridge.wsu.edu/,,True
-3b7ee2ea-6fec-43f0-832f-f46e68e730d3,5419E406-033D-40B1-A5B7-F3E2C7CC3A5B,Olympic Course,Gold Mountain Gc,Bremerton,WA,https://www.goldmountaingolf.com/,,True
+3b7ee2ea-6fec-43f0-832f-f46e68e730d3,5419E406-033D-40B1-A5B7-F3E2C7CC3A5B,Olympic Course,Gold Mountain Golf Club,Bremerton,WA,https://www.goldmountaingolf.com/,,True
 3f0dbb89-d060-45dd-8555-364161be916e,A3A2AA9C-4E59-443E-9734-3B823C3FF9F8,Kalispel Golf And Country Club,Kalispel Golf And Country Club,Spokane,WA,https://www.kalispelgolf.com/,,True
 c05280fe-6922-4e38-a3bc-5a23e6e12140,9F4B821A-56D7-4B06-8BD9-23ED52733396,Indian Canyon Golf Course,Indian Canyon Golf Course,Spokane,WA,https://www.spokanecity.org/297/Indian-Canyon-Golf-Course,,True
 973a086e-82c6-4054-aee9-59e9b6073200,61556E57-17E5-4C36-BB22-031CBBD60A13,Gamble Sands,Gamble Sands Resort,Brewster,WA,https://www.gamblesands.com,True,False
@@ -832,7 +832,7 @@ b72f8c08-7ef0-46dc-9bca-dc4e8fc1bbe9,58BCC069-A589-41B8-B5B2-E44180EF98DD,Erin H
 af3ad22e-79b8-486c-a39a-fde40be458e3,9C19D357-2FC9-4ED6-895C-6B9A878275B8,Blue Mound Golf And Country Club,Blue Mound Golf And Country Club,Wauwatosa,WI,https://www.bluemoundgolf.com/,,True
 e5bb6246-c6be-42ff-b9e2-118c88cd122e,4E928C5A-DCC6-4A8A-AD76-75AEB58561C4,Stonewall Resort,Stonewall Resort,Roanoke,WV,https://www.stonewallresort.com/,,True
 cb175c26-9772-4a06-82dc-7d6cf2514493,5BC6E4B6-3627-4877-91FF-1AA386AD040C,Stonehaven Course,The Village at Glade Springs,Daniels,WV,https://www.gladesprings.com/,,True
-ee5dd47b-a2b6-48a6-ad48-e417cc5cb377,E4C42C79-A4E1-4BA6-8A31-0A2C3BA96269,Raven Gc at Snowshoe Mountain,Raven Gc at Snowshoe Mountain,Snowshoe,WV,https://www.snowshoemtn.com/golf/raven,,True
+ee5dd47b-a2b6-48a6-ad48-e417cc5cb377,E4C42C79-A4E1-4BA6-8A31-0A2C3BA96269,Raven Golf Club,Snowshoe Mountain,Snowshoe,WV,https://www.snowshoemtn.com/things-to-do/activities/raven-golf-club,,True
 c55cda0e-5525-4ada-ac56-2b3067a222c7,536D390E-CD1B-4D32-B90A-A2CA757EE36E,Pikewood National,Pikewood National,Morgantown,WV,https://www.pikewoodnational.com/,,True
 3b7550ef-40c5-4087-a9e0-3736fdfe0759,ABE508FB-A3C0-448E-AD9A-50FF9D1640DE,Pete Dye Golf Club,Pete Dye Golf Club,Bridgeport,WV,https://www.petedyegolfclub.com/,,True
 028cf436-0ff0-44ac-837b-db7a1a81d6c7,1CCAC3D2-6F33-4C81-80F3-FDB2CE75DE38,Old White,The Greenbrier,White Sulphur Springs,WV,https://www.greenbrier.com/,,True
@@ -842,4 +842,4 @@ b9eef7c9-d401-4fbb-a084-4eec804b1775,923CB5C6-7A55-4A69-A835-D2E8091DB26C,Teton 
 bec50009-071e-4be5-a950-632173240dca,5ECC0BF7-65A1-448B-AD71-9F05D6B0EA78,Jackson Hole Golf & Tennis Club,Jackson Hole Golf & Tennis Club,Jackson,WY,https://www.jhgcc.com/,,True
 ad5ccad4-3172-43d8-abc1-a5dc5baac1cd,145EEB55-2EDB-4BA8-8997-6CDDB9254EB8,Cheyenne Country Club,Cheyenne Country Club,Cheyenne,WY,https://www.cheyennecountryclub.com/,,True
 c5a2066d-080a-4b86-88ee-74815c78e2a6,12A61285-7FAB-40E4-8D45-D0A4235A5027,Buffalo Golf Club,Buffalo Golf Club,Buffalo,WY,https://www.buffalogolfclub.com/,,True
-4e6ab7e2-77c5-4a83-92cc-780918e929a7,61BDBBED-593A-48BF-873E-2C354A329D99,Bell Nob Golf Club,Bell Nob Golf Club,Gillette,WY,https://www.bellnob.com/,,True
+4e6ab7e2-77c5-4a83-92cc-780918e929a7,61BDBBED-593A-48BF-873E-2C354A329D99,Bell Nob Golf Club,Bell Nob Golf Club,Gillette,WY,https://www.campbellcountywy.gov/Facilities/Facility/Details/Bell-Nob-Golf-Course-25,,True
