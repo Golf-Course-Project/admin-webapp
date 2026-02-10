@@ -164,7 +164,23 @@ class ListTelemetry extends React.Component<IProps, {}> {
   };
 
   private handleRefreshData = async () => {
-    this.props.callback();
+    // Reset filters and selections, then reload data from API
+    this.setState({
+      selectedCourseRelatedItems: [],
+      selectedGeneralItems: [],
+      selectedCourseRelatedIPs: [],
+      selectedGeneralIPs: [],
+      selectedCourses: [],
+      selectedControllers: [],
+      selectedStates: [],
+      selectedReferrers: [],
+      selectedGeneralControllers: [],
+      selectedGeneralReferrers: [],
+      courseRelatedFlaggedOnly: false,
+    }, () => {
+      // After state is reset, reload telemetry data from API
+      this.loadTelemetry();
+    });
   };
 
   private toggleGeneralExpanded = () => {
