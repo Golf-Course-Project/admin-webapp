@@ -28,6 +28,7 @@ class ViewTelemetry extends React.Component<IProps, {}> {
     id: this.props.id || '',
     courseName: '',
     clipCourseName: false,
+    clipCourseId: false,
     ipAddress: '',
     referer: '',
     courseId: '',
@@ -50,6 +51,7 @@ class ViewTelemetry extends React.Component<IProps, {}> {
       id: '',
       courseName: '',
       clipCourseName: false,
+      clipCourseId: false,
       ipAddress: '',
       referer: '',
       courseId: '',
@@ -93,6 +95,19 @@ class ViewTelemetry extends React.Component<IProps, {}> {
       navigator.clipboard.writeText(this.state.courseName).then(() => {
         this.setState({ clipCourseName: true });
         setTimeout(() => { this.setState({ clipCourseName: false }); }, 2000);
+      }).catch(() => {
+        // Clipboard write failed, silently ignore
+      });
+    }
+  };
+
+  private handleCopyCourseIdToClipboard = () => {
+    if (!this.state.courseId) return;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(this.state.courseId).then(() => {
+        this.setState({ clipCourseId: true });
+        setTimeout(() => { this.setState({ clipCourseId: false }); }, 2000);
       }).catch(() => {
         // Clipboard write failed, silently ignore
       });
@@ -305,6 +320,22 @@ class ViewTelemetry extends React.Component<IProps, {}> {
                             helperText={' '}
                             InputProps={{
                               readOnly: true,
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    onClick={() => this.handleCopyCourseIdToClipboard()}
+                                    edge="end"
+                                    size="small"
+                                    disabled={!this.state.courseId}
+                                  >
+                                    {this.state.clipCourseId ? (
+                                      <CheckIcon sx={{ color: green[700] }} />
+                                    ) : (
+                                      <CopyIcon />
+                                    )}
+                                  </IconButton>
+                                </InputAdornment>
+                              ),
                             }}
                           />
                         </Grid>
@@ -572,6 +603,7 @@ interface IForm {
   id: string;
   courseName: string;
   clipCourseName: boolean;
+  clipCourseId: boolean;
   ipAddress: string;
   referer: string;
   courseId: string;
